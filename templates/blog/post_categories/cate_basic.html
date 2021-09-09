@@ -1,0 +1,29 @@
+{% extends 'blog/post_categories/base_category.html' %}
+
+{% load static %}
+
+    
+{% block category_posts %}
+    <div id="post-list" class="container w-1/2 mx-auto flex flex-col-reverse">
+        <div id="post4 프로그래밍기초">
+            <ul>
+                <li class="py-8 border-b border-gray-300">
+                    <div class="grid grid-cols-12">
+                        <div class="col-span-3 post_date">[ Sep 09, 2021 ]</div>
+                        <div class="col-span-9">
+                            <div class="post_category pb-5">
+                                <span class="font_kor"># 프로그래밍 기초</span>
+                            </div>
+                            <a href="{% url 'blog:post4' %}" class="blog_post_title">
+                                <span class="font_kor">프로그래밍 언어의 단어와 문법</span>
+                            </a>
+                            <div class="text-lg pt-3">
+                                <span class="font_kor">프로그래밍, 단어법(키워드), 문법(수식, 절차)</span>
+                            </div>
+                        </div>
+                    </div>
+                </li>        
+            </ul>
+        </div>
+    </div>
+{% endblock category_posts %}   
