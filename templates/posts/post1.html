@@ -1,0 +1,94 @@
+{% extends 'posts/base_post.html' %}
+
+{% load static %}
+
+{% block post_title %}
+    <a href="{% url 'blog:all-posts' %}" class="font_kor">(1) C 언매니지드 프로그래밍</a>
+{% endblock post_title %}
+
+{% block post_content %}
+
+    {% block post_date %}
+        <div class="container w-1/2 mx-auto mb-10 post_date">[ Sep 01, 2021 ]</div>    
+    {% endblock post_date %}
+
+    <main class="container w-1/2 mx-auto font_kor">
+        <div class="post_subheading">1. C89/ANSI-C</div>
+        <div class="post_text">
+            <li>ANSI(American National Standards Institute)에 의해 채택된 최초의 C 표준 (1989년)</li>
+            <li>나온지 30년이 넘었지만 아직도 지켜야하는 표준 (아직도 대부분의 컴파일러 지원)</li>
+            <li>여전히 많은 C 코드가 이 표준을 사용</li>
+            <li>임베디드 시스템에서 가장 많이 사용 (대부분 C89만 지원)</li>
+            <p class="post_def">임베디드 시스템(embeded system) : 특정한 제품이나 솔루션에서 주어진 작업을 수행할 수 있도록 추가로 탑재되는 솔루션이나 시스템</p>
+            <p class="ml-7">- 특화된 소형 하드웨어는 그것을 직접 제어하는 전용 윤영체제를 지원함</p>
+            <p class="ml-7">- 즉, 윈도우 및 리눅스처럼 발전된 기능을 갖춘 범용 운영체제를 지원 안함</p>
+        </div>
+        <div class="post_subheading">2. C99 → 많은 기능들이 추가됨</div>
+        <div class="post_text">
+            <li>인라인 함수</li>
+            <li>새로운 헤더 파일들 (stdbool.h, complex.h, tgmah.h)</li>
+            <li>새로운 자료형 (_Bool, _Complex, _Imaginary)</li>
+            <li>한줄짜리 주석 (//)</li>
+            <li>유연한 배열 멤버</li>
+            <li>가변 길이 배열</li>
+            <li>보다 안전한 I/O 함수</li>
+        </div>
+        <div class="post_subheading">3. C11 및 그 이후</div>
+        <div class="post_text">
+            <p class="font-bold">[ C11 ]</p>
+            <li>C99를 대체</li>
+            <li>유니코드 지원</li>
+            <li>이름 없는 구조체 및 공용체</li>
+            <li>제너릭 표현식 (C#의 제네릭이나 C++의 템플릿과 동일)</li>
+            <li>표준화된 멀티쓰레딩 지원</li>
+            <p class="font-bold">[ C18 ]</p>
+            <li>신규 기능 없음</li>
+            <li>C11의 결함만 수정</li>
+        </div>
+        <div class="post_heading">Hello, C World</div>
+        <img src="{% static 'img/sourcecode/post1-1-new.png' %}" class="mb-6">
+        <div class="post_subheading">#include</div>
+        <div class="post_text">
+            <li>다른 파일에 구현된 함수나 변수를 사용할 수 있게 해줌</li>
+            <li>전처리기 지시문 중 하나</li>
+            <p class="post_def">전처리기 (preprocessor) : 컴파일을 하기 전에 텍스트를 '복붙'해주는 일을 함</p>
+            <p class="post_def">컴파일 (compile) : 사람이 읽을 수 있는 C언어 소스파일을 0과 1로 된 특별한 신호인 기계어 파일 형태로 바꿔주는 과정</p>
+        </div>
+        <div class="post_subheading">#include < stdio.h ></div>
+        <div class="post_text">
+            <li><>안에 있는 단어 (예: stdio.h)는 실제 디스크 상에 존재하는 파일 이름</li>
+            <li>C의 #include는 헤더 파일(*.h)을 열어서 그 내용을 복사한 뒤, #include < stdio.h >라고 쓰여있는 부분을 복사한 내용으로 교체</li>
+            <p class="ml-7">⇒ 이를 통해 컴파일 도중에 헤더파일의 함수도 포함</p>
+        </div>
+        <div class="post_subheading">< stdio.h ></div>
+        <div class="post_text">
+            <li>C 표준 라이브러리 (C Standard Library, lib) 중 일부</li>
+            <p class="ml-7">⇒ C 표준 라이브러리 : 문자열 처리/수학 계산/입출력 처리/메모리 관리에 필요한 매크로, 자료형(data type), 함수 등을 모아 놓은 것</p>
+            <li>libc에서 표준 입출력 (Standard Input and Output)을 담당</li>
+            <li>파일 입출력 (stream)에 관련된 함수들을 포함 → printf(), scanf(), fopen(), fclose()</li>
+        </div>
+        <div class="post_subheading">main(void) 함수</div>
+        <div class="post_text">
+            <li>프로그램의 진입점 (entry point)</li>
+            <li>C 코드를 빌드해서 나온 실행파일(.exe 또는 .out)을 실행하면 main(void) 함수가 자동적으로 실행됨</li>
+            <li>반드시 int를 반환해야함</li>
+            <p class="ml-7">⇒ 0: 프로그램에 문제가 없었다는 뜻</p>
+            <li>다른 언어와 달리 void를 생략한다고 매개변수가 없다는 뜻은 아님</li>
+            <p class="post_def">매개변수 : 몇 개의 변수 사이에 함수관계를 정하기 위해서 사용되는 또 다른 하나의 변수</p>
+            <img src="{% static 'img/sourcecode/post1-2.png' %}" class="ml-7">
+            <p class="ml-7">⇒ 언제나 void를 넣는 습관을 기르자</p>
+        </div>
+        <div class="post_subheading">printf()</div>
+        <div class="post_text">
+            <li>화면에 데이터를 출력할 때 사용하는 함수</li>
+            <li>printf: 'print formatted' (서식에 맞제 출력하다)</li>
+            <li>\n: 새 줄 (new line)을 의미하는 excape character</li>
+        </div>
+        <div class="post_subheading">주석(comment)</div>
+        <div class="post_text">
+            <li>/* */만 지원 (최소한 C89에선)</li>
+            <li>주석이 한 줄이든 여러 줄이든 /* */만 사용</li>
+            <p class="ml-7">⇒다른 언어에서는 여러 줄에는 /* */를, 한 줄에는 //를 쓰는 것이 일반적</p>
+        </div>
+    </main>
+{% endblock post_content %}

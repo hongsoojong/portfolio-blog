@@ -1,0 +1,654 @@
+{% extends 'posts/base_post.html' %}
+
+{% load static %}
+
+{% block post_title %}
+    <a href="{% url 'blog:all-posts' %}" class="font_kor">(2) C 언어의 기본 문법 1</a>
+{% endblock post_title %}
+
+{% block post_content %}
+
+    {% block post_date %}
+        <div class="container w-1/2 mx-auto mb-10 post_date">[ Sep 05, 2021 ]</div>    
+    {% endblock post_date %}
+
+    <main class="container w-1/2 mx-auto font_kor">
+        <div class="post_text">
+            <p> C는 순수하게 절차적 언어로만 사용 가능</p>
+            <li>C로 작성한 코드는 데이터보다 프로세스에 중점이 맞쳐져 있음 (기능보단 프로세스)</li>
+            <li>그냥 메뉴얼에 적힌 내용을 순서대로 따라가는 느낌으로 절차적 언어는 이해하기가 쉬움</li>
+            <li>실제 컴퓨터 구조의 모습, 추상적인 느낌이 거의 없으며 직관적임</li>
+            <li>함수 : 모두 전역 (global)함수, 기본적으로 어디에서나 호출 가능</li>
+            <p class="post_def">전역 : 누구나 접근이 가능</p>
+            <li>변수 : 함수 밖에 선언 되어있으면 전역변수, 안에 선언되어 있으면 지역변수 ⇒ 딱 두가지로만 나뉨</li>
+            <li>반대 개념 : 객체 지향 언어(Object Oriented Programming; OOP)</li>
+            <p class="post_def">객체 지향 언어 : 객체 지향 특성 (클래스, 중복, 상속, 가상함수, 추상화 등) / 모든 데이터를 오브젝트로 취급하여 프로그래밍 하는 방법</p>
+        </div>
+        <div>
+            <div class="post_heading">기본 자료형(primitive) - 정수형(char, short, int, long)</div>
+            <table class="mb-6 w-full table-fixed">
+                <thead class="text-center bg-yellow-100">
+                  <tr>
+                    <th class="w-1/6 post_table_border">정수형</th>
+                    <th class="w-1/6 post_table_border">표준 메모리</th>
+                    <th class="w-1/6 post_table_border">메모리 크기</th>
+                    <th class="w-1/4 post_table_border">데이터 표현범위 (signed)</th>
+                    <th class="w-1/4 post_table_border">데이터 표현범위 (unsigned)</th>
+                  </tr>
+                </thead>
+                <tbody class="text-center">
+                  <tr>
+                    <td class="post_table_border">char</td>
+                    <td class="post_table_border">8비트</td>
+                    <td class="post_table_border">8비트</td>
+                    <td class="post_table_border">-128 ~ 127</td>
+                    <td class="post_table_border">0 ~ 255</td>
+                  </tr>
+                  <tr>
+                    <td class="post_table_border">short</td>
+                    <td class="post_table_border">16비트</td>
+                    <td class="post_table_border">16비트</td>
+                    <td class="post_table_border">-32,768 ~ 32,767</td>
+                    <td class="post_table_border">0 ~ 65,535</td>
+                  </tr>
+                  <tr>
+                    <td class="post_table_border">int</td>
+                    <td class="post_table_border">16비트</td>
+                    <td class="post_table_border">32비트</td>
+                    <td class="post_table_border">-2,147,483,648 ~ 2,147,483,647</td>
+                    <td class="post_table_border">0 ~ 4,294,967,295</td>
+                  </tr>
+                  <tr>
+                    <td class="post_table_border">long</td>
+                    <td class="post_table_border">32비트</td>
+                    <td class="post_table_border">32비트</td>
+                    <td class="post_table_border">-2,147,483,648 ~ 2,147,483,647</td>
+                    <td class="post_table_border">0 ~ 4,294,967,295</td>
+                  </tr>
+                </tbody>
+              </table>
+            <div class="post_subheading">char</div>
+            <div class="post_text">
+                <li>최소 8비트인 정수형 (표준은 8비트 이상이라고만 정의하여 컴파일러 제멋대로 1백만 비트도 가능)</li>
+                <p class="ml-7">⇒ 즉, C에서는 1 byte가 8 bit라고 확실하게 정의할 수 없음!</p>
+                <li>char가 몇 비트인지 찾는 방법</li>
+                <p class="ml-7">⇒ <limits.h> 헤더를 include 한 뒤, CHAR_BIT 확인</p>
+                <img src="{% static 'img/sourcecode/post2-1.png' %}" class="ml-7">
+                <li>C의 표준은 기본 자료형의 정확한 바이트 수를 강요 안 함</li>
+                <p class="ml-7">⇒ 각 컴파일러마다 알아서 하라고 함</p>
+                <li>더 나아가 1 바이트를 CHAR_BIT만큼이라고 말함</li>
+                <p class="post_def">CHAR_BIT : 현재 이 기기에서 돌릴 수 있는 가장 작은 단위의 메모리 (bit는 절대적임)</p>
+                <p class="ml-7">why? 소형기기에 따라 특정 크기를 사용하는게 어려울 수도 있음</p>
+                <li>(표준) 표현 가능한 숫자의 범위</li>
+                <p class="post_def">포팅에 문제 없는 값의 범위</p> 
+                <p class="ml-7">1) unsigned char : 0 ~ 255</p>
+                <p class="ml-7">2) char : 0 ~ 127</p>
+                <p class="ml-7">3) signed char : -127 ~ 127</p>
+                <li>(보통) 표현 가능한 숫자의 범위</li>
+                <p class="ml-7">1) 크기 : 8비트</p>
+                <p class="ml-7">2) 범위(unsigned) : 0 ~ 255</p>
+                <p class="ml-7">3) 범위(signed) : -128 ~ 127</p>
+            </div>
+            <div class="post_subheading">char와 signed/unsigned</div>
+            <div class="post_text">
+                <li>char은 정수형이니 signed/unsigned가 있음</li>
+                <li>signed/unsigned를 생략하면?</li>
+                <p class="ml-7">⇒ 컴파일러 구현에 따라 signed인지 unsigned인지 정해짐 (C표준 자체가 정하지 않음; Clang Windows의 경우, signed)</p>
+                <li>ASCII 문자의 범위는 0~127이므로 부호 여부 상관이 없음</li>
+                <p class="post_def">ASCII(아스키): 0~127인 숫자 (정수형)</p>
+                <li>단, 8비트 정수형으로 쓰려고 할 때는 반드시 char 앞에 signed나 unsigned를 넣어주는게 좋음</li>
+                <li>안 그러면 포팅해도 문제없는 정수 범위는 0~127 사이 뿐</li>
+                <li>char의 부호 여부를 판단하는 방법</li>
+                <p class="ml-7">⇒ <limits.h> 헤더파일에서 CHAR_MIN을 보면 부호 식별자가 없는 char가 signed인지 unsigned인지 알 수 있음 (SCHAR_MIN = -128인 경우 singed)</p>
+                <p class="text-red-400 ml-7">왠만하면 반드시 char에 singed/unsigned 입력해줘라!</p>
+            </div>
+            <div class="post_subheading">short</div>
+            <div class="post_text">
+                <li>최소 16비트이고 char 이상인 정수형</li>
+                <li>default : signed</li>
+                <li>(표준) 표현 가능한 숫자의 범위</li>
+                <p class="post_def">포팅에 문제 없는 값의 범위</p> 
+                <p class="ml-7">1) unsigned short : 0 ~ 65,535</p>
+                <p class="ml-7">2) signed shot : -32,767 ~ 32,767</p>
+                <li>(보통) 표현 가능한 숫자의 범위</li>
+                <p class="ml-7">1) 크기 : 16비트</p>
+                <p class="ml-7">2) 범위(unsigned) : 0 ~ 65,535</p>
+                <p class="ml-7">3) 범위(signed) : -32,768 ~ 32,767</p>
+                <li>기본 정수형(보통 int)보다 짧음</li>
+                <p class="ml-7">⇒ 메모리를 적게 쓰기 위해 사용하나, int 대신 shor를 사용할 경우 성능이 느려질 수 있음</p>
+            </div>
+            <div class="post_subheading">int</div>
+            <div class="post_text">
+                <li>최소 16비트이고 short 이상인 정수형</li>
+                <li>default : signed</li>
+                <li>(표준) 표현 가능한 숫자의 범위</li>
+                <p class="ml-7">1) unsigned short : 0 ~ 65,535</p>
+                <p class="ml-7">2) signed shot : -32,767 ~ 32,767</p>
+                <li>(보통) 표현 가능한 숫자의 범위</li>
+                <p class="ml-7">1) 크기 : 32비트</p>
+                <p class="ml-7">2) 범위(unsigned) : 0 ~ 4,294,967,295</p>
+                <p class="ml-7">3) 범위(signed) : -2,147,483,648 ~ 2,147,483,647</p>
+                <li>int의 리터럴</li>
+                <p class="post_def">리터럴 : 컴퓨터 과학 분야에서 소스 코드의 고정된 값을 대표하는 용어</p>
+                <img src="{% static 'img/sourcecode/post2-2.png' %}" class="ml-7">
+                <p class="ml-7">⇒ u 혹은 U : 부호 없는(unsigned) 수를 표현하는 접미사 <span class="text-red-600">(안 붙이면 경고 warning 발생)</span></p>
+            </div>
+            <div class="post_subheading">int는 기본 정수</div>
+            <div class="post_text">
+                <li>int는 그냥 '정수(integer)'라는 의미</li>
+                <li>따라서, CPU에게 앞/뒤 생략하고 '정수 처리해!'라고 하면, CPU가 딱 아는 크기여야 함</li>
+                <li>그게 무엇의 크기일까?</li>
+                <p class="ml-7">⇒ CPU의 산술논리장치(ALU, Arithmetic Logic Unit)가 사용하는 기본 데이터</p>
+                <p class="ml-12">이 데이터를 워드(word)라 하고, 그 크기를 워드 크기라고 함</p>
+                <p class="ml-12">워드 크기는 레지스터 크기랑 일치</p>
+                <p class="ml-12">즉, CPU 따라 다름</p>
+                <li>예전에는 16비트 CPU가 흔했음 → 그래서 최소 16비트</li>
+            </div>
+            <div class="post_subheading">int와 64비트 플랫폼</div>
+            <div class="post_text">
+                <li>그 뒤에 32비트 컴퓨터가 나오면서 int의 크기는 32비트가 됨</li>
+                <li>그러나 이제 64비트 컴퓨터인데? 그래도 32비트에 멈춤 → 여러가지 이슈들로 인해!</li>
+                <li>원칙적으로 말하면 C 표준을 어긴 것</li>
+            </div>
+            <div class="post_subheading">long</div>
+            <div class="post_text">
+                <li>최소 32비트이고 int 이상인 정수형</li>
+                <li>default : signed</li>
+                <li>(표준) 표현 가능한 숫자의 범위</li>
+                <p class="ml-7">1) unsigned short : 0 ~ 4,294,967,295</p>
+                <p class="ml-7">2) signed shot : -2,147,483,647 ~ 2,147,483,647</p>
+                <li>(보통) 표현 가능한 숫자의 범위</li>
+                <p class="ml-7">1) 크기 : 32비트</p>
+                <p class="ml-7">2) 범위(unsigned) : 0 ~ 4,294,967,295</p>
+                <p class="ml-7">3) 범위(signed) : -2,147,483,648 ~ 2,147,483,647</p>
+                <li>long의 리터럴</li>
+                <img src="{% static 'img/sourcecode/post2-3.png' %}" class="ml-7">
+                <p class="ml-7">⇒ l 혹은 L : long을 의미하는 접미사</span></p>
+                <p class="ml-7">⇒ u 혹은 U : 부호 없는(unsigned) 수를 표현하는 접미사 <span class="text-red-600">(안 붙이면 경고 warning 발생)</span></p>
+                <p class="ml-12">두 접미사를 같이 쓸수 있음 (unsigned long) : UL, LU, lu, ul</p>
+            </div>
+        </div>
+        <div>
+            <div class="post_heading">기본 자료형(primitive) - 실수형(float, double, long double)</div>
+            <table class="mb-6 w-full table-fixed">
+                <thead class="text-center bg-yellow-100">
+                  <tr>
+                    <th class="w-1/4 post_table_border">실수형</th>
+                    <th class="w-1/4 post_table_border">메모리 크기</th>
+                    <th class="w-1/4 post_table_border">데이터 표현범위</th>
+                    <th class="w-1/4 post_table_border">정밀도</th>
+                  </tr>
+                </thead>
+                <tbody class="text-center">
+                  <tr>
+                    <td class="post_table_border">float</td>
+                    <td class="post_table_border">32비트</td>
+                    <td class="post_table_border">1.2E-38 ~ 3.4E+38</td>
+                    <td class="post_table_border">소수점 이하 6자리</td>
+                  </tr>
+                  <tr>
+                    <td class="post_table_border">double</td>
+                    <td class="post_table_border">64비트</td>
+                    <td class="post_table_border">2.3E-308 ~ 1.7E+3.8</td>
+                    <td class="post_table_border">소수점 이하 15자리</td>
+                  </tr>
+                  <tr>
+                    <td class="post_table_border">long double</td>
+                    <td class="post_table_border">80비트</td>
+                    <td class="post_table_border">3.4E-4932 ~ 1.1E+4932</td>
+                    <td class="post_table_border">소수점 이하 19자리</td>
+                  </tr>
+                </tbody>
+              </table>
+            <div class="post_subheading">float</div>
+            <img src="{% static 'img/sourcecode/post2-4.png' %}">
+            <div class="post_text">
+                <li>소프트웨어 공학용 수학</li>
+                <p class="ml-7">float, double, long double → 부동 소수점 자료형</p>
+                <p class="ml-12">⇒ 부동 소수점 자료형은 IEEE754로 대동단결</p>
+                <p class="ml-20">1. float : IEEE 754 Single (32비트)</p>
+                <p class="ml-20">2. double : IEEE 754 Double (64비트)</p>
+                <li>하지만 C는 CPU가 IEEE 754를 지원하는 실수계산장치 장착 전부터 쓰임</li>
+                <li>표준에 따르면 C의 float은 IEEE 754가 아닐 수도 있음</li>
+                <p class="ml-7">⇒ 역시 컴파일러 구현에 따라 다름 (최소한 C89에서는)</p>
+                <li>크기는 char 이상이면 됨</li>
+                <li>unsigned 형 없음</li>
+                <li>(표준) 표현 가능한 숫자의 범위</li>
+                <p class="ml-7">1) 크기 : 32비트</p>
+                <p class="ml-7">2) 범위 : IEEE 754 Single과 동일</p>
+                <li>관련 헤드 파일 : float.h</li>
+                <li>float의 리터럴</li>
+                <img src="{% static 'img/sourcecode/post2-4.png' %}" class="ml-7">
+                <p class="ml-7">⇒ f 혹은 F : float을 의미하는 접미사</span></p>
+            </div>
+            <div class="post_subheading">double</div>
+            <img src="{% static 'img/sourcecode/post2-5.png' %}">
+            <div class="post_text">
+                <li>표준에 따르면 CPU가 계산에 사용하는 기본 데이터 크기</li>
+                <p class="ml-7">1. 크기는 float 이상이면 됨</p>
+                <p class="ml-7">2. float은 그저 double보다 빠르게 연산하기 위해 만든 작은 부동소수점</p>
+                <li>역시 컴파일러 구현에 따라 다름</li>
+                <p class="ml-7">⇒ 즉, IEEE 754 Double이란 보장 없음
+                <li>unsigned 형 없음</li>
+                <li>(표준) 표현 가능한 숫자의 범위</li>
+                <p class="ml-7">1) 크기 : 64비트</p>
+                <p class="ml-7">2) 범위 : IEEE 754 Double과 동일</p>
+                <li>관련 헤드 파일 : float.h</li>                    
+            </div>      
+        </div>
+        <div>
+            <div class="post_heading">기본 정수형(primitive) - 정리</div>
+            <div class="post_text">
+                <li>데스크톱에서는 다른 언어와 비슷하게 사용 가능</li>
+                <p class="ml-7">⇒ 예외: long (32비트)</p>
+                <li>소형기기를 다룰 땐? 메뉴얼에서 자료형 크기 확인 후 사용할 것</li>
+                <li>여기저기 사용할 코드라면?</li>
+                <p class="ml-7">포팅 보장되는 범위의 값으로만 사용</p>
+                <p class="ml-7">float/double은 플랫폼 사이에 값이 정확하게 일치하지 않을 수 있음</p>
+            </div>
+        </div>
+        <div>
+            <div class="post_heading">서식 지정자</div>
+            <table class="mb-6 w-full table-fixed">
+                <thead class="text-center bg-yellow-100">
+                  <tr>
+                    <th class="w-1/6 post_table_border">서식 지정자</th>
+                    <th class="w-1/6 post_table_border">약자</th>
+                    <th class="w-2/3 post_table_border">설명</th>
+                  </tr>
+                </thead>
+                <tbody class="text-center">
+                  <tr>
+                    <td class="post_table_border">%d, %i</td>
+                    <td class="post_table_border">Decimal, Integal</td>
+                    <td class="post_table_border">10진 정수 (양수와 음수 모두 표현 가능)</td>
+                  </tr>
+                  <tr>
+                    <td class="post_table_border">%u</td>
+                    <td class="post_table_border">Unsigned</td>
+                    <td class="post_table_border">10진 정수 (양수만 표현 가능)</td>
+                  </tr>
+                  <tr>
+                    <td class="post_table_border">%o</td>
+                    <td class="post_table_border">Octal</td>
+                    <td class="post_table_border">8진 정수 (양수만 표현 가능)</td>
+                  </tr>
+                  <tr>
+                    <td class="post_table_border">%x</td>
+                    <td class="post_table_border">Hexadecimal</td>
+                    <td class="post_table_border">16진 정수 (양수만 표현 가능)</td>
+                  </tr>
+                  <tr>
+                    <td class="post_table_border">%f</td>
+                    <td class="post_table_border">Float</td>
+                    <td class="post_table_border">10진수 실수 (양수와 음수 모두 표현 가능)</td>
+                  </tr>
+                  <tr>
+                    <td class="post_table_border">%c</td>
+                    <td class="post_table_border">Character</td>
+                    <td class="post_table_border">한 개의 문자</td>
+                  </tr>
+                  <tr>
+                    <td class="post_table_border">%s</td>
+                    <td class="post_table_border">string</td>
+                    <td class="post_table_border">문자열</td>
+                  </tr>
+                  <tr>
+                    <td class="post_table_border">%e</td>
+                    <td class="post_table_border"></td>
+                    <td class="post_table_border">e 표기법에 의한 실수</td>
+                  </tr>
+                  <tr>
+                    <td class="post_table_border">%E</td>
+                    <td class="post_table_border"></td>
+                    <td class="post_table_border">E 표기법에 의한 실수</td>
+                  </tr>
+                  <tr>
+                    <td class="post_table_border">%g</td>
+                    <td class="post_table_border"></td>
+                    <td class="post_table_border">소수점 이하 자리 수에 따라 %f, %e 둘 중 하나를 선택</td>
+                  </tr>
+                  <tr>
+                    <td class="post_table_border">%G</td>
+                    <td class="post_table_border"></td>
+                    <td class="post_table_border">소수점 이하 자리 수에 따라 %f, %E 둘 중 하나를 선택</td>
+                  </tr>
+                  <tr>
+                    <td class="post_table_border">%%</td>
+                    <td class="post_table_border"></td>
+                    <td class="post_table_border">% 기호 출력</td>
+                  </tr>
+                </tbody>
+              </table>
+        </div>
+        <div>
+            <div class="post_heading">C언어의 bool형</div>
+            <div class="post_text">
+                <li>C89에 없음</li>
+                <li>C99에는 비슷한 형태가 있으나 대부분의 C 프로그래머들은 bool을 사용하지 않음</li>   
+            </div>
+            <div class="post_subheading">bool 형을 안 쓰는 이유</div>
+            <div class="post_text">
+                <li>정수로 대신 쓸 수 있음</li>
+                <li class="font-bold">0이면 False, 0이 아니면 True</li>
+                <li>하드웨어에서도 실제 bool이 없음 (0이냐 아니냐만 존재)</li>
+                <li>while문의 조건으로 숫자를 사용 가능함</li>
+            </div>
+            <div class="post_subheading">코딩표준: 참 거짓을 반환할 때</div>
+            <div class="post_text">
+                <p>C에서 참이나 거짓을 반환해야하는 함수의 경우 보통 다음과 같이 함</p>
+                <li>거짓일 때는, 0을 반환</li>
+                <li>참일 때는, 1을 반환</li>
+            </div>
+        </div>
+        <div>
+            <div class="post_heading">열거형(enum)</div>
+            <div class="post_text">
+                <li>같은 종류의 상수를 묶어놓은 것</li>
+                <li>명시적인 캐스팅이 없이도 int와 섞어서 사용 가능</li>
+                <p class="ml-7">int → enum / enum → int / enum → enum</p>
+                <li>C에서의 열거형은 그냥 정수에 별명을 붙이는 수준</li>
+                <img src="{% static 'img/sourcecode/post2-7.png' %}" class="ml-7">
+            </div>
+        </div>
+        <div>
+            <div class="post_heading">변수 선언 위치</div>
+            <div class="post_text">
+                <li>변수 선언은 반드시 블럭의 시작에서만 해야함</li>
+                <img src="{% static 'img/sourcecode/post2-8.png' %}" class="ml-7">
+                <li>코드 중간에 사용하는 변수는 블록 시작에서 선언만 하고 뒤에 대입 가능</li>
+                <img src="{% static 'img/sourcecode/post2-9.png' %}" class="ml-7">
+            </div>
+        </div>
+        <div>
+            <div class="post_heading">연산자</div>
+            <table class="mb-6 w-full table-fixed">
+                <thead class="text-center bg-yellow-100">
+                  <tr>
+                    <th class="w-1/6 post_table_border">우선순위</th>
+                    <th class="w-1/6 post_table_border">연산자</th>
+                    <th class="w-1/2 post_table_border">설명</th>
+                    <th class="w-1/6 post_table_border">역산자 결합 법칙</th>
+                  </tr>
+                </thead>
+                <tbody class="text-center">
+                  <tr>
+                    <td class="post_table_border">1</td>
+                    <td class="post_table_border">
+                        <p>++ --</p>
+                        <p>()</p>
+                        <p>[]</p>
+                        <p>.</p>
+                        <p>-></p>
+                    </td>
+                    <td class="post_table_border">
+                        <p>후위 증감 연산자</p>
+                        <p>함수 호출</p>
+                        <p>배열 첨자</p>
+                        <p>구조체, 공용체 멤버 접근자</p>
+                        <p>구조체, 공용체 멤버 접근자 (포인터)</p>
+                    </td>
+                    <td class="post_table_border">>></td>
+                  </tr>
+                  <tr>
+                    <td class="post_table_border">2</td>
+                    <td class="post_table_border">
+                        <p>++ --</p>
+                        <p>+ -</p>
+                        <p>! ~</p>
+                        <p>(자료형)</p>
+                        <p>*</p>
+                        <p>&</p>
+                        <p>sizeof</p>
+                    </td>
+                    <td class="post_table_border">
+                        <p>전위 증감 연산자</p>
+                        <p>단항(unary) 연산자</p>
+                        <p>논리/비트 부정(NOT) 연산자</p>
+                        <p>자료형 캐스팅</p>
+                        <p>역 참조(간접 참조)</p>
+                        <p>주소(address-of)</p>
+                        <p>피연산자의 크기(size-of)를 알려주는 연산자</p>
+                    </td>
+                    <td class="post_table_border"><<</td>
+                  </tr>
+                  <tr>
+                    <td class="post_table_border">3</td>
+                    <td class="post_table_border">* / %</td>
+                    <td class="post_table_border">곱하기, 나눗셈(몫), 나눗셈(나머지)</td>
+                    <td class="post_table_border">>></td>
+                  </tr>
+                  <tr>
+                    <td class="post_table_border">4</td>
+                    <td class="post_table_border">+ -</td>
+                    <td class="post_table_border">덧셈, 뺄셈</td>
+                    <td class="post_table_border">>></td>
+                  </tr>
+                  <tr>
+                    <td class="post_table_border">5</td>
+                    <td class="post_table_border"><< >></td>
+                    <td class="post_table_border">왼쪽, 오른쪽 비트 이동 연산자</td>
+                    <td class="post_table_border">>></td>
+                  </tr>
+                  <tr>
+                    <td class="post_table_border">6</td>
+                    <td class="post_table_border">
+                        <p>< <=</p>
+                        <p>> >=</p>
+                    </td>
+                    <td class="post_table_border">비교 연산자</td>
+                    <td class="post_table_border">>></td>
+                  </tr>
+                  <tr>
+                    <td class="post_table_border">7</td>
+                    <td class="post_table_border">== !=</td>
+                    <td class="post_table_border">비교 연산자</td>
+                    <td class="post_table_border">>></td>
+                  </tr>
+                  <tr>
+                    <td class="post_table_border">8</td>
+                    <td class="post_table_border">&</td>
+                    <td class="post_table_border">비트 AND 연산자</td>
+                    <td class="post_table_border">>></td>
+                  </tr>
+                  <tr>
+                    <td class="post_table_border">9</td>
+                    <td class="post_table_border">^</td>
+                    <td class="post_table_border">비트 XOR 연산자</td>
+                    <td class="post_table_border">>></td>
+                  </tr>
+                  <tr>
+                    <td class="post_table_border">10</td>
+                    <td class="post_table_border">|</td>
+                    <td class="post_table_border">비트 OR 연산자</td>
+                    <td class="post_table_border">>></td>
+                  </tr>
+                  <tr>
+                    <td class="post_table_border">11</td>
+                    <td class="post_table_border">&&</td>
+                    <td class="post_table_border">논리 AND 연산자</td>
+                    <td class="post_table_border">>></td>
+                  </tr>
+                  <tr>
+                    <td class="post_table_border">12</td>
+                    <td class="post_table_border">||</td>
+                    <td class="post_table_border">논리 OR 연산자</td>
+                    <td class="post_table_border">>></td>
+                  </tr>
+                  <tr>
+                    <td class="post_table_border">13</td>
+                    <td class="post_table_border">?:</td>
+                    <td class="post_table_border">삼항(ternary) 연산자</td>
+                    <td class="post_table_border"><<</td>
+                  </tr>
+                  <tr>
+                    <td class="post_table_border">14</td>
+                    <td class="post_table_border">
+                        <p>=</p>
+                        <p>+= -=</p>
+                        <p>*= /= %=</p>
+                        <p><<== >>==</p>
+                        <p>*= ^= |=</p>
+                    </td>
+                    <td class="post_table_border">
+                        <p>대입 연산자</p>
+                        <p>덧셈/뺄셈 후 대입</p>
+                        <p>곱셈/나눗셈(몫)/나눗셈(나머지) 후 대입</p>
+                        <p>비트 이동 후 대입</p>
+                        <p>비트 연산 수 대입</p>
+                    </td>
+                    <td class="post_table_border"><<</td>
+                  </tr>
+                  <tr>
+                    <td class="post_table_border">15</td>
+                    <td class="post_table_border">,</td>
+                    <td class="post_table_border">콤마</td>
+                    <td class="post_table_border">>></td>
+                  </tr>
+                </tbody>
+              </table>
+        </div>
+        <div>
+            <div class="post_heading">C에서 새로 만난 연산자</div>
+            <div class="post_subheading">sizeof()</div>
+            <img src="{% static 'img/sourcecode/post2-10.png' %}">
+            <div class="post_text">
+                <li>피연산자의 크기를 바이트로 반환해주는 연산자</li>
+                <li>함수가 아님!</li>
+                <p class="ml-7">⇒ 실행 중이 아니라 컴파일 도중에 크기를 찾음! 즉, 컴파일 할 때 모르는 크기는 찾아줄 수 없음</p>
+                <li>char형을 넣으면 반드시 1이 반환 → 보통 바이트는 char의 크기이다!</li>
+                <li>이 연산자가 반환하는 값은 부호없는 정수형의 상수로 size_t형</li>
+            </div>
+            <div class="post_subheading">size_t</div>
+            <div class="post_text">
+                <li>부호없는 정수형이나 실제 데이터형은 아님</li>
+                <li>_t는 typedef를 했다는 힌트 (플랫폼에 따라 다른 자료형을 쓰기 위해 size_t를 typedef한 것</li>
+                <img src="{% static 'img/sourcecode/post2-12.png' %}">
+                <li>C89 표준은 size_t의 크기를 딱히 명시하지 않았음</li>
+                <li>단, 배열을 만들면 그 배열의 바이트의 크기를 얻을 수 있다고 명시함</li>
+                <p class="ml-7">여기서 추측할 수 있는 것은 size_t는 최소 배열을 담을 수 있는 크기여야함</p>
+                <p class="ml-7">그럼, 배열의 크기가 얼마나 커질 수 있는가? 최소 65,535정도는 되어야 할 것으로 예상</p>
+                <p class="ml-7">다행히 C99 표준에는 확실하게 최소 16비트를 요구함</p>
+                <li>보통 unsigned int 사용 (헤더에서 확인 가능)</li>
+            </div>
+            <div class="post_subheading">size_t의 용도</div>
+            <div class="post_text">
+                <li>어떤 것의 크기를 나타내기 위해 사용</li>
+                <li>좋은 예 : 반복문이나 배열에 접근하기 위해 사용</li>
+                <p class="ml-7">1. 반복문의 카운터 변수에 음수가 필요없을 때</p>
+                <p class="ml-7">2. 배열의 경우 길이가 음수가 될 수 없으니 ⇒ my_array[-1] 존재할 수 없음</p>
+                <img src="{% static 'img/sourcecode/post2-11.png' %}" class="ml-7">
+            </div>
+            <div class="post_subheading">역 참조 연산자( * )</div>
+            <img src="{% static 'img/sourcecode/post2-13.png' %}">
+            <div class="post_text">
+                <li>*의 피연산자가 하나면 역참조(indiraction, dereference) 연산자</li>
+                <p class="ml-7">⇒ 피연산자가 2개일 때 사용하는 곱셈 연산자가 아님</p>
+                <li>포인터형 변수에만 사용 가능</li>
+                <li>주소 연산자와 더불어 메모리를 들었다놨다 하는 연산자</li>
+                <li>'포인터형 변수에 저장된 주소'의 위치에 들어있는 값에 접근 ⇒ 포인터와 관련된 중요한 개념!</li>
+            </div>
+            <div class="post_subheading">주소 연산자( & )</div>
+            <img src="{% static 'img/sourcecode/post2-14.png' %}">
+            <div class="post_text">
+                <li>피연산자가 하나면 주소연산자</li>
+                <p class="ml-7">⇒ 피연산자가 2개일 때 사용하는 비트연산자가 아님</p>
+                <li>어떤 변수의 메모리 주소를 반환</li>
+            </div>
+            <div class="post_subheading">구조체와 공용체 멤버 접근자 ( . )과 ( -> )</div>
+            <div class="post_text">
+                <p>< . 연산자 ></p>
+                <li>C에는 클래스가 없으므로 함수 호출에 쓸 수 없음</li>
+                <li>단, 구조체와 공용체는 있으니 그들의 멤버변수에 접근할 때 사용</li>
+                <p>< -> 연산자 ></p>
+                <li>2개의 연산자 '.'와 '*'를 합친 것 [ '(*s).data' = 's->data' ]</li>
+                <li>이 또한 구조체와 공용체의 멤버변수에 접근할 때 사용</li>                
+            </div>
+            <div class="post_subheading">비교(relational) 연산자와 논리(logical) 연산자</div>
+            <div class="post_text">
+                <li>비교연산자 : ==, !=, <, <=, =>, ></li>
+                <li>논리 연산자 : &&, ||, !</li>
+            </div>
+            <div class="post_subheading">조건(conditional) 연산자</div>
+            <img src="{% static 'img/sourcecode/post2-15.png' %}">
+            <div class="post_text">
+                <li>보통 삼항 연산자(ternary operator)라고 부름</li>
+            </div>
+        </div>
+        <div>
+            <div class="post_heading">조건문(if, switch/case)과 반복문(for, while, do while)</div>
+            <div class="post_subheading">if문</div>
+            <img src="{% static 'img/sourcecode/post2-16.png' %}">
+            <div class="post_text">
+                <li>bool형이 없다고 했는데 어떻게 if문이 작동하는 것일까?</li>
+                <p class="ml-7">C의 비교 연산자나 조건 연산자를 사용한 표현식은 참일 경우 1, 거짓일 경우 0을 반환함</p>
+                <p class="ml-7">즉,  b > 10은 True/False를 반환하는 것이 아니라 1 또는 0을 반환</p>
+                <li>숫자를 if문의 조건식에 넣어도 곧바로 판단 가능(False : 0 / True : 1)</li>
+                <li>메모리 주소(포인터)나 float형도 마찬가지</li>
+                <p class="ml-7 font-bold">모든 배트패턴이 0이면 False, 아니면 True</p>
+                <li>if ~ else문 : 조건식이 참일 경우와 거짓일 경우 실행문장을 구분하여 프로그램 흐름 제어</li>
+                <li>if ~ else if ~ else문 : 조건식의 결과에 따라 경우의 수가 여러 가지인 경우 사용</li>
+            </div>
+            <div class="post_subheading">switch/case문</div>
+            <img src="{% static 'img/sourcecode/post2-17.png' %}">
+            <div class="post_text">
+                <li>하나의 조건식으로 많은 경우의 수를 처리할 경우 사용</li>
+                <li>switch문의 조건식은 반드시 정수형 또는 정수형으로 반환되는 자료형이어야 힘</li>
+                <li>switch문은 if문처럼 변수끼리 비교하거나 대소관계를 비교하는 등의 처리는 불가능함</li>
+                <li>case문의 값은 정수값만 가능하며 중복되지 않아야 함</li>
+                <li>변수나 실수, 조건식, 문자열은 case문의 값으로 사용할 수 없음</li>
+            </div>
+            <div class="post_subheading">case에서 사용 가능한 데이터형</div>
+            <img src="{% static 'img/sourcecode/post2-18.png' %}"> 
+            <div class="post_text">
+                <li>정수형(예: int, char, enum)만 가능 ⇒ string형은 사용 불가능</li>
+            </div>
+            <div class="post_subheading">case 안에서 break를 빼먹으면?</div>
+            <div class="post_text">
+                <li>switch문을 곧바로 탈출하지 못하고 보통 그 아래 다른 case 또는 dafault 레이블에 있는 코드를 계속 실행</li>
+                <p class="ml-7">- 다른 곳에서 break를 만나거나 switch 블록 끝에 도착하면 탈출</p>
+                <p class="ml-7">- 이렇게 계속 아래에 있는 코드를 실행하는 것을 <span class="font-bold">fall-through</span>라고 함</p>
+            </div>
+            <div class="post_subheading">코딩표준 : fall-through를 명시적으로 표시</div>
+                <img src="{% static 'img/sourcecode/post2-19.png' %}">
+            <div class="post_text">    
+                <p>⇒ 의도를 가지고'break'를 사용하지 않을 경우, /* intentional fallthrough*/의 주석을 반드시 붙이자</p>
+            </div>
+            <div class="post_subheading">case 레이블은 반드시 상수만</div>
+            <img src="{% static 'img/sourcecode/post2-20.png' %}">
+            <div class="post_text">
+                <li>추가적으로 이 상수는 반드시 컴파일 시에 결정되어야 함 ⇒ 컴파일러가 자동으로 if문을 만들어준다고 생각하면 됨</li>
+                <div class="post_def">상수(constant) : 변수에 대하여 항상 일정한 값을 취하는 수</div>
+            </div>
+            <div class="post_subheading">for문</div>
+            <img src="{% static 'img/sourcecode/post2-21.png' %}">
+            <div class="post_text">
+                <li>초기화가 먼저 수행되고, 이후부터는 조건식을 검사하여, 조건식이 참일 동안 조건식 ~ 반복 실행할 문장 ~ 증감식 순서로 반복함</li>
+                <li>foreach문이 없음</li>
+                <li>for문의 초기화 코드에 'size_t i = 0'을 못 씀(변수 선언을 제일 먼저 해야함)</li>
+            </div>
+            <div class="post_subheading">while문</div>
+            <img src="{% static 'img/sourcecode/post2-22.png' %}">
+            <div class="post_text">
+                <li>조건식이 참일 동안 while문에 포함된 문장을 반복 실행하고, 조건식이 거짓이면 while문 블록을 벗어남</li>
+            </div>
+            <img src="{% static 'img/sourcecode/post2-23.png' %}">
+            <div class="post_text">
+                <li>반복문을 실행 도중 탈출하려면 break, 다음 회차로 넘어가려면 continue</li>
+                <li>for문, do-while문에서도 사용 가능</li>
+            </div>
+            <div class="post_subheading">코딩표준 : while문</div>
+            <img src="{% static 'img/sourcecode/post2-24.png' %}">
+            <div class="post_text">
+                <li>조건식은 bool형(True/False) 대신 1, 0을 반환</li>
+                <li>그래서 그냥 counter 변수를 넣는 경우가 있으나 좋은 습관이 아님</li>
+                <li>'== 0' 혹은 '!= 0'을 넣어주자</li>
+            </div>
+            <div class="post_subheading">do while문</div>
+            <img src="{% static 'img/sourcecode/post2-25.png' %}">
+            <div class="post_text">
+                <li>조건식 검사를 마지막에 하므로, 조건식의 참/거짓 여부에 관계없이 반복문 내 코드를 최소 한 번은 실행함</li>
+            </div>
+        </div>
+    </main>
+{% endblock post_content %}

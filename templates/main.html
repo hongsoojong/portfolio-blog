@@ -1,0 +1,74 @@
+{% extends 'base.html' %}
+
+{% load static %}
+
+
+{% block page_title %}
+    Soojong Hong | Developer
+{% endblock page_title %}
+
+
+{% block content %}
+
+<header class="container w-1/2 mx-auto">
+    <nav class="py-10">
+        <ul class="flex items-center justify-end text-lg text-gray-400">
+            <li class="mr-16 hover:text-black"><a href="{% url 'blog:all-posts' %}">Blog</a></li>
+            <li class="hover:text-black">Contact</li>
+        </ul>
+    </nav>
+</header>
+
+<main class="container max-w-full bg-gray-800">
+    <div class="container w-1/2 mx-auto pl-16 text-gray-100 pt-20 pb-10">
+        <span class="text-5xl -ml-16 text-yellow-300">Soojong Hong</span>
+        <div class="pt-20 flex">
+            <img class="w-72 h-72 mr-20" src="{% static 'img/avatar.jpg' %}">
+            <div>
+                <span class="text-2xl text-green-500 font-bold">Interested in Game Development !</span>
+                <p class="text-xl pt-5">Hello. This website is a place to record all my processes to become a game developer through my self-studying and various projects. I'm glad you found it.</p>    
+            </div>
+        </div>
+        <div class="text-3xl mt-20 mb-7">Recent posts</div>
+        <ul class="flex flex-col-reverse">
+            <li>
+                <div class="grid grid-cols-12 mb-5">
+                    <div class="col-span-3">
+                        <div class="post_date">[ Sep 03, 2021 ]</div>
+                    </div>
+                    <div class="col-span-9">
+                        <a class="text-xl font-bold border-b-2 border-gray-800 hover:border-yellow-300" href="{% url 'blog:post1' %}">
+                            <span class="font_kor">(1) C 언매니지드 프로그래밍</span>
+                        </a>
+                    </div>
+                </div>
+            </li>
+            <li>
+                <div class="grid grid-cols-12 mb-5">
+                    <div class="col-span-3">
+                        <div class="font-sans font-bold text-lg text-gray-400">[ Sep 05, 2021 ]</div>
+                    </div>
+                    <div class="col-span-9">
+                        <a class="text-xl font-bold border-b-2 border-gray-800 hover:border-yellow-300" href="{% url 'blog:post2' %}">
+                            <span class="font_kor">(2) C 언어의 기본 문법</span>
+                        </a>
+                    </div>
+                </div>
+            </li>
+            <li>
+                <div class="grid grid-cols-12 mb-5">
+                    <div class="col-span-3">
+                        <div class="font-sans font-bold text-lg text-gray-400">[ Sep ??, 2021 ]</div>
+                    </div>
+                    <div class="col-span-9">
+                        <a class="text-xl font-bold border-b-2 border-gray-800 hover:border-yellow-300" href="{% url 'blog:post3' %}">
+                            <span class="font_kor">(3) C 언어의 기본 문법 2, 빌드 단계</span>
+                        </a>
+                    </div>
+                </div>
+            </li>
+        </ul>   
+    </div>
+</main>
+
+{% endblock content %}

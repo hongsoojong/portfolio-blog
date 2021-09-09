@@ -1,0 +1,18 @@
+{% extends 'posts/base_post.html' %}
+
+{% load static %}
+
+{% block post_title %}
+    <a href="{% url 'blog:all-posts' %}" class="font_kor">프로그래밍 언어의 단어와 문법</a>
+{% endblock post_title %}
+
+{% block post_content %}
+
+    {% block post_date %}
+        <div class="container w-1/2 mx-auto mb-10 post_date">[ Sep ??, 2021 ]</div>    
+    {% endblock post_date %}
+
+    <main class="container w-1/2 mx-auto font_kor">
+        <div class="post_heading">프로그래밍이란</div>
+    </main>
+{% endblock post_content %}

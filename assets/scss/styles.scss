@@ -1,0 +1,43 @@
+@tailwind base;
+
+.font-sans-kr { font-family: 'IBM Plex Sans KR', sans-serif; }
+
+@tailwind components;
+
+.post_heading{
+    @apply text-2xl text-blue-700 font-bold mb-6 border-b-4 border-yellow-300;
+}
+
+.post_subheading{
+    @apply text-xl text-gray-500 font-bold mb-1;
+}
+
+.post_text{
+    @apply text-lg mb-6 ml-3;
+}
+
+.post_def{
+    @apply text-xs text-green-600 ml-7;
+}
+
+.font_kor{
+    @apply font-sans-kr;
+}
+
+.post_date{
+    @apply font-sans font-bold text-lg text-gray-400;
+}
+
+.post_category{
+    @apply font-bold text-lg text-red-400;
+}
+
+.blog_post_title{
+    @apply text-2xl font-bold border-b-4 border-white hover:border-red-400;
+}
+
+.post_table_border{
+    @apply border-collapse border border-black py-1;
+}
+
+@tailwind utilities;

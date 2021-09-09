@@ -1,0 +1,122 @@
+{% extends 'base.html' %}
+
+{% load static %}
+
+
+{% block page_title %}
+    Blog List Page | Soojong Hong
+{% endblock page_title %}
+
+{% block content %}
+
+<header class="bg-gray-800 text-gray-200 mb-10">
+    <nav class="container w-1/2 mx-auto py-10 flex justify-between">
+        <a class="text-2xl text-yellow-200" href="{% url 'core:home' %}">Soojong Hong</a>
+        <ul class="flex items-center text-lg">
+            <li class="mr-16 border-b-2 border-gray-800 hover:border-yellow-300"><a href="{% url 'blog:all-posts' %}">Blog</a></li>
+            <li class="border-b-2 border-gray-800 hover:border-yellow-300">Contact</li>
+        </ul>
+    </nav>
+    <div class="container w-1/2 mx-auto pt-32 pb-10">
+        <span class="text-3xl">Blog Posts</span>
+    </div>
+</header>
+
+<main class="container w-1/2 mx-auto flex flex-col-reverse">
+    <div id="post1 C언어">
+        <ul>
+            <li class="py-8 border-b border-gray-300">
+                <div class="grid grid-cols-12">
+                    <div class="col-span-3 post_date">[ Sep 01, 2021 ]</div>
+                    <div class="col-span-9">
+                        <div class="post_category pb-5">
+                            <span class="font_kor"># C 언어</span>
+                        </div>
+                        <a href="{% url 'blog:post1' %}" class="blog_post_title">
+                            <span class="font_kor">(1) C 언매니지드 프로그래밍</span>
+                        </a>
+                        <div class="text-lg pt-3 font_kor">C 언어의 기초 및 시작, Hello, C World</div>
+                    </div>
+                </div>
+            </li>        
+        </ul>
+    </div>
+    <div id="post2 C언어">
+        <ul>
+            <li class="py-8 border-b border-gray-300">
+                <div class="grid grid-cols-12">
+                    <div class="col-span-3 post_date">[ Sep 05, 2021 ]</div>
+                    <div class="col-span-9">
+                        <div class="post_category pb-5">
+                            <span class="font_kor"># C 언어</span>
+                        </div>
+                        <a href="{% url 'blog:post2' %}" class="blog_post_title">
+                            <span class="font_kor">(2) C 언어의 기본 문법 1</span>
+                        </a>
+                        <div class="text-lg pt-3">
+                            <span class="font_kor">기본 자료형(정수형/실수형), 서식 지정자, C 언어의 bool형, 열거형, 변수 선언 위치, 연산자, 조건문과 반복문</span>
+                        </div>
+                    </div>
+                </div>
+            </li>        
+        </ul>
+    </div>
+    <div id="post3 C언어">
+        <ul>
+            <li class="py-8 border-b border-gray-300">
+                <div class="grid grid-cols-12">
+                    <div class="col-span-3 post_date">[ Sep 07, 2021 ]</div>
+                    <div class="col-span-9">
+                        <div class="post_category pb-5">
+                            <span class="font_kor"># C 언어</span>
+                        </div>
+                        <a href="{% url 'blog:post3' %}" class="blog_post_title">
+                            <span class="font_kor">(3) C 언어의 기본 문법 2</span>
+                        </a>
+                        <div class="text-lg pt-3">
+                            <span class="font_kor">함수, 함수 매개변수/피연산자 평가순서, 연산자 우선순위와 평가순서, 범위, const, goto문, 배열, 스택 메모리, 다차원 배열</span>
+                        </div>
+                    </div>
+                </div>
+            </li>        
+        </ul>
+    </div>
+    <div id="post4 프로그래밍기초">
+        <ul>
+            <li class="py-8 border-b border-gray-300">
+                <div class="grid grid-cols-12">
+                    <div class="col-span-3 post_date">[ Sep ??, 2021 ]</div>
+                    <div class="col-span-9">
+                        <div class="post_category pb-5">
+                            <span class="font_kor"># 프로그래밍 기초</span>
+                        </div>
+                        <a href="{% url 'blog:post4' %}" class="blog_post_title">
+                            <span class="font_kor">프로그래밍 언어의 단어와 문법</span>
+                        </a>
+                        <div class="text-lg pt-3"></div>
+                    </div>
+                </div>
+            </li>        
+        </ul>
+    </div>
+    <div id="post5 프로그래밍기초">
+        <ul>
+            <li class="py-8 border-b border-gray-300">
+                <div class="grid grid-cols-12">
+                    <div class="col-span-3 post_date">[ Sep ??, 2021 ]</div>
+                    <div class="col-span-9">
+                        <div class="post_category pb-5">
+                            <span class="font_kor"># 프로그래밍 기초</span>
+                        </div>
+                        <a href="{% url 'blog:post5' %}" class="blog_post_title">
+                            <span class="font_kor">2진수의 수와 음수 표현법 (1의 보수와 2의 보수)</span>
+                        </a>
+                        <div class="text-lg pt-3"></div>
+                    </div>
+                </div>
+            </li>        
+        </ul>
+    </div>
+</main>
+
+{% endblock content %}

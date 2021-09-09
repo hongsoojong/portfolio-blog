@@ -1,0 +1,18 @@
+{% extends 'posts/base_post.html' %}
+
+{% load static %}
+
+{% block post_title %}
+    <a href="{% url 'blog:all-posts' %}" class="font_kor">2진수의 수와 음수 표현법 (1의 보수와 2의 보수)</a>
+{% endblock post_title %}
+
+{% block post_content %}
+
+    {% block post_date %}
+        <div class="container w-1/2 mx-auto mb-10 post_date">[ Sep ??, 2021 ]</div>    
+    {% endblock post_date %}
+
+    <main class="container w-1/2 mx-auto font_kor">
+        
+    </main>
+{% endblock post_content %}
