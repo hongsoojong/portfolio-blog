@@ -3,16 +3,386 @@
 {% load static %}
 
 {% block post_title %}
-    <a href="{% url 'blog:all-posts' %}" class="font_kor">2진수의 수와 음수 표현법 (1의 보수와 2의 보수)</a>
+    <a href="{% url 'blog:all-posts' %}" class="font_kor">(4) C 프로그램의 빌드 과정</a>
 {% endblock post_title %}
 
 {% block post_content %}
 
     {% block post_date %}
-        <div class="container w-1/2 mx-auto mb-10 post_date">[ Sep ??, 2021 ]</div>    
+        <div class="container w-1/2 mx-auto mb-10 post_date">[ Sep 13, 2021 ]</div>    
     {% endblock post_date %}
 
     <main class="container w-1/2 mx-auto font_kor">
-        
+        <div>
+            <div class="post_heading">빌드(build)</div>
+            <div class="flex mb-6">
+                <img src="{% static 'img/sourcecode/post5-1.png' %}">
+                <div class="post_text">
+                    <li>사람이 읽기 쉬운 소스코드를 기계어 명령어로 변환하는 과정</li>
+                    <li>그 명령어들을 모아 기계에서 실행 가능한 실행파일로 만드는 과정</li>
+                    <li>C의 빌드는 4단계로 나뉘어짐</li>
+                    <p class="ml-7">1. 전처리 (preprocessing)</p>
+                    <p class="ml-7">2. 컴파일 (compilation)</p>
+                    <p class="ml-7">3. 어셈블 (assembling)</p>
+                    <p class="ml-7">4. 링크 (linking)</p>
+                    <p class="ml-7">⇒ 전처리/컴파일/어셈플을 하나로 묶어 컴파일이라고도 함</p>
+                    <li>보통 아래와 같이 빌드를 함</li>
+                    <p class="ml-7 pl-3 bg-black text-white">> clang -std=c89 -W -Wall -pedantic-errors *.c</p>
+                    <p class="ml-7">⇒ 그러면 clang이 알아서 모든 4단계를 실행해 줌</p>
+                    <p class="ml-11">결과는 최종 실행파일(.exe, .out)</p>
+                </div>
+            </div>
+        </div>
+        <div>
+            <div class="post_heading">예시 : 빌드 단계를 설명하기 위한 코드</div>
+            <img src="{% static 'img/sourcecode/post5-2.png' %}" class="mb-6">
+        </div>
+        <div>
+            <div class="post_heading">소스코드의 구성(.h와 .c 파일)</div>
+            <div class="post_text">
+                <li>두 종류의 소스코드 파일 존재</li>
+                <li>C파일(.c)</li>
+                <div class="ml-7">
+                    <p>a. 실제 프로그램을 돌게 하는 로직코드를 저장해두는 파일</p>
+                    <p>b. 내용물 : 함수 정의(=함수 구현), 전역변수 등, 매크로</p>
+                </div>
+                <li>헤더파일(.h)</li>
+                <div class="ml-7">
+                    <p>a. 여러 소스코드 파일에 공통적으로 필요한 것들을 저장해 두는 파일</p>
+                    <p>b. 내용물 : 함수 선언, 매크로, extern 변수 선언 등</p>
+                    <p>c. #include로 포함함 (예 : #include "adder.h")</p>
+                </div>
+                <li>위의 예시에서 main.c 파일에 add()란 함수 사용</li>
+                <div class="ml-7">
+                    <p>a. add() 함수는 adder.c에 정의되어 있음</p>
+                    <p>b. 이 때 adder.h에 add()의 원형을 저장해두면 main.c에서 #include "adder.h" 입력해주면 사용이 가능함</p>
+                </div>
+            </div>
+            <div class="post_subheading">헤더파일이 필요한 이유</div>
+            <div class="post_text">
+                <li>모든 소스코드를 .c 파일 하나에 집어 넣을 수도 있으나 연관된 기능끼리 모아서 .c 파일 하나씩 저장하여 논리적으로 분리된 .c 파일을 만들어 효율적으로 관리 할 수 있음</li>
+                <li>이 때 동일한 함수를 여러 곳에서 써야 할 떄 모든 파일에 복붙을 하는 것은 좋지 않음 ⇒ 유지 보수시 여러가지 이슈를 유발함</li>
+                <li>헤더파일을 사용하면 함수 선언을 여러 C 파일에 공유 가능</li>
+            </div>
+            <div class="post_subheading">함수 선언만을 통해 프로그램이 돌아가는 이유</div>
+            <div class="post_text">
+                <li>빌드가 여러 단계로 쪼개져 있는 이유가 바로 정의 없이 선언만 가지고도 컴파일이 되게 하기 위해서 임</li>
+                <li>실제 올바른 기능 호출은 링크 단계에서 이루어짐</li>
+            </div>
+            <div class="post_subheading">include의 2가지 방식</div>
+            <div class="post_text">
+                <li>디스크 상의 어디에서 헤더파일을 찾느냐에 따라 두 가지로 나뉘어짐</li>
+                <li>#include <></li>
+                <div class="ml-7">
+                    <p>a. 시스템 경로에서만 헤더파일을 검색</p>
+                    <p>b. 보통 컴파일러가 제공하는 세스템 헤더파일을 include할 떄 사용</p>
+                    <p>c. 예 : #include < stdio.h ></p>
+                </div>
+                <li>#include ""</li>
+                <div class="ml-7">
+                    <p>a. 현재 작업 중인 디렉터리(working directory)에서 헤더파일을 먼저 검색한 뒤 없으면 시스템 경로를 검색</p>
+                    <p>b. 개발자가 구현한 헤더파일들을 include할 때 사용</p>
+                    <p>c. 예 : #include "adder.h"</p>
+                </div>
+            </div>
+        </div>
+        <div id="preprocessing">
+            <div class="post_heading">전처리 단계</div>
+            <div class="post_text">
+                <li>보통 전처리기(preprocessor)라는 별도의 프로그램이 담당</li>
+            </div>
+            <div class="post_subheading">전처리 단계의 진행 과정</div>
+            <div class="post_text">
+                <p>1) 입력 : c 파일 하나</p>
+                <img src="{% static 'img/sourcecode/post5-3.png' %}" class="ml-3">
+                <p>2) 주석 제거</p>
+                <img src="{% static 'img/sourcecode/post5-4.png' %}" class="ml-3">
+                <p>3) 매크로 복붙 → 확장</p>
+                <p>4) include 파일 복붙 → 확장</p>
+                <p class="ml-3">⇒ 확장 : #include "헤더파일"을 지우고 그 자리에 헤더파일 속에 있는 내용을 복사해다가 가져다 붙임</p>
+                <img src="{% static 'img/sourcecode/post5-5.png' %}" class="ml-3">
+                <p>5) 출력 : 확장된 소스코드</p>
+                <p class="ml-3">⇒ 컴파일의 기본 단위인 <span class="font-bold">트랜슬레이션 유닛(translation unit)</span></p>
+            </div>
+            <div class="post_subheading">트랜슬레이션 유닛 보는 방법</div>
+            <div class="post_text">
+                <li>결과는 화면에 도출</li>
+                <p class="ml-7 pl-3 bg-black text-white">> clang -std=89 -W -Wall -pedantic-errors -E adder.c</p>
+                <li>파일로 저장하려면 출력 리디렉션(output redirection)</li>
+                <p class="ml-7 pl-3 bg-black text-white">> clang -std=89 -W -Wall -pedantic-errors -E adder.c > adder.pre</p>
+            </div>
+        </div>
+        <div id="compiling">
+            <div class="post_heading">컴파일러</div>
+            <div class="post_text">
+                <li>컴파일러(compiler)라는 프로그램이 담당</li>
+            </div>
+            <div class="post_subheading">컴파일 단계의 진행 과정</div>
+            <div class="post_text">
+                <p>1) 입력 : 트랜슬레이션 유닛</p>
+                <p>2) 출력 : <span class="font-bold">어셈블리어 코드</span></p>
+            </div>
+            <div class="post_subheading">어셈블리어 코드</div>
+            <div class="post_text">
+                <li>어셈블리어는 기계 코드와 거의 1:1로 대응 (하드웨어에 아주 가까움)</li>
+                <li>그러나 텍스트 파일이어서 여전히 사람에게만 읽기 쉬운 언어</li>
+                <li class="font-bold">어셈블리어 코드는 아직 정의를 모르는 심볼을 사용할 수 있음</li>
+                <p class="post_def ml-5">심볼(symbol) : 함수나 변수의 이름</p>
+                <p class="ml-5 font-bold">⇒이것이 바로 헤더를 통한 선언만으로 컴파일이 가능한 이유!</p>
+            </div>
+            <div class="post_subheading">어셈블리어 코드 보는 방법 : main.c / adder.c</div>
+            <div class="post_text">
+                <li>컴파일 플래그 -S를 쓰면 어셈블리어 코드가 .s 파일에 저장됨</li>
+                <p class="ml-7 pl-3 bg-black text-white">> clang -std=c89 -W -Wall -pedantic-errors -S main.c</p>
+                <p class="ml-7 pl-3 bg-black text-white">> clang -std=c89 -W -Wall -pedantic-errors -S adder.c</p>
+            </div>
+            <div class="post_subheading">어셈블리어 코드가 나왔다는 의미</div>
+            <div class="post_text">
+                <li>이 단계 이후부터 코드는 특정 플랫폼에서만 동작한다는 이야기</li>
+                <li>C가 크로스 플랫폼이라는 주장은 컴파일되기 전까지!</li>
+                <li>또한 타겟 플랫폼이 몇 비트냐에 따라 C의 자료형 크기가 달라질 수 있음</li>
+                <p class="ml-7">⇒ 어셈블리어 코드는 이미 그 자료형 크기가 결정된 후임</p>
+            </div>
+        </div>
+        <div id="assembling">
+            <div class="post_heading">어셈블 단계</div>
+            <div class="post_text">
+                <li>어셈블러(assembler)라는 프로그램이 담당</li>
+            </div>
+            <div class="post_subheading">어셈블 단계의 진행 과정</div>
+            <div class="post_text">
+                <p>1) 입력 : 어셈블리어 코드</p>
+                <p>2) 출력 : <span class="font-bold">오브젝트 코드 (object code)</span></p>
+            </div>
+            <div class="post_subheading">오브젝트 코드</div>
+            <div class="post_text">
+                <li>기계가 곧바로 이해 가능한 기계 코드(machine code)</li>
+                <li>기계어(machine instruction)라고도 함</li>
+                <li>즉, 2진 코드 (0과 1로만 이루어진 코드)</li>
+                <li>어셈블리어 코드와 마찬가지로 여전히 메꿔야하는 구멍이 있음</li>
+            </div>
+            <div class="post_subheading">오브젝트 코드 보는 방법 : main.o / adder.o</div>
+            <div class="post_text">
+                <li>-c 플래그를 넣어서 컴파일 하면 .o파일로 저장됨</li>
+                <p class="ml-7 pl-3 bg-black text-white">> clang -std=c89 -W -Wall -pedantic-errors -c main.c</p>
+                <p class="ml-7 pl-3 bg-black text-white">> clang -std=c89 -W -Wall -pedantic-errors -c adder.c</p>
+            </div>
+        </div>
+        <div id="linking">
+            <div class="post_heading">링크 단계</div>
+            <div class="post_text">
+                <li>링커(linker)라는 프로그램이 담당</li>
+            </div>
+            <div class="post_subheading">링크 단계의 진행 과정</div>
+            <div class="post_text">
+                <p>1) 입력 : 입력 : 모든 오브젝트 코드들</p>
+                <div class="ml-7">
+                    <p>⇒ 링커는 모든 오브젝트 코드들을 모아다 구멍을 메꾼 뒤 실행파이롤 저장</p>
+                    <p>⇒ 링커가 구멍을 메우는 방법</p>
+                    <p class="ml-5">링커가 오브젝틑 파일을 다 모아서 하나의 이진(binary) 파일로 만들어 주다가 함수의 위치를 기억하여 함수를 호출하려는 코드를 만나면 실행위치(주소)로 점프하여 코드를 넣어줌</p>
+                    <p>⇒ 만약 선언만 믿고 사용한 함수나 변수가 여전히 구멍으로 남아 있다면?</p>
+                    <p class="ml-5">링커 오류를 뱉음 : 그 함수나 변수가 없어 실행할 방법이 없기에 경고가 아니라 오류</p>
+                </div>
+                <p>2) 출력 : 최종 실행파일(.exe, .out)</p>
+            </div>
+            <div class="post_subheading">왜 굳이 링크단계가 분리되어 있을까?</div>
+            <div class="post_text">
+                <li>보통 컴파일(전처리/컴파일/어셈블)과 링크, 두 단계로 나눠서 생각</li>
+            </div>
+            <div class="post_subheading">수많은 구멍을 컴파일 때마다 메꿀려면</div>
+            <div class="post_text">
+                <li>.c파일이 너무 많이 있으면 구멍을 메꿔주는 일이 매우 복잡 → .c파일이 수 천개나 있는 프로젝트에서 .c파일 하나 컴파일 할때마다 모든 함수를 찾아서 메꾸기 힘듬</li>
+                <li>여러 개의 .c파일에서 동일한 외부 함수를 사용할 경우 최종 실행파일에 그 정의가 중복으로 들어가는 것을 막아야함 → 이 중복을 체크하기도 힘듬</li>
+                <li>모든 C 파일을 한번에 합쳐서 컴파일 한다면? → .c파일 하나만 수정해도 모든걸 컴파일 하기 힘듬</li>
+                <p class="ml-7">⇒ .c파일 하나씩 따로 컴파일해서 오브젝트 파일로 저장해두는 방법이 젤 합리적임</p>
+                <p class="ml-12">1) 나중에 바뀐 .c파일만 컴파일해서새로운 오브젝트 파일 생성</p>
+                <p class="ml-12">2) 기존에 있던 오브젝트 파일들과 합쳐서 링크</p>
+                <p class="ml-12">3) 훨씬 빠르게 처리 가능</p>
+            </div>
+            <div class="post_subheading">.o파일을 .exe로 만드는 방법</div>
+            <div class="post_text">
+                <li>비주얼 스튜디오는 기본적으로 오브젝트 파일과 .exe 파일을 모두 만들어줌</li>
+                <li>clang은 그냥 바로 .exe 파일만 만들어줌</li>
+                <p class="ml-7 pl-3 bg-black text-white">> clang -std=c89 -W -Wall -pedantic-errors *.o</p>
+                <p class="ml-7">아래와 같이 명시할 경우 .o 파일로 .exe 파일 생성</p>
+                <p class="ml-7 pl-3 bg-black text-white">> clang -std=c89 -W -Wall -pedantic-errors main.o adder.o</p>
+            </div>
+        </div>
+        <div id="library">
+            <div class="post_heading">라이브러리</div>
+            <div class="post_text">
+                <li>빌드 결과가 실행파일이 아니라 라이브러리 파일로 나오게 할 수 있음</li>
+                <li>라이브러리란?</li>
+                <p class="ml-7">⇒ 함수 등을 기계어로 변환한 후 파일 하나에 저장해 놓은 것</p>
+                <p class="ml-12">나중에 다른 .c파일에서 이 기능이 필요할 때 같이 링크해서 쓸 수 있음</p>
+                <li>라이브러리는 정적(static) 라이브러리, 동적(dynamic) 라이브러리 두 종류로 나눌 수 있음</li>
+            </div>
+            <div class="post_subheading">정적 라이브러리와 링크</div>
+            <div class="post_text">
+                <p class="font-bold">정적 라이브러리 + 오브젝트 파일 ⇒ 실행파일</p>
+                <li>정적 라이브러리와 링크하는 것을 정적 링킹이라고 함</li>
+                <li>라이브러리 안에 있는 기계어를 최종 실행파일에 가져다 복사함</li>
+                <li>동적 링킹에 비해</li>
+                <div class="ml-7">
+                    <p>1) 실행파일의 크기가 커짐</p>
+                    <p>2) 메모리를 더 잡아먹을 수 있음</p>
+                    <p>3) 실행속도가 빠름</p>
+                </div>
+            </div>
+            <div class="post_subheading">동적 라이브리러와 링크</div>
+            <div class="post_text">
+                <p class="font-bold">동적 라이브러리 + 실행파일</p>
+                <li>동적 라이브러리와 링크하는 것을 동적 링킹이라고 함</li>
+                <li>실행파일 안에 여전히 구멍으로 남겨두는 방법</li>
+                <li>실행파일을 실행할 때 실제로 링킹이 일어남 → 이 링킹은 실행중 운영체제가 해줌</li>
+                <li>정적 링킹에 비해</li>
+                <div class="ml-7">
+                    <p>1) 실행파일 크기가 작음</p>
+                    <p>2) 여러 실행파일이 동일한 라이브러리를 공유할 수 있음 → 메모리 절약</p>
+                    <p>3) 여러 실행파일이 이름은 같지만 버전이 다른 동적 라이브러리를 사용한다면 DLL 지옥(DLL Hell)을 맛볼 수 있음</p>
+                </div>
+            </div>
+        </div>
+        <div>
+            <div class="post_heading">분할 컴파일</div>
+            <div class="post_text">
+                <p class="font-bold">adder.o + main.o ⇒ 실행파일</p>
+                <li>2개 이상의 .c파일을 개별적으로 컴파일해서 오브젝트 파일을 만듬</li>
+                <li>오브젝트 파일들을 서로 연결(링크)해서 실행파일을 만듬</li>
+            </div>
+            <div class="post_subheading">다른 파일에 있는 전역 변수 사용 시 문제점</div>
+            <img src="{% static 'img/sourcecode/post5-6.png' %}">
+            <div class="post_text">
+                <li>컴파일 오류 발생 : 컴파일러가 각 .c파일을 따로따로 컴파일 하기 때문에 main.c는 monster_repo.c 안에 있는 g_mob_count의 존재를 모름</li>
+            </div>
+            <img src="{% static 'img/sourcecode/post5-7.png' %}">
+            <div class="post_text">
+                <li>monster_repo.c와 main.c 모두에 g_mob_count가 있음</li>
+                <li>컴파일 동안에는 서로를 모르니 되지만, 링크를 하려고 하니 전역 범위에 같은 이름을 쓰는 변수가 두 개나 있어 오류가 발생함</li>
+                <p class="ml-7">⇒ 다른 방법이 필요함</p>
+                <p class="ml-11 font-bold">새로운 전역변수를 만드는 것이 아니라 monster_repo.c안에 있는 것을 가져다 쓸거다라고 컴파일러에게 말해줘야함 → 그래야 컴파일러가 구멍을 비워둠 (전방선언과 같은 원리)</p>
+            </div>
+            <div class="post_subheading">extern 키워드</div>
+            <img src="{% static 'img/sourcecode/post5-8.png' %}">
+            <div class="post_text">
+                <li>다른 파일에 있는 전역변수에 접근하려면 extern 키워드를 사용</li>
+            </div>
+            <div class="post_subheading">extern 사용법</div>
+            <div class="post_text">
+                <p>1) 헤더파일에 포함 ⇒ 누구라도 쓸 수 있음</p>
+                <div class="ml-7">
+                    <p>a. 어떤 경우(남의 라이브러리는 .c 대신 라이브러리 바이너리 파일과 헤더만 줌)에는 .c파일을 볼 수 없을 수도 있음 → 이 경우 라이브러리 제작자가 extern을 아예 헤더에 포함시켜 줌</p>
+                    <p>b. 결과적으로는 include는 그냥 복붙으로 직접 .c에 넣는 것과 같음</p>
+                </div>
+                <p>2) .c파일에 포함 ⇒ 그 파일 안에서만 쓸 수 있음</p>
+            </div>
+            <img src="{% static 'img/sourcecode/post5-9.png' %}">
+            <div class="post_text">
+                <li>g_mob_count가 monster_repo.c에 복붙 된 뒤 오브젝트 코드로 컴파일 됨</li>
+                <li>g_mob_count가 main.c에 복붙된 두 오브젝트 코드로 컴파일됨</li>
+                <li>링크가 이 둘을 합치려다 중복된 전역변수 발견</li>
+            </div>
+            <div class="post_subheading">함수의 경우는?</div>
+            <div class="post_text">
+                <li>함수 프로토타입(=선언)</li>
+                <div class="ml-7">
+                    <p>a. 함수 앞에 extern을 붙일 수 있으나 그냥 선언을 하면 자동으로 extern</p>
+                    <p>b. 굳이 extern 없어도 함수 뒤에 { 안 열고 ;로 끝나니 쉽게 알 수 있음</p>
+                    <p>c. 그래서 보통 extern 키워드는 사용하지 않음</p>
+                </div>
+                <li>함수 프로토타입 넣는 2가지 방법</li>
+                <div class="ml-7">
+                    <p>1) 사용할 곳에서 호출하기 전에 직접 원형을 넣어줌</p>
+                    <p>2) 헤더파일에 넣어줌</p>
+                </div>
+                <li>함수의 경우 헤더파일에 넣는 방법을 많이 사용함</li>
+                <div class="post_subheading">전역변수의 문제</div>
+                <div class="post_text">
+                    <li>전역변수는 쓰지마라는 이야기들이 많음</li>
+                    <li>확실히 문제는 있음</li>
+                    <div class="ml-7">
+                        <p>a.extern을 사용하면 아무데서나 확인이 가능</p>
+                        <p>b. 심지어 손쉽게 파일의 변수를 바꿔버릴 수 있음</p>
+                        <p>c. 파일이 2만개나 있으나 어떤 코드가 전역변수를 바꾸는지 알 수 없음</p>
+                    </div>
+                    <li>이러한 경우 전연변수에 static을 붙여 다른 곳에서 사용하지 못하게 할 수 있음</li>
+                </div>
+                <div class="post_subheading">static</div>
+                <div class="post_text">
+                    <li>다른 파일에서 전역변수에 접근 못하게 막는 방법</li>
+                    <li>이 변수의 범위가 파일로 한정됨</li>
+                    <li>흔히 정적 변수라고 함</li>
+                    <li>여전히 전역변수로 프로그램을 실행하는 동안 실제 공간을 계속 차지하고 있음</li>
+                    <li>static 변수를 다른 파일에서 접근하려고 하면 링커 오류 발생</li>
+                    <img src="{% static 'img/sourcecode/post5-10.png' %}" class="ml-7 mb-6">
+                    <img src="{% static 'img/sourcecode/post5-11.png' %}" class="ml-7">
+                    <p class="ml-7">⇒ 지역변수에도 static을 넣을 수 있음</p>
+                </div>
+                <div class="post_subheading">static의 또 다른 의미</div>
+                <img src="{% static 'img/sourcecode/post5-12.png' %}">
+                <div class="post_text">
+                    <li>static이 없으면 지역변수. 함수 반환 시 그 변수도 사라짐</li>
+                    <li>static을 쓰면 개념상 전역변수, 허나 그 함수 안에서만 접근 가능</li>
+                    <p class="ml-7">⇒ 함수가 반환되도 여전히 값은 저장되어 있음</p>
+                    <li>static이 없으면 0으로 초기화 되지만, static을 붙일 경우 처음 함수를 실행할 때만 초기화 되고 두번째 실행될 때는 증가만 진행됨</li>
+                </div>
+                <div class="post_subheading">static 함수</div>
+                <div class="post_text">
+                    <li>함수 역시 앞에 static 키워드를 넣으면 외부로부터 접근을 막을 수 있음</li>
+                </div>
+                <div class="post_subheading">.c와 .h 파일 정리</div>
+                <div class="post_text">
+                    <li>빌드의 4단계가 올바르게 돌아가려면 아래의 기본 원칙을 따라야함</li>
+                    <p class="ml-7">1) 헤더파일에는 선언만 들어가야함</p>
+                    <p class="ml-7">⇒ 함수 선언, 전역변수 extern 선언</p>
+                    <p class="ml-7">2) .c파일에는 정의가 들어가야함</p>
+                    <p class="ml-7">⇒ 함수 정의, 전역 및 정적 변수 정의</p>
+                </div>
+                <div class="post_subheading">인클루드 가드</div>
+                <img src="{% static 'img/sourcecode/post5-13.png' %}">
+                <div class="post_text">
+                    <li>순환 헤더 인클루드(circular header include) 발생 : 헤더가 꼬여버림</li>
+                    <li>해결법 1</li>
+                    <div class="ml-7">
+                        <p>a. #include는 가능하면 .c에서만 하기</p>
+                        <p>b. b헤더에서 a헤더를 include하는 대신 a에서 정의된 것을 전방 선언하기</p>
+                        <p>c. 하지만 어쩔 수 없이 헤더파일을 서로 인클루드해야 할 일이 있음</p>
+                    </div>
+                    <li>해결법 2 <span class="font-bold">(인클루드 가드)</span></li>
+                    <img src="{% static 'img/sourcecode/post5-14.png' %}" class="ml-7">
+                    <p class="ml-7">⇒ C에서 헤더파일이 여러번 include되는 것을 막는 업계 표준 (# : 전처리기 지시문)</p>
+                </div>
+                <div class="post_subheading">인클루드 가드 작동법</div>
+                <img src="{% static 'img/sourcecode/post5-15.png' %}">
+                <div class="post_text">
+                    <li>전처리기 지시문은 컴파일하기 전에 전처리기가 처리</li>
+                    <li>이때 (1) 어떤 상수를 정의하고 (2) 컴파일러에게 조건적으로 코드를 컴파일하라고 지시</li>
+                </div>
+                <div class="post_subheading">#pragma once</div>
+                <div class="post_text">
+                    <li>인클루드 가드 대신 사용 가능</li>
+                    <li>하지만 표준은 아님</li>
+                    <li>최신 컴파일러가 대체적으로 이를 지원하지만, 포팅을 생각한다면 예전 컴파일러 및 시스템과의 호환을 위해 인클루드 가드를 사용하는 것이 좋음</li>
+                </div>
+                <div class="post_subheading">컴파일러의 종류와 특징</div>
+                <div class="post_text">
+                    <li>C는 어느 한 회사가 주도하는 표준이 아니기에 컴파일러도 다양한 회사에서 나옴</li>
+                    <li>GCC(GNU 컴파일러 모음, GNU
+                    <p class="ml-7">a. GNU C  컴파일러는 1987년에 첫 출시</p>    
+                    <p class="ml-7">b. 리눅스/유닉스 기반 플랫폼에서 주로 사용되던 컴파일러</p>
+                    <p class="ml-7">c. 다양한 C 표준을 대부분 제대로 지원</p>
+                    <li>마이크로소프드 Visual C++</li>
+                    <p class="ml-7">a. 원래 비주얼 스튜디오에 딸려오는 C++ 컴파일러나 확장자 .c일 경우 C로 컴파일</p>    
+                    <p class="ml-7">b. C99 표준 ⇒ 그러나 모든 표준을 지키지는 않음</p>
+                    <p class="ml-7">c. 윈도우 기반 플랫폼에서 주로 사용</p>
+                    <li>Clang</li>
+                    <p class="ml-7">a. LLVM 컴파일러 구조를 사용하는 C 계열 언어(C++, Object-C/C++, OpenCL, CUDA 등) 컴파일러 프론트엔드</p>    
+                    <p class="ml-7">b. 원래 애플이 개발하였으나 2007년 오픈소스로 된 뒤 마이크로소프트, 구글 등 다양한 대기업들이 개발에 참여</p>
+                    <p class="ml-7">c. GCC 컴파일러 대신 Clang을 쓰면 코드 변경이 거의 없어 그대로 컴파일되고 빠른 컴파일 속도와 LLVM 구조가 제공하는 유용한 기능 덕에 많은 GCC 사용자들이 Clang으로 이주 중</p>
+                    <p class="ml-7">d. clang-ci라는 비주얼 C와 호환되는 프론트엔드 제공</p>
+                    <li>기타 소형기기 전용 컴파일로도 많이 있음</li>
+                </div>
+            </div>
+        </div>
     </main>
 {% endblock post_content %}
