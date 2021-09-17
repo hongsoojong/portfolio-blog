@@ -39,3 +39,15 @@ def post4(request):
 
 def post5(request):
     return render(request, "blog/all_posts/post5.html")
+
+
+def post6(request):
+    return render(request, "blog/all_posts/post6.html")
+
+
+def post7(request):
+    return render(request, "blog/all_posts/post7.html")
+
+
+def post8(request):
+    return render(request, "blog/all_posts/post8.html")
