@@ -1,24 +1,25 @@
-from django.shortcuts import render
+from django.shortcuts import render, get_object_or_404
+from django.core.paginator import Paginator
+from . import models
 
 
-def main(request):
-    return render(request, "main.html")
+def detail(request, blog_pk):
+    blog_detail = get_object_or_404(models.Blog, pk=blog_pk)
+    return render(request, "blog/detail_blog.html", {"blog_detail": blog_detail})
 
 
 def all_posts(request):
-    return render(request, "blog/main_blog.html")
-
-
-def cate_basic(request):
-    return render(request, "blog/post_categories/cate_basic.html")
-
-
-def cate_c(request):
-    return render(request, "blog/post_categories/cate_c.html")
-
-
-def cate_algorithm(request):
-    return render(request, "blog/post_categories/cate_algorithm.html")
+    blogs = models.Blog.objects
+    categories = models.Category.objects
+    post_list = models.Blog.objects.all().order_by("-pk")
+    paginator = Paginator(post_list, 5)
+    page = request.GET.get("page")
+    posts = paginator.get_page(page)
+    return render(
+        request,
+        "blog/main_blog.html",
+        {"blogs": blogs, "posts": posts, "categories": categories},
+    )
 
 
 def post1(request):

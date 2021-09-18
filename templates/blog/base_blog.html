@@ -22,22 +22,29 @@
     </div>
 </header>
 
-<main class="flex relative">
+<nav class="flex relative">
     <div class="absolute container w-1/4 h-full flex justify-center">
         <div class="container w-1/2 rounded-md flex justify-center pt-10">
-            <nav>
-                <ul class="mb-2 text-base font-bold hover:text-green-600 font_kor"><a href="{% url 'blog:all-posts' %}">전체 <span class="text-sm">( 7 )</span></a></ul>
-                <ul class="ml-2 mb-2 text-base font-bold hover:text-green-600 font_kor"><a href="{% url 'blog:cate-basic' %}">프로그래밍 기초 <span class="text-sm">( 2 )</span></a></ul>
-                <ul class="ml-2 mb-2 text-base font-bold hover:text-green-600 font_kor"><a href="{% url 'blog:cate-algorithm' %}">알고리즘 <span class="text-sm">( 0 )</span></a></ul>
-                <ul class="ml-2 text-base font-bold hover:text-green-600 font_kor"><a href="{% url 'blog:cate-c' %}">C 언어 <span class="text-sm">( 5 )</span></a></ul>
-            </nav>
+            <nav class="flex flex-col">
+                <ul class="mb-3 text-xl font-bold hover:text-green-600 font_kor">
+                    <a href="{% url 'blog:all-posts' %}">
+                        전체 게시글
+                    </a>
+                </ul>
+                {% for category in categories.all %}
+                    <ul class="ml-4 mb-2 text-base font-bold hover:text-green-600 font_kor">
+                        <a href="#">
+                            {{category.name}}
+                        </a>
+                    </ul>
+                {% endfor %}
+                </nav>
+            </div>
         </div>
-    </div>
-    
-    {% block category_posts %}
-    {% endblock category_posts %}
- 
-</main>
+</nav>   
+
+{% block category_posts %}
+{% endblock category_posts %}
 
 {% endblock content %}
     

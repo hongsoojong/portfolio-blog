@@ -4,16 +4,14 @@ from . import views
 app_name = "blog"
 
 urlpatterns = [
-    path("category/c/post/1", views.post1, name="post1"),
-    path("category/c/post/2", views.post2, name="post2"),
-    path("category/c/post/3", views.post3, name="post3"),
-    path("category/basic/post/4", views.post4, name="post4"),
-    path("category/c/post/5", views.post5, name="post5"),
-    path("category/basic/post/6", views.post6, name="post6"),
-    path("category/c/post/7", views.post7, name="post7"),
-    path("category/basic/post/8", views.post8, name="post8"),
-    path("category/basic/", views.cate_basic, name="cate-basic"),
-    path("category/c/", views.cate_c, name="cate-c"),
-    path("category/algorithm//", views.cate_algorithm, name="cate-algorithm"),
+    path("post/1", views.post1, name="post1"),
+    path("post/2", views.post2, name="post2"),
+    path("post/3", views.post3, name="post3"),
+    path("post/4", views.post4, name="post4"),
+    path("post/5", views.post5, name="post5"),
+    path("post/6", views.post6, name="post6"),
+    path("post/7", views.post7, name="post7"),
+    path("post/8", views.post8, name="post8"),
+    path("post/<int:blog_pk>", views.detail, name="detail"),
     path("", views.all_posts, name="all-posts"),
 ]
