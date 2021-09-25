@@ -44,4 +44,8 @@
     @apply text-lg border border-black px-5 py-2;
 }
 
+.post_console{
+    @apply text-lg border border-black px-5 py-2 bg-black text-white;
+}
+
 @tailwind utilities;
