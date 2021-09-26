@@ -8,157 +8,67 @@
 
 {% block post_content %}
 
-    {% block post_date %}
-        <div class="container w-1/2 mx-auto mb-10 post_date">[ Sept 09, 2021 ]</div>    
-    {% endblock post_date %}
+{% block post_date %}
+    <div class="container w-1/2 mx-auto mb-10 post_date">[ Sept 09, 2021 ]</div>    
+{% endblock post_date %}
 
-    <main class="container w-1/2 mx-auto font_kor">
-    <div>
-        <div class="post_subheading">프로그래밍이란</div>
-        <div class="post_text">
-            <p>수식이나 작업을 컴퓨터에 알맞도록 정리해서 순서를 정하고 컴퓨터 특유의 명령코드를 고쳐 쓰는 작업을 총칭해서 프로그래밍이라고 하고, 컴퓨터의 명령 코드를 쓰는 작업을 특히 코딩(coding)이라고도 한다. 컴퓨터가 처음 나타난 1950년대 초기까지는 프로그래밍 숫자를 나열한 명령코드를 쓰는 것이었다. 이것을 기계어(machine language)라 한다.</p>
-            <p>그러나 기계어에서는 틀리기가 쉽고, 또한 틀린 곳을 발견하기가 어렵다는 등 작업하기가 곤란하므로, 그 후 인간이 외우기 쉬운 기호나 언어/수식을 사용해서 프로그램을 쓰고, 그것을 일단 컴퓨터에 넣어서 컴퓨터 자신의 명령코드로 고쳐 그것으로부터 계산을 실시하는 방식이 고안되었다. 이것은 프로그램을 만드는 작업의 일부를 컴퓨터 자체에 부담시켜 작업 능률을 향상시키자는 방식이다.</p>
-        </div>
-        <div class="post_subheading">프로그래머와 코더</div>
-        <div class="post_text">
-            <li>프로그래밍 : 코딩을 포함한 전반적인 작업</li>
-            <p class="ml-7">⇒ 프로그래머 : 포로그램을 전반적으로 설계하는 사람</p>
-            <li>코딩 : C, Java, Python 등의 언어를 통해 작성하는 행위에 가까움</li>
-            <p class="ml-7">⇒ 코더 : 요구에 맞게 변환해주는 사람</p>
-            <li>물론 프로그래머와 코더를 이분법적으로 정확하게 나눌 수 는 없으나, 다만 조금 더 비유를 하자면 '언어'를 배우는 사람과 '언어학'을 배우는 사람의 차이라고도 생각할 수 있음</li>
-        </div>
-        <div class="post_subheading">프로그래밍 언어도 언어다</div>
-        <div class="post_text">
-            <li>보통 프로그래밍 언어 책을 구입하거나 수업을 통해 처음 접하면 목차가 다음과 같을 것입니다.</li>
-            <p class="ml-7">1. 언어에 대한 개괄적 설명</p>
-            <p class="ml-7">2. 개발환경, 즉 코딩을 하기 위한 환경을 구성하는 방법</p>
-            <p class="ml-7">3. 위의 과정이 끝나면 가장 먼저 하는 코딩은 출력</p>
-            <p class="ml-7">4. 그 이후 한 목차씩 넘어가면서 언어의 기능에 대해 배우게 됨</p>
-            <li>프로그래밍 언어 책들은 대개 '기능'에 초점을 맞추어 목차가 구성됨 ('입출력', '조건문', '반복문', '배열' 등) ⇒ 사실 이렇게 배우는 것이 코딩하는 면에서는 빠를지도 모르나 반대로 기능적 요소로 배우다 보니 언어의 기능적 부분( 메소드, 함수 등..)은 많이 알고 있으나 막상 어떤 문제가 주어졌을 때 로직을 짜려고 하면 어떻게 짜야할지 난관에 부딪히기도 함</li>
-        </div>
-        <p class="font-bold text-lg mb-6">기능이 아닌 우리가 사용하는 일한 언어처럼 프로그래밍 언어를 접근하여 구조를 알면 쉽게 이해할 수 있음</p>
-        <p class="text-lg mb-6">이를 위해 먼저 프로그래밍 언어의 단어와 문법에 대해 알아보자!</p>
-        
-    </div>
-    <div>
-        <div class="text-4xl font-bold mb-3 mt-10 text-blue-700">[ 단어법 ]</div>
-        <div class="post_text">
-            <li>우리가 영어를 배울 때 대개 단어(vocabulary)부터 먼저 많이 외우도록 함. 이것이 프로그래밍 언어에서는 모든 기본 단위 문법이 됨</li>
-            <p class="ml-7">⇒ 영어  : vocabulary / 프로그래밍 언어 : 기본 단위 문법</p>
-            <li>기본 단위 문법 : printf(), 자료형 char, int 등등</li>
-            <li>당장 위의 printf, char, int의 용어들도 모두 축약된 형태임. printf 는 print(출력)와 format(형식)의 합쳐진 단어고, char과 int는 character(문자)와 integer(정수)를 의미함. 이렇게 어느 정도 축약된 단어들의 의미를 알게 되면 설령 다른 언어를 배우더라도 쉽게 기능을 익힐 수 있음. 즉, 가장 먼저 알아햐 할 것은 '각 단어가 무엇을 의미하는지를 이해' 해야함</li>
-            <li class="font-bold">프로그밍 언어 단어는 크게 두 부류로 '키워드'와 '함수(메소드)'로 나뉨</li>
-        </div>
-    </div>
-    <div>
-        <div class="post_heading">키워드</div>
-        <div class="post_text">
-            <li>특정 용도로 사용하기 위해 미리 지정된 명령어</li>
-            <li>int, char, float, double, do, public, final 등</li>
-        </div>
-        <div class="post_subheading">자료형</div>
-        <div class="post_text">
-            <li>대표적인 키워드 중 하나로, '정수', '부동소수점', 문자' 크게 3가지 갈래로 자료형(타입)이 나옴</li>
-        </div>
-        <img src="{% static 'img/sourcecode/post4-1.png' %}">
-        <div class="post_text">
-            <li>정수 : 프로그래밍 언어마다 조금씩 차이는 있지만 대개 정수는 'int'와 'long' 이라는 단어로 표현</li>
-            <li>부동소수점 : 소수점을 표시할 수 있는 자료형, 즉 정수가 아닌 유리수들을 표현하기 위한 자료형. 대개 'float' 나 'double'이라는 단어로 표현</li>
-            <li>문자 : char는 character를 의미하며, 문자를 표현함</li> 
-        </div>
-        <img src="{% static 'img/sourcecode/post4-2.png' %}">
-        <div class="post_text">
-            <li>위와 같이 키워드를 통해 변수나 함수 등에 대해 상태의 정의할 수 있음. 하지만 키워드를 정확히 이해하지 못했을 때 문제가 발생</li>
-            <li>integer라는 변수에 담긴 65는 출력할 때 정수라고 해줬기 때문에 65를 숫자로 읽어 65로 출력하지만, char의 경우 문자라고 보기 때문에 '65에 대응되는 문자(A)'가 출력됨</li>
-        </div>
-        <img src="{% static 'img/sourcecode/post4-3.png' %}">
-        <div class="post_text">
-            <li>위와 같이 출력하더라도 integer라는 변수는 65를 출력하고, character라는 변수는 A를 출력. 즉, char은 정확히 말하자면 '문자'자체를 저장하는 것이 아니라 '문자에 대응되는 수'를 저장</li>
-        </div>
-        <img src="{% static 'img/sourcecode/post4-4.png' %}" class="mb-6">
-        <div class="post_subheading">문자 인코딩</div>
-        <div class="post_text">
-            <li>컴퓨터는 우리가 사용하는 언어를 이해하지 못함</li>
-            <li>그렇기 때문에 우리가 사용하는 문자를 컴퓨터가 이해할 수 있는 신호를 만들어야 하는데 각 문자에 대응하는 수에 대해서 사용자마다 다르면 사용 불가능</li>
-            <li>그렇기 때문에 일정한 규정을 두고 쓰는데 이렇게 정해진 규칙을 '문자 인코딩' 또는 줄여서 '인코딩'이라고 부름</li>
-            <li>인코딩 종류는 매우 많은데 대표적으로 Ascii(아스키코드), UTF-8 등이 있음</li>
-        </div>
-        <img src="{% static 'img/sourcecode/post4-5.png' %}" class="mb-6">
-        <div class="post_subheading">메소드</div>
-        <div class="post_text">
-            <li>어떠한 동작을 하기 위한 함수</li>
-            <li>함수의 경우 프로그래밍 언어에서 기본적으로 지원해주는 함수들이 있고, 사용자가 필요에 의해 새롭게 만들 수도 있음</li>
-            <li>프로그램에서 기본적으로 지원해주는 함수들은 각기 다르지만 대게 비슷한 단어들을 쓰고 있기 때문에 다른 사람의 코드를 보더라도, 또는 아예 배우지 않은 언어로 짜여진 코드를 보더라도 어느정도 유추 가능</li>
-        </div>
-    </div>
-    <div>
-        <div class="post_heading">키워드 정리</div>
-        <div class="post_text">
-            <li>메소드와 키워드들은 <span class="font-bold">어떤 기능이나 상태를 정의하기 위한 가장 기본적 단위</span>가 됨</li>
-            <li>이러한 단어들을 보면서 각 단어들이 어떤 것을 의미 또는 수행하느냐를 잘 이해해야 원하는 프로그래밍이 가능함</li>
-            <li>물론 이 말고도 수만가지의 단어들이 존재</li>
-            <li>만약에 어떤 언어에 대해 필요한 기능을 찾아보려 한다면 구글에 '언어 이름 API(Application Programming Interface)'라고 검색하거나 수행하고자 하는 기능을 검색하면 알 수 있음</li>
-            <li>반대로 키워드에 대해 궁금하다면 '언어 이름 keyword' 라고 검색해보면 어떤 의미인지 금방 찾을 수 있음</li>
-        </div>
-    </div>
-    <div>
-        <div class="text-4xl font-bold mb-3 mt-10 text-blue-700">[ 문법편 ]</div>
-        <div class="post_text">
-            <li>어떠한 문장이 되기 위해서는 단어와 문법을 알아야함</li>
-            <li>문법은 크게 두 가지 원리인 '수식'과 '절차'에 의거함</li>
-        </div>
-    </div>
-    <div>
-        <div class="post_heading">수식</div>
-        <div class="post_text">
-            <li>대개 수학에서 쓰이는 수식과 비슷한 논리구조로 작동</li>
-            <li>알고리즘을 짜거나 구성하는데에 매우 필수적이면서도 기초적인 내용</li>
-            <li>연산자 우선순위 / 괄호 우선순위</li>
-        </div>
-    </div>
-    <div>
-        <div class="post_heading">절차</div>
-        <div class="post_text">
-            <li>절차는 기본적으로 읽는 순서를 의미함</li>
-            <li>절차에서는 '키워드 나열'과 함수(메소드) 나열로 크게 두 가지로 나눌 수 있음</li>
-        </div>
-        <div class="post_subheading">키워드 나열</div>
-        <div class="post_text">
-            <li>키워드의 나열은 순서에 영향을 크게 받지 않으나 메소드(함수)의 경우는 메소드명 바로 이전에 반환타입을 적어주어야 함</li>
-            <li>보편적으로 접근제어자 - 데이터 상태 - 타입 순으로 작성</li>
-        </div>
-        <img src="{% static 'img/sourcecode/post4-6.png' %}">
-        <div class="post_text">
-            <li>public : 접근제어자 중 하나로 어디서나 접근 가능하다는 의미</li>
-            <p class="ml-7">⇒ main, 실행의 중심이 되는 부분은 어디서나 접근해야 쓸 수 있어야함</p>
-            <li>static : 해당 키워드를 쓰는 변수나 메소드의 경우 자바가 컴파일 함과 동시에 선언</li>
-            <p class="ml-7">⇒ 메인 메소드같이 프로그램의 시작점인 경우 객체를 생성하지 않고도 작업을 수행해야 하기 때문에 반드시 static을 붙여주어야함</p>
-            <p class="ml-7">⇒ 선언을 하면 프로그램의 시작부터 끝까지 메모리에 할당되어있게 하는 것</p>
-            <li>void : return(반환) 값이 없다는 의미</li>
-            <p class="ml-7">⇒ main 메소드의 끝에 도달하면 프로그램의 종료를 의미하기 때문에 무언가를 반환할 필요가 없기 때문에 void가 붙임</p>
-            <li>main : 많은 언어들과 마찬가지로 프로그램의 시작이 되는 메소드 (프로그램이 시작되면 가장 먼저 실행)</li>
-            <li>정리 : "공용이면서 정적이고 반환 값이 없는 메인이라는 이름의 메소드다"라는 정도의 의미</li>
-        </div>
-        <div class="post_subheading">객체 및 메소드 연결</div>
-        <div class="post_text">
-            <li>대개 많은 객체지향 언어들은 여러 기능들을 묶거나 접근할 때 이를 연결시켜주는 기능이 있음</li>
-        </div>
-        <img src="{% static 'img/sourcecode/post4-7.png' %}">
-        <div class="post_text">
-            <li>앞서 말한 객체의 접근이라는 것을 좀 더 확장할 수 있음</li>
-            <p class="ml-7">⇒ 한 객체의 임의의 메소드(함수)를 호출한다면 반환되는 값(객체)에 대해 또 메소드 호출 가능</p>
-        </div>
-        <img src="{% static 'img/sourcecode/post4-8.png' %}" class="mb-6">
-    </div>
-    <div class="post_heading">수식과 절차 정리</div>
-    <div class="post_text">
-        <li>수식 파트 :  h(g(f(x))) = f → g → h </li>
-        <p class="ml-7">a.  가장 안쪽 함수부터밖으로 찾아감</p>
-        <p class="ml-7">b. '매개변수 타입'에 종속</p>
-        <li>절차 파트 : f(x).h(x).g(x)  = f → g → h</li>
-        <p class="ml-7">a. .(마침표)로 연결시켜 반환되는 값의 객체 타입에 대해서도 변수 또는 메소드들을 호출가능</p>
-        <p class="ml-11">한 문장의 기본 구조는 왼쪽에서 오른쪽으로 순차적으로 진행</p>
-        <p class="ml-7">b. '반환 타입'에 종속</p>
-    </div>
-    </main>
+<main class="container w-1/2 mx-auto font_kor">
+
+{% include "blog/all_posts/css_post.html" %}
+  
+<!-- notion html -->
+<body><article id="d2bc4fe9-2f35-4080-8f66-8e0cc62d04f6" class="page sans"><div class="page-body"><h3 id="493ad1cf-ca63-4397-8f36-a78879bc07b3" class="">프로그래밍(programming)의 사전적 정의</h3><p id="807b253c-aa06-4982-b803-e0f880e4dfb7" class="">수식이나 작업을 컴퓨터에 알맞도록 정리해서 순서를 정하고 컴퓨터 특유의 명령코드를 고쳐 쓰는 작업을 총칭해서 프로그래밍이라고 하고, 컴퓨터의 명령 코드를 쓰는 작업을 특히 코딩(coding)이라고도 한다. 컴퓨터가 처음 나타난 1950년대 초기까지는 프로그래밍 숫자를 나열한 명령코드를 쓰는 것이었다. 이것을 기계어(machine language)라 한다.</p><p id="691e24b6-3db6-4270-9089-d17f1316f1d2" class="">그러나 기계어에서는 틀리기가 쉽고, 또한 틀린 곳을 발견하기가 어렵다는 등 작업하기가 곤란하므로, 그 후 인간이 외우기 쉬운 기호나 언어/수식을 사용해서 프로그램을 쓰고, 그것을 일단 컴퓨터에 넣어서 컴퓨터 자신의 명령코드로 고쳐 그것으로부터 계산을 실시하는 방식이 고안되었다. 이것은 프로그램을 만드는 작업의 일부를 컴퓨터 자체에 부담시켜 작업 능률을 향상시키자는 방식이다.</p><h3 id="51b7e117-243b-4d63-9bba-d5ce4c0609e7" class="">프로그래머와 코더</h3><ul id="9f420f66-a1cb-4a59-aab5-202de787a470" class="bulleted-list"><li style="list-style-type:disc">프로그래밍 : 코딩을 포함한 전반적인 작업<p id="3daf606d-a696-47f7-957b-0f861158f1ab" class="">⇒ 프로그래머 : 포로그램을 전반적으로 설계하는 사람</p></li></ul><ul id="b74498ec-2f78-40b7-9073-695c2637d521" class="bulleted-list"><li style="list-style-type:disc">코딩 : C, Java, Python 등의 언어를 통해 작성하는 행위에 가까움<p id="595d9676-75b6-4470-b652-cd5b55955429" class="">⇒ 코더 : 요구에 맞게 변환해주는 사람</p></li></ul><ul id="8e68dd22-bfbb-4d67-9dc4-df14d1d7575b" class="bulleted-list"><li style="list-style-type:disc">물론 프로그래머와 코더를 이분법적으로 정확하게 나눌 수 는 없으나, 다만 조금 더 비유를 하자면 &#x27;언어&#x27;를 배우는 사람과 &#x27;언어학&#x27;을 배우는 사람의 차이라고도 생각할 수 있음</li></ul><h3 id="3fece170-fece-4218-822b-cf5fff7c689e" class="">프로그래밍 언어도 언어다</h3><ul id="15237e27-a332-4bd5-a707-e1b9f08b441a" class="bulleted-list"><li style="list-style-type:disc">보통 프로그래밍 언어 책을 구입하거나 수업을 통해 처음 접하면 목차가 다음과 같을 것입니다.<p id="8180e337-cf05-4f7b-9713-d475d3f48758" class="">1) 언어에 대한 개괄적 설명</p><p id="32ad0022-94c1-45f6-bfa9-c2f48e186de7" class="">2) 개발환경, 즉 코딩을 하기 위한 환경을 구성하는 방법</p><p id="1603fac2-2e2c-47cf-bcc0-e9041a91f79b" class="">3) 위의 과정이 끝나면 가장 먼저 하는 코딩은 출력</p><p id="8eb07f6e-8630-4482-8a16-675bd91ddaf9" class="">4) 그 이후 한 목차씩 넘어가면서 언어의 기능에 대해 배우게 됨</p></li></ul><ul id="e8a0f9b2-7d22-491c-a17e-d1cc597a9da5" class="bulleted-list"><li style="list-style-type:disc">프로그래밍 언어 책들은 대개 &#x27;기능&#x27;에 초점을 맞추어 목차가 구성됨 (&#x27;입출력&#x27;, &#x27;조건문&#x27;, &#x27;반복문&#x27;, &#x27;배열&#x27; 등) ⇒ 사실 이렇게 배우는 것이 코딩하는 면에서는 빠를지도 모르나 반대로 기능적 요소로 배우다 보니 언어의 기능적 부분( 메소드, 함수 등..)은 많이 알고 있으나 막상 어떤 문제가 주어졌을 때 로직을 짜려고 하면 어떻게 짜야할지 난관에 부딪히기도 함</li></ul><figure class="block-color-gray_background callout" style="white-space:pre-wrap;display:flex" id="c9be8cb6-b0fd-435d-a1c0-c4812838631f"><div style="font-size:1.5em"><span class="icon">💡</span></div><div style="width:100%"><strong>기능이 아닌 우리가 사용하는 일한 언어처럼 프로그래밍 언어를 접근하여 구조를 알면 쉽게 이해할 수 있음</strong></div></figure><p id="e2aaf64a-f1f0-4b9b-b8b5-a667a1c4cb24" class="">
+</p><p id="016d1911-9db4-433c-90ed-df5945528a19" class="">이를 위해 먼저 프로그래밍 언어의 단어와 문법에 대해 알아보자!</p><p id="adf06c1d-e51d-4a72-8754-3b5c007722b4" class="">
+</p><hr id="f3fac72c-e7ed-46a8-9ca1-e8b9f1141a78"/><h1 id="be2b1ba7-2db4-4d85-9409-6b44fd561790" class="">[ 단어법 ]</h1><ul id="5bcee494-4981-4bdd-9262-a0ae75721f2d" class="bulleted-list"><li style="list-style-type:disc">우리가 영어를 배울 때 대개 단어(vocabulary)부터 먼저 많이 외우도록 함. 이것이 프로그래밍 언어에서는 모든 기본 단위 문법이 됨<p id="366b67de-abf2-4cfc-8b0f-ea5b37270679" class="">⇒ 영어  : vocabulary / 프로그래밍 언어 : 기본 단위 문법</p></li></ul><ul id="9891d0f7-f86a-4096-afa5-8731bd6c99c7" class="bulleted-list"><li style="list-style-type:disc">기본 단위 문법 : <code>printf()</code>, 자료형 <code>char</code>, <code>int</code> 등등</li></ul><ul id="4c7b949c-4aa0-4f0f-9a36-358b06922b83" class="bulleted-list"><li style="list-style-type:disc">당장 위의 <code>printf</code>, <code>char</code>, <code>int</code>의 용어들도 모두 축약된 형태임. <code>printf</code>는 print(출력)와 format(형식)의 합쳐진 단어고, <code>char</code>과 <code>int</code>는 character(문자)와 integer(정수)를 의미함. 이렇게 어느 정도 축약된 단어들의 의미를 알게 되면 설령 다른 언어를 배우더라도 쉽게 기능을 익힐 수 있음. 즉, 가장 먼저 알아햐 할 것은 &#x27;각 단어가 무엇을 의미하는지를 이해&#x27; 해야함</li></ul><ul id="e5f4b539-37aa-4d0d-ae60-b3acbb387eed" class="bulleted-list"><li style="list-style-type:disc"><strong>프로그밍 언어 단어는 크게 두 부류로 &#x27;키워드&#x27;와 &#x27;함수(메소드)&#x27;로 나뉨</strong></li></ul><h2 id="1171c148-791a-4433-aee9-54056c585371" class="">키워드</h2><ul id="6a844f25-afa7-4b64-baab-7ed12bd4ceac" class="bulleted-list"><li style="list-style-type:disc">특정 용도로 사용하기 위해 미리 지정된 명령어</li></ul><ul id="5d3b40c4-6617-4173-b145-0236cd8e1290" class="bulleted-list"><li style="list-style-type:disc"><code>int</code>, <code>char</code>, <code>float</code>, <code>double</code>, <code>do</code>, <code>public</code>, <code>final</code> 등</li></ul><h3 id="b87507cf-0f1f-4075-ab56-9f785ac5e9bd" class="">자료형</h3><p id="b7b2aaf9-1d88-431f-acc2-1927b21c8cb5" class=""> 대표적인 키워드 중 하나로, &#x27;정수&#x27;, &#x27;부동소수점&#x27;, 문자&#x27; 크게 3가지 갈래로 자료형(타입)이 나옴</p><pre id="1623ecb8-7dbb-48ba-9519-d171c59206f1" class="code"><code>int a              /* a라는 변수는 int(정수) 상태, 즉 int 타입은 변수다. */
+double b           /* b라는 변수는 double(부동소수점) 타입의 변수다 */
+char c             /* c라는 변수는 char(문자) 타입의 변수다 */</code></pre><p id="39505594-6c79-41fa-a9b5-a884da61f717" class="">1) <strong>정수 </strong>: 프로그래밍 언어마다 조금씩 차이는 있지만 대개 정수는 &#x27;<code>int</code>&#x27;와 &#x27;<code>long</code>&#x27; 이라는 단어로 표현</p><p id="9b013911-727d-4353-abff-308859f87801" class="">2) <strong>부동소수점 </strong>: 소수점을 표시할 수 있는 자료형, 즉 정수가 아닌 유리수들을 표현하기 위한 자료형. 대개 &#x27;<code>float</code>&#x27; 나 &#x27;<code>double</code>&#x27;이라는 단어로 표현</p><p id="e687acff-e68e-4c68-a1eb-585cef26154c" class="">3) <strong>문자 </strong>: <code>char</code>는 character를 의미하며, 문자를 표현함</p><pre id="58c3a5b6-0890-43ad-9f07-8a45f825a421" class="code"><code>int integer = 65;
+char character = 65;
+
+System.out.printIn(integer);                      /* print 결과 : 65 */
+System.out.pirntIn(character);                    /* print 결과 : A */</code></pre><ul id="9068c834-27dd-4659-88df-49242812b877" class="bulleted-list"><li style="list-style-type:disc">위와 같이 키워드를 통해 변수나 함수 등에 대해 상태의 정의할 수 있음. 하지만 키워드를 정확히 이해하지 못했을 때 문제가 발생</li></ul><ul id="8f9b42bd-c8cc-4614-adcf-54eabe1bfe32" class="bulleted-list"><li style="list-style-type:disc">integer라는 변수에 담긴 65는 출력할 때 정수라고 해줬기 때문에 65를 숫자로 읽어 65로 출력하지만, <code>char</code>의 경우 문자라고 보기 때문에 &#x27;65에 대응되는 문자(A)&#x27;가 출력됨</li></ul><pre id="6d967dda-62b6-4ff6-9577-a223c927bac1" class="code"><code>int integer = &#x27;A&#x27;;
+char character = &#x27;A&#x27;;
+
+System.out.printIn(integer);                      /* print 결과 : 65 */
+System.out.pirntIn(character);                    /* print 결과 : A */</code></pre><ul id="9fad7072-7730-4920-b72e-efcc3a873f2a" class="bulleted-list"><li style="list-style-type:disc">위와 같이 출력하더라도 integer라는 변수는 65를 출력하고, character라는 변수는 A를 출력. 즉, <code>char</code>은 정확히 말하자면 &#x27;문자&#x27;자체를 저장하는 것이 아니라 &#x27;문자에 대응되는 수&#x27;를 저장</li></ul><pre id="8b539942-99d1-4e5c-9035-1f14474336c4" class="code"><code>int a = 65;
+/* 정수 타입인 a에 65 저장 = a는 정수 65를 카리킴 */
+
+char b = 65;
+/* 문자 타입인 b에 65 저장 = b는 65에 대응되는 문자 A를 카리킴 */
+
+char c = &#x27;A&#x27;;
+/* 문자 타입인 c에 문자 A에 대응되는 65 저장 = b는 정수 65를 카리킴 */
+
+char d = &#x27;A&#x27;;
+/* 문자 타입인 d에 문자 A에 대응되는 65 저장 = b는 65에 대응되는 문자 A를 카리킴 */</code></pre><h3 id="84c8a493-7aa3-496a-bc2d-52ccb4013dcd" class="">문자 인코딩</h3><ul id="7f8a3eed-33c6-45c5-aeab-639a8039de7f" class="bulleted-list"><li style="list-style-type:disc">컴퓨터는 우리가 사용하는 언어를 이해하지 못함</li></ul><ul id="378546fe-168f-4e40-bef6-fa4fb342c63f" class="bulleted-list"><li style="list-style-type:disc">그렇기 때문에 우리가 사용하는 문자를 컴퓨터가 이해할 수 있는 신호를 만들어야 하는데 각 문자에 대응하는 수에 대해서 사용자마다 다르면 사용 불가능</li></ul><ul id="cfaf4f3b-25a7-4721-9730-92623e1abfd5" class="bulleted-list"><li style="list-style-type:disc">그렇기 때문에 일정한 규정을 두고 쓰는데 이렇게 정해진 규칙을 &#x27;문자 인코딩&#x27; 또는 줄여서 &#x27;인코딩&#x27;이라고 부름</li></ul><ul id="637278d1-1143-4fee-9066-0893148e5e1d" class="bulleted-list"><li style="list-style-type:disc">인코딩 종류는 매우 많은데 대표적으로 <code>Ascii(아스키코드)</code>, <code>UTF-8</code> 등이 있음</li></ul><h2 id="cb541123-7685-484f-8374-d0bb2a6e5b2d" class="">메소드</h2><ul id="04bdfe82-fb37-4aa1-884c-4732737921f6" class="bulleted-list"><li style="list-style-type:disc">어떠한 동작을 하기 위한 함수</li></ul><ul id="800eff43-5d00-466c-a0a8-2b3c99a90d78" class="bulleted-list"><li style="list-style-type:disc">함수의 경우 프로그래밍 언어에서 기본적으로 지원해주는 함수들이 있고, 사용자가 필요에 의해 새롭게 만들 수도 있음</li></ul><ul id="938c07a8-5b53-46cd-b359-6ccdb53705a0" class="bulleted-list"><li style="list-style-type:disc">프로그램에서 기본적으로 지원해주는 함수들은 각기 다르지만 대게 비슷한 단어들을 쓰고 있기 때문에 다른 사람의 코드를 보더라도, 또는 아예 배우지 않은 언어로 짜여진 코드를 보더라도 어느정도 유추 가능</li></ul><h2 id="839ea2a9-5ac4-43e1-be79-cf6d153310a1" class="">정리</h2><ul id="d61c044c-44b4-441e-a058-0e7bbfda9950" class="bulleted-list"><li style="list-style-type:disc">메소드와 키워드들은 <strong>어떤 기능이나 상태를 정의하기 위한 가장 기본적 단위</strong>가 됨</li></ul><ul id="31bf38e5-49be-450c-a184-20244a7f1365" class="bulleted-list"><li style="list-style-type:disc">이러한 단어들을 보면서 각 단어들이 어떤 것을 의미 또는 수행하느냐를 잘 이해해야 원하는 프로그래밍이 가능함</li></ul><ul id="ca64c02b-111b-4523-a497-87f9f08dc20b" class="bulleted-list"><li style="list-style-type:disc">물론 이 말고도 수만가지의 단어들이 존재</li></ul><ul id="40582f2f-3f3e-4cc2-93b3-2aba1c718032" class="bulleted-list"><li style="list-style-type:disc">만약에 어떤 언어에 대해 필요한 기능을 찾아보려 한다면 구글에 &#x27;언어 이름 API(Application Programming Interface)&#x27;라고 검색하거나 수행하고자 하는 기능을 검색하면 알 수 있음</li></ul><ul id="8c79613c-2bdc-4d6e-a439-491acaa1d2a6" class="bulleted-list"><li style="list-style-type:disc">반대로 키워드에 대해 궁금하다면 &#x27;언어 이름 keyword&#x27; 라고 검색해보면 어떤 의미인지 금방 찾을 수 있음</li></ul><h1 id="afcfd949-1f19-444b-8092-c17f37b059fd" class="">[ 문법편 ]</h1><ul id="50b993c9-962c-44aa-ac77-d248e8d982ed" class="bulleted-list"><li style="list-style-type:disc">어떠한 문장이 되기 위해서는 단어와 문법을 알아야함</li></ul><ul id="e40ea52a-868d-435d-89bf-1caf99d362db" class="bulleted-list"><li style="list-style-type:disc">문법은 크게 두 가지 원리인 &#x27;수식&#x27;과 &#x27;절차&#x27;에 의거함</li></ul><h2 id="657622a7-c0ba-4051-84e6-4ef02099f9fe" class="">수식</h2><ul id="3a780156-2029-4df9-8aa9-42c0a57124b9" class="bulleted-list"><li style="list-style-type:disc">대개 수학에서 쓰이는 수식과 비슷한 논리구조로 작동</li></ul><ul id="ee660eb5-c99b-46ec-b313-79ff1536c6e9" class="bulleted-list"><li style="list-style-type:disc">알고리즘을 짜거나 구성하는데에 매우 필수적이면서도 기초적인 내용</li></ul><ul id="4b589fae-ef79-4be3-bfd9-ab267ef0b210" class="bulleted-list"><li style="list-style-type:disc">연산자 우선순위 / 괄호 우선순위</li></ul><h2 id="f78e47ef-8ad3-4e47-9274-823f379d883e" class="">절차</h2><ul id="142b742e-71c7-4726-9d1f-6037b478acf4" class="bulleted-list"><li style="list-style-type:disc">절차는 기본적으로 읽는 순서를 의미함</li></ul><ul id="10fb6192-a499-4a57-ae0d-00e77267fdab" class="bulleted-list"><li style="list-style-type:disc">절차에서는 &#x27;키워드 나열&#x27;과 함수(메소드) 나열로 크게 두 가지로 나눌 수 있음</li></ul><h3 id="a5e39e20-9f96-4e0d-98a7-e7cc061a6ef9" class="">키워드 나열</h3><ul id="c40f42fb-1db1-470b-b946-12182d19bc12" class="bulleted-list"><li style="list-style-type:disc">키워드의 나열은 순서에 영향을 크게 받지 않으나 메소드(함수)의 경우는 메소드명 바로 이전에 반환타입을 적어주어야 함</li></ul><ul id="76e5c464-133b-4c11-bed4-750f86a80c1c" class="bulleted-list"><li style="list-style-type:disc">보편적으로 접근제어자 - 데이터 상태 - 타입 순으로 작성</li></ul><pre id="822742da-6e2b-476b-8c3f-2d79b294fe2c" class="code"><code>public static void main(String[] args)</code></pre><ul id="a0bab94c-b1ef-45f9-817e-98fd54571b52" class="bulleted-list"><li style="list-style-type:disc"><code>public</code> : 접근제어자 중 하나로 어디서나 접근 가능하다는 의미<p id="61d98ddb-4377-4cd7-9d92-e8e792cef170" class="">⇒ <code>main</code>, 실행의 중심이 되는 부분은 어디서나 접근해야 쓸 수 있어야함</p></li></ul><ul id="bd35feac-2b00-4422-b4a5-6e2fe1d47b81" class="bulleted-list"><li style="list-style-type:disc"><code>static</code> : 해당 키워드를 쓰는 변수나 메소드의 경우 자바가 컴파일 함과 동시에 선언<p id="2cc52304-7ecc-45b8-9f85-df0cc59174cf" class="">⇒ 메인 메소드같이 프로그램의 시작점인 경우 객체를 생성하지 않고도 작업을 수행해야 하기 때문에 반드시 <code>static</code>을 붙여주어야함</p><p id="f4c67342-3054-4b5b-94ca-d66c4e623c5a" class="">⇒ 선언을 하면 프로그램의 시작부터 끝까지 메모리에 할당되어있게 하는 것</p></li></ul><ul id="181072ec-48b7-4657-acb3-25d4def79fbf" class="bulleted-list"><li style="list-style-type:disc"><code>void</code> : return(반환) 값이 없다는 의미<p id="2f8a8e48-0fb4-49a2-92f1-320fcd78e151" class="">⇒ main 메소드의 끝에 도달하면 프로그램의 종료를 의미하기 때문에 무언가를 반환할 필요가 없기 때문에 <code>void</code>가 붙임</p></li></ul><ul id="22591ab4-bc0d-4202-b0ca-9d8e72d7bd9b" class="bulleted-list"><li style="list-style-type:disc"><code>main</code> : 많은 언어들과 마찬가지로 프로그램의 시작이 되는 메소드 (프로그램이 시작되면 가장 먼저 실행)</li></ul><ul id="955f0e84-5bb4-4225-83a6-80eb64dcece5" class="bulleted-list"><li style="list-style-type:disc">정리 : &quot;공용이면서 정적이고 반환 값이 없는 메인이라는 이름의 메소드다&quot;라는 정도의 의미</li></ul><h3 id="389df743-b402-4da8-9487-fee4c5b16d40" class="">객체 및 메소드 연결</h3><ul id="eb8ce87d-4937-4a47-a2bc-fedf947babc6" class="bulleted-list"><li style="list-style-type:disc">대개 많은 객체지향 언어들은 여러 기능들을 묶거나 접근할 때 이를 연결시켜주는 기능이 있음</li></ul><pre id="c54388be-8b01-4bba-91b2-6f74fed97e6a" class="code"><code>name_A.b_method();
+/* name_A라는 객체의 b_method() 메소드(함수)를 호출(접근) : 객체의 메소드 호출 */
+
+name_A.value;
+/* name_A 객체의 value라는 필드(변수)를 호출(접근) : 객체의 필드 호출 */</code></pre><ul id="65b92132-f026-43fc-bd45-4431e2219f4e" class="bulleted-list"><li style="list-style-type:disc">앞서 말한 객체의 접근이라는 것을 좀 더 확장할 수 있음<p id="81948c63-c03e-4e13-9ef3-78921b5e1656" class="">⇒ 한 객체의 임의의 메소드(함수)를 호출한다면 반환되는 값(객체)에 대해 또 메소드 호출 가능</p></li></ul><pre id="0d72c7a4-e03b-4082-901f-0502cab273de" class="code"><code>Integer a1 = Integer.valueOf(&quot;12345&quot;);
+String a2 = a1.toString();
+char[] a3 = a2.toCharArray();
+ 
+/*
+Intege.valueOf(String s) 
+-&gt; 문자를 숫자로 변환하여 Integer 타입을 반환합니다.
+ 
+Integer.toString()
+-&gt; Integer 객체에 저장된 값을 문자열인 String타입으로 반환합니다.
+ 
+String.toCharArray()
+-&gt; String타입의 문자열을 각 char타입의 문자로 나눈 배열로 반환합니다.
+*/
+
+char[] a = Integer.valueOf(&quot;12345&quot;).toString().toCharArray();
+ 
+/*
+Intege.valueOf(String s) 
+-&gt; 문자를 숫자로 변환하여 Integer 타입을 반환합니다.
+ 
+Integer.toString()
+-&gt; Integer 객체에 저장된 값을 문자열인 String타입으로 반환합니다.
+ 
+String.toCharArray()
+-&gt; String타입의 문자열을 각 char타입의 문자로 나눈 배열로 반환합니다.
+*/</code></pre><h2 id="da228859-e529-48f4-9c6c-59b29a43f79d" class="">정리</h2><ul id="2e7dc959-7a9e-44cf-8353-087065da4c3c" class="bulleted-list"><li style="list-style-type:disc">수식 파트 :  <code>h(g(f(x)))</code> = f → g → h <ul id="ce6f7fb8-7d1c-40b4-a7c3-bfda68b38831" class="bulleted-list"><li style="list-style-type:circle">가장 안쪽 함수부터밖으로 찾아감</li></ul><ul id="d1b8dd73-5d74-48ed-bb87-169f68270c94" class="bulleted-list"><li style="list-style-type:circle">&#x27;매개변수 타입&#x27;에 종속</li></ul></li></ul><ul id="121dbca4-c243-4092-b7e7-5ccc630f2052" class="bulleted-list"><li style="list-style-type:disc">절차 파트 : <code>f(x).h(x).g(x)</code>  = f → g → h<ul id="42b65dbe-b29e-49c2-a597-24bc74dd1fd5" class="bulleted-list"><li style="list-style-type:circle">.(마침표)로 연결시켜 반환되는 값의 객체 타입에 대해서도 변수 또는 메소드들을 호출가능<p id="396698d2-28ef-48ba-9a46-4425bed19b22" class="">한 문장의 기본 구조는 왼쪽에서 오른쪽으로 순차적으로 진행</p></li></ul><ul id="0fb454f4-59c1-4966-93ac-f4288d76da33" class="bulleted-list"><li style="list-style-type:circle">&#x27;반환 타입&#x27;에 종속</li></ul></li></ul></div></article></body>
+
 {% endblock post_content %}

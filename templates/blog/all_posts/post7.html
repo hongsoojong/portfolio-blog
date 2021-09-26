@@ -8,573 +8,584 @@
 
 {% block post_content %}
 
-    {% block post_date %}
-        <div class="container w-1/2 mx-auto mb-10 post_date">[ Sept 17, 2021 ]</div>    
-    {% endblock post_date %}
+{% block post_date %}
+    <div class="container w-1/2 mx-auto mb-10 post_date">[ Sept 17, 2021 ]</div>    
+{% endblock post_date %}
 
-    <main class="container w-1/2 mx-auto font_kor">
-        <div>
-            <div class="post_subheading">주소를 사용해서 메모리 내 변수 접근</div>
-            <div class="post_text">
-                <img src="{% static 'img/sourcecode/post7-1.png' %}">
-                <li>다른 언어였다면 불가능</li>
-                <li>하지만 C는 하드웨어와 가장 친한 친구로 가능</li>
-                <li>이것을 활용하여 매우 강력한 일을 할 수 있음</li>
-            </div>
-        </div>
-        <div id="주소연산자">
-            <div class="post_heading">주소연산자 &</div>
-            <div class="post_text">
-                <img src="{% static 'img/sourcecode/post7-2.png' %}">
-                <li>일단 어떤 변수가 어느 주소에 저장되어 있는지 알 수 있는 첫 단계</li>
-                <li>비트 연산자 &가 아님</li>
-                <p class="ml-7">⇒ 비트 연산자는 피연산자가 2개, 주소 연산자는 피연산자가 1개</p>
-                <img src="{% static 'img/sourcecode/post7-3.png' %}" class="ml-7">
-                <li>num이란 변수가 있으면 &num은 그 변수가 위치한 메모리 주소</li>
-                <li>보통 주소를 보여줄 때는 16진수를 사용 → printf()에서 서식문자 %p는 주소를 16진수로 보여줌</li>
-                <li>실행할 때마다 주소가 달라질 수 있음 → 요즘 운영체제에서는 보안강화를 위해 실행할 때마다 주소를 바꿔줌(ASLR)</li>
-            </div>
-            <div class="post_subheading">메모리 주소 저장하기</div>
-            <div class="post_text">
-                <p class="font-bold">< 의문점 ></p>
-                <li>주소를 구할 때마다 그 변수가 필요하다면 그냥 그 변수를 쓰고 말지</li>
-                <li>그보다는 그 주소를 어딘가에 저장해 둘 수 있다면 좋을 것 같은데..</li>
-                <li>그러면 변수가 없어도 주소만으로 여기저기 옮겨다닐 수 있을텐데..</li>
-                <p class="ml-7">⇒ 가령 '변수의 주소'의 다음 메모리 위치를 읽는다던가</p>
-                <p class="font-bold">< 메모리 주소를 변수처럼 저장 시도 ></p>
-                <img src="{% static 'img/sourcecode/post7-4.png' %}">
-                <p class="font-bold">< 문제점 ></p>
-                <img src="{% static 'img/sourcecode/post7-5.png' %}">
-                <li>둘 중 무엇이 '주소'고 무엇이 '값'인지 알 수 없음</li>
-                <li>따라서 주소를 저장하기 위한 특별한 변수가 필요함 ⇒ <span class="font-bold">포인터</span></li>
-            </div>
-        </div>
-        <div id="포인터의미">
-            <div class="post_heading">포인터의 의미</div>
-            <div class="post_text">
-                <li>주소를 저장하기 위한 변수형</li>
-                <li>즉, 변수인데 속에 담긴 내용은 메모리 주소를 의미함</li>
-                <p class="ml-7">⇒ 주소 : 값이 저장되어 있는 메모리의 위치</p>
-            </div>
-            <div class="post_subheading">메모리 주소에 저장된 자료형</div>
-            <div class="post_text">
-                <li>하드웨어는 신경 안씀</li>
-                <p class="ml-7">⇒ 그 비트패턴을 char로 읽으면 char, int로 읽으면 int, float으로 읽으면 float이 됨</p>
-                <li>그러나 해당 주소에서부터 몇 바이트를 읽어야하는지는 하드웨어에게 알려줄 필요가 있음. 그래서 포인터 변수를 선언할 때는 '그 주소에 어떤 형의 데이터가 있는지' 명시하기 위해 포인터 앞에 자료형을 붙임 (int 포인터, float 포인터, char 포인터)</li>
-            </div>
-            <div class="post_subheading">포인터 변수를 선언하는 법 / 부르는 법</div>
-            <img src="{% static 'img/sourcecode/post7-6.png' %}">
-            <div class="post_text">
-                <li>포인터 변수를 선언하려면 자료형 뒤에 별표(*)를 붙임</li>
-                <li>별표 왼쪽에 있는 자료형은 그 메모리 주소로 가면 저장되어 있는 자료형</li>
-                <div class="ml-7">
-                    <p>a. int* : 주소를 따라가면 int형 자료가 있음</p>
-                    <p>b. char* : 주소를 따라가면 char형 자료가 있음</p>
-                    <p>c. float* : 주소를 따라가면 float형 자료가 있음</p>
-                </div>
-                <li>보통 num_adress를 int 포인터라고 부름</li>
-                <p class="ml-7">⇒ 영어로는 int로의 포인터(pointer to an int)라고도 함 (뒤에서부터 읽음)</p>
-            </div>
-            <div class="post_subheading">포인터 변수의 저장 위치</div>
-            <div class="post_text">
-                <li>포인터는 메모리 주소를 저장하는 변수</li>
-                <li>그러면 이 변수는 어디에 저장이 되어 있는가 → 메모리 어딘가</li>
-                <li>기본적으로 "메모리 주소를 저장하는 변수"라고 기억하고 시각적으로 보는게 필요하면 그려보는게 좋음</li>
-            </div>
-            <div class="post_subheading">포인터에 저장된 주소도 바꿀 수 있는가?</div>
-            <img src="{% static 'img/sourcecode/post7-7.png' %}">
-            <div class="post_text">
-                <li>포인터도 변수이기 때문에 포인터에 저장한 값도 변경 가능</li>
-                <li>즉, 다른 주소로 바꿀 수 있음</li>
-            </div>
-        </div>
-        <div id="역참조연산자">
-            <div class="post_heading">역 참조 연산자 *</div>
-            <div class="post_text">
-                <li>포인터도 변수니까 당연히 변수 쓰는 곳에는 다 쓸 수 있음</li>
-                <li>따라서 매개변수도 가능</li>
-                <li>곱하기 연산자가 아님</li>
-                <p class="ml-7">⇒ 곱하기 연산자는 피연산자 2개, 역 참조 연산자는 피연산자가 1개</p>
-                <img src="{% static 'img/sourcecode/post7-8.png' %}" class="ml-7">
-            </div>
-            <div class="post_subheading">역 참조 연산자 예시</div>
-            <div class="post_text">
-                <img src="{% static 'img/sourcecode/post7-9.png' %}">
-                <p>⇒ 하지만 위의 함수는 단순히 주소만 보여주며 별 의미있는 함수가 되지 못함</p>
-                <img src="{% static 'img/sourcecode/post7-10.png' %}">
-            </div>
-            <div class="post_subheading">참조와 역 참조</div>
-            <div class="post_text">
-                <p>< 참조 ></p>
-                <li>포인터가 이미 하고있는 일</li>
-                <li>어떤 변수의 값을 직접 가져다 쓰는 게 아니라 그게 어디에 있는지 '참조'</li>
-                <li>즉, 값이 어디에 있는지 가리키고 있는것</li>
-                <p>< 역 참조 ></p>
-                <li>주소로 직접 가서 거기 저장되어 있는 값에 접근하는 것</li>
-                <li>참조(reference)의 반대라 역 참조(de-reference)라 말함</li>
-                <li>값에 직접 접근하는게 아니라 주소를 이용해 간접적(한 단계 거쳐서)으로 접근</li>
-                <li>따라서 간접(indirect) 연산자라고도 함</li>
-                <p class="ml-7">⇒ 여태까지는 모든 데이터를 복사해서 썼다면 이는 원본에 접근 가능</p>
-                <p class="ml-7">⇒ 컴퓨터 구조에서 데이터를 오랫동안 메모리에 저장하는 방법</p>
-            </div>
-            <div class="post_subheading">역 참조를 통해 값을 변경하는 예</div>
-            <img src="{% static 'img/sourcecode/post7-11.png' %}" class="mb-6">
-            <img src="{% static 'img/sourcecode/post7-12.png' %}" class="mb-6">
-            <div class="post_subheading">퀴즈</div>
-            <img src="{% static 'img/sourcecode/post7-13.png' %}" class="mb-6">
-            <div class="post_subheading">swap()</div>
-            <img src="{% static 'img/sourcecode/post7-14.png' %}">
-            <div class="post_text">
-                <li>실제로 교체되지 않음</li>
-                <li>스택 메모리에서 값을 복사하기 때문</li>
-                <li>C#에서는 ref 키워드로 해결, 하지만 C는 그런 키워드 없음</li>
-                <p class="ml-7 font-bold">⇒ 아래와 같이 포인터로 해결 가능</p>
-                <img src="{% static 'img/sourcecode/post7-15.png' %}">
-            </div>
-            <div class="post_subheading">값에 의한 전달 vs 참조에 의한 전달</div>
-            <div class="post_text">
-                <li>원본이 바뀌니 ⇒ 참조에 의한 전달</li>
-                <li>하지만 메모리 주소를 복사하였으니 ⇒ 값에 의한 전달</li>
-                <li>함수를 호출할 때 언제나 변수를 복사하므로 값에 의한 전달</li>
-                <li>단, 포인터를 사용해서 참조에 의한 전달을 흉내낼 뿐</li>
-                <li>원본이 바뀌는지 안 바뀌는지가 핵심 포인트임</li>
-                <li>굳이 '~에 의한 전달'이라고 말해야 한다면 '참조에 의한 전달'이라고 말하는게 차라리 나음</li>
-            </div>
-        </div>
-        <div id="포인터함수반환값">
-            <div class="post_heading">포인터와 함수 반환값</div>
-            <div class="post_text">
-                <li>당연히 포인터도 변수니까 함수 반환값으로 사용 가능</li>
-                <li>다만 포인터를 반환할 때 조심해야할 것들이 있음</li>
-            </div>
-            <div class="post_subheading">댕글링 포인터(dangling pointer)</div>
-            <img src="{% static 'img/sourcecode/post7-16.png' %}">
-            <div class="post_text">
-                <li>함수의 지역변수는 스택에 저장됨</li>
-                <li class="font-bold">즉, 함수의 호출이 끝나면 지역 변수도 사라짐 (return &result)</li>
-                <li>그러나 지역변수가 사용한 '주소'자체가 사라지는 것은 아님</li>
-                <li>따라서 그 주소를 반환한다고 컴퓨일 오류가 나지는 않음</li>
-                <p class="ml-7">⇒ 컴파일러에 따라 상기와 같은 경고를 줄 수 있음</p>
-                <li>문제는 포인터가 유효하지 않은 주소를 가리킴</li>
-                <p class="ml-7">⇒ 이 경우 예측하지 못한 결과가 발생할 수 있음</p>
-                <li>이러한 포인터를 댕글링 포인터라고 하며, <span class="font-bold">절대 작성해서는 안되는 코드</span>임</li>
-            </div>
-            <div class="post_subheading">포인터와 함수 반환값 정리</div>
-            <div class="post_text">
-                <li>포인터를 반환할 경우 댕글링 포인트를 조심해야함</li>
-                <li>포인터를 반환해도 되는 경우</li>
-                <div class="ml-7">
-                    <p>a. 전역변수</p>
-                    <p>b. 파일 속 static 전역변수</p>
-                    <p>c. 함수 내 static 변수</p>
-                    <p>d. 힙 메모리에 생성한 데이터</p>
-                </div>
-                <li>포인터 함수 반환값의 사용</li>
-                <div class="ml-7">
-                    <p>a. 도우미 함수 안에 생선한 변수를 다른 함수에서 사용하고자 할 때</p>
-                    <p class="ml-5">⇒ 단, 일반 지역변수면 안됨 (함수 호출이 끝나면 사라짐)</p>
-                    <p>b. 함수 안에서 대용량 데이터를 생성하고 그걸 반환하고자 할 때</p>
-                    <p class="ml-5">⇒ 이 경우에는 스택 메모리가 아니라 힙 메모리라는 곳에서 생성함</p>
-                </div>
-            </div>
+<main class="container w-1/2 mx-auto font_kor">
 
-        </div>
-        <div id="널포인터">
-            <div class="post_heading">널(NULL) 포인터</div>
-            <img src="{% static 'img/sourcecode/post7-17.png' %}">
-            <div class="post_text">
-                <li>반환할 주소가 없는 경우</li>
-            </div>
-            <div class="post_subheading">널 포인터</div>
-            <div class="post_text">
-                <li>아무것도 카리키지 않는 포인터 → 실제 주소가 없음 → 유효한 메모리를 가리키고 있지 않음</li>
-                <li>1) 값이 '0'인 정수/상수 표현식, 혹은 2) void*로 캐스팅 된 표현식</li>
-                <li>전용 매크로가 있음</li>
-                <img src="{% static 'img/sourcecode/post7-18.png' %}" class="ml-7">
-                <p class="ml-7">⇒ 널 포인터를 표현할 때 위의 매크로를 사용할 것</p>
-                <li>포인터 변수와 NULL은 비교(==, !=) 가능</li>
-                <img src="{% static 'img/sourcecode/post7-19.png' %}" class="ml-7">
-            </div>
-            <div class="post_subheading">코딩표준 : 매크로 NULL을 반드시 사용할 것</div>
-            <img src="{% static 'img/sourcecode/post7-20.png' %}">
-            <div class="post_text">
-                <li>0은 사용하지 않음!</li>
-                <li>if (ptr) 만 사용하여도 존재할 때와 아닐 때를 구분할 수 있어 혼돈이 적으나 왠만하면 직접 표시해주는 것이 좋음</li>
-            </div>
-            <div class="post_subheading">널 포인터와 매개변수</div>
-            <div class="post_text">
-                <li>함수 매개변수로 포인터가 들어올 올 때는 언제나 골칫덩어리</li>
-                <li>누구나 NULL을 넣을 수 있기 때문</li>
-                <li>함수의 선조건(precondition) 문제</li>
-                <li>기본적으로 NULL이 안 들어온다고 가정하고 함수 작성</li>
-                <li>NULL이 들어올 수 있는 함수는 매개변수 명에서 분명하게 밝혀야함</li>
-            </div>
-            <div class="post_subheading">코딩 표준 : 널 포인터를 허용하는 매개변수</div>
-            <div class="post_text">
-                <li>함수의 매개변수가 널 포인터를 허용한다면, 매개변수 이름 끝에 'or_null'을 붙이는 것이 좋음</li>
-                <img src="{% static 'img/sourcecode/post7-21.png' %}" class="ml-7">
-                <li>NULL이 안 들어온다고 가정한 경우 assert()를 사용해 검증</li>
-                <img src="{% static 'img/sourcecode/post7-22.png' %}" class="ml-7">
-            </div>
-            <div class="post_box post_text">
-                <p class="font-bold">assert 함수</p>
-                <li>디버깅 모드에서 개발자가 오류가 생기면 치명적일 것이라는 곳에 심어 놓는 에러 검출용 코드</li>
-                <li>디버깅용 함수이기에 release 모드에서는 동작하지 않음 ⇒ 코드를 다 완성하고 동작할 때 돌아가는 함수가 아님</li>
-                <li>assert함수에 걸리게 되면 버그 발생위치, call stack등 여러 정보를 알 수 있음</li>
-                <li>assert(A != NULL);</li>
-                <p class="ml-7">A가 NULL이 아니라면 true(1)가 나오므로 pass</p>
-                <p class="ml-7">A가 NULL이라면 false(0)가 나오므로 assert error</p>
-            </div>
-            <div class="post_subheading">널 포인터와 반환값</div>
-            <div class="post_text">
-                <li>NULL을 반환할 때도 마찬가지</li>
-                <li>기본적으로 안 함</li>
-                <li>반환해야 한다면 함수 이름에 NULL을 반환하는 것을 명시</li>
-            </div>
-            <div class="post_subheading">코딩 표준 : 널 포인터를 반환하는 함수명</div>
-            <img src="{% static 'img/sourcecode/post7-23.png' %}" class="mb-6">
-            <div class="post_subheading">널 포인터의 사용</div>
-            <div class="post_text">
-                <p>1. 포인터 변수를 초기화하고 싶을 때</p>
-                <img src="{% static 'img/sourcecode/post7-24.png' %}" class="ml-7">
-                <p class="ml-7">⇒ 아직 참조할 주소가 없을 때</p>
-                <p>2. 포인터 변수가 유효하지 않은 주소를 참조하고 있는지 확인하고 싶을 때</p>
-                <img src="{% static 'img/sourcecode/post7-25.png' %}" class="ml-7">
-                <p class="ml-7">⇒ 아무것도 가리키지 않는 포인트 변수를 역 참조하면 결과가 정의되지 않음 (undifined)</p>
-                <img src="{% static 'img/sourcecode/post7-26.png' %}" class="ml-7">
-                <p class="ml-7">⇒ 역 참조를 하기 전에 널 포인터인지 확인해야함</p>
-                <p>3. 댕글링 포인터를 막기 위해</p>
-                <img src="{% static 'img/sourcecode/post7-27.png' %}" class="ml-7">
-                <p class="ml-7">⇒ 동적 메모리 할당된 메모리를 더이상 필요 없어서 해제했는데, 이를 여전히 가리키는 포인트가 있다면? 더이상 사용할 수 없는 데이터니 포인터 변수에 저장되어 있는 그 주소를 초기화 해야함 → 이때 널 포인터를 이용해서 리셋</p>
-            </div>
-            <div class="post_text">
-                <p class="font-bold">결과적으로 존재하지 않는 메모리 주소에서 값을 읽어오려면 여러 가지 문제들이 팡팡 터짐. 항상 조심해야하는 부분임</p>
-            </div>
-        </div>
-        <div id="포인터비교/크기">
-            <div class="post_heading">포인터의 비교/크기</div>
-            <div class="post_subheading">포인터의 비교</div>
-            <img src="{% static 'img/sourcecode/post7-28.png' %}">
-            <div class="post_text">
-                <li>포인터는 비교 연산자를 이용해서 서로 비교할 수 있음 (==. !=, >, >=, < <=)</li>
-            </div>
-            <div class="post_subheading">포인터의 크기</div>
-            <div class="post_text">
-                <li>모든 포인터는 동일한 크기를 가짐</li>
-                <li>포인터의 크기는 코드를 컴파일하는 시스템 아키텍쳐에 따라 결정됨</li>
-                <p class="ml-7">⇒ 보통 CPU가 한 번에 처리할 수 있는 데이터의 크기(word)와 동일함</p>
-                <p class="ml-11">32비트 아키텍쳐에서 포인트 크기는 4바이트</p>
-                <p class="ml-11">64바이트 아키텍쳐에서 포인트 크기는 8바이트</p>
-                <img src="{% static 'img/sourcecode/post7-29.png' %}" class="mb-6">
-            </div>
-        </div>
-        <div id="포인터와배열">
-            <div class="post_heading">포인터와 배열</div>
-            <div class="post_subheading">포인터와 매개변수로 받은 배열</div>
-            <div class="post_text">
-                <li>매개변수로 받은 배열</li>
-                <p class="ml-7">⇒ 배열은 연속된 메모리 → 그걸 다 스택에 넣을 수 없음 → 시작위치만 전달(메모리 주소)</p>
-                <img src="{% static 'img/sourcecode/post7-30.png' %}" class="ml-7">
-                <p class="ml-7">a. scores의 크기는 4바이트</p>
-                <p class="ml-7">b. scores는 my_scores의 시작주소를 가지고 있음</p>
-                <li>포인터</li>
-                <img src="{% static 'img/sourcecode/post7-31.png' %}" class="ml-7">
-                <p class="ml-7">a. dollar의 크기는 4바이트</p>
-                <p class="ml-7">b. dollar는 my_money의 (시작)주소를 가지고 있음</p>
-            </div>
-            <div class="post_subheading">배열을 포인터에 대입</div>
-            <img src="{% static 'img/sourcecode/post7-32.png' %}">
-            <div class="post_text">
-                <p>1. nums는 배열로, 시작위치(메모리 주소) 반환</p>
-                <p>2. nums는 시작주소를 반환하지만, nums[0]은 주소가 아닌 int를 반환함</p>
-                <p class="ml-5">⇒ 즉, nums[0]은 int이며, int*가 아님!</p>
-                <p>3. nums[0]의 주소를 얻기 위해서는 주소 연산자를 이용해야함</p>
-                <p>⇒ 정리하자면, 아래의 두 코드는 동일한 결과를 나타냄</p>
-                <img src="{% static 'img/sourcecode/post7-33.png' %}">
-            </div>
-            <div class="post_subheading">배열 속에서 각 요소의 위치</div>
-            <img src="{% static 'img/sourcecode/post7-34.png' %}">
-            <div class="post_text">
-                <li>배열에서 각 요소 사이의 바이트 간격을 일정함</li>
-                <li>따라서 첫 번쨰 요소의 주소와 자료형의 크기를 안다면 두번째 요소의 주소를 알 수 있음</li>
-                <p class="ml-7">⇒ 두 번째 요소 주소 = 첫 번째 요소 주소 + 자료형의 크기(바이트)</p>
-                <p class="ml-7">⇒ 세 번째 요소 주소 = 두 번째 요소 주소 + 자료형의 크기(바이트)</p>
-            </div>
-            <div class="post_subheading">포인터 주소 계산</div>
-            <img src="{% static 'img/sourcecode/post7-35.png' %}">
-            <div class="post_text">
-                <p class="font-bold">⇒ 첫 번째 요소에서 자료형의 크기를 더 했는데 왜 nums[1]이 아닌 nums[4]가 나온 것일까?</p>
-            </div>
-            <div class="post_subheading">포인터에 정수의 덧셈 의미</div>
-            <img src="{% static 'img/sourcecode/post7-36.png' %}">
-            <div class="post_text">
-                <li>포인터에 정수 1을 더한다는 것은 포인터의 위치를 다음 데이터로의 위치 이동을 의미함</li>
-                <p class="ml-7">⇒ 1바이트를 더하는게 아님</p>
-                <li>뺄셈뿐만 아니라, ++, --도 마찬가지임</li>
-                <p>⇒ 정리하자면, 아래의 두 코드는 동일한 결과를 나타냄</p>
-                <img src="{% static 'img/sourcecode/post7-37.png' %}">
-            </div>
-            <div class="post_subheading">포인터 사칙연산 퀴즈</div>
-            <img src="{% static 'img/sourcecode/post7-38.png' %}">
-            <img src="{% static 'img/sourcecode/post7-39.png' %}">
-            <div class="post_subheading">배열 요소에 포인터로 접근하기</div>
-            <img src="{% static 'img/sourcecode/post7-40.png' %}">
-            <div class="post_text">
-                <li>배열명은 시작 주소이기 때문에 포인터 변수에 대입할 수 있음 (int* ptr = nums;)</li>
-                <li>추가적으로 배열의 첨자 연산자([])도 포인터에 쓸 수 있음 (ptr[1] = 20)</li>
-                <li>포인터 산술 연산에도 배열 첨자 연산자에도 동일하게 적용됨 (ptr + 1)</li>
-            </div>
-            <div class="post_subheading">배열의 모든 요소 더하기</div>
-            <img src="{% static 'img/sourcecode/post7-41.png' %}" class="mb-6">
-            <div class="post_subheading">정리</div>
-            <div class="post_text">
-                <li>포인터에 들어가는 값은 주소</li>
-                <li>C 연산자에서 이 주소를 얻을 수 있는 방법은 딱 두 가지 뿐</li>
-                <div class="ml-7">
-                    <p>1. 주소 연산자(&)</p>
-                    <p>2. 배열의 이름 ⇒ 배열의 이름은 배열의 시작 주소르를 알려줌</p>
-                    <img src="{% static 'img/sourcecode/post7-42.png' %}">
-                </div>
-                <li>포인터에 정수를 더하면 주소 이동</li>
-                <div class="ml-7">
-                    <p>⇒ 포인터에 정수 n을 더하거나 빼면 언제나 'sizeof(자료형) X n'한 만큼 메모리 주소 이동</p>
-                    <img src="{% static 'img/sourcecode/post7-43.png' %}">
-                </div>
-            </div>
-            <div class="post_subheading">포인터 캐스팅 : 정말 딱 '한' 바이트만 옮기고 싶다면?</div>
-            <img src="{% static 'img/sourcecode/post7-44.png' %}">
-            <div class="post_text">
-                <li>한 바이트짜리 포인터로 캐스팅</li>
-            </div>
-            <div class="post_subheading">int* → char* 캐스팅의 의미</div>
-            <img src="{% static 'img/sourcecode/post7-45.png' %}">
-            <div class="post_text">
-                <p>⇒ 메모리주소에 char형이 들어가  +1이 int 4바이트 이동이 아닌 char 1바이트 이동</p>
-                <li>그 메모리 주소에 어떤 형이 들어있는 지 알려주는 것을 의미함</li>
-                <p class="ml-7">⇒ 그 메모리 주소에 들어있는 값을 캐스팅하는 것이 아님!</p>
-                <li>바꾸고 나면 실제 이 속에 들어 있는 데이터 내용이 char*이 되는 것이 아님</li>
-            </div>
-        </div>
-        <div id="두주소간사칙연산">
-            <div class="post_heading">두 주소간 사칙연산</div>
-            <img src="{% static 'img/sourcecode/post7-46.png' %}">
-            <div class="post_text">
-                <li>주소에는 소수점을 더하거나 뺄 수 없으며, 정수만 가능</li>
-            </div>
-            <img src="{% static 'img/sourcecode/post7-47.png' %}">
-            <div class="post_text">
-                <li>뺄셈을 제외한 사칙연산은 모두 지원 안함</li>
-                <li>뺄셈을 이용한다면 두 주소 사이에 들어갈 수 있는 데이터의 개수를 반환할 수 있음</li>
-                <p class="ml-7">⇒ 따라서 포인터가 아니라 정수를 반환 (ptr3는 컴파일 오류)</p>
-                <p class="ml-7">⇒ 배열의 첫 번째 및 마지막 요소의 주소를 알면 배열의 크기를 구할 수 있음</p>
-                <img src="{% static 'img/sourcecode/post7-48.png' %}" class="ml-7">
-            </div>
-        </div>
-        <div id="포인터와배열의차이">
-            <div class="post_heading">포인터와 배열의 차이</div>
-            <div class="post_text">
-                <li>대부분의 경우 포인터와 배열은 동일하게 처리 가능</li>
-                <li>그러나 이 둘은 다를 때가 있음</li>
-            </div>
-            <div class="post_subheading">(1) sizeof 연산자</div>
-            <img src="{% static 'img/sourcecode/post7-49.png' %}">
-            <div class="post_text">
-                <li>sizeof(배열)과 sizeof(포인터는 다른 값을 반환함</li>
-                <p class="ml-7">⇒ sizeof(배열) : 배열의 총 크기를 반환</p>
-                <p class="ml-7">⇒ sizeof(포인터) : 포인터의 크기를 반환</p>
-            </div>
-            <div class="post_subheading">(2) 문자열 초기화</div>
-            <div class="post_text">
-                <li>C는 C#과 JAVA처럼 문자열(string) 자료형이 없음</li>
-                <li>C의 문자열 표현방법</li>
-                <div class="ml-7">
-                    <p>"Friday"라는 단어를 저장한다면 총 6(+1)개의 요소를 가진 char 배열을 만듬</p>
-                    <p>' F ' / ' r ' / ' i ' / ' d ' / ' a ' / ' y ' / ' \0 '</p>
-                    <p>⇒ 문자열이 끝나는 지점을 알려주기 위해 널 문자(null character)라고 하는 특별한 문자를 항상 맨 마지막에 넣어줌</p>
-                    <p>⇒ 널문자 : 값은 0으로 '\0'이라 표현함</p>
-                </div>
-                <li>문자열 초기화의 저장</li>
-                <div class="ml-7">
-                    <p>1. 배열(문자열)의 저장</p>
-                    <img src="{% static 'img/sourcecode/post7-50.png' %}" class="ml-5">
-                    <p class="ml-5">a. 배열의 마지막에 차례로 'M', 'o', 'n', 'd', 'a', 'y'가 들어간 후 마지막에 '\0'이 들어감</p>
-                    <p class="ml-5">b. 함수 안에서 사용하면 스택메모리에 저장됨</p>
-                    <p>2. 포인터(문자열)의 저장</p>
-                    <img src="{% static 'img/sourcecode/post7-51.png' %}" class="ml-5">
-                    <p class="ml-5">a. 포인터 변수는 스택에 저장</p>
-                    <p class="ml-5">b. 실제 문자열은 데이터 섹션에 저장</p>
-                </div>
-                <li>문자열의 초기화</li>
-                <div class="ml-7">
-                    <img src="{% static 'img/sourcecode/post7-52.png' %}">
-                    <p>a. 스택에 저장된 문자열은 수정해도 괜찮지만, 데이터 섹션에 저장된 문자열은 수정할 경우 '결과가 정의되지 않음'</p>
-                    <p>b. 스택에 문자열이 저장되는 경우는 문자열이 읽기 전용임</p>
-                </div>
-            </div>
-            <div class="post_subheading">(3) 대입</div>
-            <img src="{% static 'img/sourcecode/post7-53.png' %}">
-            <div class="post_text">
-                <li>포인터 변수에 값을 대입할 수 있으나 배열 변수에는 할 수 없음</li>
-            </div>
-            <div class="post_subheading">(4) 포인터 산술 연산</div>
-            <img src="{% static 'img/sourcecode/post7-54.png' %}">
-            <div class="post_text">
-                <li>포인터는 산술 연산이 가능하지만 배열은 불가능</li>
-                <li>배열의 주소를 증가하거나 감소하고 싶다면 포인터에 배열의 주소를 대입 후 그 포인터 변수를 증가/감소하면 됨</li>
-            </div>
-        </div>
-        <div id="포인터와 연산자">
-            <div class="post_heading">포인터와 연산자</div>
-            <div class="post_subheading">연산자 결합법칙</div>
-            <div class="post_text">
-                <li>연산자 결합법칙은 크게 고민할 이유는 없음</li>
-                <li>익숙한 것들은 그냥 쓰고 아닌 것들은 괄호를 치는 것이 일반적임</li>
-                <li>연산자 결합법칙이란?</li>
-                <p class="ml-7">동일한 우선순위를 가지는 연산자들이 있으면 어떤 방향으로 연산자는 적용하는지를 의미함</p>
-                <p class="ml-7">⇒ 대부분은 왼쪽에서 오른쪽이지만 몇몇 * 혹은 &과 같은 익숙하지 않은 연산자가 있음</p>
-                <img src="{% static 'img/sourcecode/post7-55.png' %}" class="mb-3">
-                <img src="{% static 'img/sourcecode/post7-56.png' %}" class="mb-3">
-                <img src="{% static 'img/sourcecode/post7-57.png' %}">
-            </div>
-            <div class="post_subheading">조금더 빠른 배열의 요소 더하기 함수</div>
-            <img src="{% static 'img/sourcecode/post7-58.png' %}">
-            <div class="post_text">
-                <li>포인터로 배열을 접근하는 것이 더 빠름 ⇒ *p++를 통해 접근하는 게 배열보다 빠름</li>
-                <li>배열은 언제나 첫 주소 + 요소 위치까지의 오프셋</li>
-                <p class="ml-7">⇒ &data[0] + 0*4 / data[0] + 1*4 / &data[0] + 2*4....</p>
-                <li>포인터는 이미 다음 주소에 가 있기 때문에 그대로 참조</li>
-                <p class="ml-7">⇒ p + 4 반복</p>
-                <li> 요즘 컴파일러는 최적화를 잘해서 두 코드가 비슷한 성능을 보이기도 하지만 포팅을 생각해서 C에서는 여전히 *p++을 더 많이 씀</li>
-            </div>
+{% include "blog/all_posts/css_post.html" %}
+  
+<!-- notion html -->
+<body><article id="96b67ffb-8ab9-4ff4-afb8-80ecfa928dcf" class="page sans"><div class="page-body"><pre id="8ff3cce8-3120-4773-abbd-193651a3e6f6" class="code"><code>/* 메인 함수 */
 
-        </div>
-        <div id="포인터와const">
-            <div class="post_heading">포인터와 const</div>
-            <div class="post_subheading">const</div>
-            <img src="{% static 'img/sourcecode/post7-59.png' %}">
-            <div class="post_text">
-                <li>기본 자료형 변수의 경우 const를 붙이면 그 변수에 저장한 값을 변경할 수 없음</li>
-                <div class="ml-7">
-                    <p>a. 보통 이게 반드시 필요하다고 느끼진 않음</p>
-                    <p>b. 따라서 이걸 반드시 붙이라고 강요하지 않는 코딩 표준도 많음</p>
-                    <p>c. 실수가 발생해도 큰 문제가 발생하지 않기 때문</p>
-                    <p>d. 함수번위 내에서 발생할 수 있는 실수를 막는 정도</p>
-                </div>
-            </div>
-            <div class="post_subheading">const 포인터 : 주소의 보호</div>
-            <img src="{% static 'img/sourcecode/post7-60.png' %}" class="mb-1">
-            <img src="{% static 'img/sourcecode/post7-61.png' %}">
-            <div class="post_text">
-                <li>메모리 주소를 바꿀 수 없음</li>
-                <li>포인터 변수는 오른쪽에서 왼쪽으로 읽음</li>
-                <p class="ml-7">⇒ 영어로 표현하면, "p is const pointer to int"</p>
-            </div>
-            <div class="post_subheading">const 변수</div>
-            <img src="{% static 'img/sourcecode/post7-62.png' %}">
-            <div class="post_text">
-                <li>생성과 동시에 초기화해야 함</li>
-                <li>초기화 이후 다른 값으로 변경 불가</li>
-                <li>const가 아닌 변수에 대입은 가능</li>
-                <li>(포인터 전용) const 포인터가 가리키는 대상의 값은 변경 가능</li>
-            </div>
-            <div class="post_subheading">const를 가리키는 포인터 : 값의 보호</div>
-            <img src="{% static 'img/sourcecode/post7-63.png' %}">
-            <div class="post_text">
-                <li>실수가 있을 경우 함수 내에서 뿐만 아니라 전역적으로 문제가 발생</li>
-                <li>주소 보호보다 더 중요함</li>
-                <li>값을 보호하기 위한 const는 반드시 신경써야함</li>
-                <li>그 주소에 저장되어 있는 값을 변경하는 것을 방지</li>
-                <li>포인터 변수는 오른쪽에서 왼쪽으로 읽음</li>
-                <p class="ml-7">⇒ 방법 1 : "p is a pointer to int, which is const"</p>
-                <p class="ml-7">⇒ 방법 2 : "p is a pointer to const int"</p>
-                <li>논리적으로 방법 2가 더 말이 되나 흔히 방법 1로 표현함. 혹은 포인터가 아닌 int를 const를 만들 때도 const int라고 하므로 비슷하게 보이려고 방법 1을 더 많이 씀</li>
-            </div>
-            <div class="post_subheading">두 const 정리</div>
-            <img src="{% static 'img/sourcecode/post7-64.png' %}">
-            <div class="post_text">
-                <p>⇒ 헷갈릴 땐 오른쪽에서 왼쪽으로, *을 "포인터, 무엇을 가리키냐면"라고 바꿔 읽어보면 쉬움</p>
-            </div>
-            <div class="post_subheading">두 const 합체</div>
-            <img src="{% static 'img/sourcecode/post7-65.png' %}">
-            <div class="post_text">
-                <li>"p is a const pointer to const int"</li>
-                <li>초기화된 후 절대 바뀌지 않는 변수가 있을 때 정도만 유용</li>
-                <p class="ml-7">⇒ 전역변수, 구조체 멤버 변수</p>
-            </div>
-            <div class="post_subheading">절대 하지말아야 할 const 제거</div>
-            <img src="{% static 'img/sourcecode/post7-66.png' %}">
-            <div class="post_text">
-                <li>캐스팅을 통해서 const를 제거할 수 있음 (const int* → int*로 바꿔버림)</li>
-                <li>기본 자료형에서는 큰 문제가 아님</li>
-                <p class="ml-7">⇒ 매개변수의 값을 복사해서 오기 때문에 그 매개변수의 값을 바꾼다고 원본이 바뀌지 않음</p>
-                <li>그러나 const를 가리키는 포인터의 경우 문제가됨</li>
-                <p class="ml-7">⇒ const를 제거하고 값을 바꾸면 원본이 바뀜</p>
-            </div>
-            <div class="post_subheading">const : BEST PRACTICES</div>
-            <div class="post_text">
-                <li>const는 반드시 const가 필요없는 경우가 아니라면 최대한 다 붙일 것</li>
-                <li>const 캐스팅은 하지 말 것</li>
-            </div>
-        </div>
-        <div id="포인터의용도">
-            <div class="post_heading">포인터의 용도</div>
-            <div class="post_subheading">(1) 큰 데이터를 매개변수로 전달할 때</div>
-            <div class="post_text">
-                <li>큰 데이터 매개변수 ⇒ 배열</li>
-                <li>배열의 요소가 커질수록 데이터를 복사하느라 시간을 낭비함</li>
-                <li>그래서 배열이 매개변수로 전달될 경우, 첫 번째 요소의 주소를 전달</li>
-            </div>
-            <div class="post_subheading">(2) 반환값이 둘 이상일 때</div>
-            <div class="post_text">
-                <li>C에서 return문으로 불가능 ⇒ 언제나 하나만 반환해야함</li>
-                <li>하지만 포인터를 사용하면 함수 안에서 원본을 직접 변경할 수 있음</li>
-                <li>원본의 값을 읽지 않고 그냥 덮어쓰는 거라면 반환이나 마찬가지</li>
-            </div>
-            <div class="post_subheading">(3) 동적 메모리 할당</div>
-            <div class="post_text">
-                <li>함수의 범위에 상관없이 한동안 사용하고자 하는 데이터가 다음과 같은 경우에 해당하면</li>
-                <div class="ml-7">
-                    <p>1. 그 데이터의 크기를 컴파일 도중에 알 수 없거나</p>
-                    <p>2. 프로그램 실행수명보다 짧은 시간동안만 사용하려고 할 때</p>
-                </div>
-                <li>동적으로 할당된 메모리는 역시 연속된 메모리 덩어리</li>
-                <li>따라서 포인터가 적합 ⇒ 배열과 비슷한 이유</li>
-            </div>
-            <div class="post_subheading">(4) 그 외...</div>
-            <div class="post_text">
-                <li>데이터 구조를 구현할 때</li>
-                <p class="ml-7">⇒ 연결 리스트, 트리 등과 같은 데이터 구조</p>
-                <li>임베디드 프로그래밍 등에서 하드웨어에 있는 메모리에 직접 접근해야할 때</li>
-                <p class="ml-7">⇒ 예 : 어떤 하드웨어는 화면을 보여주려면 특정 메모리 위치에 이미지 데이터를 직접 복사해줘야 함</p>
-            </div>
-        </div>
-        <div id="포인터배열">
-            <div class="post_heading">포인터 배열</div>
-            <div class="post_text">
-                <li>포인터도 그냥 변수니 당연히 포인터를 저장하는 배열도 있음</li>
-                <li>배열의 선언</li>
-                <img src="{% static 'img/sourcecode/post7-67.png' %}" class="ml-7">
-                <li>'배열의 배열'과 비슷한 개념</li>
-                <p class="ml-7">⇒ 바깥 쪽 배열은 행, 안쪽 배열은 열</p>
-                <p class="ml-7">⇒ 각 행마다 열의 길이가 달라질 수 있음</p>
-            </div>
-            <div class="post_subheading">포인터 배열 예시</div>
-            <img src="{% static 'img/sourcecode/post7-68.png' %}" class="mb-6">
-            <div class="post_subheading">합수의 포인터 배열 접근</div>
-            <img src="{% static 'img/sourcecode/post7-69.png' %}">
-            <div class="post_text">
-                <li>함수에서 포인터 배열을 접근하려면 각 내부의 길이를 알려주는 size_t 배열이 필요</li>
-            </div>
-            <div class="post_subheading">2차원 배열 : 배열과 포인트가 같다면 2D 배열도 위와 같이 사용이 가능할까?</div>
-            <img src="{% static 'img/sourcecode/post7-70.png' %}">
-            <div class="post_text">
-                <li>2차원 배열은 한 덩어리 메모리라 주소의 값이 저장된 곳이 없음</li>
-                <li>올바른 방법</li>
-                <p class="ml-7">⇒ 컴파일러가 매개변수가 2차원 배열이라는 것을 인지하며 matrix[1][ ] 할 때 몇개를 건너 뛰어야 하는지 알 수 있음</p>
-                <img src="{% static 'img/sourcecode/post7-71.png' %}" class="ml-7 mb-2">
-                <img src="{% static 'img/sourcecode/post7-72.png' %}" class="ml-7">
-            </div>
-            
-        </div>
-    </main>
+int my_nums[5];           /* {0, 1, 2, 3, 4} */
+process(my_nums, 5);
+
+void process(int nums[], const size_t n) {
+size_t i;
+for (i = 0; i &lt; n; ++i) {
+    nums[i] *= 2;
+}
+}</code></pre><h3 id="74124744-3571-400a-93d8-c52285e36d07" class="">주소를 사용해서 메모리 내 변수 접근</h3><ul id="0ba75085-6d41-437f-9e1a-cf7f428cf7ce" class="bulleted-list"><li style="list-style-type:disc">다른 언어였다면 불가능</li></ul><ul id="36f0004c-7e83-4e82-9ada-35b5b7fd4cac" class="bulleted-list"><li style="list-style-type:disc">하지만 C는 하드웨어와 가장 친한 친구로 가능</li></ul><ul id="c14d46ea-d0ab-40bc-a836-92306a4fa4e9" class="bulleted-list"><li style="list-style-type:disc">이것을 활용하여 매우 강력한 일을 할 수 있음</li></ul><h2 id="feafd4c3-59fc-4536-a433-7b5d6865de4a" class="">주소연산자 &amp;</h2><pre id="e1cb193a-33a9-49b6-9d50-649b9c5427b7" class="code"><code>#include &lt;stdio.h&gt;
+
+void print_address(void)
+{
+int num = 10;
+printf(&quot;Address of num : %p\n, (void)&amp;num);
+}
+
+int main(void)
+{
+print_address();
+
+return 0;
+}</code></pre><ul id="20520712-86ec-4b74-ae1b-575f498edbae" class="bulleted-list"><li style="list-style-type:disc">일단 어떤 변수가 어느 주소에 저장되어 있는지 알 수 있는 첫 단계</li></ul><ul id="1612092b-1c1d-4d33-88e9-19115cedb03c" class="bulleted-list"><li style="list-style-type:disc">비트 연산자 <code>&amp;</code>가 아님<p id="f7b3c21c-cf43-4365-b1ba-55843bf4824d" class="">⇒ 비트 연산자는 피연산자가 2개, 주소 연산자는 피연산자가 1개</p><pre id="35230e90-ca86-4a88-b116-2001b720ca21" class="code"><code>const unsigned char result = num1 &amp; num2;          /* 비트 연산자 */
+printf(&quot;Address of num : %p\n, (void)&amp;num);        /* 주소 연산자 */</code></pre></li></ul><ul id="114b3636-dc26-42fa-9f7d-910b25f217fd" class="bulleted-list"><li style="list-style-type:disc"><code>num</code>이란 변수가 있으면 <code>&amp;num</code>은 그 변수가 위치한 메모리 주소</li></ul><ul id="27c77ee7-4aab-4207-b6b7-5a437d674796" class="bulleted-list"><li style="list-style-type:disc">보통 주소를 보여줄 때는 16진수를 사용 → <code>printf()</code>에서 서식문자 <code>%p</code>는 주소를 16진수로 보여줌</li></ul><ul id="47e891a9-8d20-496d-a2c3-ccec70b56a87" class="bulleted-list"><li style="list-style-type:disc">실행할 때마다 주소가 달라질 수 있음 → 요즘 운영체제에서는 보안강화를 위해 실행할 때마다 주소를 바꿔줌(ASLR)</li></ul><h3 id="cff8d5b8-b8e3-4c02-a46d-f0849491465d" class="">메모리 주소 저장하기</h3><p id="30d9d7a3-7da4-4d53-9da7-248a67830b25" class=""><strong>&lt;의문점&gt;</strong></p><ul id="2c259afd-03d9-44d7-9e44-a437f38891f2" class="bulleted-list"><li style="list-style-type:disc">주소를 구할 때마다 그 변수가 필요하다면 그냥 그 변수를 쓰고 말지</li></ul><ul id="0c42aa2a-464d-461d-8718-9de0a7705fdc" class="bulleted-list"><li style="list-style-type:disc">그보다는 그 주소를 어딘가에 저장해 둘 수 있다면 좋을 것 같은데..</li></ul><ul id="84ed2487-676e-415a-99d8-7a821de72faf" class="bulleted-list"><li style="list-style-type:disc">그러면 변수가 없어도 주소만으로 여기저기 옮겨다닐 수 있을텐데..<p id="d0034f89-56a8-49a2-bd9c-5da83406be1a" class="">⇒ 가령 &#x27;변수의 주소&#x27;의 다음 메모리 위치를 읽는다던가</p></li></ul><p id="63cfcdca-7a44-4519-bfda-8945ac718096" class=""><strong>&lt;메모리 주소를 변수처럼 저장 시도&gt;</strong></p><pre id="33414567-61c4-4cfc-895c-b43d57c17bd1" class="code"><code>/* 컴파일 오류 발생 */
+
+
+void try_save_address(void)
+{
+int num = 10;
+int num_address = &amp;num;
+}</code></pre><p id="54ef2a92-5dfe-459d-9447-b70401965be5" class="">&lt;<strong>문제점</strong>&gt;</p><pre id="df201f29-b68a-4873-835b-3fc4b71e7cb2" class="code"><code>void play_game(void)
+{
+int a = 202020;
+int b = 202020;
+}</code></pre><ul id="a5099b2e-abeb-4f12-b59b-36afeede7b5c" class="bulleted-list"><li style="list-style-type:disc">둘 중 무엇이 &#x27;주소&#x27;고 무엇이 &#x27;값&#x27;인지 알 수 없음</li></ul><ul id="13159e79-0ff9-465c-a643-69c0b9ba8aff" class="bulleted-list"><li style="list-style-type:disc">따라서 주소를 저장하기 위한 특별한 변수가 필요함 ⇒ 포인터</li></ul><h2 id="77dd701c-9b3f-4a55-b4a9-ac9463af2451" class="">포인터의 의미</h2><ul id="0ad57986-ebed-409d-9a7a-93f5dd20abcf" class="bulleted-list"><li style="list-style-type:disc">주소를 저장하기 위한 변수형</li></ul><ul id="931564c7-cc44-41f9-a7b3-a2085d14cb2d" class="bulleted-list"><li style="list-style-type:disc">즉, 변수인데 속에 담긴 내용은 메모리 주소를 의미함<p id="c0c7fe4b-700c-4d86-ab9e-1d57bac70790" class="">⇒ 주소 : 값이 저장되어 있는 메모리의 위치</p></li></ul><h3 id="494d0613-45a7-4da7-ab9e-d8171b99632e" class="">메모리 주소에 저장된 자료형</h3><ul id="42b20682-5dd1-4417-b628-6ec2dcf5eb27" class="bulleted-list"><li style="list-style-type:disc">하드웨어는 신경 안씀<p id="91d8cdf9-8b91-4afb-8f3d-5c971aa583b3" class="">⇒ 그 비트패턴을 <code>char</code>로 읽으면 <code>char</code>, <code>int</code>로 읽으면 <code>int</code>, <code>float</code>으로 읽으면 <code>float</code>이 됨</p></li></ul><ul id="bcfdd1eb-0b17-4375-9118-95578a913926" class="bulleted-list"><li style="list-style-type:disc">그러나 해당 주소에서부터 몇 바이트를 읽어야하는지는 하드웨어에게 알려줄 필요가 있음. 그래서 포인터 변수를 선언할 때는 &#x27;그 주소에 어떤 형의 데이터가 있는지&#x27; 명시하기 위해 포인터 앞에 자료형을 붙임 (<code>int</code> 포인터, <code>float</code> 포인터, <code>char</code> 포인터)</li></ul><h3 id="37967390-507c-469a-9ae4-4de82e3e6ea4" class="">포인터 변수를 선언하는 법 / 부르는 법</h3><pre id="186c5e34-9c53-4050-89ed-84370ce14876" class="code"><code>void save_address(void)
+{
+int num = 10;
+int* num_address = &amp;num;
+}</code></pre><ul id="c844e589-320c-4a1a-b828-13f87915be4d" class="bulleted-list"><li style="list-style-type:disc">포인터 변수를 선언하려면 자료형 뒤에 별표(<code>*</code>)를 붙임</li></ul><ul id="f3d4c07a-3616-4e09-bbdf-5f4d6b2c45e2" class="bulleted-list"><li style="list-style-type:disc">별표 왼쪽에 있는 자료형은 그 메모리 주소로 가면 저장되어 있는 자료형<ol type="a" id="2e0f29d6-e482-4ca8-822a-832f3f312397" class="numbered-list" start="1"><li><code>int*</code> : 주소를 따라가면 <code>int</code>형 자료가 있음</li></ol><ol type="a" id="bf1d1534-c487-4cf6-8c68-2ef5dce32e7a" class="numbered-list" start="2"><li><code>char*</code> : 주소를 따라가면 <code>char</code>형 자료가 있음</li></ol><ol type="a" id="145d497d-44fa-4269-8b45-61a06a283266" class="numbered-list" start="3"><li><code>float*</code> : 주소를 따라가면 <code>float</code>형 자료가 있음</li></ol></li></ul><ul id="6cd5810c-742c-4ffc-95df-93ad7d8b19c6" class="bulleted-list"><li style="list-style-type:disc">보통 <code>num_adress</code>를 int 포인터라고 부름<p id="0c21e21a-a8e8-4461-973d-27c1a4b4dcc7" class="">⇒ 영어로는 <code>int</code>로의 포인터(pointer to an int)라고도 함 (뒤에서부터 읽음)</p></li></ul><h3 id="6f2ef563-4eac-4035-ae20-596790611698" class="">포인터 변수의 저장 위치</h3><ul id="2b9e6ca9-cec4-4681-9291-7351c4a031aa" class="bulleted-list"><li style="list-style-type:disc">포인터는 메모리 주소를 저장하는 변수</li></ul><ul id="ac2b9d91-a781-434c-adb1-c053b40c7ff9" class="bulleted-list"><li style="list-style-type:disc">그러면 이 변수는 어디에 저장이 되어 있는가 → 메모리 어딘가</li></ul><ul id="f979197a-a68d-4aaa-8010-1863f6954f38" class="bulleted-list"><li style="list-style-type:disc">아래와 같이 저장이 되어 있음</li></ul><ul id="4168d47d-a4a7-4d64-b374-68ac0f52a9e2" class="bulleted-list"><li style="list-style-type:disc">하지만 이렇게 기억하면 나중에 &#x27;이중 포인터&#x27;가 나올 때 헷갈릴 수 있음</li></ul><ul id="4b77377a-7bdb-45c4-81cb-e216b21194a3" class="bulleted-list"><li style="list-style-type:disc">따라서 기본 개념은 &quot;메모리 주소를 저장하는 변수&quot;라고 기억하고 시각적으로 보는게 필요하면 그려보는게 좋음</li></ul><h3 id="2c793bf7-5aa9-4e02-aefa-40a3c52d5b66" class="">포인터에 저장된 주소도 바꿀 수 있는가?</h3><ul id="154e3d80-4fce-48c7-97d5-58b12b856356" class="bulleted-list"><li style="list-style-type:disc">포인터도 변수이기 때문에 포인터에 저장한 값도 변경 가능</li></ul><ul id="3588101e-fccb-4ca7-bd8c-8f0c8946d6cc" class="bulleted-list"><li style="list-style-type:disc">즉, 다른 주소로 바꿀 수 있음</li></ul><pre id="4587218a-42da-4d83-9cd2-2f7e12593827" class="code"><code>void change_pointer(void)
+{
+char ch1 = &quot;C&quot;;
+char ch2 = &quot;z&quot;;
+
+char* pointer = &amp;ch1;
+printf(&quot;%p: %c\n&quot;, (void*)pointer, *pointer);
+/* 008FFA73 : C */
+
+pointer = &amp;ch2;
+printf(&quot;%p: %c\n&quot;, (void*)pointer, *pointer);
+/* 008FFA73 : C */
+/* 008FFA72 : z */
+}</code></pre><h2 id="e6192ae5-9d4b-4b9b-85a0-3129c3e187b6" class="">역 참조 연산자 *</h2><ul id="ba8d2bd2-7c49-4d7e-b981-54489535d83a" class="bulleted-list"><li style="list-style-type:disc">포인터도 변수니까 당연히 변수 쓰는 곳에는 다 쓸 수 있음</li></ul><ul id="e370c68b-c19a-410e-9619-9d9a8d7424f5" class="bulleted-list"><li style="list-style-type:disc">따라서 매개변수도 가능</li></ul><ul id="a8b4c2a9-05af-4221-8460-e9689f8e96e1" class="bulleted-list"><li style="list-style-type:disc">곱하기 연산자가 아님<p id="a4bddaa7-a00a-4ecf-8622-fe56291ffd17" class="">⇒ 곱하기 연산자는 피연산자 2개, 역 참조 연산자는 피연산자가 1개</p><pre id="f2a61ccf-d6ac-4b53-b867-841d4023adeb" class="code"><code>const int result = num1 * num2         /* 곱하기 연산자 */
+printf(&quot;num : %d\n&quot;, *num);            /* 역 참조 연산자 */</code></pre></li></ul><p id="e23db7cb-15dd-4522-b82b-e0421a145f9c" class=""><strong>&lt;예시&gt;</strong></p><pre id="0affe7db-1dd7-4e38-9676-504245a6ae26" class="code"><code>void print_address(int* num)
+{
+printf(&quot;address of num: %p\n, (void*)num);
+}
+
+/* 메인 함수 */
+int score = 88;
+print_address(&amp;score);</code></pre><p id="1daf40eb-73af-4c9e-83fe-c6f8dcbf978a" class="">⇒ 하지만 위의 함수는 단순히 주소만 보여주며 별 의미있는 함수가 되지 못함</p><pre id="5be8fe22-f97d-4d55-9685-6c34f47d32f3" class="code"><code>void print_value(void)
+{
+int score = 100;
+int* pointer = &amp;score;
+
+printf(&quot;score: %d\n&quot;, *pointer);
+}
+
+void print_argument(float* arg)
+{
+pinrtf(&quot;argument: %f\n&quot;, *arg);
+}
+
+/* 메인 함수 */
+float pi;
+
+print_value();
+
+pi = 3.14f;
+print_argument(&amp;pi);
+</code></pre><pre id="c9d69840-efbc-43da-bbc0-8f5275379900" class="code"><code>&gt; a.exe
+score: 100
+argument: 3.140000</code></pre><h3 id="e08fb66d-8d0d-400c-960d-03060e215b6c" class="">참조와 역 참조</h3><p id="e924ae8e-f98d-43d0-84eb-b32260dc4237" class="">1) 참조<div class="indented"><ul id="5f51b8f6-3b02-4062-a312-42a7859e774d" class="bulleted-list"><li style="list-style-type:disc">포인터가 이미 하고있는 일</li></ul><ul id="61973e26-c378-44dc-9b80-c985db6b9460" class="bulleted-list"><li style="list-style-type:disc">어떤 변수의 값을 직접 가져다 쓰는 게 아니라 그게 어디에 있는지 &#x27;참조&#x27;</li></ul><ul id="1338c8ba-efce-489f-9b21-42a48c1d1bb2" class="bulleted-list"><li style="list-style-type:disc">즉, 값이 어디에 있는지 가리키고 있는것</li></ul></div></p><p id="012a941a-da9c-4f63-8bed-1227ab2a29f7" class="">2) 역 참조<div class="indented"><ul id="d0d30d77-a0bb-4a13-acb8-7c57c987dbf9" class="bulleted-list"><li style="list-style-type:disc">주소로 직접 가서 거기 저장되어 있는 값에 접근하는 것</li></ul><ul id="68752bd4-5b21-4f58-9ef8-2903b16f2061" class="bulleted-list"><li style="list-style-type:disc">참조(reference)의 반대라 역 참조(de-reference)라 말함</li></ul><ul id="eab240c7-76c2-49b8-9d43-b9116f49f89c" class="bulleted-list"><li style="list-style-type:disc">값에 직접 접근하는게 아니라 주소를 이용해 간접적(한 단계 거쳐서)으로 접근</li></ul><ul id="027a7cf9-db92-465f-9818-ae4914c31677" class="bulleted-list"><li style="list-style-type:disc">따라서 간접(indirect) 연산자라고도 함<p id="1cca1e1c-1fed-472e-8854-cd107e7c3b8a" class="">⇒ 여태까지는 모든 데이터를 복사해서 썼다면 이는 원본에 접근 가능<div class="indented"><p id="f13d6921-d8b7-4e92-8c1f-e45ffb3738b4" class="">컴퓨터 구조에서 데이터를 오랫동안 메모리에 저장하는 방법</p></div></p></li></ul></div></p><h3 id="8b1a6655-1682-4b24-b8cf-4b576fb211a5" class="">역 참조를 통해 값을 변경하는 예</h3><pre id="0bcd022b-b02f-4c59-83e5-2e5b034e3404" class="code"><code>void update_value(void)
+{
+int score = 100;
+int* pointer = &amp;score;
+
+printf(&quot;score: %d\n&quot;, *pointer);
+*pointer = 50;
+printf(&quot;updated score: %d\n&quot;, *pointer);
+}
+
+void update_argument(float* arg)
+{
+printf(&quot;argument: %f\n&quot;, *arg);
+*arg = 93485.2f;
+printf(&quot;updated argument: %f\n&quot;, *arg);
+}</code></pre><pre id="fc97f54a-3a3e-4fe5-83fc-1ba349c3a8a8" class="code"><code>score: 100
+updated score: 50
+argument: 3.140000
+updated argument: 93485.203125</code></pre><pre id="ee98d1ca-32ea-4e17-afac-8059fa6116fb" class="code"><code>/* 다음 두 코드는 결과적으로 같음 */
+
+int score = 100;
+score = 50;
+
+int score = 100;
+int* pointer = &amp;score;               /* 포인터 변수 선언(*) */
+*pointer = 50;                       /* 역 참조(*) */</code></pre><h3 id="6849f737-42ff-4f73-b68b-19126052f6bf" class="">퀴즈</h3><pre id="ebd2c162-e47d-47e6-b76b-f1fa529a8b81" class="code"><code>#include &lt;stdio.h&gt;
+
+int main(void)
+{
+int num1 = 15;
+int num2 = 30;
+int num3 = 45;
+
+int* ptr1 = &amp;num1;
+int* ptr2 = &amp;num2;
+int* ptr3 = &amp;num3;
+
+ptr1 = ptr2;
+ptr2 = ptr3;
+
+*ptr3 *= 2;        
+*ptr1 += *ptr3;   
+*ptr2 *= 2;        
+
+printf(&quot;%d %d %d&quot;, num1, num2, num3);
+
+return 0;
+}
+
+/* 정답 : 15, 120, 180 */
+</code></pre><h3 id="987ded17-a06f-45c8-9b3e-c2608e2e794c" class="">swap()</h3><pre id="eebb5e43-f089-4ab7-a9fa-e756d7ea5fa7" class="code"><code>void swap(int num1, int num2)
+{
+int tmp;
+
+tmp = num1;
+num1 = num2;
+num2 = tmp;
+}
+
+#include &lt;stdio.h&gt;
+int main(void)
+{
+int num1 = 20;
+int num2 = 10;
+
+printf(&quot;num1: %d, num2: %d\n&quot;, num1, num2);       /* num1 : 20, num2 : 10 */
+swap(num1, num2)
+printf(&quot;num1: %d, num2: %d\n&quot;, num1, num2);       /* num1 : 20, num2 : 10 */
+
+return 0;
+}</code></pre><ul id="320e5f1e-effb-4b89-835a-0dce3de91389" class="bulleted-list"><li style="list-style-type:disc">실제로 교체되지 않음</li></ul><ul id="308761f5-00e2-4329-af84-143621b035e9" class="bulleted-list"><li style="list-style-type:disc">스택 메모리에서 값을 복사하기 때문</li></ul><ul id="773f235d-4ac4-4e5b-aa3f-94e659960def" class="bulleted-list"><li style="list-style-type:disc">C#에서는 <code>ref</code> 키워드로 해결, 하지만 C는 그런 키워드 없음<p id="f654bc7f-6f1c-4a9f-99d1-74427ae7641e" class="">⇒ 포인터로 해결 가능</p></li></ul><pre id="d98b38c3-7a25-400c-acec-239b83fbfd70" class="code"><code>void swap(int* arg1, int* arg2)
+{
+int tmp;
+
+tmp = *arg1;
+*arg1= *arg2;
+*arg2= tmp;
+}
+
+/* 메인 함수*/
+
+int num1 = 20;
+int num2 = 10;
+
+swap(&amp;num1, &amp;num2)
+printf(&quot;num1: %d, num2: %d\n&quot;, num1, num2);       /* num1 : 10, num2 : 20 */
+
+return 0;
+}</code></pre><h3 id="c5ce6fbc-9c37-4d3a-b7cd-18bec03ac554" class="">값에 의한 전달 vs 참조에 의한 전달</h3><ul id="21117656-9d2c-48af-be00-b18797411243" class="bulleted-list"><li style="list-style-type:disc">원본이 바뀌니 ⇒ 참조에 의한 전달</li></ul><ul id="62747c13-76d0-4396-89e3-10b2a1e7fad2" class="bulleted-list"><li style="list-style-type:disc">하지만 메모리 주소를 복사하였으니 ⇒ 값에 의한 전달</li></ul><ul id="9a171633-bbe0-4d59-8ba7-e718d6ba110c" class="bulleted-list"><li style="list-style-type:disc">함수를 호출할 때 언제나 변수를 복사하므로 값에 의한 전달</li></ul><ul id="b1c4e160-01f6-4154-b25a-a4d5d78bc41a" class="bulleted-list"><li style="list-style-type:disc">단, 포인터를 사용해서 참조에 의한 전달을 흉내낼 뿐</li></ul><ul id="1113e8b5-b9bc-4ce7-8cc8-e27efec2cfd0" class="bulleted-list"><li style="list-style-type:disc">원본이 바뀌는지 안 바뀌는지가 핵심 포인트임</li></ul><ul id="75a890d4-5aa0-4b47-8636-fdc53461436c" class="bulleted-list"><li style="list-style-type:disc">굳이 &#x27;~에 의한 전달&#x27;이라고 말해야 한다면 &#x27;참조에 의한 전달&#x27;이라고 말하는게 차라리 나음</li></ul><h2 id="605cf767-c3a0-44a8-8549-35c2a123a48c" class="">포인터와 함수 반환값</h2><ul id="b62bad1f-8e4a-433c-94f4-5bcf13870c37" class="bulleted-list"><li style="list-style-type:disc">당연히 포인터도 변수니까 함수 반환값으로 사용 가능</li></ul><ul id="6b4fb72a-5a68-48c0-97f7-791f0c8c5ff1" class="bulleted-list"><li style="list-style-type:disc">다만 포인터를 반환할 때 조심해야할 것들이 있음</li></ul><h3 id="c4e63ed2-28b9-42bc-870f-9fc73b444319" class="">댕글링 포인터(dangling pointer)</h3><pre id="3ce3eae9-c8dc-4e42-8b75-a7d7af7b053b" class="code"><code>int* add(const* int op1, const int op2)
+{
+int result = op1 + op2
+
+return &amp;result
+}
+
+int main(void)
+{
+int* result;
+result = add(10, 20);
+
+return = 0;
+}
+
+/* warning 발생: return &amp;result */</code></pre><ul id="e34ddbd8-976d-4326-99ac-5919f9323fb7" class="bulleted-list"><li style="list-style-type:disc">함수의 지역변수는 스택에 저장됨<p id="7a66f9b6-5967-489b-9b5b-f7a4e9ae9675" class="">즉, 함수의 호출이 끝나면 지역 변수도 사라짐 (<code>return</code> <code>&amp;result</code>)</p></li></ul><ul id="1969fcf5-2c72-4e95-b81b-767234d4a4dc" class="bulleted-list"><li style="list-style-type:disc">그러나 지역변수가 사용한 &#x27;주소&#x27;자체가 사라지는 것은 아님</li></ul><ul id="233ef0cb-ff22-4e8b-8f5f-4621d205ab4e" class="bulleted-list"><li style="list-style-type:disc">따라서 그 주소를 반환한다고 컴퓨일 오류가 나지는 않음<p id="c76e6841-5a77-499d-9327-6f9577a1dfda" class="">⇒ 컴파일러에 따라 상기와 같은 경고를 줄 수 있음</p></li></ul><ul id="1ad0b072-84c5-4274-8aff-c1f4488f3d55" class="bulleted-list"><li style="list-style-type:disc">문제는 포인터가 유효하지 않은 주소를 가리킴<p id="dd60ae15-a0c7-4a4d-ab00-c269c2f9e2c3" class="">⇒ 이 경우 예측하지 못한 결과가 발생할 수 있음</p></li></ul><ul id="78d4e91d-36b3-442d-876c-d9ea22520721" class="bulleted-list"><li style="list-style-type:disc">이러한 포인터를 댕글링 포인터라고 하며, <strong>절대 작성해서는 안되는 코드</strong>임</li></ul><h3 id="57d2bf3b-90b8-4c4e-a1cf-5efeec3dd05d" class="">포인터와 함수 반환값 정리</h3><ul id="ee699674-3a49-4e9a-91ba-3c44864402da" class="bulleted-list"><li style="list-style-type:disc">포인터를 반환할 경우 댕글링 포인트를 조심해야함</li></ul><ul id="0b888ce8-72b8-4004-be1e-316159c5e4b3" class="bulleted-list"><li style="list-style-type:disc">포인터를 반환해도 되는 경우<ul id="08527912-4302-46f9-b86f-ce25aa98a6eb" class="bulleted-list"><li style="list-style-type:circle">전역변수</li></ul><ul id="99ef4c7f-5eda-48bb-bc17-28999571c382" class="bulleted-list"><li style="list-style-type:circle">파일 속 <code>static</code> 전역변수</li></ul><ul id="3b3f5daf-321b-4d32-8f09-e7531d62c6bf" class="bulleted-list"><li style="list-style-type:circle">함수 내 <code>static</code> 변수</li></ul><ul id="0769ad30-3bdb-4ad1-8887-870a62d02335" class="bulleted-list"><li style="list-style-type:circle">힙 메모리에 생성한 데이터</li></ul></li></ul><ul id="7f974055-b374-494f-ab31-6d2344c27657" class="bulleted-list"><li style="list-style-type:disc">포인터 함수 반환값의 사용<ul id="0b177580-8b4e-4d16-911b-4c4837ad46f5" class="bulleted-list"><li style="list-style-type:circle">도우미 함수 안에 생선한 변수를 다른 함수에서 사용하고자 할 때<p id="bdd03f13-5718-4e86-8f29-b290a052dc4c" class="">⇒ 단, 일반 지역변수면 안됨 (함수 호출이 끝나면 사라짐)</p></li></ul><ul id="5d666096-7915-477a-bb02-800d409fa814" class="bulleted-list"><li style="list-style-type:circle">함수 안에서 대용량 데이터를 생성하고 그걸 반환하고자 할 때<p id="432f0423-4319-4de9-8877-d4784f28fb90" class="">⇒ 이 경우에는 스택 메모리가 아니라 힙 메모리라는 곳에서 생성함</p></li></ul></li></ul><h2 id="118c7206-fb12-411a-92ec-51b8ca466ff3" class="">널(NULL) 포인터</h2><pre id="d56279d3-5e1c-4153-aee8-1733891856e5" class="code"><code>void do_something()
+{
+int number;
+int* num_ptr = &amp;number;
+
+/* 코드 생략 */
+
+number_ptr = NULL;
+}</code></pre><ul id="86c17d34-4ffd-469a-9f00-80a365122c4f" class="bulleted-list"><li style="list-style-type:disc">반환할 주소가 없는 경우</li></ul><h3 id="28c9510d-7af2-4508-9baf-63db0792301e" class="">널 포인터</h3><ul id="2e582b5e-28fc-4a2e-bbc6-d9517fd2b4e1" class="bulleted-list"><li style="list-style-type:disc">아무것도 카리키지 않는 포인터 → 실제 주소가 없음 → 유효한 메모리를 가리키고 있지 않음</li></ul><ul id="b0151e17-c1a1-4915-b7cc-616697a5758b" class="bulleted-list"><li style="list-style-type:disc">1) 값이 &#x27;0&#x27;인 정수/상수 표현식, 혹은 2) <code>void*</code>로 캐스팅 된 표현식</li></ul><ul id="84fd9fbd-308e-48a9-ad4f-89101bf820e8" class="bulleted-list"><li style="list-style-type:disc">전용 매크로가 있음<pre id="f83671b8-9683-425e-81b4-9b971ecb9a67" class="code"><code>#define NULL ((void*)0)</code></pre><p id="fe5de6f2-e601-4273-8461-ee4d9531860d" class="">⇒ 널 포인터를 표현할 때 위의 매크로를 사용할 것</p></li></ul><ul id="21727d68-f978-4bea-b7c1-72aba2323edb" class="bulleted-list"><li style="list-style-type:disc">포인터 변수와 <code>NULL</code>은 비교(<code>==</code>, <code>!=</code>) 가능<pre id="404f4d37-e2fb-49fc-95c2-4c03946b9fad" class="code"><code>int* ptr;
+
+if (ptr == NULL) {               /* 만약 PTR이 널 포인터면 */
+/* 코드 생략 */
+}
+
+if (ptr != NULL) {               /* 만약 PTR이 널 포인터가 아니라면 */
+/* 코드 생략 */
+}</code></pre></li></ul><h3 id="200c3134-706a-4335-88fc-b487e169bf6d" class="">코딩표준 : 매크로 NULL을 반드시 사용할 것</h3><pre id="2c800f6b-05d8-4732-b82e-dbf01343e6f3" class="code"><code>/* 별로인 코드 */
+
+#define PRICE (2)
+
+void increase_price(int* current_price)
+{
+if (current_price != 0) {
+    *current_price =+ PRICE;
+}
+}
+
+/* 올바른 코드 */
+
+#define PRICE (2)
+
+void increase_price(int* current_price)
+{
+if (current_price != NULL) {
+    *current_price =+ PRICE;
+}
+}</code></pre><ul id="1aaf063e-4d65-4009-bef3-c9d387c795b9" class="bulleted-list"><li style="list-style-type:disc">0은 사용하지 않음!</li></ul><ul id="d40df73d-11bc-4423-882b-3ac808a09c78" class="bulleted-list"><li style="list-style-type:disc"><code>if (ptr)</code> 만 사용하여도 존재할 때와 아닐 때를 구분할 수 있어 혼돈이 적으나 왠만하면 직접 표시해주는 것이 좋음</li></ul><h3 id="b1bcc444-c6e5-4bff-a49a-044d86ce635c" class="">널 포인터와 매개변수</h3><ul id="a4c1ade3-aafc-4b3f-9ba8-60bf886e0cb2" class="bulleted-list"><li style="list-style-type:disc">함수 매개변수로 포인터가 들어올 올 때는 언제나 골칫덩어리</li></ul><ul id="8a511a0f-9593-4050-a92b-3b68291be7dc" class="bulleted-list"><li style="list-style-type:disc">누구나 <code>NULL</code>을 넣을 수 있기 때문</li></ul><ul id="5f068cc0-744e-4cbb-a5d9-2607d8053b83" class="bulleted-list"><li style="list-style-type:disc">함수의 선조건(precondition) 문제</li></ul><ul id="3614997a-5676-45be-b2fc-7d69be6ae456" class="bulleted-list"><li style="list-style-type:disc">기본적으로 <code>NULL</code>이 안 들어온다고 가정하고 함수 작성</li></ul><ul id="3209d600-4321-4c9b-ad42-dd3a023d151f" class="bulleted-list"><li style="list-style-type:disc"><code>NULL</code>이 들어올 수 있는 함수는 매개변수 명에서 분명하게 밝혀야함</li></ul><h3 id="61d54671-3bdc-4e93-9f36-786cbc3526b2" class="">코딩 표준 : 널 포인터를 허용하는 매개변수</h3><ul id="44fae5d4-b671-4516-882f-492f809981e0" class="bulleted-list"><li style="list-style-type:disc">함수의 매개변수가 널 포인터를 허용한다면, 매개변수 이름 끝에 &#x27;<code>or_null</code>&#x27;을 붙이는 것이 좋음<pre id="103dc111-b527-4bb1-9971-b3c0362dc1c3" class="code"><code>int get_score(const char* const student_id_or_null)
+{
+/* 코드 생략 */
+}</code></pre></li></ul><ul id="ad2fff92-032d-4805-9b6c-8f20679c6ac3" class="bulleted-list"><li style="list-style-type:disc"><code>NULL</code>이 안 들어온다고 가정한 경우 <code>assert()</code>를 사용해 검증<pre id="21f2ce73-f7a7-4b77-8ea7-9711057ed0c4" class="code"><code>#include &lt;assert.h&gt;
+
+#define PRICE (2)
+
+void increase_price(int* current_price)
+{
+assert(current_price != NULL);
+*current_price =+ PRICE;
+}</code></pre></li></ul><hr id="f6764d81-4575-4222-95a0-de96ce2ed196"/><p id="848b6eb9-4910-43e4-a469-464ad8c032f1" class=""><strong>assert 함수</strong></p><ul id="b0c18885-aa67-4d1c-b782-20a2a9091591" class="bulleted-list"><li style="list-style-type:disc">디버깅 모드에서 개발자가 오류가 생기면 치명적일 것이라는 곳에 심어 놓는 에러 검출용 코드</li></ul><ul id="21d17723-7ebe-4aa5-bf72-865c234339cb" class="bulleted-list"><li style="list-style-type:disc">디버깅용 함수이기에 release 모드에서는 동작하지 않음 ⇒ 코드를 다 완성하고 동작할 때 돌아가는 함수가 아님</li></ul><ul id="ad81eed1-8a0f-4fb2-b9d6-f1a0ec3fe551" class="bulleted-list"><li style="list-style-type:disc"><strong>assert함수</strong>에 걸리게 되면 <strong>버그 발생위치, call stack등 여러 정보를 알 수 있음</strong></li></ul><ul id="cf94ae11-b074-47ab-9162-0cfeb80fd22f" class="bulleted-list"><li style="list-style-type:disc"><code>assert(A != NULL)</code>;<p id="07b4099d-6ad1-4fd5-a4f0-ddaec96ad4f2" class="">A가 <code>NULL</code>이 아니라면 <code>true(1)</code>가 나오므로 pass</p><p id="34fb84e0-ccf8-4d60-a474-23654e184b27" class="">A가 <code>NULL</code>이라면 <code>false(0)</code>가 나오므로 assert error</p></li></ul><hr id="e16e4bd1-e7b8-4cbf-af00-be55e90b61c7"/><h3 id="a901b334-acef-43ef-8eb6-d3561e7b9510" class="">널 포인터와 반환값</h3><ul id="a08c0cf4-89b8-45e4-8c02-cd69c241f6d0" class="bulleted-list"><li style="list-style-type:disc"><code>NULL</code>을 반환할 때도 마찬가지</li></ul><ul id="cc88ee36-3bd4-45c4-acd6-dd66980afb41" class="bulleted-list"><li style="list-style-type:disc">기본적으로 안 함</li></ul><ul id="b394a72f-5c3b-431a-bc53-49be60464e9a" class="bulleted-list"><li style="list-style-type:disc">반환해야 한다면 함수 이름에 <code>NULL</code>을 반환하는 것을 명시</li></ul><h3 id="9c081ea5-41ae-40b7-96a9-222e83e713ae" class="">코딩 표준 : 널 포인터를 반환하는 함수명</h3><pre id="f909e9b4-9e00-48dc-b824-2d56761caa83" class="code"><code>const char* get_name_or_null(const int id)
+{
+/* 코드 생략 */
+return NULL;
+}</code></pre><h3 id="98db533d-556a-4287-9b7c-f3ea2ad760ea" class="">널 포인터의 사용</h3><p id="60c7968e-41a0-45b9-ba7e-d3e267ee6e6f" class="">1) 포인터 변수를 초기화하고 싶을 때<div class="indented"><pre id="56406cbe-71e5-4aed-918e-82d9804892aa" class="code"><code>void do_something(void)
+{
+int* ptr = NULL;              /* 당장 사용하지 않으므로 널 포인터로 초기화 */
+/* 코드 생략 */
+ptr = &amp;g_monster_count;       /* 후에 전역변수의 주소 저장 */
+/* 코드 생략 */  
+}</code></pre><p id="7be01d2c-fa09-4351-8932-7d9d5cb74690" class="">⇒ 아직 참조할 주소가 없을 때</p></div></p><p id="04341a0a-26fe-4f26-8a66-6c96b77604ec" class="">2) 포인터 변수가 유효하지 않은 주소를 참조하고 있는지 확인하고 싶을 때<div class="indented"><pre id="0bce764c-d7b6-4966-aaba-add2080e1eb1" class="code"><code>void do_something(void)
+{
+/* 다른 변수 생략 */
+int* ptr = &amp;num;  
+        
+/* 코드 200줄 */
+ptr = NULL;  
+    
+/* 코드 500줄 */
+*ptr = 100                      /* 결과가 정의되지 않음 */
+}   </code></pre><p id="98d57559-155b-44b6-8f2c-a2e15ee34b39" class="">⇒ 아무것도 가리키지 않는 포인트 변수를 역 참조하면 결과가 정의되지 않음 (undifined)</p><pre id="75a0a451-2a00-41e0-a1b1-65a1127c4c0f" class="code"><code>void do_something(void)
+{
+/* 다른 변수 생략 */
+int* ptr = &amp;num;  
+        
+/* 코드 200줄 */
+ptr = NULL;  
+    
+/* 코드 500줄 */
+if (ptr != NULL) {
+*ptr = 100
+}
+}        </code></pre><p id="7808f874-f4a7-4377-9b80-5a49123ef54e" class="">⇒ 역 참조를 하기 전에 널 포인터인지 확인해야함</p></div></p><p id="7add4ae2-ad27-4812-be5c-f54b265cca25" class="">3) 댕글링 포인터를 막기 위해<div class="indented"><pre id="f8b79f74-a3db-452e-9b68-06cf240fafdc" class="code"><code>/* 동적 메모리 할당 */
+int* ptr = (int*)malloc(sizeof(int));
+
+/* 코드 100줄 */
+
+/* 더이상 ptr을 사용하지 않음 */
+free(ptr);
+ptr = NULL;</code></pre><p id="239eb84d-7ee3-40a5-a3f9-e96c5ad17935" class="">⇒ 동적 메모리 할당된 메모리를 더이상 필요 없어서 해제했는데, 이를 여전히 가리키는 포인트가 있다면? 더이상 사용할 수 없는 데이터니 포인터 변수에 저장되어 있는 그 주소를 초기화 해야함 → 이때 널 포인터를 이용해서 리셋</p></div></p><p id="8a81f12c-03c3-4826-883f-7fac7a11fbd3" class=""><strong>결과적으로 존재하지 않는 메모리 주소에서 값을 읽어오려면 여러 가지 문제들이 팡팡 터짐. 항상 조심해야하는 부분임</strong></p><h2 id="060dc9c9-02c0-48ee-bb0d-06bc3d3aa9b9" class="">포인터의 비교/크기</h2><h3 id="ca67588e-0951-4ee2-8f1e-20721cfd93ba" class="">포인터의 비교</h3><pre id="be9daace-9962-4d7d-ad3c-82da1ce854ab" class="code"><code>/* 주소를 비교하는 코드 */
+
+void do_somthing(int* num1, int* num2)
+{
+if (num1 == num2) [
+    /* 코드 생략 */
+}
+
+/* 값을 비교하는 코드 */
+
+void do_somthing(int* num1, int* num2)
+{
+if (*num1 == *num2) [
+    /* 코드 생략 */
+}</code></pre><ul id="4cf1cfef-1a2b-48c1-8766-54e3d57cc885" class="bulleted-list"><li style="list-style-type:disc">포인터는 비교 연산자를 이용해서 서로 비교할 수 있음 (<code>==</code>. <code>!=</code>, <code>&gt;</code>, <code>&gt;=</code>, <code>&lt;</code>,  <code>&lt;=</code>)</li></ul><h3 id="a846b176-7ae5-4bf1-9abf-017bc85acb2a" class="">포인터의 크기</h3><ul id="5c51723b-0b11-4ed7-a251-7f8370e54782" class="bulleted-list"><li style="list-style-type:disc">모든 포인터는 동일한 크기를 가짐</li></ul><ul id="c50e54ef-c3d2-4028-8975-4105e2b87c03" class="bulleted-list"><li style="list-style-type:disc">포인터의 크기는 코드를 컴파일하는 시스템 아키텍쳐에 따라 결정됨<p id="c75d9403-c3f0-4b00-93ea-0b947983af03" class="">⇒ 보통 CPU가 한 번에 처리할 수 있는 데이터의 크기(word)와 동일함<div class="indented"><p id="769c51f9-e3a8-4f93-8fc6-f0b45f3075b1" class="">32비트 아키텍쳐에서 포인트 크기는 4바이트</p><p id="abf44e3c-22b9-4c50-8e50-c908c2df7625" class="">64바이트 아키텍쳐에서 포인트 크기는 8바이트</p></div></p></li></ul><pre id="0bb0762d-793c-4464-a6bd-3e919d472147" class="code"><code>void print_pointer_size()
+{
+char ch = &#x27;c&#x27;;
+int number = 934553;
+float pi = 3.1415f
+
+char* char_ptr = &amp;ch
+int* number_ptr = &amp;number;
+float* pi_ptr = &amp;pi;
+
+print(&quot;char size : %d, char* size : %d\n, sizeof(*char_ptr), sizeof(char_ptr);
+print(&quot;int size : %d, int* size : %d\n, sizeof(*int_ptr), sizeof(int_ptr);
+print(&quot;float size : %d, float* size : %d\n, sizeof(*float_ptr), sizeof(float_ptr);
+}
+
+/* char size: 1, char* size: 4 */
+/* int size: 4, int* size: 4 */
+/* folat size: 4, float* size: 4 */</code></pre><h2 id="b8d26bf0-0c27-46d3-89d8-e6d80e7344c9" class="">포인터와 배열</h2><h3 id="b8a8a9ff-1c40-4301-a529-80d909e491e8" class="">포인터와 매개변수로 받은 배열</h3><ul id="afed5c53-ef4d-41cc-a300-26837a6aab2c" class="bulleted-list"><li style="list-style-type:disc">매개변수로 받은 배열<p id="0ff355d8-658c-464e-b17b-ad557533baec" class="">⇒ 배열은 연속된 메모리 → 그걸 다 스택에 넣을 수 없음 → 시작위치만 전달(메모리 주소)</p><pre id="0b759bde-587b-4641-b422-acda723791d4" class="code"><code>void print_scores(int scores[])
+{
+size_t size = sizeof(int scores[]);
+/* 코드 생략 */
+}
+printf(my_scores)</code></pre><ul id="d89298f2-c45b-4587-9995-858f53f32837" class="bulleted-list"><li style="list-style-type:circle">scores의 크기는 4바이트</li></ul><ul id="b5df5c16-0d5b-4112-8d98-d2b8cf112a29" class="bulleted-list"><li style="list-style-type:circle">scores는 my_scores의 시작주소를 가지고 있음</li></ul></li></ul><ul id="e397f733-8eac-4a50-8209-df75b584928f" class="bulleted-list"><li style="list-style-type:disc">포인터<pre id="b3aa7cec-f50c-4e64-891e-0bbdf4dce377" class="code"><code>void money(float* dollar)
+{
+size_t size = sizeof(dollar);
+/* 코드 생략 */
+}
+printf(&amp;my_money)</code></pre><ul id="7bd570aa-ce05-44d2-8e4d-412b1507300e" class="bulleted-list"><li style="list-style-type:circle">dollar의 크기는 4바이트</li></ul><ul id="22cddcb0-39f9-43d9-bd92-5d1a099cddc9" class="bulleted-list"><li style="list-style-type:circle">dollar는 my_money의 (시작)주소를 가지고 있음</li></ul><h3 id="02c497fd-5ea1-4d03-99ba-1a9ee4419660" class="">배열을 포인터에 대입</h3><pre id="e46352d1-4fd6-4556-8e71-57f417dd54b1" class="code"><code>int nums[6] = { 0, 1, 2, 3, 4, 5 };
+int* ptr = NULL;
+
+ptr = nums;            /* 컴파일 됨 - 1 */
+ptr = nums[0];         /* 컴파일 오류 - 2 */
+ptr = &amp;nums[0];        /* 컴파일 됨 - 3 */</code></pre><ol type="1" id="e159fb48-fd39-4943-966f-12f39b32832d" class="numbered-list" start="1"><li><code>nums</code>는 배열로, 시작위치(메모리 주소) 반환</li></ol><ol type="1" id="69529767-d114-45cb-a9de-77a779f410d3" class="numbered-list" start="2"><li><code>nums</code>는 시작주소를 반환하지만, <code>nums[0]</code>은 주소가 아닌 <code>int</code>를 반환함<p id="56a5db8c-e04d-4cbc-88c6-37fe6c097b6a" class="">⇒ 즉, <code>nums[0]</code>은 <code>int</code>이며, <code>int*</code>가 아님!</p></li></ol><ol type="1" id="6e692f2c-2f83-485b-8dc9-f8859f8020a8" class="numbered-list" start="3"><li><code>nums[0]</code>의 주소를 얻기 위해서는 주소 연산자를 이용해야함</li></ol></li></ul><hr id="d8a6233d-8bee-472d-bff9-a7c31b5abdf8"/><p id="1c44e32e-c2c9-4ccd-bf03-b20689443f3f" class="">정리하자면, 아래의 두 코드는 동일한 결과를 나타냄</p><pre id="fbe6d08a-cb24-4e56-981e-248d981dad7c" class="code"><code>int* ptr1 = nums;
+int* ptr2 = &amp;nums[0];</code></pre><hr id="3618ff09-5bda-4772-a939-233bdf342532"/><h3 id="83439c4e-de1c-405d-bce7-8b9b3d681f88" class="">배열 속에서 각 요소의 위치</h3><ul id="bd0fe8ca-4240-4f8d-8d02-f483ff6b8d8e" class="bulleted-list"><li style="list-style-type:disc">배열에서 각 요소 사이의 바이트 간격을 일정함<pre id="48cf0e11-1408-4bd5-8096-79e6d18d880e" class="code"><code>int nums[5];
+char chars[5];</code></pre></li></ul><ul id="577f4ece-e1dd-4b47-a401-83a6a3648492" class="bulleted-list"><li style="list-style-type:disc">따라서 첫 번째 요소의 주소와 자료형의 크기를 안다면 두번째 요소의 주소를 알 수 있음<p id="90e57853-1bcc-4056-a7be-67965410fbda" class="">⇒ 두 번째 요소 주소 = 첫 번째 요소 주소 + 자료형의 크기(바이트)</p><p id="f04d4f95-d30f-4e0b-8c47-1e293da34461" class="">⇒ 세 번째 요소 주소 = 두 번째 요소 주소 + 자료형의 크기(바이트)</p></li></ul><h3 id="7acc2bb7-4b07-4948-a4d0-ab82ad278b0a" class="">포인터 주소 계산</h3><pre id="798cc081-0f97-4713-ab12-6babb53007ae" class="code"><code>int nums[6] = { 0, 1, 2, 3, 4, 5 };
+int* ptr = NULL;
+
+int* ptr = nums;
+/* nums 0x004ff7e0 {0, 1, 2, 3, 4, 5} */
+/* ptr 0x004ff7e0 {0} */
+
+ptr = ptr + sizeof(int);
+/* nums 0x004ff7e0 {0, 1, 2, 3, 4, 5} */
+/* ptr 0x004ff7f0 {4} */</code></pre><p id="0a0cff6c-f57e-4b7f-b880-db522fc6755a" class="">⇒ 첫 번째 요소에서 자료형의 크기를 더 했는데 왜 <code>nums[1]</code>이 아닌 <code>nums[4]</code>가 나온 것일까?</p><h3 id="b7a347c6-48bc-4910-84ee-3a3d02483ed8" class="">포인터에 정수의 덧셈 의미</h3><pre id="ae4797fe-7955-4db4-842f-523a391b2559" class="code"><code>ptr = ptr + sizeof(int);</code></pre><ul id="12a42b20-d226-419c-9ecf-b5f4c2864b0d" class="bulleted-list"><li style="list-style-type:disc">포인터에 정수 1을 더한다는 것은 포인터의 위치를 다음 데이터로의 위치 이동을 의미함<p id="87446a89-5c56-49ac-8936-ecb64d697903" class="">⇒ 1바이트를 더하는게 아님</p><pre id="6f2b7f91-a74f-4e3b-8c4e-7d2fd1347da8" class="code"><code>int* ptr = nums;
+ptr = ptr + 3;
+
+/* 0x100 + 4 + 4 + 4 = 0x10c : int의 사이즈를 3번 더함 */
+/* int*가 아니라 short*라면 2바이트씩 증가 */</code></pre></li></ul><ul id="00bcb0a7-7810-4110-8817-08125b3fa43f" class="bulleted-list"><li style="list-style-type:disc">뺄셈뿐만 아니라, <code>++</code>, <code>--</code>도 마찬가지임</li></ul><hr id="01c274a1-ad91-4cdc-97bd-e83ca9d62367"/><p id="595bcde5-27d8-4134-a2ca-fdb3e4b42608" class="">정리하자면, 아래의 두 코드는 동일한 결과를 나타냄</p><pre id="c9baf870-b4cd-44c1-9e86-a3c216e9a8f7" class="code"><code>int* ptr1 = nums + 3;        /* ptr1는 nums[3]을 가리킴 */
+int* ptr2 - %nums[3]         /* ptr1는 nums[3]을 가리킴 */</code></pre><hr id="0d1bc0f7-6dc5-4845-b532-11e1bab74ddd"/><h3 id="44c02eb0-b75a-49d5-810e-7d3f2384d334" class="">포인터 사칙연산 퀴즈</h3><pre id="466e1934-158d-4d6c-a953-ed44eb7ae484" class="code"><code>int main(void)
+{
+int nums[5] = { 10, 20, 30, 40, 50 }; /* nums[0]의 주소는 0x100 */
+int* ptr1 = nums + 4; /* ??? */
+int* ptr2 = ptr1 - 2; /* ??? */
+
+return 0;
+}
+
+/* 정답 : ptr1(0x110), ptr2(0x108) */</code></pre><pre id="bae27db8-f064-4cb4-9431-f172c07aa5ea" class="code"><code>int main(void)
+{
+int nums[5] = { 10, 20, 30, 40, 50 }; /* nums[0]의 주소는 0x100 */
+int* ptr1 = &amp;nums[1] - 1; /* ??? */
+int* ptr2 = ptr1 -1; /* ??? */
+
+return 0;
+}
+
+/* 정답 : ptr1(0x100), ptr2(0x0fc) */</code></pre><h3 id="58ae0e10-3b57-4206-9d90-4f6e33b6bc41" class="">배열 요소에 포인터로 접근하기</h3><pre id="92bdb7be-e32e-43c8-aa80-7d6d399338d8" class="code"><code>int nums[3] = { 10, 20, 30 };
+int* ptr = nums;
+
+printf(&quot;%d, &amp;d, %d/n&quot;, nums[1], ptr[1], *(ptr + 1));
+
+/* 결과 : 20, 20, 20 */</code></pre><ul id="18ec0bd9-c0bf-44bf-b630-2e392df67b19" class="bulleted-list"><li style="list-style-type:disc">배열명은 시작 주소이기 때문에 포인터 변수에 대입할 수 있음 (<code>int* ptr = nums;</code>)</li></ul><ul id="ca97b723-ab5d-47d5-b959-4dc568a0b7c9" class="bulleted-list"><li style="list-style-type:disc">추가적으로 배열의 첨자 연산자(<code>[]</code>)도 포인터에 쓸 수 있음 (<code>ptr[1] = 20</code>)</li></ul><ul id="27130285-b51d-4ab3-b8a8-8efaa7ab9a70" class="bulleted-list"><li style="list-style-type:disc">포인터 산술 연산에도 배열 첨자 연산자에도 동일하게 적용됨 (<code>ptr + 1</code>)</li></ul><h3 id="46ba63d3-5a1e-451b-b33e-d649b5498740" class="">배열의 모든 요소 더하기</h3><pre id="ffeaeac4-413b-40a2-b1bf-3fd6e1974776" class="code"><code>int sum(int* data, const size_t length)
+{
+int result = 0;
+size_t i;
+for (i = 0; i &lt; length; ++1) {
+    result += data[i];
+}
+
+return 0;
+}
+
+/* 메인 함수 */
+int num[6] = { 0, 1, 2, 3, 4, 5 };
+int result = sum(nums, 6); /* 15 */</code></pre><h3 id="f6d6a669-d155-472c-a89e-678b3957127d" class="">정리</h3><ul id="9105bf4b-8d2f-4b4a-9549-d00cd7cfc649" class="bulleted-list"><li style="list-style-type:disc">포인터에 들어가는 값은 주소</li></ul><ul id="d9bc5ac3-2c91-4b45-9be1-bc567354f00a" class="bulleted-list"><li style="list-style-type:disc">C 연산자에서 이 주소를 얻을 수 있는 방법은 딱 두 가지 뿐<ol type="1" id="7e91695d-defd-4dd6-8732-3c07003c4bf1" class="numbered-list" start="1"><li>주소 연산자(<code>&amp;</code>)</li></ol><ol type="1" id="bdede2ad-0afb-4dcc-a9ad-abd328826583" class="numbered-list" start="2"><li>배열의 이름 ⇒ 배열의 이름은 배열의 시작 주소를 알려줌</li></ol><pre id="a48856ec-86f6-479d-a5f2-95ab49942233" class="code"><code>float pi = 3.14f;
+float* p = &amp;pi;
+
+int days[] = { 1, 2, 3, 4, ... , 30, 31 };
+int* p = days;</code></pre></li></ul><ul id="307152a3-5d60-41b9-85d8-9df902b23815" class="bulleted-list"><li style="list-style-type:disc">포인터에 정수를 더하면 주소 이동<p id="20c0263a-ef94-423d-947f-a3d2939cca31" class="">⇒ 포인터에 정수 n을 더하거나 빼면 언제나 &#x27;<code>sizeof(자료형) X n</code>&#x27;한 만큼 메모리 주소 이동</p><pre id="1f350ba7-b17e-4211-a521-6c970adc156d" class="code"><code>char* char_ptr = char_array;          /* 0x100 */
+char_ptr = char_ptr + 10;             /* 0x10a */
+
+int* int_ptr = int_array;             /* 0x100 */
+int_ptr = int_ptr + 10;               /* 0x128 */</code></pre></li></ul><h3 id="9783bb4c-48f7-4751-b9de-027fdeb6a8aa" class="">포인터 캐스팅 : 정말 딱 &#x27;한&#x27; 바이트만 옮기고 싶다면?</h3><pre id="5300bb8a-008a-401f-a6b8-e7ad958f5562" class="code"><code>int_ptr = (char*)int_ptr + 1</code></pre><ul id="5e2f85b9-b69b-4f0d-af06-e7fc76f10dab" class="bulleted-list"><li style="list-style-type:disc">한 바이트짜리 포인터로 캐스팅</li></ul><h3 id="8d171df2-7e47-4869-99a0-94c84f6713d3" class=""><strong>int* → char* 캐스팅의 의미</strong></h3><ul id="590fe0aa-7738-4e28-a723-a2d8e202deea" class="bulleted-list"><li style="list-style-type:disc">그 메모리 주소에 어떤 형이 들어있는 지 알려주는 것을 의미함<p id="1c85b99b-84b6-427e-b3cc-5072a9471296" class="">⇒ 그 메모리 주소에 들어있는 값을 캐스팅하는 것이 아님!</p></li></ul><ul id="2f159e0f-cb56-405b-af09-40aada8f93f8" class="bulleted-list"><li style="list-style-type:disc">바꾸고 나면 실제 이 속에 들어 있는 데이터 내용이 <code>char*</code>이 되는 것이 아님</li></ul><pre id="fae2973f-0452-4152-b67c-d79eaef3566b" class="code"><code>int int_array[] = { 27, 65 };
+int* int_ptr = int_array;
+
+int_ptr = (char*)int_ptr + 1;</code></pre><p id="44893d35-0a7e-455e-9d80-54c0cc957f40" class="">⇒ 메모리주소에 <code>char</code>형이 들어가  +1이 <code>int</code> 4바이트 이동이 아닌 <code>char</code> 1바이트 이동</p><h2 id="3d3ebeb9-6945-400c-8f5d-9a6bf7e2ee30" class="">두 주소간 사칙연산</h2><pre id="c8cd24c8-c276-48ce-bdcf-aeb1877a4528" class="code"><code>int num[6] = { 0, 1, 2, 3, 4, 5 };
+int* ptr = nums + 2.5f;   /* 컴파일 오류 */</code></pre><ul id="7bb197c5-97f9-494f-bf8b-5cd8916f04c3" class="bulleted-list"><li style="list-style-type:disc">주소에는 소수점을 더하거나 뺄 수 없으며, 정수만 가능</li></ul><pre id="9a594554-47b5-4507-88e6-8a7e17efbc12" class="code"><code>int* ptr1 = &amp;nums[1] + &amp;nums[2];       /* 컴파일 오류 */
+int sum = &amp;nums[1] + &amp;nums[2];         /* 컴파일 오류 */
+
+int* ptr2 = &amp;nums[5] - &amp;nums[1];       /* 컴파일 오류 */
+int sum = &amp;nums[5] - &amp;nums[1];         /* 컴파일 됨 */
+
+int* ptr3 = &amp;nums[5] * &amp;nums[1];       /* 컴파일 오류 */
+int sum = &amp;nums[5] * &amp;nums[1];         /* 컴파일 오류 */
+
+int* ptr4 = &amp;nums[5] / &amp;nums[1];       /* 컴파일 오류 */
+int sum = &amp;nums[5] / &amp;nums[1];         /* 컴파일 오류 */</code></pre><ul id="4fafc946-3af2-4b92-96d9-be6a76caf0dc" class="bulleted-list"><li style="list-style-type:disc">뺄셈을 제외한 사칙연산은 모두 지원 안함</li></ul><ul id="da35db4e-d594-4c83-9ba5-3b07c871dc73" class="bulleted-list"><li style="list-style-type:disc">생각해보면 덧셈, 곱셈, 나눗셈은 아무런 의미가 없음</li></ul><ul id="94aae72f-1779-41b1-926c-413912ac0af4" class="bulleted-list"><li style="list-style-type:disc">뺄셈을 이용한다면 두 주소 사이에 들어갈 수 있는 데이터의 개수를 반환할 수 있음<p id="8c09d178-755a-472f-bbb0-d75605a6be50" class="">⇒ 따라서 포인터가 아니라 정수를 반환 (<code>ptr2</code>는 컴파일 오류)</p><p id="e0a13a11-f0fa-44e7-9953-99e573843d69" class="">⇒ 배열의 첫 번째 및 마지막 요소의 주소를 알면 배열의 크기를 구할 수 있음</p><pre id="1a231135-fc4a-4247-b4c4-c93aa370b933" class="code"><code>int sub = &amp;nums[5] - &amp;nums[1];
+/* &amp;nums[5] : 0x00afc64{5} */
+/* &amp;nums[1] : 0x00afc54{1} */
+
+/*
+sub = &amp;nums[5] - &amp;nums[1]
+= (0x00afc64 - 0x00afc54) / int의 크기
+= (0x10 - 0x4) / 4 
+= 16 / 4 
+= 4
+*/
+
+/* sub = 4 */</code></pre></li></ul><h2 id="d4aa8f0e-9967-4137-bbea-682ee3236b55" class="">포인터와 배열의 차이</h2><ul id="f8ac666e-9a60-4c6d-87b9-5846a87023d1" class="bulleted-list"><li style="list-style-type:disc">대부분의 경우 포인터와 배열은 동일하게 처리 가능</li></ul><ul id="9fe1d415-3f9d-48e1-9413-ab970a83afe4" class="bulleted-list"><li style="list-style-type:disc">그러나 이 둘은 다를 때가 있음</li></ul><h3 id="fda03b02-658a-46f7-b4a5-b35138859fe0" class="">(1) sizeof 연산자</h3><ul id="563bff7d-d402-4a3b-8b7f-9f74cb6e61d9" class="bulleted-list"><li style="list-style-type:disc"><code>sizeof(배열)</code>과 <code>sizeof(포인터)</code>는 다른 값을 반환함<p id="3fa7538f-7952-47f3-ba26-5c3059d5e279" class="">⇒ <code>sizeof(배열)</code> : 배열의 총 크기를 반환</p><p id="c39ca840-a858-444d-88e5-49b140907df8" class="">⇒ <code>sizeof(포인터)</code> : 포인터의 크기를 반환</p></li></ul><pre id="d6167455-8c4a-46ce-9272-05228f835c14" class="code"><code>int nums[3] = { 34, 145, 49 };
+
+int* ptr = nums;
+
+size_t size1 = sizeof(nums);    /* 12 = 3 * 4 */
+size_t size2 = sizeof(ptr);     /* 4 */</code></pre><h3 id="1044070f-2992-444c-b59f-fc1cf698fcc7" class="">(2) 문자열 초기화</h3><ul id="ba4cfbc9-766a-4464-9b43-673c9649c9f1" class="bulleted-list"><li style="list-style-type:disc">C는 C#과 JAVA처럼 문자열(string) 자료형이 없음</li></ul><ul id="3d2c9096-5f76-40c6-9653-dd18ca1bdcfe" class="bulleted-list"><li style="list-style-type:disc">C의 문자열 표현방법<p id="5b460455-c920-4b4b-a195-ceacbff1d840" class="">&quot;Friday&quot;라는 단어를 저장한다면 총 6(+1)개의 요소를 가진 char 배열을 만듬</p><p id="a1995230-c3d2-4ea5-a1e1-686fd18fff29" class="">⇒ 문자열이 끝나는 지점을 알려주기 위해 널 문자(null character)라고 하는 특별한 문자를 항상 맨 마지막에 넣어줌</p><p id="4166203b-97b6-4f36-b06a-6d440b2532f5" class="">⇒ 널문자 : 값은 0으로 &#x27;<code>\0</code>&#x27;이라 표현함</p></li></ul><ul id="c66f1457-380f-4d9a-af87-547b64a88417" class="bulleted-list"><li style="list-style-type:disc">문자열 초기화의 저장<ol type="1" id="3df243d4-643d-47fb-a939-5659f580a879" class="numbered-list" start="1"><li>배열(문자열)의 저장<pre id="1f515c2d-4e3c-4a9d-a199-2775c97918c2" class="code"><code>char day1[] = &quot;Monday&quot;;</code></pre><p id="60367a62-bfc8-4811-b8cb-85c9365cd082" class="">⇒ 배열의 마지막에 차례로 &#x27;M&#x27;, &#x27;o&#x27;, &#x27;n&#x27;, &#x27;d&#x27;, &#x27;a&#x27;, &#x27;y&#x27;가 들어간 후 마지막에 &#x27;<code>\0</code>&#x27;이 들어감</p><p id="6cdec6cd-048d-4c76-8132-654993496353" class="">⇒ 함수 안에서 사용하면 스택메모리에 저장됨</p></li></ol><ol type="1" id="7d7fddee-920a-455a-8265-657d09d64ccb" class="numbered-list" start="2"><li>포인터(문자열)의 저장<pre id="4d9d0b75-a0e6-40c5-8792-d5815291d4f9" class="code"><code>char* day2 = &quot;Monday&quot;;</code></pre><p id="ec30bba4-4d39-44bf-807b-9a6e9bc3cba9" class="">⇒ 포인터 변수는 스택에 저장</p><p id="a5058703-93f8-47da-ba87-20832a15c8b0" class="">⇒ 실제 문자열은 데이터 섹션에 저장</p></li></ol></li></ul><ul id="552aea90-958b-4db3-8f7c-9aa6efc86a69" class="bulleted-list"><li style="list-style-type:disc">문자열의 초기화<pre id="08ab2888-f375-4849-b0f6-620b728d059f" class="code"><code>char day1[] = &quot;Monday&quot;;
+char* day2 = &quot;Monday&quot;;
+
+day1[0] = &#x27;P&#x27;;      /* OK */
+day2[0] = &#x27;P&#x27;;      /* 결과가 정의되지 않음 */</code></pre><ul id="87ffebe6-3b61-4b7c-9fca-0825ee117376" class="bulleted-list"><li style="list-style-type:circle">스택에 저장된 문자열은 수정해도 괜찮지만, 데이터 섹션에 저장된 문자열은 수정할 경우 &#x27;결과가 정의되지 않음&#x27;</li></ul><ul id="4bf9452c-3fce-47d0-82af-6a69ac149b0e" class="bulleted-list"><li style="list-style-type:circle">후자의 경우는 문자열이 읽기 전용임</li></ul></li></ul><h3 id="7cb8833e-db3a-4abd-ae98-f845111f466d" class="">(3) 대입</h3><ul id="482f1b87-bda3-4c29-938d-5514750ccf52" class="bulleted-list"><li style="list-style-type:disc">포인터 변수에 값을 대입할 수 있으나 배열 변수에는 할 수 없음</li></ul><pre id="f9529a62-2c6a-4fbb-9a83-f70c4a405e94" class="code"><code>int* pointer1;
+int* pointer2;
+int array1[5];
+int array2[5];
+int x = 5;
+
+pointer1 = array1;
+array1 = pointer1;      /* 컴파일 오류 */
+
+pointer1 = &amp;x;
+array = &amp;x;             /* 컴파일 오류 */
+
+pointer1 = pointer2;
+array1 = array2;        /* 컴파일 오류 */</code></pre><h3 id="f99c8a8d-9a7d-412e-9b59-d2c4bec5ade7" class="">(4) 포인터 산술 연산</h3><ul id="2a8b30b0-e562-413d-ba83-2a8d8f79b032" class="bulleted-list"><li style="list-style-type:disc">포인터는 산술 연산이 가능하지만 배열은 불가능</li></ul><ul id="2bb9c495-64a0-43a7-b31f-47de8e061252" class="bulleted-list"><li style="list-style-type:disc">배열의 주소를 증가하거나 감소하고 싶다면 포인터에 배열의 주소를 대입 후 그 포인터 변수를 증가/감소하면 됨</li></ul><pre id="1a1c2e19-bdd9-4b82-960f-09326653227c" class="code"><code>++pointer;
+--pointer;
+
+pointer += 1;
+pointer -= 1;
+
+++array;            /* 컴파일 오류 */
+--array;            /* 컴파일 오류 */
+
+++array += 1;       /* 컴파일 오류 */
+--array -= 1;       /* 컴파일 오류 */</code></pre><h2 id="e9cc5022-1b66-43f7-851f-6d682ba88a6b" class="">포인터와 연산자</h2><h3 id="0c7e77b3-66d9-4674-add8-7f89b5a034ee" class="">연산자 결합법칙</h3><ul id="8e9d1a6e-f5c5-408f-9a05-285bbf4066f6" class="bulleted-list"><li style="list-style-type:disc">연산자 결합법칙은 크게 고민할 이유는 없음</li></ul><ul id="a903b5a1-432f-46aa-8962-17f2376be56c" class="bulleted-list"><li style="list-style-type:disc">익숙한 것들은 그냥 쓰고 아닌 것들은 괄호를 치는 것이 일반적임</li></ul><ul id="00b6e39b-ae0f-4d49-9f02-66679f426167" class="bulleted-list"><li style="list-style-type:disc">연산자 결합법칙이란?<p id="14cb9dd8-aa5c-4278-b83d-e8570e93358f" class="">동일한 우선순위를 가지는 연산자들이 있으면 어떤 방향으로 연산자는 적용하는지를 의미함</p><p id="510cebfb-10d4-4f8d-9446-3a6d6f622df2" class="">⇒ 대부분은 왼쪽에서 오른쪽이지만 몇몇 <code>*</code> 혹은 <code>&amp;</code>과 같은 익숙하지 않은 연산자가 있음</p></li></ul><pre id="837456d4-ef05-4dc3-b4f8-6cc892327444" class="code"><code>int nums[] = { 134, 68, 47956 };
+int* p = nums; /* 변수 nums의 주소가 0x104라 가정 */
+int num = *p++;
+
+/* num : 134 , p : 0x108 */</code></pre><pre id="d6423c52-9109-49bd-9cab-728c57a9ab1e" class="code"><code>int nums[] = { 134, 68, 47956 };
+int* p = nums; /* 변수 nums의 주소가 0x104라 가정 */
+int num = *++p;
+
+/* num : 68 , p : 0x108 */</code></pre><pre id="232f4b1a-8a37-4e79-9b0a-a5ded663655c" class="code"><code>int nums[] = { 134, 68, 47956 };
+int* p = nums; /* 변수 nums의 주소가 0x104라 가정 */
+int num = ++*p;
+
+/* num : 135 , p : 0x104 */</code></pre><h3 id="41659410-e20a-45f9-b5e6-39f62ded95c3" class="">조금더 빠른 배열의 요소 더하기 함수</h3><pre id="1aa4176a-0843-4c77-ae79-5c2372c89429" class="code"><code>/* 배열 */
+
+int sum(int* data, const size_t length)
+{
+int result = 0;
+size_t i;
+for (i = 0; i &lt; length; ++i) {
+    result += data[i];
+}
+
+return result;
+}
+
+/* 포인터 */
+
+int sum(int* start, int* end)
+{
+int result = 0;
+int* p = start
+while (p &lt; end) {
+    reult += *p++;
+}
+
+return result;
+}</code></pre><ul id="9fa15322-8f6d-4b04-8206-9078f3aef51e" class="bulleted-list"><li style="list-style-type:disc">포인터로 배열을 접근하는 것이 더 빠름 ⇒ <code>*p++</code>를 통해 접근하는 게 배열보다 빠름</li></ul><ul id="2e8dcb3d-ca2b-448b-abc6-8b7d3d44e870" class="bulleted-list"><li style="list-style-type:disc">배열은 언제나 첫 주소 + 요소 위치까지의 오프셋<p id="7e0ea521-82b0-4c06-9599-a07913d0fa4e" class="">⇒<code> &amp;data[0] + 0*4</code> / <code>data[0] + 1*4</code> / <code>&amp;data[0] + 2*4</code>...</p></li></ul><ul id="6cb463df-fbfd-454e-96ee-b631f5370275" class="bulleted-list"><li style="list-style-type:disc">포인터는 이미 다음 주소에 가 있기 때문에 그대로 참조<p id="ecd4d637-b62e-493d-9afd-6612a9ab0685" class="">⇒ <code>p + 4</code> 반복</p></li></ul><ul id="85ee58ce-0288-4393-aca8-2a64f9d49f3b" class="bulleted-list"><li style="list-style-type:disc"> 요즘 컴파일러는 최적화를 잘해서 두 코드가 비슷한 성능을 보이기도 하지만 포팅을 생각해서 C에서는 여전히 <code>*p++</code>을 더 많이 씀</li></ul><h2 id="e3a6cef0-02ca-48e8-9a4c-d1746686fb33" class="">포인터와 const</h2><h3 id="0e7b88dd-64eb-4885-bda3-f569ad566bda" class="">const</h3><pre id="cfba6ed2-8c9e-47ff-8468-0fb9928c995f" class="code"><code>void do_something(const int op1)
+{
+op1 = 20;    /* 컴파일 오류 */</code></pre><ul id="216c933e-c610-4202-8347-add8937e5e6f" class="bulleted-list"><li style="list-style-type:disc">기본 자료형 변수의 경우 <code>const</code>를 붙이면 그 변수에 저장한 값을 변경할 수 없음<ul id="e98ff70e-842d-4adb-a845-c2fa6833d0ba" class="bulleted-list"><li style="list-style-type:circle">보통 이게 반드시 필요하다고 느끼진 않음</li></ul><ul id="39adbf97-0be9-42b8-a996-b07d2f3d92ad" class="bulleted-list"><li style="list-style-type:circle">따라서 이걸 반드시 붙이라고 강요하지 않는 코딩 표준도 많음</li></ul><ul id="1493da08-f313-40b9-97db-91a78965020c" class="bulleted-list"><li style="list-style-type:circle">실수가 발생해도 큰 문제가 발생하지 않기 때문</li></ul><ul id="2c3e49c4-50c9-4899-884d-baeed2692d4e" class="bulleted-list"><li style="list-style-type:circle">함수번위 내에서 발생할 수 있는 실수를 막는 정도</li></ul></li></ul><h3 id="5158418d-ffa8-46dc-814e-bd39572151c3" class="">const 포인터 : 주소의 보호</h3><pre id="c64a3ab1-de45-488f-8ed8-907b21295e5b" class="code"><code>int* const p = &amp;num;</code></pre><ul id="d95c52b6-e66e-49fa-bdda-66fc89efa0a3" class="bulleted-list"><li style="list-style-type:disc">메모리 주소를 바꿀 수 없음</li></ul><ul id="3b107009-94dc-48f6-96ec-1eca6308ad1f" class="bulleted-list"><li style="list-style-type:disc">포인터 변수는 오른쪽에서 왼쪽으로 읽음<p id="1e1d1248-4cc7-4f65-b460-c93e2fa37ef8" class="">⇒ 영어로 표현하면, &quot;p is const pointer to int&quot;</p></li></ul><pre id="7d248485-2a4a-468a-a978-6e398b98be16" class="code"><code>int num1 = 10;
+int num2 = 20;
+
+int* const p = &amp;num1;
+p = &amp;num2;                 /* 컴파일 오류 */
+++p;                       /* 컴파일 오류 */</code></pre><h3 id="f06edbee-b26f-41cc-91bc-e7b1d519f703" class="">const 변수</h3><ul id="d79140d3-0225-42ad-8455-7348de45ad84" class="bulleted-list"><li style="list-style-type:disc">생성과 동시에 초기화해야 함</li></ul><ul id="444065aa-1868-4ec3-986d-8e4abf8c5bd8" class="bulleted-list"><li style="list-style-type:disc">초기화 이후 다른 값으로 변경 불가</li></ul><ul id="e4adee85-15f1-441a-a2f1-fe70be23f3f2" class="bulleted-list"><li style="list-style-type:disc"><code>const</code>가 아닌 변수에 대입은 가능</li></ul><ul id="e74736ba-7b91-4f35-8a87-e0fb5051b09f" class="bulleted-list"><li style="list-style-type:disc">(포인터 전용) <code>const</code> 포인터가 가리키는 대상의 값은 변경 가능</li></ul><pre id="d4ca2637-faec-436b-a324-483800c72aad" class="code"><code>/* const int 변수 */
+
+const int score = 100;      /* 생성과 동시에 초기화해야 함 */ 
+score = 0;                  /* 초기화 이후 다른 값으로 변경 불가 */
+int pop_score = score;      /* const가 아닌 변수에 대입은 가능 */
+
+/* int* const 변수 */
+int* const p = &amp;num;        /* 생성과 동시에 초기화해야 함 */
+p = &amp;score;                 /* 초기화 이후 다른 값으로 변경 불가 */
+int* q = p;                 /* const가 아닌 변수에 대입은 가능 */
+*p = 1024;                  /* const 포인터가 가리키는 대상의 값은 변경 가능 */</code></pre><h3 id="7517bc09-2deb-4e35-a040-8f9986a4f6e0" class="">const를 가리키는 포인터 : 값의 보호</h3><pre id="9ea3be93-8d0a-4ee0-836f-8699cfcaf625" class="code"><code>const int* p = &amp;num1;    /* 방법 1 */
+int const * p = &amp;num1;   /* 방법 2 */</code></pre><ul id="2d905d04-5e94-4643-b84f-de4675d78e20" class="bulleted-list"><li style="list-style-type:disc">실수가 있을 경우 함수 내에서 뿐만 아니라 전역적으로 문제가 발생</li></ul><ul id="efd8a9c2-0ad9-41f1-ba8f-f35a665a729e" class="bulleted-list"><li style="list-style-type:disc">주소 보호보다 더 중요함</li></ul><ul id="f287d355-ff88-4bf2-a037-a1a2a72a3399" class="bulleted-list"><li style="list-style-type:disc">값을 보호하기 위한 <code>const</code>는 반드시 신경써야함</li></ul><ul id="1a15c90a-ac2c-42fd-874d-8c26934197b4" class="bulleted-list"><li style="list-style-type:disc">그 주소에 저장되어 있는 값을 변경하는 것을 방지</li></ul><ul id="a78d6a7e-f454-453b-8a5b-cb706b3db742" class="bulleted-list"><li style="list-style-type:disc">포인터 변수는 오른쪽에서 왼쪽으로 읽음<p id="f03f1ea7-ad8e-4980-a29e-be71271d06d2" class="">⇒ 방법 1 : &quot;p is a pointer to int, which is const&quot;</p><p id="1215463f-2704-4f2a-965c-12722b058cdb" class="">⇒ 방법 2 : &quot;p is a pointer to const int&quot;</p></li></ul><ul id="91324033-bf46-49a1-892d-be07b1c53e29" class="bulleted-list"><li style="list-style-type:disc">논리적으로 방법 2가 더 말이 되나 흔히 방법 1로 표현함. 혹은 포인터가 아닌 <code>int</code>를 <code>const</code>를 만들 때도 <code>const int</code>라고 하므로 비슷하게 보이려고 방법 1을 더 많이 씀</li></ul><h3 id="8f474f5d-9ffa-4161-8c6a-0c63037fd257" class="">두 const 정리</h3><pre id="a22f108c-84fe-4247-bde7-71f50514c06c" class="code"><code>int* const p = &amp;num;   /* 메모리 주소 변경 금지 */
+
+const int* p = &amp;num;   /* 메모리 주소에 저장되어 있는 값 변경 금지 */</code></pre><p id="8c3b8562-ac02-4062-b882-10261439a974" class="">⇒ 헷갈릴 땐 오른쪽에서 왼쪽으로, <code>*</code>을 &quot;포인터, 무엇을 가리키냐면&quot;라고 바꿔 읽어보면 쉬움</p><h3 id="292610a6-b920-4ae4-b3aa-648fa9edaf9b" class="">두 const 합체</h3><pre id="010d3204-2acf-4e63-8211-268fdc35ae58" class="code"><code>const int* const p = &amp;num;  /* 메모리 주소와 그 주소 저장값 둘다 변경 금지 */</code></pre><ul id="631bbebc-8a26-4f18-9a4e-faf1d33e1540" class="bulleted-list"><li style="list-style-type:disc">&quot;p is a const pointer to const int&quot;</li></ul><ul id="415eb8bb-0838-4bc9-91b2-e13d98d13e1f" class="bulleted-list"><li style="list-style-type:disc">초기화된 후 절대 바뀌지 않는 변수가 있을 때 정도만 유용<p id="7781bdd1-c194-45bc-9853-b82bd69b4147" class="">⇒ 전역변수, 구조체 멤버 변수</p></li></ul><h3 id="b3dc77fc-5e81-4b79-b90d-86aae95f94ad" class="">절대 하지말아야 할 const 제거</h3><pre id="7f8a0b4b-f331-4105-b931-26bf2a58b9c6" class="code"><code>void print_array(const int* data, const int length)
+{
+*((int*)data) = 10;
+}
+
+/* 메인 함수 */
+int nums[] = { 1024, 9 };
+print_array(nums, 2); /* 함수 호출 후 nums[0] 값이 10이 됨 */</code></pre><ul id="64856a90-2145-41cf-9aab-d792394ede06" class="bulleted-list"><li style="list-style-type:disc">캐스팅을 통해서 <code>const</code>를 제거할 수 있음 (<code>const int*</code> → <code>int*</code>로 바꿔버림)</li></ul><ul id="8300dfa9-f6f9-4697-a043-2195f88bd55c" class="bulleted-list"><li style="list-style-type:disc">기본 자료형에서는 큰 문제가 아님<p id="9c16cfc3-3caf-4156-a554-89fcfc6ea55e" class="">⇒ 매개변수의 값을 복사해서 오기 때문에 그 매개변수의 값을 바꾼다고 원본이 바뀌지 않음</p></li></ul><ul id="fe7ba30f-9326-439b-b0c0-25424e5b9713" class="bulleted-list"><li style="list-style-type:disc">그러나 <code>const</code>를 가리키는 포인터의 경우 문제가됨<p id="75be6f2e-f60e-480e-b438-200d41da1a40" class="">⇒ <code>const</code>를 제거하고 값을 바꾸면 원본이 바뀜</p></li></ul><h3 id="6ebf3c37-3df2-4a7f-9c94-64ffea364fde" class="">const : BEST PRACTICES</h3><ul id="6d70ae8b-4ed1-497a-ad02-d0f2cec55dd4" class="bulleted-list"><li style="list-style-type:disc"><code>const</code>는 반드시 <code>const</code>가 필요없는 경우가 아니라면 최대한 다 붙일 것</li></ul><ul id="e7d5e35e-92c8-4b53-ba4f-45082de73021" class="bulleted-list"><li style="list-style-type:disc"><code>const</code> 캐스팅은 하지 말 것</li></ul><h2 id="39eee3ab-b0af-48e5-8a8f-192981063cb5" class="">포인터의 용도</h2><h3 id="d56d30eb-c443-449b-a8a0-3b77ce45db21" class="">(1) 큰 데이터를 매개변수로 전달할 때</h3><ul id="6cdc1a38-5ef5-4e03-843e-fa612aae2eee" class="bulleted-list"><li style="list-style-type:disc">큰 데이터 매개변수 ⇒ 배열</li></ul><ul id="377c21e3-daa1-4176-b430-995bc066ada7" class="bulleted-list"><li style="list-style-type:disc">배열의 요소가 커질수록 데이터를 복사하느라 시간을 낭비함</li></ul><ul id="c15db20c-88d5-4111-a12a-96f8b4a8214d" class="bulleted-list"><li style="list-style-type:disc">그래서 배열이 매개변수로 전달될 경우, 첫 번째 요소의 주소를 전달</li></ul><h3 id="d9c20d0e-1cd8-4a99-bbcb-670431c50f9f" class="">(2) 반환값이 둘 이상일 때</h3><ul id="0196e2a9-a719-4444-9ab5-e3476821b8d9" class="bulleted-list"><li style="list-style-type:disc">C에서 return문으로 불가능 ⇒ 언제나 하나만 반환해야함</li></ul><ul id="184dadd6-b842-4813-8b9d-93f1059822a1" class="bulleted-list"><li style="list-style-type:disc">하지만 포인터를 사용하면 함수 안에서 원본을 직접 변경할 수 있음</li></ul><ul id="cb61f2ba-cde6-4767-93ad-d029a40bd5f9" class="bulleted-list"><li style="list-style-type:disc">원본의 값을 읽지 않고 그냥 덮어쓰는 거라면 반환이나 마찬가지</li></ul><h3 id="92d0516d-1205-41df-80d1-9906e70656f9" class="">(3) 동적 메모리 할당</h3><ul id="abf3958b-f89d-42da-b8ab-8b9bd67f98fa" class="bulleted-list"><li style="list-style-type:disc">함수의 범위에 상관없이 한동안 사용하고자 하는 데이터가 다음과 같은 경우에 해당하면<p id="ea2fc3ec-f5a6-4f03-9d35-5e3a1116deeb" class="">1) 그 데이터의 크기를 컴파일 도중에 알 수 없거나</p><p id="865da0f2-4e12-45e6-b270-09d8480e5530" class="">2) 프로그램 실행수명보다 짧은 시간동안만 사용하려고 할 때</p></li></ul><ul id="2ee23165-7a51-4672-95ce-6b8dd7fa8b64" class="bulleted-list"><li style="list-style-type:disc">동적으로 할당된 메모리는 역시 연속된 메모리 덩어리</li></ul><ul id="d8c19796-fa82-455f-86e5-fa7faaf37a95" class="bulleted-list"><li style="list-style-type:disc">따라서 포인터가 적합 ⇒ 배열과 비슷한 이유</li></ul><h3 id="d2ef1d33-637d-4d02-9127-c3c70a7eb34d" class="">(4) 그 외...</h3><ul id="54c968e0-2135-4fe2-8c96-e2649a4a8136" class="bulleted-list"><li style="list-style-type:disc">데이터 구조를 구현할 때<p id="cede5946-7db9-4ac1-98d0-595353d2e11f" class="">⇒ 연결 리스트, 트리 등과 같은 데이터 구조</p></li></ul><ul id="b9d32ab4-26b2-4b7c-a5fa-e8a2dd64a732" class="bulleted-list"><li style="list-style-type:disc">임베디드 프로그래밍 등에서 하드웨어에 있는 메모리에 직접 접근해야할 때<p id="8e68d55c-3ac8-45c8-9b45-af7c48bc6f5b" class="">⇒ 예 : 어떤 하드웨어는 화면을 보여주려면 특정 메모리 위치에 이미지 데이터를 직접 복사해줘야 함</p></li></ul><h2 id="2be2d5ad-b380-4258-aecc-3d3b7bdab182" class="">포인터 배열</h2><ul id="f2a69680-7f88-42a0-8e86-1d2fd4407ac7" class="bulleted-list"><li style="list-style-type:disc">포인터도 그냥 변수니 당연히 포인터를 저장하는 배열도 있음</li></ul><ul id="074c5a44-7480-461f-a4d8-394bade602ee" class="bulleted-list"><li style="list-style-type:disc">배열의 선언<pre id="748e6a6d-3729-4a76-9e2b-e7edfbfd19a3" class="code"><code>/* int를 담는 배열 선언 */
+int nums[3];
+
+/* int*를 담는 배열 선언 */
+int* num_pointer[3];</code></pre></li></ul><ul id="e8173f38-db91-466e-9bc6-b06d89ccca54" class="bulleted-list"><li style="list-style-type:disc">&#x27;배열의 배열&#x27;과 비슷한 개념<p id="3e33b4ea-d2fd-403c-81f1-5d7ad3378998" class="">⇒ 바깥 쪽 배열은 행, 안쪽 배열은 열</p><p id="a0a45cb9-eac1-4b9e-9588-a559e8c2d453" class="">⇒ 각 행마다 열의 길이가 달라질 수 있음</p></li></ul><h3 id="0b64a542-4bbe-4192-a736-e30a13cf39ea" class="">포인터 배열 예시</h3><pre id="4a0f109d-bff8-4576-a8d9-433df971eb6f" class="code"><code>int nums1[3] = { 11, 22, 33 };
+int nums2[1] = { 90 };
+int nums3[4] = { 88, 36, 37 };
+
+int* num_pointer[3];
+num_pointer[0] = nums1;
+num_pointer[1] = nums2;
+num_pointer[2] = nums3;</code></pre><h3 id="7698f3ac-1bc9-4fc7-b27d-40948c2ee28a" class="">함수의 포인터 배열 접근</h3><ul id="53ff0598-52ea-4db9-abd9-a48a267a7290" class="bulleted-list"><li style="list-style-type:disc">함수에서 포인터 배열을 접근하려면 각 내부의 길이를 알려주는 <code>size_t</code> 배열이 필요</li></ul><pre id="ebd3e24a-6479-4116-8900-1cd9fe01fc8f" class="code"><code>void print_array(int* const data[], const size_t size, const size_t lengths[])
+{
+size_t i;
+size_t j;
+const int* p;
+
+for (i = 0; i &lt; size; ++i) {
+    p = data[i];
+    printf(&quot;nums[%d]:&quot;, i)
+    
+    for (j = 0; j &lt; lengths[i]; ++j) {
+        printf(&quot;%d&quot;, p[j]);
+    }
+}
+}
+
+/*
+아래와 같은 형식의 데이터가 나오게 됨
+num[0] = { 11, 22, 33 };
+num[1] = { 90 };
+num[2] = { 88, 36, 37 };
+*/</code></pre><h3 id="f6df4b15-75bb-49a9-8645-8604b6829657" class="">2차원 배열</h3><p id="d4616780-e1fb-4850-933f-ad326e494db1" class="">배열과 포인트가 같다면 2D 배열도 위와 같이 사용이 가능할까?</p><pre id="06a393a9-3309-43f5-965c-367c7f9c2133" class="code"><code>/* 컴파일 오류 */
+
+void do_magic(int* matrix[5])
+{
+/* 코드 생략 */
+}
+
+int main(void)
+{
+int matrix[5][10] = {
+    { 1, 2, 3, 4, 5, 6, 7, 8, 9, 10},
+    { 1, 2, 3, 4, 5, 6, 7, 8, 9, 10},
+    { 1, 2, 3, 4, 5, 6, 7, 8, 9, 10},
+    { 1, 2, 3, 4, 5, 6, 7, 8, 9, 10},
+    { 1, 2, 3, 4, 5, 6, 7, 8, 9, 10},
+};
+
+do_magic(matrix);
+}</code></pre><ul id="df991424-af26-4c48-a21a-ac8cc4e27e70" class="bulleted-list"><li style="list-style-type:disc">2차원 배열은 한 덩어리 메모리라 주소의 값이 저장된 곳이 없음</li></ul><ul id="872d0c26-b3c7-4cef-830e-541b2788b680" class="bulleted-list"><li style="list-style-type:disc">올바른 방법<pre id="2e885579-8572-442e-8f31-cab2096be831" class="code"><code>void do_magic(int matrix[][10], size_t m)   /* m : 행의 수 */
+{
+/* 코드 생략 */
+}</code></pre><p id="83bad274-e243-4107-9ec7-42cc785b795a" class="">⇒ 컴파일러가 매개변수가 2차원 배열이라는 것을 인지하며 <code>matrix[1][ ]</code> 할 때 몇개를 건너 뛰어야 하는지 알 수 있음</p></li></ul><pre id="9f4c0bf3-5155-485b-9166-1a8a84c67374" class="code"><code>/* 컴파일 */
+
+void do_magic(int* matrix[][10], size_t m)
+{
+/* 코드 생략 */
+}
+
+int main(void)
+{
+int matrix[5][10] = {
+    { 1, 2, 3, 4, 5, 6, 7, 8, 9, 10},
+    { 1, 2, 3, 4, 5, 6, 7, 8, 9, 10},
+    { 1, 2, 3, 4, 5, 6, 7, 8, 9, 10},
+    { 1, 2, 3, 4, 5, 6, 7, 8, 9, 10},
+    { 1, 2, 3, 4, 5, 6, 7, 8, 9, 10},
+};
+
+do_magic(matrix, 5);
+}</code></pre></div></article></body>
+
 {% endblock post_content %}

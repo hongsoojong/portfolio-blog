@@ -8,499 +8,484 @@
 
 {% block post_content %}
 
-    {% block post_date %}
-        <div class="container w-1/2 mx-auto mb-10 post_date">[ Sept 07, 2021 ]</div>    
-    {% endblock post_date %}
+{% block post_date %}
+    <div class="container w-1/2 mx-auto mb-10 post_date">[ Sept 07, 2021 ]</div>    
+{% endblock post_date %}
 
-    <main class="container w-1/2 mx-auto font_kor">
-        <div class="post_text">
-            <li>C의 함수는 기본적으로 모두 전역(global)함수</li>
-            <p class="ml-7">⇒ 즉, C함수는 어디서든 호출할 수 있음! 물론 이걸 제한할 수 있는 키워드는 따로 존재함</p>
-            <li>함수의 오버로딩 없음 ⇒ 따라서 함수를 다르게 만들어야 함</li>
-            <p class="post_def mb-7">오버로딩 : 함수의 이름은 같고 매가변수의 타입이나 수만 다른 경우</p>
-        </div>
-        <div>
-            <div class="post_heading">함수</div>
-            <div class="post_text">
-                <li>일종의 작은 프로그램 단위</li>
-                <li>지금까지 사용해온 printf()나 scanf()등도 C언어에서 미리 만들어 제공한 함수로, 메인 함수 'main()' 도 프로그램이 실행될 때 처음으로 실행하도록 약속된 함수를 말함</li>
-                <li>이처럼 '함수'는 특정한 기능을 하는 코드들을 묶어 하나의 명령어처럼 사용 가능</li>
-                <li>기본적으로 이미 만들어서 제공하는 printf() 같은 함수 이외에 새로운 함수를 만들 수도 있음</li>
-            </div>
-            <div class="post_subheading">함수 선언(function declaration)</div>
-            <div class="post_text">
-                <li>함수의 구현체 없이 함수 원형(prototype)만 선언해 주는 것</li>
-                <p class="ml-7">⇒ 함수의 원형은 다음 사항들을 명시</p>
-                <p class="ml-12">1. 함수의 이름</p>
-                <p class="ml-12">2. 반환형</p>
-                <p class="ml-12">3. 매개변수들의 자료형</p>
-            <div class="post_subheading">함수 정의(function definition)</div>
-            <div class="post_text">
-                <li>실제로 함수를 구현해놓은 것</li>
-                <li>함수 정의는 그 자체로 함수 선언이기도 함</li>
-            </div>
-            <img src="{% static 'img/sourcecode/post3-1.png' %}">
-            <div class="post_text">
-                <li>함수를 사용하기 전에 그 함수를 선언 (혹은 헤더 파일에)</li>
-                <li>C 언어에서는 위에서 아래 방향으로 프로그램이 실행되고, 아래에서 사용할 것들은 반드시 위에서 선언이 되어야함</li>
-                <li>하지만 위에 많은 함수들을 선언하게 되면 보기 좋지 못하고, 메인 함수를 찾기 위해 스크롤바를 한참 내려야 할 수도 있음</li>
-                <p class="ml-7">⇒ 정방 선언을 통해 함수를 메인 함수 밑으로 내릴 수 있음</p>
-            </div>
-            <div class="post_subheading">전방 선언</div>
-            <img src="{% static 'img/sourcecode/post3-2.png' %}">
-            <div class="post_text">
-                <li>함수를 사용하기 전에 그 함수를 선언 (혹은 헤더 파일에)</li>
-                <li>전방선언의 작동원리</li>
-                <p class="ml-7">1. 컴파일러가 함수의 이름과 반환형 그리고 매개변수를 알 수 있음</p>
-                <p class="ml-7">2. 실제 어디로 가서 코드를 찾아야하는지 모르니 구멍으로 남겨둠</p>
-                <p class="ml-7">3. 컴파일의 다음 단계인 링크(link) 단계에서 실제 코드 위치를 찾아 그 구멍에 메워줌</p>            
-            </div>
-            <div class="post_subheading text-red-400">int main과 void main</div>
-            <div class="post_text">
-                <p class="font-bold">< int를 반환하는 main이 표준 문법 ! ></p>
-                <li>C 언어 표준 안에서는 void main을 허용하지 않고 int main만 사용이 가능함</li>
-                <li>main 함수가 반환하는 값은 해당 프로그램의 종료상태를 의미하는 값으로 사용되기 때문에 종료상태가 없다는 의미인 void main의 형식은 잘못된 형식임</li>
-                <li>그렇다면 왜 컴파일러들이 오랜 기간 동안 잘못된 void main을 허용한 것인가 ? 이유는 매우 단순함 (컴파일러를 개발하는 입장에서 개발자가 main 함수의 반환값을 사용하지도 않으면서 return문을 적는 것이 불편할 수도 있다고 판단해서 void main이라는 표현을 추가적으로 제공 ⇒ 즉, 개발자 입장에서 코드를 적게 쓸 수 있도록 도와주기 위해서 void main이라는 문법을 제공한 것)</li>
-                <li>컴파일러 입장에서는 void main 함수를 컴파일할 때 내부적으로 int main 함수와 다르게 처리하는 것이 없음 ⇒ void main, int main은 동일하게 처리가 됨</li>
-                <li>하지만 최근 컴파일러를 하나로 통합하려는 시도를 하고 있는 많은 컴파일러 회사들이 이 노력에 동참하고 있으며, 비표준화된 void main 함수 또한 사라지고 있는 추세로 앞으로 C 프로그래밍을 할 때 void main을 사용하면 오류가 나는 컴파일러는 늘어날 것임</li>
-            </div>
-            <div class="post_heading">함수 매개변수/피연산자 평가순서</div>
-            <div class="post_subheading">함수 매개변수 평가순서</div>
-            <img src="{% static 'img/sourcecode/post3-3.png' %}">
-            <div class="post_text">
-                <li>표준에 따르면, 함수 매개변수의 평가순서는 명시되지 않음 (<span class="font-bold">unspecified</span>)</li>
-                <p class="ml-7">⇒ 즉, 컴파일러에 따라 평가 순서가 달라질 수 있음</p>
-                <li>하지만 printf(()가 실제로 실행되기 전에 add()와 substract()가 모두 호출된다는 것은 보장</li>
-            </div>
-            <div class="post_subheading">피연산자 평가순서</div>
-            <img src="{% static 'img/sourcecode/post3-4.png' %}">
-            <div class="post_text">
-                <li>역시나 find_next_dungeon()이 먼저 호출된다는 보장이 없음 ⇒ 역시나 평가순서가 명시되지 않음</li>
-                <li>한 줄에 있는 함수 호출 순서에 의존해서 코드를 작성하면 안됨</li>
-                <li>해법 : 두 함수를 두줄에 따로 호출 할 것!!</li>
-            </div>
-            <div class="post_subheading">Undefined behavior(결과가 정의되지 않음)</div>
-            <img src="{% static 'img/sourcecode/post3-5.png' %}">
-            <div class="post_text">
-                <li>기본적으로 한 줄에 동일한 변수를 여러 번 바꾸면 위험 ⇒ 함수 매개변수의 평가순서는 컴파일러마다 다를 수 있음</li>
-                <p class="ml-7">1. 한 함수의 매개변수들이 동일한 변수를 수정할 경우, 결과가 정의되지 않음</p>
-                <p class="ml-7">2. 한 줄에서 같은 변수를 여러 번 수정하면 정의되지 않은 결과</p>
-                <div class="post_def">
-                    <p>unspecified : 위험하지는 않지만 컴파일러에 따라 결과가 다를 수 있음</p>
-                    <p>undifined: 위험함! 무슨 일이 일어날지 모름</p>
-                </div>
-                <img src="{% static 'img/sourcecode/post3-6.png' %}" class="ml-7">
-            </div>
-        </div>
-        <div>
-            <div class="post_heading">연산자 우선순위와 평가순서</div>
-            <img src="{% static 'img/sourcecode/post3-7.png' %}">
-            <div class="post_text">
-                <li>연산자 우선순위와 평가순위는 서로 아무런 연관이 없음 ⇒ add(), substract(), divide()의 평가순서는 알 수 없음</li>
-                <li>함수 호출(평가)의 순서는 알 수 없으나, 최종적으로 연산이 이루어질땐 곱셈이 먼저 이루어짐</li>
-            </div>
-            <div class="post_subheading">&&와 ||는 평가순서를 강제하는 연산자</div>
-            <img src="{% static 'img/sourcecode/post3-8.png' %}">
-            <div class="post_text">
-                <li>논리연산자 &&와 ||의 경우 왼쪽 피연산자를 먼저 실행함</li>
-                <p class="ml-7">⇒ 왼쪽 피연산자의 평가만으로 오른쪽 피연산자를 평가 안 할 수도 있음</p>
-                <img src="{% static 'img/sourcecode/post3-9.png' %}" class="ml-7">
-            </div>
-            <div class="post_heading">평가순위 정리</div>
-            <div class="post_text">
-                <li>한 줄에 있는 피연산자들은 기본적으로 평가순서가 보장 안됨</li>
-                <li>&&와 || 정도만 됨 (short circuit, sequence point    )</li>
-                <li>추가적으로 삼항(?:)도 평가순서가 보장됨 ⇒ if/else를 줄여 써 놓은 것이라고 생각하면 됨</li>
-                <li>함수를 실제 실행하기 전에 모든 매개변수와 ;은 우선 평가 됨 ⇒ 이건 너무나도 당연한 내용!</li>
-            </div>
-        </div>
-        <div>
-            <div class="post_heading">범위(scope) - 블록 범위 / 파일 범위 / 함수 범위 / 함수 선언 범위</div>
-            <div class="post_text">
-                <p class="-ml-3">총 4가지의 범위로 분류할 수 있음</p>
-                <p>1. 블록 범위</p>
-                <p>2. 파일 범위</p>
-                <p>3. 함수 범위</p>
-                <p>4. 함수 선언 범위</p>
-            </div>
-            <div class="post_subheading">블록 범위</div>
-            <div class="post_text">
-                <li>중괄호({}) 안에 선언한 것들은 그 블록 안에서만 사용 가능</li>
-                <li>블록 안에 또다른 블록을 넣을 수도 있음 ⇒ 그러면 안쪽 블록은 바깥 블록에 접근 가능, 그 반대는 안됨</li>
-            </div>
-            <div class="post_subheading">블록 범위와 변수 선언 위치</div>
-            <img src="{% static 'img/sourcecode/post3-10.png' %}">
-            <div class="post_text">
-                <li>함수 중간에 블록을 열고 변수 선언 가능</li>
-                <li>함수 시작 지점에서 모든 변수를 선언하면 실수할 여지가 없음</li>
-                <p class="ml-7">⇒ 하지만 정확하게 어느 지점에서 사용하는 변수인지 파악 불가능</p>
-                <p class="ml-12">중간에 그 값이 바뀔 수도 있음</p>
-                <li>블록을 이용해서 함수 중간에 선언하는 것도 하나의 방법임</li>
-            </div>
-            <div class="post_subheading">파일 범위</div>
-            <img src="{% static 'img/sourcecode/post3-11.png' %}">
-            <div class="post_text">
-                <li>어떤 블록이나 매개변수 목록에도 안 속하고, 파일 안에 있는 것 (translation unit)</li>
-                <li>파일 범위에 있는 변수</li>
-                <p class="ml-7">- 다른 소스 파일에서 링크 가능</p>
-                <p class="ml-7">- 프로그램 실행동안 공간을 차지</p>
-                <p class="ml-7">⇒ 즉, 스택 메모리에 들어가는 것이 아니라 데이터 섹션에 들어감</p>
-                <li>이게 바로 전역변수!</li>
-            </div>
-            <div class="post_subheading">함수 범위</div>
-            <div class="post_text">
-                <li>유일한 예 : 레이블(label)</li>
-                <li>goto문</li>
-                <li>함수 안에서 선언된 레이블은 함수 어디에서라도 접근 가능</li>
-                <p class="ml-7">⇒ 다른 범위들은 위에서 이미 선언된 것만 접근이 가능했음</p>
-            </div>
-            <div class="post_subheading">함수 선언 범위</div>
-            <img src="{% static 'img/sourcecode/post3-12.png' %}">
-            <div class="post_text">
-                <li>함수 선언의 매개변수 목록에 있는 것은 그 목록 안에서 접근 가능</li>
-                <li>많이 쓸 일은 없음</li>
-            </div>
-        </div>
-        <div>
-            <div class="post_heading">const</div>
-            <img src="{% static 'img/sourcecode/post3-13.png' %}">
-            <div class="post_text">
-                <li>이름 달린 상수를 만들어주기 좋음 ⇒ 개발자의 실수를 막아줄 수 있는 KEY</li>
-                <li>기본적으로 모든 변수에 const를 붙이는 것이 좋음</li>
-                <li>정말 값 변경이 필요한 변수에만 const를 생략</li>
-            </div>
-        </div>
-        <div>
-            <div class="post_heading">goto문</div>
-            <div class="post_text">
-                <li>C는 위에서 아래로 순차적으로 코드를 실행함</li>
-                <li>goto를 쓰면 순서를 어기고 다음에 실행할 코드를 마음대로 지정 가능</li>
-                <p class="ml-7">⇒ 같은 함수 내에 있는 label로 점프함</p>
-            </div>
-            <div class="post_subheading">goto문과 while문</div>
-            <img src="{% static 'img/sourcecode/post3-14.png' %}" class="mb-6">
-            <div class="post_subheading">goto문과 do-while문</div>
-            <img src="{% static 'img/sourcecode/post3-15.png' %}" class="mb-6">
-            <div class="post_subheading">반복문은 결국 goto를 사용하는 코드</div>
-            <div class="post_text">
-                <li>어셈블리어는 반복문이란게 없음</li>
-                <li>원래 어셈블리어 프로그래밍을 하다가 C로 넘어온거라 초기엔 goto문을 많이 썼음</li>
-                <li>당연히 이보다 안전한 방법이 보통의 반복문을 쓰는 것</li>
-                <p class="ml-7">⇒ 이건 명백한 사실이라 누구나 동의, 따라서 goto를 자주 쓰지는 않음</p>
-            </div>
-            <div class="post_subheading">goto는 정말로 악마인가?</div>
-            <div class="post_text">
-                <li>물론..</li>
-                <li>goto를 난잡하게 사용하게 되면 코드가 이리 뛰고 저리 뛰고 꼬이게 됨</li>
-                <li>이러한 코드를 스파게티 코드라고 부름 (아주 꼬임)</li>
-                <li>이로 인해 코드를 쓰고 읽는데 실수가 발생하게 됨</li>
-            </div>
-            <div class="post_subheading">허나 goto가 늘 악마인 것은 아님!</div>
-            <div class="post_text">
-                <p class="ml-3 font-bold">< 경우 1 ></p>
-                <p class="ml-7">goto없이 안쪽 for문에서 탈출하려면 쓸데없이 if문을 여러 개 써야함</p>
-                <p class="ml-7">[ goto를 안 쓰는 3중 for문 ]</p>
-                <img src="{% static 'img/sourcecode/post3-16.png' %}" class="ml-7">
-                <p class="ml-7">[ goto를 쓰는 3중 for문 ]</p>
-                <img src="{% static 'img/sourcecode/post3-17.png' %}" class="ml-7 mb-6">
-                <p class="ml-3 font-bold">< 경우 2 ></p>
-                <img src="{% static 'img/sourcecode/post3-18.png' %}" class="ml-7">
-                <li class="ml-7">poto없이 쓰려면 bool 변수를 하나 만들어서 계속 검사를 진행해야함</li>
-                <img src="{% static 'img/sourcecode/post3-19.png' %}" class="ml-7">
-                <li class="ml-7">물른 early exit을 해도 됨 ⇒ 하지만 오류를 처리하는 코드들이 if문 안에 반복되어 사용</li>
-                <li class="ml-7">오류를 처리하는 코드를 함수로 만들어됨 ⇒ 하지만 한 군데서만 쓰는 코드를 함수로 만드는 것은 유지/보수 문제를 유발하기도 함</li>
-                <img src="{% static 'img/sourcecode/post3-20.png' %}" class="ml-7">
-                <li class="ml-7  mb-6">goto를 쓰면 해결됨</li>
-                <p class="ml-3 font-bold">< 경우 3 ></p>
-                <p class="ml-7">로버트 러브(Robert Love)가 리눅스 커널 관련 토론에서 사랑을 담아 댓글로 남긴 goto 활용법</p>
-                <img src="{% static 'img/sourcecode/post3-21.png' %}" class="ml-7">
-                <li class="ml-7">중간에 에러가 나면 이미 수행한 작업을 되돌림</li>
-                <li class="ml-7">A만 수행했다면 A만 되돌리고, A > B를 수행했다면 B > A 순으로 되돌림</li>
-            </div>
-            <div class="post_subheading">goto문의 BEST PRACTICES</div>
-            <div class="post_text">
-                <li>goto문은 언제나 전방(아래쪽)으로만 점프할 것</li>
-                <p class="ml-7">⇒ 후방(위)으로만 점프하면 스파게티처럼 코드가 꼬이기 쉬움</p>
-                <li>내포된(nested) 루프에서 빠져나올 때는 자유로이 쓸 것</li>
-                <li>한 함수 안에 있는 여러 개의 조건문이 공통된 코드로 실행해야할 때도 써도 됨</li>
-                <p class="ml-7">⇒ 예 : 함수 마지막에 성공 / 오류 조건 처리</p>
-            </div>
-        </div>
-        <div>
-            <div class="post_heading">배열</div>
-            <img src="{% static 'img/sourcecode/post3-22.png' %}">
-            <div class="post_text">
-                <li>C#과 달리 new를 반드시 사용할 필요가 없음</li>
-            </div>
-            <div class="post_heading">스택 메모리</div>
-            <div class="flex justify-center">
-                <table class="mb-6 w-1/2 table-fixed">
-                    <tbody class="text-center">
-                      <tr>
-                        <td class="post_table_border">스택</td>
-                      </tr>
-                      <tr>
-                        <td class="post_table_border">힙</td>
-                      </tr>
-                      <tr>
-                        <td class="post_table_border">데이터</td>
-                      </tr>
-                      <tr>
-                        <td class="post_table_border">코드</td>
-                      </tr>
-                      <tr>
-                        <td class="font-bold">C의 메모리</td>
-                      </tr>
-                    </tbody>
-                </table>
-            </div>
-            <div class="post_text">
-                <li>C는 스택 메모리 덕분에 값형으로도 배열을 만들 수 있음</li>
-                <li>우선 자료구조인 스택이랑 헷갈리지 말 것 ⇒ 둘 다 작동방법이 동일해서(LIFO; last in first out) 스택이란 이름을 쓸 뿐</li>
-                <li>각 함수에서 사용하는 지역 변수 등을 임시적으로 저장하는 공간</li>
-                <li>스택 메모리의 크기는 프로그램 빌드 시에 결정됨</li>
-                <li>스택 메모리의 위치는 실행 시에 결정 됨</li>
-                <li>함수가 호출될 때마다 그 함수에서 필요한 공간을 스택에서 떼어줬다가 그 함수가 반환하면 그냥 지워버리는 개념 (실제 지우진 않음)</li>
-            </div>
-            <div class="post_subheading">기본 자료형 변수는 스택 메모리를 차지!</div>
-            <div class="post_text">
-                <li>여태까지 모든 기본형 변수(char, int, float)를 new 없이 사용할 수 있었던 이유가 바로 스택 메모리에 할당됬기 때문</li>
-                <li>기본 자료형을 함수 매개변수로 전달하면 스택에 복사본을 만듦 ⇒ 이것이 바로 값형</li>
-                <li>스택 메모리를 빌리고 반환할 때마다 언제나 빈 공간 없이 차곡차곡 쌓여있음</li>
-                <li>new로 만든 데이터는 힙(heap) 메모리에 할당됨 ⇒ 이 경우 메모리에 구멍이 뚫릴 수 있음 </li>
-            </div>
-            <div class="post_subheading">배열의 요소 개수를 구하는 방법</div>
-            <img src="{% static 'img/sourcecode/post3-23.png' %}" class="mb-6">
-            <div class="post_subheading">sizeof(매개변수)와 배열의 총 바이트 수</div>
-            <img src="{% static 'img/sourcecode/post3-24.png' %}">
-            <div class="flex justify-center my-4">
-                <table class="w-2/3 table-fixed ml-7">
-                    <tbody class="text-center">
-                      <tr>
-                        <td class="post_table_border">10</td>
-                        <td>지역 변수 1</td>
-                      </tr>
-                      <tr>
-                        <td class="post_table_border bg-yellow-100">2</td>
-                        <td></td>
-                      </tr>
-                      <tr>
-                        <td class="post_table_border bg-yellow-100">3</td>
-                        <td>지역 변수 2 (배열)</td>
-                      </tr>
-                      <tr>
-                        <td class="post_table_border bg-yellow-100">4</td>
-                        <td ></td>
-                      </tr>
-                      <tr>
-                        <td class="post_table_border border-4 border-red-600 bg-yellow-100">2</td>
-                        <td></td>
-                      </tr>
-                      <tr>
-                        <td class="post_table_border border-4 border-red-600 bg-yellow-100">3</td>
-                        <td>지역 변수 2가 함수의 매개변수</td>
-                      </tr>
-                      <tr>
-                        <td class="post_table_border border-4 border-red-600 bg-yellow-100">4</td>
-                        <td></td>
-                      </tr>
-                      <tr>
-                        <td class="post_table_border">10</td>
-                        <td>지역 변수 1이 함수의 매개변수</td>
-                      </tr>
-                      <tr>
-                        <td class="post_table_border py-5">호출된 함수의 스택 프레임 생략</td>
-                        <td></td>
-                      </tr>
-                    </tbody>
-                </table>
-            </div>
-            <div class="post_text">
-                <li>sizeof()가 매개변수로 들어온 배열의 총 바이트 수를 반환할 수 있으려면</li>
-                <p class="ml-7">1. 그 배열의 모든 요소가 스택에 다 복사되어 전달되어야 함</p>
-                <p class="ml-7">2. 그리고 호출되는 모든 함수는 스택에 복사된 모든 요소의 크기를 정확히 알아야함</p>
-            </div>
-            <div class="post_subheading">함수의 스택 메모리 사용량은 고정</div>
-            <div class="post_text">
-                <li>함수는 호출자가 누구든 간에 딱 정해진 수와 크기의 매개변수가 들어온다는 가정으로 동작</li>
-                <li>함수가 먼저 결정되고, 호출자는 그 함수를 호출할 뿐</li>
-            </div>
-            <div class="post_subheading">sizeof(매개변수)가 4를 반환한 이유는?</div>
-            <img src="{% static 'img/sourcecode/post3-25.png' %}">
-            <div class="flex justify-center my-4">
-                <table class="w-2/3 table-fixed ml-7">
-                    <tbody class="text-center">
-                      <tr>
-                        <td class="post_table_border">2</td>
-                        <td>0x0004E200</td>
-                      </tr>
-                      <tr>
-                        <td class="post_table_border">3</td>
-                        <td></td>
-                      </tr>
-                      <tr>
-                        <td class="post_table_border">4</td>
-                        <td></td>
-                      </tr>
-                      <tr>
-                        <td class="post_table_border border-4 border-red-600 bg-yellow-100">0x0004E200</td>
-                        <td ></td>
-                      </tr>
-                      <tr>
-                        <td class="post_table_border py-5">호출된 함수의 스택 프레임 생략</td>
-                        <td></td>
-                      </tr>
-                    </tbody>
-                </table>
-            </div>
-            <div class="post_text">
-                <li>배열을 매개변수로 전달할 떄는 실제 모든 요소를 스택에 넣진 않음</li>
-                <li>그 대신 그 배열의 시작 위치(주소)를 스택에 넣어줌</li>
-                <p class="ml-7">- 이 주소의 크기 = 포인터 데이터형의 크기</p>
-                <p class="ml-7">- 32비트 플랫폼에서는 3바이트, 64비트 플랫폼에서는 8바이트</p>
-                <p class="ml-7">그래서 sizeof()를 하면 4바이트가 나옴</p>
-            </div>
-            <div class="post_subheading">길이가 명시된 매개변수 배열</div>
-            <img src="{% static 'img/sourcecode/post3-26.png' %}">
-            <div class="post_text">
-                <li>위와 같은 코드는 길이가 5인 배열을 넣은 것이 아닌가?</li>
-                <p class="ml-7">⇒ 이는 단순히 프로그래머가 읽기 편하기 위해 [5]를 써준 것</p>
-                <p class="ml-12">컴파일을 진행하면 void process(int nums[])와 동일</p>
-                <li>원본 배열의 변화 ⇒ 위 코드는 복사본이 아니라 원본을 바꿈</li>
-                <p class="ml-7">- 어떤 사람들은 이것을 원본을 바꾸기 때문에 '참조에 의한 호출'이라 함</p>
-                <p class="ml-7">- 어떤 사람들은 이것을 위치를 바꾸기 떄문에 '값에 의한 호출'이라 함</p>
-                <p class="ml-7">- 어떤 사람들은 이것을 C는 참조에 의한 호출이 없고 그냥 주소를 전달하는 방법을 통해 '참조에 의한 호출을 시뮬레이션 하는 방법'이라고도 말함</p>
-                <p class="ml-7">- 중요하지 않음 : 원본이 바뀐다는 사실만 알면 됨</p>
-                <div class="flex justify-center my-4">
-                    <table class="w-2/3 table-fixed ml-7">
-                        <tbody class="text-center">
-                          <tr>
-                            <td class="post_table_border border-4 border-red-600 bg-yellow-100">0</td>
-                            <td>0x000dcf984</td>
-                          </tr>
-                          <tr>
-                            <td class="post_table_border border-4 border-red-600 bg-yellow-100">2</td>
-                            <td></td>
-                          </tr>
-                          <tr>
-                            <td class="post_table_border border-4 border-red-600 bg-yellow-100">4</td>
-                            <td></td>
-                          </tr>
-                          <tr>
-                            <td class="post_table_border border-4 border-red-600 bg-yellow-100">6</td>
-                            <td></td>
-                          </tr>
-                          <tr>
-                            <td class="post_table_border border-4 border-red-600 bg-yellow-100">8</td>
-                            <td></td>
-                          </tr>
-                          <tr>
-                            <td class="post_table_border">0x000dcf984</td>
-                            <td ></td>
-                          </tr>
-                          <tr>
-                            <td class="post_table_border">5</td>
-                            <td></td>
-                          </tr>
-                        </tbody>
-                    </table>
-                </div>
-            </div>
-            <div class="post_subheading">매개변수 배열의 길이를 알 수 있는 방법 : 없음!!</div>
-            <div class="post_text">
-                <li>배열 자체에서 크기를 알아올 수 있는 방법은 없음</li>
-                <p class="ml-7">예외 : 앞서 설명한 ARRAY_LENGTH() 꼼수(매크로)를 쓸 경우</p>
-                <p class="ml-7">즉, 배열의 크기는 따로 기억해둬야 함</p>
-                <img src="{% static 'img/sourcecode/post3-27.png' %}" class="ml-7">
-            </div>
-            <div class="post_subheading">배열 요소의 초깃값</div>
-            <div class="post_text">
-                <li>C는 배열 요소의 값을 초기화해주지 않음</li>
-                <li>따라서 그 전에 그 메모리에 남아있던 값을 그대로 사용 (변수도 마찬가지)</li>
-                <img src="{% static 'img/sourcecode/post3-28.png' %}" class="ml-7">
-            </div>
-            <div class="post_subheading">배열 요소의 초기화</div>
-            <img src="{% static 'img/sourcecode/post3-29.png' %}" class="mb-6">
-            <div class="post_subheading">배열 요소의 초기화 : BEST PRACTICE</div>
-            <img src="{% static 'img/sourcecode/post3-30.png' %}">
-            <div class="post_text">
-                <li>배열의 모든 값을 0으로 초기화</li>
-                <li>0 뒤에 쉼표</li>
-                <li>이를 통해 초기화 목록이 모든 값을 직접 초기화해주지는 않지만 쉼표 뒤가 모두 0으로 초기화 됨</li>
-                <li>초기화를 제대로 진행하지 않는다면 초기화 안된 지역변수를 모른 채 사용할 수 있으며, 버퍼 오버플로도 가능 ⇒ 버퍼 오버플로를 아무도 체크해주지 않음</li>
-            </div>
-            <div class="post_heading">다차원 배열 (2차원, 3차원 배열)</div>
-            <img src="{% static 'img/sourcecode/post3-31.png' %}" class="mb-6">
-            <img src="{% static 'img/sourcecode/post3-32.png' %}" class="mb-6">
-            <div class="post_subheading">1차원 vs 2차원 vs 3차원</div>
-            <img src="{% static 'img/sourcecode/post3-33.png' %}" class="border border-black mb-2">
-            <div class="post_text">
-                <li>1차원 배열</li>
-                <p class="ml-7 font-bold">int nums1[2];</p>
-                <p class="ml-7 font-bold">⇒ { 1, 2 }</p>
-                <table class="w-2/3 table-fixed ml-7">
-                    <tbody class="text-center">
-                      <tr>
-                        <td class="post_table_border">1</td>
-                        <td class="post_table_border">2</td>
-                        <td class="post_table_border"></td>
-                        <td class="post_table_border"></td>
-                        <td class="post_table_border"></td>
-                        <td class="post_table_border"></td>
-                        <td class="post_table_border"></td>
-                        <td class="post_table_border"></td>
-                        <td class="post_table_border"></td>
-                      </tr>
-                    </tbody>
-                </table>
-                <li>2차원 배열 : 1차원 배열들의 모임 [y][x]</li>
-                <p class="ml-7 font-bold">int nums2[2][3];</p>
-                <p class="ml-7 font-bold">⇒ { { 1, 2, 3}, { 4, 5, 6} }</p>
-                <table class="w-2/3 table-fixed ml-7">
-                    <tbody class="text-center">
-                      <tr>
-                        <td class="post_table_border">1</td>
-                        <td class="post_table_border">2</td>
-                        <td class="post_table_border">3</td>
-                        <td class="post_table_border">4</td>
-                        <td class="post_table_border">5</td>
-                        <td class="post_table_border">6</td>
-                        <td class="post_table_border"></td>
-                        <td class="post_table_border"></td>
-                        <td class="post_table_border"></td>
-                      </tr>
-                    </tbody>
-                </table>
-                <li>3차원 배열 : 2차원 배열들의 모임 [z][y][x]</li>
-                <p class="ml-7 font-bold">int nums3[2][3][2];</p>
-                <p class="ml-7 font-bold">⇒ { { { 1, 2 }, { 3, 4 }, { 5, 6 } }, { { 7, 8 }, { 9, 10 }, { 11, 12 } } }</p>
-                <table class="w-2/3 table-fixed ml-7">
-                    <tbody class="text-center">
-                      <tr>
-                        <td class="post_table_border">1</td>
-                        <td class="post_table_border">2</td>
-                        <td class="post_table_border">3</td>
-                        <td class="post_table_border">4</td>
-                        <td class="post_table_border">5</td>
-                        <td class="post_table_border">6</td>
-                        <td class="post_table_border">7</td>
-                        <td class="post_table_border">8</td>
-                        <td class="post_table_border">9</td>
-                      </tr>
-                      <tr>
-                        <td class="post_table_border">10</td>
-                        <td class="post_table_border">11</td>
-                        <td class="post_table_border">12</td>
-                        <td class="post_table_border"></td>
-                        <td class="post_table_border"></td>
-                        <td class="post_table_border"></td>
-                        <td class="post_table_border"></td>
-                        <td class="post_table_border"></td>
-                        <td class="post_table_border"></td>
-                      </tr>
-                    </tbody>
-                </table>
-            </div>
-        </div>
-    </main>
+<main class="container w-1/2 mx-auto font_kor">
+
+{% include "blog/all_posts/css_post.html" %}
+  
+<!-- notion html -->
+<body><article id="aaf9c1dc-761a-43c4-8061-f61a63b14c4b" class="page sans"><div class="page-body"><ul id="ad492f21-b806-49cc-a12f-2597679f3fb8" class="bulleted-list"><li style="list-style-type:disc">C의 함수는 기본적으로 모두 전역(global)함수<p id="2d3ba190-c040-424a-aa8d-927491ae20ff" class="">⇒ 즉, C함수는 어디서든 호출할 수 있음! 물론 이걸 제한할 수 있는 키워드는 따로 존재함</p></li></ul><ul id="9c14b3dc-f751-4148-a0c4-10c8d8fc7406" class="bulleted-list"><li style="list-style-type:disc">함수의 오버로딩 없음 ⇒ 따라서 함수를 다르게 만들어야 함<p id="1eda2d5b-732e-4e52-b458-426d37ec9af6" class="">오버로딩 : 함수의 이름은 같고 매가변수의 타입이나 수만 다른 경우</p></li></ul><h2 id="1944b967-4ab4-4d4c-9807-d227b3ed726a" class="">함수</h2><ul id="d593d8db-0dbf-49d2-8f9a-4bf237960bdc" class="bulleted-list"><li style="list-style-type:disc">일종의 작은 프로그램 단위</li></ul><ul id="68b6ebe5-37e2-4cc1-b8a5-ea832444f291" class="bulleted-list"><li style="list-style-type:disc">지금까지 사용해온 <code>printf()</code>나 <code>scanf()</code>등도 C언어에서 미리 만들어 제공한 함수로, 메인 함수 &#x27;<code>main()</code>&#x27; 도 프로그램이 실행될 때 처음으로 실행하도록 약속된 함수를 말함</li></ul><ul id="b280dc8a-b72d-43f7-9648-1184f30f79c4" class="bulleted-list"><li style="list-style-type:disc">이처럼 &#x27;함수&#x27;는 특정한 기능을 하는 코드들을 묶어 하나의 명령어처럼 사용 가능</li></ul><ul id="cf5e592c-1266-4382-bafe-b22b32d7cfdf" class="bulleted-list"><li style="list-style-type:disc">기본적으로 이미 만들어서 제공하는 <code>printf()</code> 같은 함수 이외에 새로운 함수를 만들 수도 있음</li></ul><h3 id="9dacb47e-938d-4ea5-b6d4-25e8fe788460" class="">함수 선언(function declaration)</h3><ul id="20aba70d-4d5b-4727-8b12-9a643e1266bc" class="bulleted-list"><li style="list-style-type:disc">함수의 구현체 없이 함수 원형(prototype)만 선언해 주는 것<p id="2261c7d5-3eae-4e27-a514-9c2093281b74" class="">⇒ 함수의 원형은 다음 사항들을 명시<div class="indented"><p id="c8c7a741-cdc7-40fa-98c7-7e930f0ae379" class="">1) 함수의 이름</p><p id="3975cfc4-5188-4a7c-a368-54d6e6312e03" class="">2) 반환형</p><p id="3a3619f3-e8e9-456f-99ca-506deee3bdca" class="">3) 매개변수들의 자료형</p></div></p></li></ul><h3 id="68a7d7de-a677-4ddb-92db-63a53c8489fb" class="">함수 정의(function definition)</h3><ul id="2e16934a-e475-4ccb-b17c-3fa3e2ed2ba3" class="bulleted-list"><li style="list-style-type:disc">실제로 함수를 구현해놓은 것</li></ul><ul id="167a072e-4482-497b-ab24-19a1a250ff42" class="bulleted-list"><li style="list-style-type:disc">함수 정의는 그 자체로 함수 선언이기도 함</li></ul><pre id="6ce7291c-7e58-4640-86fd-2f6a41b0e5d2" class="code"><code>#include &lt;stdio.h&gt;
+
+void foo(void)                           /* 함수 정의 (+ 선언) */
+{
+	printf(&quot;foo called&quot;);
+}
+
+int main(void)
+{
+	foo();
+	getchar();
+	return 0;
+}</code></pre><ul id="d0a3c6cc-2eb1-4dc0-a94a-5198d184a304" class="bulleted-list"><li style="list-style-type:disc">함수를 사용하기 전에 그 함수를 선언 (혹은 헤더 파일에)</li></ul><ul id="c02c204a-77e3-4052-aad0-c08b59ebd605" class="bulleted-list"><li style="list-style-type:disc">C 언어에서는 위에서 아래 방향으로 프로그램이 실행되고, 아래에서 사용할 것들은 반드시 위에서 선언이 되어야함</li></ul><ul id="059b468e-ba86-46e1-8c64-3b29179fa435" class="bulleted-list"><li style="list-style-type:disc">하지만 위에 많은 함수들을 선언하게 되면 보기 좋지 못하고, 메인 함수를 찾기 위해 스크롤바를 한참 내려야 할 수도 있음<p id="08549d68-2ffe-4a19-8478-72f906ea438a" class="">⇒ 전방 선언을 통해 함수를 메인 함수 밑으로 내릴 수 있음</p></li></ul><h3 id="02374e84-9637-4399-b66c-66fac2463b84" class="">전방 선언</h3><pre id="92fe868c-fe19-4326-bcbc-8e5caa499ad1" class="code"><code>#include &lt;stdio.h&gt;
+
+void foo(void);                        /* 함수 선언 (전방 선언) */
+
+int main(void)
+{
+	foo();
+	getchar();
+	return 0;
+}
+
+void foo(void)                          /* 함수 정의 */
+{
+	printf(&quot;foo called&quot;);
+}</code></pre><ul id="01f320d0-dc07-449d-bf5b-08f758c5f218" class="bulleted-list"><li style="list-style-type:disc">함수를 사용하기 전에 그 함수를 선언 (혹은 헤더 파일에)</li></ul><ul id="a80f8cd8-03ea-4ca4-8c47-c4accf633a11" class="bulleted-list"><li style="list-style-type:disc">전방선언의 작동원리<p id="1fbff694-f9f8-4538-8b8b-95342d988a46" class="">1) 컴파일러가 함수의 이름과 반환형 그리고 매개변수를 알 수 있음</p><p id="3cdc382c-1297-4df1-915d-cf19e1129aac" class="">2) 실제 어디로 가서 코드를 찾아야하는지 모르니 구멍으로 남겨둠</p><p id="6dda6539-decd-49b5-b1d5-889a756920d3" class="">3) 컴파일의 다음 단계인 링크(link) 단계에서 실제 코드 위치를 찾아 그 구멍에 메워줌</p></li></ul><h3 id="337dec82-0422-4124-8667-100443af1d96" class="">int main과 void main</h3><p id="5fda22dc-5e5f-44a8-aa87-b653b4736f35" class=""><strong>&lt; int를 반환하는 main이 표준 문법 ! &gt;</strong></p><ul id="f070cfef-f56d-4ecc-9068-2bcc63b0c17e" class="bulleted-list"><li style="list-style-type:disc">C 언어 표준 안에서는 void main을 허용하지 않고 int main만 사용이 가능함</li></ul><ul id="8a5c7f74-09d4-4190-a2dc-861e1a999663" class="bulleted-list"><li style="list-style-type:disc">main 함수가 반환하는 값은 해당 프로그램의 종료상태를 의미하는 값으로 사용되기 때문에 종료상태가 없다는 의미인 void main의 형식은 잘못된 형식임</li></ul><ul id="becd0198-d3bc-4a71-a153-0fc606d91c48" class="bulleted-list"><li style="list-style-type:disc">그렇다면 왜 컴파일러들이 오랜 기간 동안 잘못된 void main을 허용한 것인가 ? 이유는 매우 단순함 (컴파일러를 개발하는 입장에서 개발자가 main 함수의 반환값을 사용하지도 않으면서 return문을 적는 것이 불편할 수도 있다고 판단해서 void main이라는 표현을 추가적으로 제공 ⇒ 즉, 개발자 입장에서 코드를 적게 쓸 수 있도록 도와주기 위해서 void main이라는 문법을 제공한 것)</li></ul><ul id="002d0abd-e05f-4b09-9855-7210ea8626df" class="bulleted-list"><li style="list-style-type:disc">컴파일러 입장에서는 void main 함수를 컴파일할 때 내부적으로 int main 함수와 다르게 처리하는 것이 없음 ⇒ void main, int main은 동일하게 처리가 됨</li></ul><ul id="d513e856-05f3-4637-9af8-e5967da602d8" class="bulleted-list"><li style="list-style-type:disc">하지만 최근 컴파일러를 하나로 통합하려는 시도를 하고 있는 많은 컴파일러 회사들이 이 노력에 동참하고 있으며, 비표준화된 void main 함수 또한 사라지고 있는 추세로 앞으로 C 프로그래밍을 할 때 void main을 사용하면 오류가 나는 컴파일러는 늘어날 것임</li></ul><h2 id="d7cd2cfb-7ed8-48e4-86da-e5aab41467ef" class="">함수 매개변수/피연산자 평가순서</h2><h3 id="7080a136-7310-4980-aa26-3442dcee27b8" class="">함수 매개변수 평가순서</h3><pre id="d93879d0-a504-400b-a4f6-f1bfd739cce2" class="code"><code>#include &lt;stdio.h&gt;
+
+int add(int op1, int op2)
+{
+	printf(&quot;add()\n&quot;);
+	return op1 + op2;
+}
+
+int substract(int op1, int op2)
+{
+	printf(&quot;substract()\n&quot;);
+	return op1 - op2;
+}
+
+int main(void)
+{
+	int num1 = 128;
+	int num2 = 256;
+
+	printf(&quot;%d, %d\n&quot;, add(num1, num2), substract(num1, num2));
+
+	return 0;
+}
+
+/*
+경우 1 : 뺄셈 함수부터 호출
+substract()
+add()
+384, -128
+*/
+
+/*
+경우 2 : 덧셈 함수부터 호출
+add()
+substract()
+384, -128
+*/</code></pre><ul id="d2d8b607-0c54-44f2-a0db-e243f9989f56" class="bulleted-list"><li style="list-style-type:disc">표준에 따르면, 함수 매개변수의 평가순서는 명시되지 않음 (<strong>unspecified</strong>)<p id="455df6cd-6e74-4401-8f79-0a4c9dd5366c" class="">⇒ 즉, 컴파일러에 따라 평가 순서가 달라질 수 있음</p></li></ul><ul id="8c58f69e-c8d8-477c-b5b8-2c50998bb20e" class="bulleted-list"><li style="list-style-type:disc">하지만 <code>printf()</code>가 실제로 실행되기 전에 <code>add()</code>와 <code>substract()</code>가 모두 호출된다는 것은 보장</li></ul><h3 id="b33376e0-5ac1-442e-9e61-035e0f586f95" class="">피연산자 평가순서</h3><pre id="6a0ecbbf-d284-4d63-a832-01883f2aa01c" class="code"><code>size_t g_boss = 0;
+
+/* 던전을 찾으면 1을 반환, 함수 내부에서 g_boss 변수 셋팅 */
+int find_next_dungeon(void);
+
+/* g_boss가 1이면 보스 몹도 같이 소환 */
+int spawn_monster(void);
+
+/* 또 다른 함수 내부 */
+if (find_next_dungeon() + spawn_monster() == 2)
+{
+	/* 멋진 코드 : Game Start 문구 호출! */
+}</code></pre><ul id="bc061ee5-ab26-48eb-aff1-e9b815527b4e" class="bulleted-list"><li style="list-style-type:disc">역시나 <code>find_next_dungeon()</code>이 먼저 호출된다는 보장이 없음 ⇒ 역시나 평가순서가 명시되지 않음</li></ul><ul id="d0b22d26-dfdc-4ab8-b450-0d1f74dd0569" class="bulleted-list"><li style="list-style-type:disc">한 줄에 있는 함수 호출 순서에 의존해서 코드를 작성하면 안됨</li></ul><ul id="b4ba615c-f4b8-402d-8cd3-aa593d223157" class="bulleted-list"><li style="list-style-type:disc">해법 : 두 함수를 두줄에 따로 호출 할 것!!</li></ul><h3 id="284baf4b-1b3c-43a7-a5aa-3f6f47edf113" class="">Undefined behavior(결과가 정의되지 않음)</h3><pre id="ea9d2185-b025-4b78-9270-676d701af959" class="code"><code>#include &lt;stdio.h&gt;
+float divide(int op1, int op2)
+{
+	printf(&quot;%d / %d = &quot;, op1, op2);
+	return op1 / (float)op2;
+}
+
+int main(void)
+{
+	int num = 0;
+	float result = divide(++num, ++num);      /* 어떤 인자가 먼저 평가될지 알 수 없음 */
+
+	printf(&quot;%f\n&quot;, result);
+
+	return 0;
+}
+
+/*
+첫 번째 인자가 먼저 평가될 경우, 1 / 2 = 0.50000
+두 번째 인자가 먼저 평가될 경우, 2 / 1 = 2.00000
+동시에 평가될 경우, ?? / ?? = ??
+*/</code></pre><ul id="7476183d-e20a-4506-a991-b6e27a422af9" class="bulleted-list"><li style="list-style-type:disc">기본적으로 한 줄에 동일한 변수를 여러 번 바꾸면 위험 ⇒ 함수 매개변수의 평가순서는 컴파일러마다 다를 수 있음<p id="c5ade97a-d8d4-493f-b70f-259dbe371387" class="">1) 한 함수의 매개변수들이 동일한 변수를 수정할 경우, 결과가 정의되지 않음</p><p id="f3d6d144-1e9a-4f55-8efc-dc3b9a8ed519" class="">2) 한 줄에서 같은 변수를 여러 번 수정하면 정의되지 않은 결과<div class="indented"><p id="0e29dacd-9006-4bf0-8deb-7f13db4a6c0b" class="">unspecified : 위험하지는 않지만 컴파일러에 따라 결과가 다를 수 있음</p><p id="daf40eee-23a4-41c0-9062-1e21409fb9f7" class="">undifined: 위험함! 무슨 일이 일어날지 모름</p><pre id="973a8410-121f-4a4b-af0b-bfbcfeba1f84" class="code"><code>/* 1 */
+add(++i, ++i);                     /* 어떤 일이 일어날 지 정의되지 않음 */
+add(i = -1, i = -1);               /* 어떤 일이 일어날 지 정의되지 않음 */
+add(i, ++i);                       /* 어떤 일이 일어날 지 정의되지 않음 */
+
+/* 2 */
+i = ++i, i++                       /* 어떤 일이 일어날 지 정의되지 않음 */
+i = i++ + 1;                       /* 어떤 일이 일어날 지 정의되지 않음 */
+array[i] = i++                     /* 어떤 일이 일어날 지 정의되지 않음 */</code></pre></div></p></li></ul><h2 id="0f4302f5-4cfe-4ebf-8165-e7881b4d1303" class="">연산자 우선순위와 평가순서</h2><pre id="f8b09f66-dba3-49b3-8828-02b48f5a40e8" class="code"><code>/* add(), substract(), divide() 함수 생략 */
+
+int main(void)
+{
+	int num1 = 10;
+	int num2 = 20;
+
+	int result =  add(num1, num2) + substract(num1, num2) * divide(num1, num2)
+	printf(&quot;result: %d\n&quot;, result);
+
+	return 0;
+}</code></pre><ul id="a73649b8-adfc-4cf3-aba8-3472c9a39b6b" class="bulleted-list"><li style="list-style-type:disc">연산자 우선순위와 평가순위는 서로 아무런 연관이 없음 ⇒ <code>add()</code>, <code>substract()</code>, <code>divide()</code>의 평가순서는 알 수 없음</li></ul><ul id="d3b55797-adfd-4802-8afa-723ba4a340a9" class="bulleted-list"><li style="list-style-type:disc">함수 호출(평가)의 순서는 알 수 없으나, 최종적으로 연산이 이루어질땐 곱셈이 먼저 이루어짐</li></ul><h3 id="083662be-431a-4098-8171-9aaaf234299f" class="">&amp;&amp;와 ||는 평가순서를 강제하는 연산자</h3><pre id="d4f5ea3e-b308-47ad-b85d-4dc037bc86d4" class="code"><code>int i = 0;
+int j = 0;
+int k = 0;
+
+if (++i || ++j &amp;&amp; ++k)
+{
+	printf(&quot;true!\n&quot;);
+}
+
+printf (&quot;%d, %d, %d\n&quot;, i, j, k);
+
+/*
+연산자 우선순위와 평가순위는 전혀 관련이 없음
+&amp;&amp;은 ||보다 우선순위는 높지만, ||는 sequence point로 왼쪽부터 먼저 평가되어야함
+++i는 1(참)으로 ||의 오른쪽 피연산자를 평가할 필요도 없이 참이 됨
+이를 short circuit이라고 함
+정답 : true!, 1, 0, 0
+*/
+
+int i = 0;
+int j = 0;
+int k = 0;
+
+if (i++ || ++j &amp;&amp; ++k)
+{
+	printf(&quot;true!\n&quot;);
+}
+
+printf (&quot;%d, %d, %d\n&quot;, i, j, k);
+
+/*
+후위 연산자의 경우 i로 먼저 평가된 후 실행이 됨 : 0(거짓) &gt; 1
+|| 연산자의 왼쪽 피연산자 평가결과는 거짓이므로 오른쪽 피연산자 평가 및 실행
+정답 : true!, 1, 1, 1
+*/</code></pre><ul id="40d67f49-d3e2-47ef-bd04-24e561626968" class="bulleted-list"><li style="list-style-type:disc">논리연산자 <code>&amp;&amp;</code>와 <code>||</code>의 경우 왼쪽 피연산자를 먼저 실행함<p id="513e9695-3c1d-4369-9def-3eef5a662af9" class="">⇒ 왼쪽 피연산자의 평가만으로 오른쪽 피연산자를 평가 안 할 수도 있음</p><pre id="5cc863a8-5a3b-4233-9db2-bb3225e55f1b" class="code"><code>hp++ || mp++           /* 왼쪽 피연산자가 참이면 오른쪽 피연산자를 평가 안함 */
+exp++ &amp;&amp; atk++         /* 왼쪽 피연산자가 거짓이면 오른쪽 피연산자를 평가 안함 */</code></pre></li></ul><h2 id="47581138-c619-4f68-83a7-ec2ab4f3fa55" class="">평가순위 정리</h2><ul id="4074c661-00a5-45ad-b7d7-bf8d30e62f38" class="bulleted-list"><li style="list-style-type:disc">한 줄에 있는 피연산자들은 기본적으로 평가순서가 보장 안됨</li></ul><ul id="30be755d-348f-4413-9501-95b4206e5009" class="bulleted-list"><li style="list-style-type:disc"><code>&amp;&amp;</code>와 <code>||</code> 정도만 됨 (short circuit, sequence point )</li></ul><ul id="35214809-9548-48db-94c2-7282345c9d13" class="bulleted-list"><li style="list-style-type:disc">추가적으로 삼항(<code>?:</code>)도 평가순서가 보장됨 ⇒ <code>if/else</code>를 줄여 써 놓은 것이라고 생각하면 됨</li></ul><ul id="ea94c5b3-0fa5-4cd8-a71e-a11d435e702d" class="bulleted-list"><li style="list-style-type:disc">함수를 실제 실행하기 전에 모든 매개변수와 ;은 우선 평가 됨 ⇒ 이건 너무나도 당연한 내용!</li></ul><h2 id="bd5ab5be-3a2d-4df7-84bd-7aacd9d62e35" class="">범위(scope) - 블록 범위 / 파일 범위 / 함수 범위 / 함수 선언 범위</h2><p id="4e63967a-a9f5-42d0-bae2-075ba3724a1a" class="">총 4가지의 범위로 분류할 수 있음<div class="indented"><p id="91f58f9c-286c-450a-ae5f-6f197589a877" class="">1. 블록 범위</p><p id="1eee6a58-35cb-4bfa-84cc-8e5c7f8f9a08" class="">2. 파일 범위</p><p id="c62a6fc9-734b-45ed-b90e-b7084e83affb" class="">3. 함수 범위</p><p id="faee02ba-f12c-43f1-9a90-d34b8b8e9482" class="">4. 함수 선언 범위</p></div></p><h3 id="32875d05-658c-4cc7-8fa2-742bd107aa22" class="">블록 범위</h3><ul id="95062b1f-246f-4e60-ad41-07b1d34450eb" class="bulleted-list"><li style="list-style-type:disc">중괄호(<code>{}</code>) 안에 선언한 것들은 그 블록 안에서만 사용 가능</li></ul><ul id="3d15f692-a4da-4b8f-9b34-726a6050084d" class="bulleted-list"><li style="list-style-type:disc">블록 안에 또다른 블록을 넣을 수도 있음 ⇒ 그러면 안쪽 블록은 바깥 블록에 접근 가능, 그 반대는 안됨</li></ul><h3 id="ca006016-9ee7-47f7-a9a3-d3e9a8bc8da2" class="">블록 범위와 변수 선언 위치</h3><pre id="fa4601d6-6b3c-452f-9224-abd63465110e" class="code"><code>/* 컴파일 오류 나는 코드 */
+
+int main(void)
+{
+	int num1 = 10;
+
+	printf(&quot;num: %d\n&quot;, num1);
+
+	int num2 = 100;                                /* 컴파일 오류 */
+	int result = num1 + num2;                      /* 컴파일 오류 */
+
+	printf(&quot;result: %d\n&quot;, result);
+
+	return 0;
+}
+
+/* 컴파일 되는 코드 */
+
+int main(void)
+{
+	int num1 = 10;
+
+	printf(&quot;num: %d\n&quot;, num1);
+	{
+		int num2 = 100;
+		int result = num1 + num2;
+	
+		printf(&quot;result: %d\n&quot;, result);
+	}
+	
+	/* num2, result 접근 못함*/
+
+	return 0;
+}</code></pre><ul id="d6e44a61-ffe5-4887-849a-fa66a48b8d2b" class="bulleted-list"><li style="list-style-type:disc">함수 중간에 블록을 열고 변수 선언 가능</li></ul><ul id="5f4092f9-01bf-412d-8ec4-9444f67c105e" class="bulleted-list"><li style="list-style-type:disc">함수 시작 지점에서 모든 변수를 선언하면 실수할 여지가 없음<p id="37613c45-b6dc-4d24-a9c1-e1651f44ebe4" class="">⇒ 하지만 정확하게 어느 지점에서 사용하는 변수인지 파악 불가능<div class="indented"><p id="7fc1dce3-0ba8-474f-9f05-026dce579d70" class="">중간에 그 값이 바뀔 수도 있음</p></div></p></li></ul><ul id="9b0df8e5-4a58-4b62-8d0e-530d2875eea7" class="bulleted-list"><li style="list-style-type:disc">블록을 이용해서 함수 중간에 선언하는 것도 하나의 방법임</li></ul><h3 id="8fe48c06-2293-44a9-b14b-b0045514e904" class="">파일 범위</h3><pre id="71f200e4-6316-4331-bc63-b285288d1a26" class="code"><code>#include &lt;stdio.h&gt;
+
+static int s_num = 1024;      /* 파일 범위 */
+
+int add(int op1, int op2);
+
+int main(void)
+{
+	s_num = add(10, 30);
+
+	return 0;
+}</code></pre><ul id="5459f42e-7e47-4a5a-b46c-eae29a1db953" class="bulleted-list"><li style="list-style-type:disc">어떤 블록이나 매개변수 목록에도 안 속하고, 파일 안에 있는 것 (translation unit)</li></ul><ul id="06dd113b-4a06-40a3-b84f-17651ff42bbe" class="bulleted-list"><li style="list-style-type:disc">파일 범위에 있는 변수</li></ul><ul id="9cafbecd-b7e6-4ffb-a6a4-6b56a4f61ac6" class="bulleted-list"><li style="list-style-type:disc">다른 소스 파일에서 링크 가능</li></ul><ul id="164f89bd-2301-4ae8-8252-7a04afbf7eb2" class="bulleted-list"><li style="list-style-type:disc">프로그램 실행동안 공간을 차지<p id="f4abbe81-75aa-4cb2-8bce-502e52b06742" class="">⇒ 즉, 스택 메모리에 들어가는 것이 아니라 데이터 섹션에 들어감</p></li></ul><ul id="760e2b5b-6805-4584-97b7-5f1ee6fd68af" class="bulleted-list"><li style="list-style-type:disc">이게 바로 전역변수!</li></ul><h3 id="aae2a12c-6a47-4b69-b111-cccbc43c14ac" class="">함수 범위</h3><ul id="7746153e-4042-414f-9dcf-d6acf7df8331" class="bulleted-list"><li style="list-style-type:disc">유일한 예 : 레이블(label)</li></ul><ul id="bfbd8b5b-236a-446b-bea5-6f9306d70d72" class="bulleted-list"><li style="list-style-type:disc">goto문</li></ul><ul id="6334dd65-a096-4038-86bf-846018f78ec4" class="bulleted-list"><li style="list-style-type:disc">함수 안에서 선언된 레이블은 함수 어디에서라도 접근 가능<p id="e99dbce3-3564-45d6-bff4-2741c703c5d5" class="">⇒ 다른 범위들은 위에서 이미 선언된 것만 접근이 가능했음</p></li></ul><h3 id="1f95677a-5ba0-4a3c-9935-07c36ef82948" class="">함수 선언 범위</h3><pre id="79aac4fb-6d70-4425-9836-922734fc1e38" class="code"><code>void do_something(
+	double value,                             /* 함수 선언 범위 */
+	char array[10 * sizeof(value)]            /* value는 첫 번째 매개변수 */
+);</code></pre><ul id="20595156-f339-461a-ad15-c171dfce6320" class="bulleted-list"><li style="list-style-type:disc">함수 선언의 매개변수 목록에 있는 것은 그 목록 안에서 접근 가능</li></ul><ul id="65c96ef2-95fc-4243-8045-08c1c3fadf2b" class="bulleted-list"><li style="list-style-type:disc">많이 쓸 일은 없음</li></ul><h2 id="5dd37bee-d09a-4534-b9c7-1a890c7b7c8f" class="">const</h2><pre id="b6129610-bc6d-4201-b280-7c2142a0d98b" class="code"><code>void update_dimension(intw, inth, int data[])
+{
+	int i = 0;
+	const int area = w * h;
+
+	/* 코드 1000줄 */
+
+	area = area +1;                   /* 컴파일 오류 : const 값 변경 불가능, 변경으로 인한 코드 오류 막을 수 있음 */
+
+	/* 코드 1000줄 */
+	
+	for (i = 0; i &lt; area; ++i)
+	{
+		data[i] = 1;
+	}
+}</code></pre><ul id="74efdb5c-c5cc-497f-8f26-9c5e9b0a82b7" class="bulleted-list"><li style="list-style-type:disc">이름 달린 상수를 만들어주기 좋음 ⇒ 개발자의 실수를 막아줄 수 있는 KEY</li></ul><ul id="b349c55c-ff5d-4501-b882-e9e01cfb1fc6" class="bulleted-list"><li style="list-style-type:disc">기본적으로 모든 변수에 <code>const</code>를 붙이는 것이 좋음</li></ul><ul id="2eb8354d-3fa5-4a13-b5fb-a6e22f77465e" class="bulleted-list"><li style="list-style-type:disc">정말 값 변경이 필요한 변수에만 <code>const</code>를 생략</li></ul><h2 id="706878e2-2b6f-41f0-b8d7-fd2285ace0d0" class="">goto문</h2><ul id="2c96db85-82a9-4dce-8882-c27833d84d2d" class="bulleted-list"><li style="list-style-type:disc">C는 위에서 아래로 순차적으로 코드를 실행함</li></ul><ul id="c8c8aa2b-b843-4c81-9597-8a6340c235d0" class="bulleted-list"><li style="list-style-type:disc">goto를 쓰면 순서를 어기고 다음에 실행할 코드를 마음대로 지정 가능<p id="9c661f3b-ad82-4095-9714-d1ad14dd9b48" class="">⇒ 같은 함수 내에 있는 label로 점프함</p></li></ul><h3 id="35ed9199-7a49-4af1-82d2-c96dd208f5db" class="">goto문과 while문</h3><pre id="1622ef96-bfb6-4316-9d48-a1a959077549" class="code"><code>void do_work(void)
+{
+	infinity:
+		printf(&quot;work time\n&quot;)
+
+		goto infinity;                      /* 이와 같은 goto문은 좋지 않음 */
+}
+
+/* 위/아래 같은 코드 */
+
+void do_work(void)
+{
+	while (1) {
+		printf(&quot;work time\n&quot;_
+}</code></pre><h3 id="5a229cab-5611-4aba-a24b-a9bf14dbe592" class="">goto문과 do-while문</h3><pre id="ee85b07e-b292-43a1-9355-48e61f42ff02" class="code"><code>int main(void)
+{
+	int counter = 3;
+
+	do {
+		printf(&quot;play time\n&quot;);
+	} while (counter-- &gt; 0);
+}
+
+/* 위 아래 둘은 같은 코드 : 같은 동작 */
+
+int main(void)
+{
+	counter = 3;
+loop:
+	printf(&quot;play time\n&quot;);
+
+	if (counter-- &gt; 0) {
+		goto loop;
+	}
+}</code></pre><h3 id="cdcbf8d9-6a41-4aba-afe7-753ee06c5f1c" class="">반복문은 결국 goto를 사용하는 코드</h3><ul id="d0b6347a-e6b2-4fe0-b5b5-ad72ada342e3" class="bulleted-list"><li style="list-style-type:disc">어셈블리어는 반복문이란게 없음</li></ul><ul id="af1611a9-1c23-4f34-916a-f87e482fd44b" class="bulleted-list"><li style="list-style-type:disc">원래 어셈블리어 프로그래밍을 하다가 C로 넘어온거라 초기엔 goto문을 많이 썼음</li></ul><ul id="7a72f7a8-5e3d-4d9e-93eb-f094dcbbe310" class="bulleted-list"><li style="list-style-type:disc">당연히 이보다 안전한 방법이 보통의 반복문을 쓰는 것<p id="72347a43-1d2a-4f96-b46d-ea67242c9b08" class="">⇒ 이건 명백한 사실이라 누구나 동의, 따라서 goto를 자주 쓰지는 않음</p></li></ul><h3 id="5c36c3c6-7c54-40a3-985a-45fcbabb0dcb" class="">goto는 정말로 악마인가?</h3><ul id="49b98219-9400-4479-be41-d8a7cf4cffd2" class="bulleted-list"><li style="list-style-type:disc">물론..</li></ul><ul id="b2b3ceaf-699d-4fdf-b8a9-cbf6f03275df" class="bulleted-list"><li style="list-style-type:disc">goto를 난잡하게 사용하게 되면 코드가 이리 뛰고 저리 뛰고 꼬이게 됨</li></ul><ul id="834d8bf2-65ce-4cb6-8af1-1966319c5606" class="bulleted-list"><li style="list-style-type:disc">이러한 코드를 스파게티 코드라고 부름 (아주 꼬임)</li></ul><ul id="08c1f08c-8319-425e-aa4a-72f36d3e4105" class="bulleted-list"><li style="list-style-type:disc">이로 인해 코드를 쓰고 읽는데 실수가 발생하게 됨</li></ul><h3 id="3d72c136-7199-43bd-b713-dc4738484bf9" class="">허나 goto가 늘 악마인 것은 아님!</h3><p id="2979a09f-32ca-49a9-b17d-6a866964c862" class=""><strong>&lt; 경우 1 &gt;</strong></p><p id="984be977-245d-4256-9439-b9abcf01679a" class="">goto없이 안쪽 for문에서 탈출하려면 쓸데없이 if문을 여러 개 써야함</p><p id="cf3d2386-a464-47da-a42a-4b599018b8da" class="">[ goto를 안 쓰는 3중 for문 ]</p><pre id="83244779-6e73-4574-af63-b6f859622944" class="code"><code>exit = 0;
+for (i = 0; i &lt; DEPTH &amp;&amp; !exit; ++i) {
+	for (j = 0; j &gt; HEIGHT; ++j) {
+		for (k = 0; k &lt; WIDTH; ++k) {
+			if (data[i][j][k] == 1) {
+				printf(&quot;%d&quot;, data[i][j][k]);
+			}
+			else {
+				exit = 1;
+				break;
+			}
+		}
+		if (exit) {
+			break;
+		}
+	}
+}
+
+/* 반복문 탈출 후 로직 코드 */</code></pre><p id="36a192a7-2a4d-4e27-8d33-b8d458091552" class="">[ goto를 쓰는 3중 for문 ]</p><pre id="c0c54479-0aaa-481c-acd5-87729fdbe360" class="code"><code>for (i = 0; i &lt; DEPTH &amp;&amp; !exit; ++i) {
+	for (j = 0; j &gt; HEIGHT; ++j) {
+		for (k = 0; k &lt; WIDTH; ++k) {
+			if (data[i][j][k] == 1) {
+				printf(&quot;%d&quot;, data[i][j][k]);
+			}
+			else {
+				goto loop_exit;
+			}
+		}
+	}
+}
+
+loop_exit:
+	/* 반복문 탈출 후 로직 코드 */</code></pre><p id="b5f92c83-73a7-461f-9179-7b4b532c807d" class=""><strong>&lt; 경우 2 &gt;</strong></p><pre id="d4335c26-698c-49ce-8441-924bb726a5ab" class="code"><code>if (id &lt; 0) {
+	fprintf(stderr, &quot;invalid id %d&quot;, id);
+	pass = 0;
+}
+if (pass == 1 &amp;&amp; amount &lt; 10000) {
+	fprintf(stderr, &quot;insufficient amount %d&quot;, amount);
+	pass = 0;
+}
+if (pass == 1 &amp;&amp; /* 어쩌고 */) {
+	fprintf(stderr, &quot;여러 메세지 출력&quot;);
+	pass = 0;
+}
+if (pass == 1 &amp;&amp; /* 저쩌고 */) {
+	fprintf(stderr, &quot;여러 메세지 출력&quot;);
+	pass = 0;
+}
+if (pass == 0) {
+	log_error(error_code);
+	rollback_transaction();
+	/* 기타 공통 오류처리 코드 100줄 생략 */
+	return 1;
+}
+
+/* 실제 로직 코드 */
+
+return 0;</code></pre><ul id="20e1198e-d896-4f45-aab5-fbbd78db4f79" class="bulleted-list"><li style="list-style-type:disc">goto없이 쓰려면 bool 변수를 하나 만들어서 계속 검사를 진행해야함</li></ul><pre id="e91fbc01-5dfe-497f-85ee-c58ef5ced454" class="code"><code>if (id &lt; 0) {
+	fprintf(stderr, &quot;invalid id %d&quot;, id);
+	log_error(1);
+	rollback_transaction();
+	return 1; /* early exit */
+}
+if (pass == 1 &amp;&amp; amount &lt; 10000) {
+	fprintf(stderr, &quot;insufficient amount %d&quot;, amount);
+	log_error(1);
+	rollback_transaction();
+	return 1; /* early exit */
+}
+if (pass == 1 &amp;&amp; /* 어쩌고 */) {
+	fprintf(stderr, &quot;여러 메세지 출력&quot;);
+	log_error(1);
+	rollback_transaction();
+	return 1; /* early exit */
+}
+if (pass == 1 &amp;&amp; /* 저쩌고 */) {
+	fprintf(stderr, &quot;여러 메세지 출력&quot;);
+	log_error(1);
+	rollback_transaction();
+	return 1; /* early exit */
+}
+
+/* 실제 로직 코드 */
+
+return 0;</code></pre><ul id="4232a86d-4c40-4ae1-bb3a-055516ce079a" class="bulleted-list"><li style="list-style-type:disc">물른 early exit을 해도 됨 ⇒ 하지만 오류를 처리하는 코드들이 if문 안에 반복되어 사용</li></ul><ul id="b8543eff-4e22-447a-8ef9-bacc253ebe3f" class="bulleted-list"><li style="list-style-type:disc">오류를 처리하는 코드를 함수로 만들어됨 ⇒ 하지만 한 군데서만 쓰는 코드를 함수로 만드는 것은 유지/보수 문제를 유발하기도 함</li></ul><pre id="b9862b00-fe22-4407-9205-53c2724dad4d" class="code"><code>if (id &lt; 0) {
+	fprintf(stderr, &quot;invalid id %d&quot;, id);
+	error_code = 1;
+	goto error;
+}
+if (pass == 1 &amp;&amp; amount &lt; 10000) {
+	fprintf(stderr, &quot;insufficient amount %d&quot;, amount);
+	error_code = 1;
+	goto error;
+}
+if (pass == 1 &amp;&amp; /* 어쩌고 */) {
+	fprintf(stderr, &quot;여러 메세지 출력&quot;);
+	error_code = 1;
+	goto error;
+}
+if (pass == 1 &amp;&amp; /* 저쩌고 */) {
+	fprintf(stderr, &quot;여러 메세지 출력&quot;);
+	error_code = 1;
+	goto error;
+}
+
+/* 실제 로직 코드 */
+
+return 0;
+
+error:
+	log_error(error_code);
+	rollback_transaction();
+
+	/* 기타 공통 오류처리 코드 100줄 생략 */
+
+	return error_code;</code></pre><ul id="a7dabce9-ccc3-4491-9d16-c515e2a006d2" class="bulleted-list"><li style="list-style-type:disc">goto를 쓰면 해결됨</li></ul><p id="a4256515-ac9e-4073-851d-ff87fd4345fc" class=""><strong>&lt; 경우 3 &gt;</strong></p><p id="863f0327-c92b-4910-a33a-7f63d01d3e08" class="">로버트 러브(Robert Love)가 리눅스 커널 관련 토론에서 사랑을 담아 댓글로 남긴 goto 활용법</p><pre id="96a81ee0-c657-48b2-a5c4-d208969ac70a" class="code"><code>	do A
+	if (error)
+		goto out_a;
+	do B
+	if (error)
+		goto out_b;
+	do C
+	if (error)
+		goto out_c;
+	goto out;
+out c:
+	undo C
+out_b:
+	undo B
+out a;
+	undo A
+out:
+	return ret;</code></pre><ul id="0b2b6018-da73-49be-bbfb-b94700946eb5" class="bulleted-list"><li style="list-style-type:disc">중간에 에러가 나면 이미 수행한 작업을 되돌림</li></ul><ul id="defd726a-6c77-4810-9fec-4984e4e77d7f" class="bulleted-list"><li style="list-style-type:disc">A만 수행했다면 A만 되돌리고, A &gt; B를 수행했다면 B &gt; A 순으로 되돌림</li></ul><h3 id="0a9a4e77-eea1-42d8-adaf-b758bbba730b" class="">goto문의 BEST PRACTICES</h3><ul id="1ee3f0c1-9cf8-4cd5-8e84-028508b0470f" class="bulleted-list"><li style="list-style-type:disc">goto문은 언제나 전방(아래쪽)으로만 점프할 것<p id="53d7bd26-764d-4039-8546-c9114b5fb7d6" class="">⇒ 후방(위)으로만 점프하면 스파게티처럼 코드가 꼬이기 쉬움</p></li></ul><ul id="09951634-b0a2-411c-a9ae-4f606e450d50" class="bulleted-list"><li style="list-style-type:disc">내포된(nested) 루프에서 빠져나올 때는 자유로이 쓸 것</li></ul><ul id="2ac40ec3-a971-45c1-bfce-079cd14c612e" class="bulleted-list"><li style="list-style-type:disc">한 함수 안에 있는 여러 개의 조건문이 공통된 코드로 실행해야할 때도 써도 됨<p id="a5355aef-dd61-4cfb-af8a-7eeaf97f326b" class="">⇒ 예 : 함수 마지막에 성공 / 오류 조건 처리</p></li></ul><h2 id="8c07620b-4700-4635-89e1-9b6e168755ec" class="">배열</h2><pre id="f0adbe67-b9f4-4af1-b5ff-c5a50099eb60" class="code"><code>/* C# */
+int[] nums = new int[5]
+float[] GPAs = new float[] { 3.1f, 2.2f, -13.0f };
+
+/* C */
+int nums[5];
+float GPAs[3] = { 3.1f, 2.2f, -13.0f };
+
+/* C 배열 예시 */
+int nums[5] = { 1, 2, 3, 4, 5 };
+int i;
+int sum;
+
+for (i = 0; i &lt; 5; ++i) {
+	num[i] += i * 2;
+}
+
+sum = 0;
+for (i = 0; i &lt; 5; ++i) {
+	sum += nums[i];
+}</code></pre><ul id="4cade976-95a4-4248-b888-a8395d3b0225" class="bulleted-list"><li style="list-style-type:disc">C#과 달리 new를 반드시 사용할 필요가 없음</li></ul><h2 id="acde8a95-1924-43e8-af50-6be6e0c79a79" class="">스택 메모리</h2><div id="264119f8-1bd5-4421-b8c5-a00957681ff4" class="collection-content"><h4 class="collection-title"></h4><table class="collection-content"><thead><tr><th><span class="icon property-icon"><svg viewBox="0 0 14 14" style="width:14px;height:14px;display:block;fill:rgba(55, 53, 47, 0.4);flex-shrink:0;-webkit-backface-visibility:hidden" class="typesTitle"><path d="M7.73943662,8.6971831 C7.77640845,8.7834507 7.81338028,8.8943662 7.81338028,9.00528169 C7.81338028,9.49823944 7.40669014,9.89260563 6.91373239,9.89260563 C6.53169014,9.89260563 6.19894366,9.64612676 6.08802817,9.30105634 L5.75528169,8.33978873 L2.05809859,8.33978873 L1.72535211,9.30105634 C1.61443662,9.64612676 1.2693662,9.89260563 0.887323944,9.89260563 C0.394366197,9.89260563 0,9.49823944 0,9.00528169 C0,8.8943662 0.0246478873,8.7834507 0.0616197183,8.6971831 L2.46478873,2.48591549 C2.68661972,1.90669014 3.24119718,1.5 3.90669014,1.5 C4.55985915,1.5 5.12676056,1.90669014 5.34859155,2.48591549 L7.73943662,8.6971831 Z M2.60035211,6.82394366 L5.21302817,6.82394366 L3.90669014,3.10211268 L2.60035211,6.82394366 Z M11.3996479,3.70598592 C12.7552817,3.70598592 14,4.24823944 14,5.96126761 L14,9.07922535 C14,9.52288732 13.6549296,9.89260563 13.2112676,9.89260563 C12.8169014,9.89260563 12.471831,9.59683099 12.4225352,9.19014085 C12.028169,9.6584507 11.3257042,9.95422535 10.5492958,9.95422535 C9.60035211,9.95422535 8.47887324,9.31338028 8.47887324,7.98239437 C8.47887324,6.58978873 9.60035211,6.08450704 10.5492958,6.08450704 C11.3380282,6.08450704 12.040493,6.33098592 12.4348592,6.81161972 L12.4348592,5.98591549 C12.4348592,5.38204225 11.9172535,4.98767606 11.1285211,4.98767606 C10.6602113,4.98767606 10.2411972,5.11091549 9.80985915,5.38204225 C9.72359155,5.43133803 9.61267606,5.46830986 9.50176056,5.46830986 C9.18133803,5.46830986 8.91021127,5.1971831 8.91021127,4.86443662 C8.91021127,4.64260563 9.0334507,4.44542254 9.19366197,4.34683099 C9.87147887,3.90316901 10.6232394,3.70598592 11.3996479,3.70598592 Z M11.1778169,8.8943662 C11.6830986,8.8943662 12.1760563,8.72183099 12.4348592,8.37676056 L12.4348592,7.63732394 C12.1760563,7.29225352 11.6830986,7.11971831 11.1778169,7.11971831 C10.5616197,7.11971831 10.056338,7.45246479 10.056338,8.0193662 C10.056338,8.57394366 10.5616197,8.8943662 11.1778169,8.8943662 Z M0.65625,11.125 L13.34375,11.125 C13.7061869,11.125 14,11.4188131 14,11.78125 C14,12.1436869 13.7061869,12.4375 13.34375,12.4375 L0.65625,12.4375 C0.293813133,12.4375 4.43857149e-17,12.1436869 0,11.78125 C-4.43857149e-17,11.4188131 0.293813133,11.125 0.65625,11.125 Z"></path></svg></span>C의 메모리</th></tr></thead><tbody><tr id="609d9191-9e12-4e91-b2d1-9574f23eb5a1"><td class="cell-title"><a href="https://www.notion.so/609d91919e124e91b2d19574f23eb5a1">스택</a></td></tr><tr id="8fc70d91-25da-49cc-bbce-73fd9cf0d1c4"><td class="cell-title"><a href="https://www.notion.so/8fc70d9125da49ccbbce73fd9cf0d1c4">힙</a></td></tr><tr id="40d9b088-6e65-4969-b2f6-cf04a710f89b"><td class="cell-title"><a href="https://www.notion.so/40d9b0886e654969b2f6cf04a710f89b">데이터</a></td></tr><tr id="99792711-1b17-4d91-899a-899d62d4cbf5"><td class="cell-title"><a href="https://www.notion.so/997927111b174d91899a899d62d4cbf5">코드</a></td></tr></tbody></table></div><ul id="0a518ad1-fa3e-454a-a9c2-b5f2c4df4860" class="bulleted-list"><li style="list-style-type:disc">C는 스택 메모리 덕분에 값형으로도 배열을 만들 수 있음</li></ul><ul id="57eb6109-6e5e-42c0-9a06-92eae782638e" class="bulleted-list"><li style="list-style-type:disc">우선 자료구조인 스택이랑 헷갈리지 말 것 ⇒ 둘 다 작동방법이 동일해서(LIFO; last in first out) 스택이란 이름을 쓸 뿐</li></ul><ul id="0a84d515-eb76-4129-9b81-4022819bedb1" class="bulleted-list"><li style="list-style-type:disc">각 함수에서 사용하는 지역 변수 등을 임시적으로 저장하는 공간</li></ul><ul id="a8bca8d2-d3b2-48cb-bcb3-d7d9336d80ab" class="bulleted-list"><li style="list-style-type:disc">스택 메모리의 크기는 프로그램 빌드 시에 결정됨</li></ul><ul id="d4916df6-1889-4aee-98bf-12e536cfb5bf" class="bulleted-list"><li style="list-style-type:disc">스택 메모리의 위치는 실행 시에 결정 됨</li></ul><ul id="0dc1a8db-3130-48d7-9ec6-ddf8e26240cf" class="bulleted-list"><li style="list-style-type:disc">함수가 호출될 때마다 그 함수에서 필요한 공간을 스택에서 떼어줬다가 그 함수가 반환하면 그냥 지워버리는 개념 (실제 지우진 않음)</li></ul><h3 id="0bcd530c-93cb-45c6-978f-d0273fc1f5f4" class="">기본 자료형 변수는 스택 메모리를 차지!</h3><ul id="7d94337a-4b61-4290-9174-fa4117e94729" class="bulleted-list"><li style="list-style-type:disc">여태까지 모든 기본형 변수(<code>char</code>, <code>int</code>, <code>float</code>)를 <code>new </code>없이 사용할 수 있었던 이유가 바로 스택 메모리에 할당됬기 때문</li></ul><ul id="289fffe0-f055-4318-912f-a1290b880f2a" class="bulleted-list"><li style="list-style-type:disc">기본 자료형을 함수 매개변수로 전달하면 스택에 복사본을 만듦 ⇒ 이것이 바로 값형</li></ul><ul id="bb0bb326-bc1f-4bc2-9f6b-cc9b1f5fdd74" class="bulleted-list"><li style="list-style-type:disc">스택 메모리를 빌리고 반환할 때마다 언제나 빈 공간 없이 차곡차곡 쌓여있음</li></ul><ul id="f0f4c717-4ed2-4642-82cf-be3c156bb7c0" class="bulleted-list"><li style="list-style-type:disc">new로 만든 데이터는 힙(heap) 메모리에 할당됨 ⇒ 이 경우 메모리에 구멍이 뚫릴 수 있음</li></ul><h3 id="a557b841-bcd8-4bf1-a756-e3a765480f71" class="">배열의 요소 개수를 구하는 방법</h3><pre id="dfdd4f90-0fb4-4e84-96fe-eed43837e2d7" class="code"><code>/* 방법 1 */
+const size_t num_vals = sizeof(values) / sizeof(values[0]);
+
+/* 방법 2 */
+#define ARRAY_LENGTH(arr) (sizeof(arr) / sizeof(arr[0]))     /* 함수 밖에서 */
+const size_t num_vals = ARRAY_LENGTH(values);                /* 매크로 함수 사용 */</code></pre><h3 id="6c667899-e170-48d9-b4a5-abf8452b80c7" class="">sizeof(매개변수)와 배열의 총 바이트 수</h3><pre id="bf945de9-6053-46f1-96c9-db52b53ff818" class="code"><code>int do_something(int num, int data[])
+
+int main(void)
+{
+	int score;              /* 10 */
+	int values[3];          /* { 2, 3, 4 } */
+}</code></pre><ul id="54001b37-f184-45c8-8827-18dc04ac2daa" class="bulleted-list"><li style="list-style-type:disc"><code>sizeof()</code>가 매개변수로 들어온 배열의 총 바이트 수를 반환할 수 있으려면<p id="2f7b1f65-68e9-4946-8534-8cc9d69162e1" class="">1) 그 배열의 모든 요소가 스택에 다 복사되어 전달되어야 함</p><p id="080acfa7-57aa-4df4-91b6-e22a54a694f8" class="">2) 그리고 호출되는 모든 함수는 스택에 복사된 모든 요소의 크기를 정확히 알아야함</p></li></ul><h3 id="ca582f57-d4cf-42ea-a1c5-9c3028d05a86" class="">함수의 스택 메모리 사용량은 고정</h3><ul id="cb2c068a-6b39-4666-8a5d-853476788056" class="bulleted-list"><li style="list-style-type:disc">함수는 호출자가 누구든 간에 딱 정해진 수와 크기의 매개변수가 들어온다는 가정으로 동작</li></ul><ul id="a8be77f2-e92a-40ee-aca0-5f9d50fdda37" class="bulleted-list"><li style="list-style-type:disc">함수가 먼저 결정되고, 호출자는 그 함수를 호출할 뿐</li></ul><h3 id="2acb3e3a-0c6b-4660-850b-73caa33ae404" class="">sizeof(매개변수)가 4를 반환한 이유는?</h3><pre id="befdf577-7c62-4a03-adae-a28c738fa156" class="code"><code>int do_something(int data[]);
+
+int main(void)
+{
+	int values[3];
+	do_something(value);             /* { 2, 3, 4 } */
+}</code></pre><ul id="903f6674-485b-4f86-94ed-246ffc7bd28c" class="bulleted-list"><li style="list-style-type:disc">배열을 매개변수로 전달할 때는 실제 모든 요소를 스택에 넣진 않음</li></ul><ul id="48f2dd4e-2b30-4a59-a4e5-825daca0e4db" class="bulleted-list"><li style="list-style-type:disc">그 대신 그 배열의 시작 위치(주소)를 스택에 넣어줌</li></ul><ul id="4ea0f8ea-f80a-4e0e-b575-78b2c88b3c05" class="bulleted-list"><li style="list-style-type:disc">이 주소의 크기 = 포인터 데이터형의 크기</li></ul><ul id="a526218e-6a62-4a72-9467-40ecf49b6bb3" class="bulleted-list"><li style="list-style-type:disc">32비트 플랫폼에서는 4바이트, 64비트 플랫폼에서는 8바이트<p id="3e7490c4-06bd-4892-90e6-2412d668ecb6" class="">그래서 <code>sizeof()</code>를 하면 4바이트가 나옴</p></li></ul><h3 id="4dfde075-6da2-4143-81d7-4b9d8aea9df7" class="">길이가 명시된 매개변수 배열</h3><pre id="902fef40-53ae-42ff-a302-e75aa9eafed6" class="code"><code>void process(int num[5]) {
+	size_t i;
+	for (i = 0; i &lt; 5; ++i) {
+		nums[i] *= 2;
+	}
+}</code></pre><ul id="d00df045-d697-4685-9a0e-f655c842139b" class="bulleted-list"><li style="list-style-type:disc">위와 같은 코드는 길이가 5인 배열을 넣은 것이 아닌가?<p id="74d7be9e-2aa9-43cf-8d67-fafba752374d" class="">⇒ 이는 단순히 프로그래머가 읽기 편하기 위해 [5]를 써준 것<div class="indented"><p id="f4b47ca8-4421-44c1-8865-7210fe45756e" class="">컴파일을 진행하면 <code>void process(int nums[])</code>와 동일</p></div></p></li></ul><ul id="1108fa31-fe7d-423f-bedf-bc751a6a37e2" class="bulleted-list"><li style="list-style-type:disc">원본 배열의 변화 ⇒ 위 코드는 복사본이 아니라 원본을 바꿈</li></ul><ul id="71364ddd-4417-4a4e-b4c4-ce7194acbeb6" class="bulleted-list"><li style="list-style-type:disc">어떤 사람들은 이것을 원본을 바꾸기 때문에 &#x27;참조에 의한 호출&#x27;이라 함</li></ul><ul id="396eae48-ac75-48d5-8547-e14d7b9b5890" class="bulleted-list"><li style="list-style-type:disc">어떤 사람들은 이것을 위치를 바꾸기 떄문에 &#x27;값에 의한 호출&#x27;이라 함</li></ul><ul id="633ef7f8-ca90-47a3-b52f-6e68da97cadc" class="bulleted-list"><li style="list-style-type:disc">어떤 사람들은 이것을 C는 참조에 의한 호출이 없고 그냥 주소를 전달하는 방법을 통해 &#x27;참조에 의한 호출을 시뮬레이션 하는 방법&#x27;이라고도 말함</li></ul><ul id="8bb05c98-d39b-491b-80a7-1b7967167485" class="bulleted-list"><li style="list-style-type:disc">중요하지 않음 : 원본이 바뀐다는 사실만 알면 됨</li></ul><h3 id="990bfa0b-4b8c-4b2d-871f-db4df5215b13" class="">매개변수 배열의 길이를 알 수 있는 방법 : 없음!!</h3><ul id="e4aa9e9a-d610-4c26-ab93-b5785a78ab66" class="bulleted-list"><li style="list-style-type:disc">배열 자체에서 크기를 알아올 수 있는 방법은 없음<p id="7b1d489b-468b-4761-9cc3-3b903f960ce0" class="">예외 : 앞서 설명한 <code>ARRAY_LENGTH()</code> 꼼수(매크로)를 쓸 경우</p><p id="6dfbb97a-a88d-4aa8-9362-0bc9847d6f82" class="">즉, 배열의 크기는 따로 기억해둬야 함</p><pre id="571d3d4d-30b5-4058-93b9-bac7054025c0" class="code"><code>void process(size_t n, int nums[5]) {         /* size_t n 작성 필요 */
+	size_t i;
+	for (i = 0; i &lt; 5; ++i) {
+		nums[i] *2;
+	}
+}</code></pre></li></ul><h3 id="09687a6d-5794-4929-b5af-9a373ae6744a" class="">배열 요소의 초깃값</h3><ul id="0903718b-bb26-49da-8cf8-63872a3bbf66" class="bulleted-list"><li style="list-style-type:disc">C는 배열 요소의 값을 초기화해주지 않음</li></ul><ul id="98d09ef7-6760-4fbe-806f-900d9f8e884e" class="bulleted-list"><li style="list-style-type:disc">따라서 그 전에 그 메모리에 남아있던 값을 그대로 사용 (변수도 마찬가지)<pre id="2ce3307c-5952-49e0-8e06-899033ef2623" class="code"><code>int nums[30];              /* 속에 무슨 값이 들어있는지 모름 (쓰레기 값) */
+int val;                   /* 마찬가지 */</code></pre></li></ul><h3 id="e72b2107-aa92-43c4-b27c-c2ec83599bb4" class="">배열 요소의 초기화</h3><pre id="52fd9309-52a8-47e1-9b80-ed063597c721" class="code"><code>int nums1[4];                             /* 쓰레기만 잔뜩 */
+int nums2[4] = { 10, 15, 3, -1 };         /* 모두 초기화 됨 */
+int nums3[4] = { 10, 15 };                /* { 10, 15, 0, 0 } */
+int nums4[2] = { 10, 15, 3 };             /* 컴파일 오류 */
+int nums5[] = { 10, 15, 3 };              /* 배열의 크기 3, 컴파일러가 배열의 크기 결정 */</code></pre><h3 id="c5b0ae1e-3dba-4182-ad43-326b793ed035" class="">배열 요소의 초기화 : BEST PRACTICE</h3><pre id="942f8ce9-3df9-4e61-895b-37ea0897b6a6" class="code"><code>int nums[10] = { 0, };</code></pre><ul id="071b0b51-6ccc-4bb1-8c12-8702ba3e77c4" class="bulleted-list"><li style="list-style-type:disc">배열의 모든 값을 0으로 초기화</li></ul><ul id="9d99311b-eccb-4f51-aa42-054cf38a9bf6" class="bulleted-list"><li style="list-style-type:disc">0 뒤에 쉼표</li></ul><ul id="42612450-2bbc-4e06-8a7f-962104fd8666" class="bulleted-list"><li style="list-style-type:disc">이를 통해 초기화 목록이 모든 값을 직접 초기화해주지는 않지만 쉼표 뒤가 모두 0으로 초기화 됨</li></ul><ul id="f573525d-a06f-4cd7-b68d-4b28547f2aac" class="bulleted-list"><li style="list-style-type:disc">초기화를 제대로 진행하지 않는다면 초기화 안된 지역변수를 모른 채 사용할 수 있으며, 버퍼 오버플로도 가능 ⇒ 버퍼 오버플로를 아무도 체크해주지 않음</li></ul><h2 id="055f6c00-d46c-4d3b-a9ed-c348a5f4ff64" class="">다차원 배열 (2차원, 3차원 배열)</h2><pre id="d028f73c-2958-414a-8ec3-488ae5d525ac" class="code"><code>/* 2차원 배열 예시 */
+
+int table[2][3];
+
+for (int i = 0; i &lt; 2; ++i)                /* y */
+{
+	for (int j = 0; j &lt;3; ++j)               /* x */
+	{
+		table[i][j] = (i + 1) * (j + 1);
+	}
+}</code></pre><pre id="94da380a-413b-439b-8a15-78a649fa13b1" class="code"><code>/* 아래 2차원 배열과 1차원 배열은 같음! */
+
+/* 2차원 배열 */
+
+int buffer[3][2];
+int i;
+int j;
+
+for (int i = 0; i &lt; 3; ++i)
+{
+	for (int j = 0; j &lt;2; ++j)
+	{
+		table[i][j] = (i + 1) * (j + 1);
+	}
+}
+
+/* 1차원 배열 */
+
+int buffer[3 * 2];
+int i;
+int j;
+
+for (int i = 0; i &lt; 3; ++i)
+{
+	for (int j = 0; j &lt;2; ++j)
+	{
+		table[i][j] = (i + 1) * (j + 1);
+	}
+}</code></pre><p id="03bc91f0-3d7a-4048-9893-48aaed35ab1b" class="">
+</p><p id="94825bf8-b72e-4b05-a496-69fd420bb970" class="">
+</p></div></article></body>
+
 {% endblock post_content %}

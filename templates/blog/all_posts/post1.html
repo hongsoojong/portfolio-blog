@@ -8,88 +8,41 @@
 
 {% block post_content %}
 
-    {% block post_date %}
-        <div class="container w-1/2 mx-auto mb-10 post_date">[ Sept 01, 2021 ]</div>    
-    {% endblock post_date %}
+{% block post_date %}
+    <div class="container w-1/2 mx-auto mb-10 post_date">[ Sept 01, 2021 ]</div>    
+{% endblock post_date %}
 
-    <main class="container w-1/2 mx-auto font_kor">
-        <div class="post_subheading">1. C89/ANSI-C</div>
-        <div class="post_text">
-            <li>ANSI(American National Standards Institute)에 의해 채택된 최초의 C 표준 (1989년)</li>
-            <li>나온지 30년이 넘었지만 아직도 지켜야하는 표준 (아직도 대부분의 컴파일러 지원)</li>
-            <li>여전히 많은 C 코드가 이 표준을 사용</li>
-            <li>임베디드 시스템에서 가장 많이 사용 (대부분 C89만 지원)</li>
-            <p class="post_def">임베디드 시스템(embeded system) : 특정한 제품이나 솔루션에서 주어진 작업을 수행할 수 있도록 추가로 탑재되는 솔루션이나 시스템</p>
-            <p class="ml-7">- 특화된 소형 하드웨어는 그것을 직접 제어하는 전용 윤영체제를 지원함</p>
-            <p class="ml-7">- 즉, 윈도우 및 리눅스처럼 발전된 기능을 갖춘 범용 운영체제를 지원 안함</p>
-        </div>
-        <div class="post_subheading">2. C99 → 많은 기능들이 추가됨</div>
-        <div class="post_text">
-            <li>인라인 함수</li>
-            <li>새로운 헤더 파일들 (stdbool.h, complex.h, tgmah.h)</li>
-            <li>새로운 자료형 (_Bool, _Complex, _Imaginary)</li>
-            <li>한줄짜리 주석 (//)</li>
-            <li>유연한 배열 멤버</li>
-            <li>가변 길이 배열</li>
-            <li>보다 안전한 I/O 함수</li>
-        </div>
-        <div class="post_subheading">3. C11 및 그 이후</div>
-        <div class="post_text">
-            <p class="font-bold">[ C11 ]</p>
-            <li>C99를 대체</li>
-            <li>유니코드 지원</li>
-            <li>이름 없는 구조체 및 공용체</li>
-            <li>제너릭 표현식 (C#의 제네릭이나 C++의 템플릿과 동일)</li>
-            <li>표준화된 멀티쓰레딩 지원</li>
-            <p class="font-bold">[ C18 ]</p>
-            <li>신규 기능 없음</li>
-            <li>C11의 결함만 수정</li>
-        </div>
-        <div class="post_heading">Hello, C World</div>
-        <img src="{% static 'img/sourcecode/post1-1-new.png' %}" class="mb-6">
-        <div class="post_subheading">#include</div>
-        <div class="post_text">
-            <li>다른 파일에 구현된 함수나 변수를 사용할 수 있게 해줌</li>
-            <li>전처리기 지시문 중 하나</li>
-            <p class="post_def">전처리기 (preprocessor) : 컴파일을 하기 전에 텍스트를 '복붙'해주는 일을 함</p>
-            <p class="post_def">컴파일 (compile) : 사람이 읽을 수 있는 C언어 소스파일을 0과 1로 된 특별한 신호인 기계어 파일 형태로 바꿔주는 과정</p>
-        </div>
-        <div class="post_subheading">#include < stdio.h ></div>
-        <div class="post_text">
-            <li><>안에 있는 단어 (예: stdio.h)는 실제 디스크 상에 존재하는 파일 이름</li>
-            <li>C의 #include는 헤더 파일(*.h)을 열어서 그 내용을 복사한 뒤, #include < stdio.h >라고 쓰여있는 부분을 복사한 내용으로 교체</li>
-            <p class="ml-7">⇒ 이를 통해 컴파일 도중에 헤더파일의 함수도 포함</p>
-        </div>
-        <div class="post_subheading">< stdio.h ></div>
-        <div class="post_text">
-            <li>C 표준 라이브러리 (C Standard Library, lib) 중 일부</li>
-            <p class="ml-7">⇒ C 표준 라이브러리 : 문자열 처리/수학 계산/입출력 처리/메모리 관리에 필요한 매크로, 자료형(data type), 함수 등을 모아 놓은 것</p>
-            <li>libc에서 표준 입출력 (Standard Input and Output)을 담당</li>
-            <li>파일 입출력 (stream)에 관련된 함수들을 포함 → printf(), scanf(), fopen(), fclose()</li>
-        </div>
-        <div class="post_subheading">main(void) 함수</div>
-        <div class="post_text">
-            <li>프로그램의 진입점 (entry point)</li>
-            <li>C 코드를 빌드해서 나온 실행파일(.exe 또는 .out)을 실행하면 main(void) 함수가 자동적으로 실행됨</li>
-            <li>반드시 int를 반환해야함</li>
-            <p class="ml-7">⇒ 0: 프로그램에 문제가 없었다는 뜻</p>
-            <li>다른 언어와 달리 void를 생략한다고 매개변수가 없다는 뜻은 아님</li>
-            <p class="post_def">매개변수 : 몇 개의 변수 사이에 함수관계를 정하기 위해서 사용되는 또 다른 하나의 변수</p>
-            <img src="{% static 'img/sourcecode/post1-2.png' %}" class="ml-7">
-            <p class="ml-7">⇒ 언제나 void를 넣는 습관을 기르자</p>
-        </div>
-        <div class="post_subheading">printf()</div>
-        <div class="post_text">
-            <li>화면에 데이터를 출력할 때 사용하는 함수</li>
-            <li>printf: 'print formatted' (서식에 맞제 출력하다)</li>
-            <li>\n: 새 줄 (new line)을 의미하는 excape character</li>
-        </div>
-        <div class="post_subheading">주석(comment)</div>
-        <div class="post_text">
-            <li>/* */만 지원 (최소한 C89에선)</li>
-            <li>주석이 한 줄이든 여러 줄이든 /* */만 사용</li>
-            <p class="ml-7">⇒다른 언어에서는 여러 줄에는 /* */를, 한 줄에는 //를 쓰는 것이 일반적</p>
-        </div>
-    </main>
-    
+<main class="container w-1/2 mx-auto font_kor">
+
+{% include "blog/all_posts/css_post.html" %}
+  
+<!-- notion html -->
+<body><article id="a3637e94-21f7-41a8-9f9d-4991ba960618" class="page sans"><div class="page-body"><h3 id="febd5fc6-0560-4a34-97c1-d20abca6dbbe" class=""><strong>1. C89/ANSI-C</strong></h3><ul id="1edcb5ea-4774-4aef-9480-a509660903a4" class="bulleted-list"><li style="list-style-type:disc">ANSI(American National Standards Institute)에 의해 채택된 최초의 C 표준 (1989년)</li></ul><ul id="101ccf45-6f71-44b8-b9dc-55cf27b79e8c" class="bulleted-list"><li style="list-style-type:disc">나온지 30년이 넘었지만 아직도 지켜야하는 표준 (아직도 대부분의 컴파일러 지원)</li></ul><ul id="675e722e-3644-4d51-8e25-7e33d8e25d16" class="bulleted-list"><li style="list-style-type:disc">여전히 많은 C 코드가 이 표준을 사용</li></ul><ul id="48cb23e3-ed1e-4d0f-8bf8-50e4bcd0cd9b" class="bulleted-list"><li style="list-style-type:disc">임베디드 시스템에서 가장 많이 사용 (대부분 C89만 지원)<p id="4d0f6626-2a56-4d0d-9a6d-912de7f6a8db" class="">임베디드 시스템(embeded system) : 특정한 제품이나 솔루션에서 주어진 작업을 수행할 수 있도록 추가로 탑재되는 솔루션이나 시스템</p></li></ul><ul id="21f93bb4-f5cc-4098-8eaf-a2d556d94bed" class="bulleted-list"><li style="list-style-type:disc">특화된 소형 하드웨어는 그것을 직접 제어하는 전용 운영체제를 지원함</li></ul><ul id="d4618ce5-e4cd-47d6-b51b-9b17e75ba5b9" class="bulleted-list"><li style="list-style-type:disc">즉, 윈도우 및 리눅스처럼 발전된 기능을 갖춘 범용 운영체제를 지원 안함</li></ul><h3 id="9da15558-9283-4006-8e11-5beefc548cbc" class=""><strong>2. C99 → 많은 기능들이 추가됨</strong></h3><ul id="4951bbc2-6cf3-42ef-814e-78e13d9d4f86" class="bulleted-list"><li style="list-style-type:disc">인라인 함수</li></ul><ul id="9d2dba4b-b62f-42c4-a15f-ee0133eb888e" class="bulleted-list"><li style="list-style-type:disc">새로운 헤더 파일들 (stdbool.h, complex.h, tgmah.h)</li></ul><ul id="dd1be24f-e114-43c2-8f23-012dd7eb05db" class="bulleted-list"><li style="list-style-type:disc">새로운 자료형 (_Bool, _Complex, _Imaginary)</li></ul><ul id="15971b47-be61-4179-9aa2-b663b4187d90" class="bulleted-list"><li style="list-style-type:disc">한줄짜리 주석 (//)</li></ul><ul id="71c39ba5-0d59-4a7d-9280-3ba59d4b1be3" class="bulleted-list"><li style="list-style-type:disc">유연한 배열 멤버</li></ul><ul id="9a5cb1be-28b6-422f-b4b1-0c9831b33c0c" class="bulleted-list"><li style="list-style-type:disc">가변 길이 배열</li></ul><ul id="46527fbf-94bb-4c8a-bd4f-e944a3dadc49" class="bulleted-list"><li style="list-style-type:disc">보다 안전한 I/O 함수</li></ul><h3 id="b8749097-556a-417c-ae27-c20351fad077" class=""><strong>3. C11 및 그 이후</strong></h3><p id="f4556706-770d-4664-a52d-a3a1bff0273d" class=""><strong>[ C11 ]</strong></p><ul id="1aa29a5d-8fd4-4fc9-bc85-70ad0bc7f2de" class="bulleted-list"><li style="list-style-type:disc">C99를 대체</li></ul><ul id="ff01e5e8-ea4a-4d86-9e84-99caff991d79" class="bulleted-list"><li style="list-style-type:disc">유니코드 지원</li></ul><ul id="e99541cb-2732-4eaf-8263-8c1ddfac8c2d" class="bulleted-list"><li style="list-style-type:disc">이름 없는 구조체 및 공용체</li></ul><ul id="4219ba4e-b56a-4ca0-8536-29b91b5aeb4b" class="bulleted-list"><li style="list-style-type:disc">제너릭 표현식 (C#의 제네릭이나 C++의 템플릿과 동일)</li></ul><ul id="a7776898-17a6-4fe8-8c86-34ad53c0d24a" class="bulleted-list"><li style="list-style-type:disc">표준화된 멀티쓰레딩 지원</li></ul><p id="cdc9f46e-e508-4984-b699-ad16d0fd540b" class=""><strong>[ C18 ]</strong></p><ul id="175be9c5-66ab-4a92-9c2d-c61b6bfcaf3e" class="bulleted-list"><li style="list-style-type:disc">신규 기능 없음</li></ul><ul id="dc483e6a-70f0-4b2e-a62b-4fa48db20840" class="bulleted-list"><li style="list-style-type:disc">C11의 결함만 수정</li></ul><h2 id="86854d3b-81dc-4192-9734-403890c65662" class=""><strong>Hello, C World</strong></h2><pre id="3c59691a-8e44-4368-a713-043c46e87981" class="code"><code>#include &lt;stdio.h&gt;
+
+int main(void)
+{
+	printf(&quot;Hello, C World\n&quot;);
+
+	return 0;
+}</code></pre><h3 id="447b06e3-14e1-4f48-8089-8f2ab4f35a74" class="">#include</h3><ul id="be5a0876-b509-41e4-ac7c-63a7f0f8e239" class="bulleted-list"><li style="list-style-type:disc">다른 파일에 구현된 함수나 변수를 사용할 수 있게 해줌</li></ul><ul id="621c3cc5-9422-47a2-b2a8-a069dafe02d5" class="bulleted-list"><li style="list-style-type:disc">전처리기 지시문 중 하나<p id="de5a7594-5f39-4b42-8bf1-db6c4e37c6c8" class="">전처리기 (preprocessor) : 컴파일을 하기 전에 텍스트를 &#x27;복붙&#x27;해주는 일을 함</p><p id="f212140d-2566-4a09-8c5d-3c43fd0621a3" class="">컴파일 (compile) : 사람이 읽을 수 있는 C언어 소스파일을 0과 1로 된 특별한 신호인 기계어 파일 형태로 바꿔주는 과정</p></li></ul><h3 id="3df0b7b7-e408-4223-8723-5f603bb5fc72" class=""><strong>#include &lt; stdio.h &gt;</strong></h3><ul id="882eda01-b6a3-43f5-a41f-3fd50bf516af" class="bulleted-list"><li style="list-style-type:disc">&lt;&gt;안에 있는 단어 (예: stdio.h)는 실제 디스크 상에 존재하는 파일 이름</li></ul><ul id="bc88df2a-566e-495f-af79-7bc39390a24e" class="bulleted-list"><li style="list-style-type:disc">C의 #include는 헤더 파일(*.h)을 열어서 그 내용을 복사한 뒤, #include &lt; stdio.h &gt;라고 쓰여있는 부분을 복사한 내용으로 교체<p id="1b8065bf-288b-4e6c-97e8-6def8002fdfa" class="">⇒ 이를 통해 컴파일 도중에 헤더파일의 함수도 포함</p></li></ul><h3 id="2148eef4-d43f-4d98-bac3-2a6555ea7b85" class=""><strong>&lt; stdio.h &gt;</strong></h3><ul id="86ceab9d-1331-400e-8ec3-a03d526c0b24" class="bulleted-list"><li style="list-style-type:disc">C 표준 라이브러리 (C Standard Library, lib) 중 일부<p id="f8027ece-cc3a-4361-a378-c6d96c335a24" class="">⇒ C 표준 라이브러리 : 문자열 처리/수학 계산/입출력 처리/메모리 관리에 필요한 매크로, 자료형(data type), 함수 등을 모아 놓은 것</p></li></ul><ul id="4b742b04-fb8c-4fbb-95e4-52727b681c91" class="bulleted-list"><li style="list-style-type:disc">libc에서 표준 입출력 (Standard Input and Output)을 담당</li></ul><ul id="7e834fc6-92e1-4671-853c-016c6ac314e6" class="bulleted-list"><li style="list-style-type:disc">파일 입출력 (stream)에 관련된 함수들을 포함 → printf(), scanf(), fopen(), fclose()</li></ul><h3 id="ff2bebaa-8cf3-4eb3-a869-c3d873a08baf" class=""><strong>main(void) 함수</strong></h3><ul id="0a7f7e64-3d55-4fd0-8dd4-1242a01d0c29" class="bulleted-list"><li style="list-style-type:disc">프로그램의 진입점 (entry point)</li></ul><ul id="81617feb-d5e2-40e2-a240-9d5be2175776" class="bulleted-list"><li style="list-style-type:disc">C 코드를 빌드해서 나온 실행파일(.exe 또는 .out)을 실행하면 main(void) 함수가 자동적으로 실행됨</li></ul><ul id="ac4884af-969d-44e1-b481-a234cb6a39ca" class="bulleted-list"><li style="list-style-type:disc">반드시 int를 반환해야함<p id="5665d89f-421a-47f9-830a-d66f6966f2c9" class="">⇒ 0: 프로그램에 문제가 없었다는 뜻</p></li></ul><ul id="2d1d92b3-f059-4eb7-9d8e-7f7e532fd449" class="bulleted-list"><li style="list-style-type:disc">다른 언어와 달리 void를 생략한다고 매개변수가 없다는 뜻은 아님<p id="df0e3d94-c83e-498e-a855-5eddea27d923" class="">매개변수 : 몇 개의 변수 사이에 함수관계를 정하기 위해서 사용되는 또 다른 하나의 변수</p><pre id="63b0eec1-746a-485b-b222-a9b33b669102" class="code"><code>int sum(void);                           /* 함수 선언 : 매개변수 없음 */
+
+int sum();                               /* 함수 선언 : 매개변수가 있는데 아직 뭔지 모름 */
+
+int sum(void)                            /* 함수 선언 : 매개변수 없음 */
+{
+	/* 코드 생략 */
+}
+
+int sum()                                /* 함수 정의 : 매개변수 없음 */
+
+{
+	/* 코드 생략 */
+}
+
+int sum(const int num1, const int num2)  /* 함수 정의 : 매개변수 2개 있음 */
+{
+	/* 코드 생략 */
+}	</code></pre><p id="afe02964-e7c9-4804-977f-7b91fe8a727f" class="">⇒ 언제나 void를 넣는 습관을 기르자</p></li></ul><h3 id="1e8c9d67-7569-4a97-a73f-9b74658616d5" class=""><strong>printf()</strong></h3><ul id="179440bb-f5bd-454c-b451-717af573fc14" class="bulleted-list"><li style="list-style-type:disc">화면에 데이터를 출력할 때 사용하는 함수</li></ul><ul id="c05d1ef1-63bb-49d3-8752-e3bf3743fbf9" class="bulleted-list"><li style="list-style-type:disc">printf: &#x27;print formatted&#x27; (서식에 맞제 출력하다)</li></ul><ul id="1894134d-d618-4ad4-b104-85275b5845f1" class="bulleted-list"><li style="list-style-type:disc">\n: 새 줄 (new line)을 의미하는 excape character</li></ul><h3 id="7bc79101-cd4d-4f7d-a1d9-f0323d10bc28" class=""><strong>주석(comment)</strong></h3><ul id="8497cbe8-aecc-4fd4-8ca5-187dc0f31481" class="bulleted-list"><li style="list-style-type:disc">/* */만 지원 (최소한 C89에선)</li></ul><ul id="b7b73f6e-e068-476d-8ebe-d52da272fafb" class="bulleted-list"><li style="list-style-type:disc">주석이 한 줄이든 여러 줄이든 /* */만 사용<p id="b94c8718-2205-4912-b1c9-a94383e3cd01" class="">⇒다른 언어에서는 여러 줄에는 /* */를, 한 줄에는 //를 쓰는 것이 일반적<div class="indented"><p id="0f0163ec-a24e-4415-8e46-62e58b2904c3" class="">
+</p></div></p></li></ul></div></article></body>
+
 {% endblock post_content %}

@@ -60,3 +60,7 @@ def post9(request):
 
 def post10(request):
     return render(request, "blog/all_posts/post10.html")
+
+
+def post11(request):
+    return render(request, "blog/all_posts/post11.html")
