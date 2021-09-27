@@ -1,0 +1,21 @@
+{% extends 'blog/all_posts/base_post.html' %}
+
+{% load static %}
+
+{% block post_title %}
+    <a href="{% url 'blog:all-posts' %}" class="font_kor">-----</a>
+{% endblock post_title %}
+
+{% block post_content %}
+
+{% block post_date %}
+    <div class="container w-1/2 mx-auto mb-10 post_date">[ Sept -----, 2021 ]</div>    
+{% endblock post_date %}
+
+<main class="container w-1/2 mx-auto font_kor">
+
+{% include "blog/all_posts/css_post.html" %}
+  
+<!-- notion html -->
+
+{% endblock post_content %}

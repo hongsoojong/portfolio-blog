@@ -8,971 +8,613 @@
 
 {% block post_content %}
 
-    {% block post_date %}
-        <div class="container w-1/2 mx-auto mb-10 post_date">[ Sept 25, 2021 ]</div>    
-    {% endblock post_date %}
+{% block post_date %}
+    <div class="container w-1/2 mx-auto mb-10 post_date">[ Sept 25, 2021 ]</div>    
+{% endblock post_date %}
 
-    <main class="container w-1/2 mx-auto font_kor">
-        <div id="입력">
-            <div class="post_heading">입력(Input)</div>
-            <div class="post_text">
-                <li>출력의 반대</li>
-                <li>외부의 데이터를 읽어와서 프로그램에서 사용</li>
-                <li>어떤 데이터가 들어올지 몰라서 괴상한 데이터가 종종 들어옴</li>
-                <div class="ml-7">
-                    <p>a. 사용자가 잘못된 데이터를 키보드에서 입력</p>
-                    <p>b. 예전에 저장해 놓은 파일을 누가 잘못 바꿨거나 일부 데이터가 유실</p>
-                </div>
-            </div>
-            <div class="post_subheading">출력보다 까다로운 입력</div>
-            <div class="post_text">
-                <li>출력에 비해 조심해야 하는 부분이 많음</li>
-                <li>데이터 읽기에 실패했는데 제대로 처리 안하면 여러 가지 오류들이 팡팡 터짐</li>
-                <p class="ml-7">⇒ 정말 많이 실수하는 부분임</p>
-                <li>그래서 모든 입력 함수에는 반환값이 있음</li>
-                <li class="font-bold">따라서 어떤 함수가 어떤 값을 반환하는지 문서에서 확실하게 읽고 코드에서 검사해야함</li>
-                <li>대부분 입력 처리 코드의 문제는 반환값이 뭔지 문서를 제대로 읽지 않아서 발생함</li>
-            </div>
-            <div class="post_subheading">입력의 출처</div>
-            <div class="post_text">
-                <li>어디선가 출력을 했다면 거기서 읽어올 수 있다고 생각하면 입력이 어디서 읽어오는지 이해하기 쉬움</li>
-                <li>스트림</li>
-                <div class="ml-7">
-                    <p>a. 콘솔 창에 출력(저장)했으니 콘솔(키보드)로부터 입력을 받아옴(읽어옴)</p>
-                    <p>b. 파일에 출력(저장)했으니 파일로부터 입력을 받아옴(읽어옴)</p>
-                    <p>c. 등등</p>
-                </div>
-                <li>문자열</li>
-                <p class="ml-7">a. 문자열에 출력(저장)했으니 문자열로부터 입력을 받아옴(읽어옴)</p>
-            </div>
-            <div class="post_subheading">입력 처리 전략</div>
-            <div class="post_text">
-                <p>1. 한 글자씩 읽기</p>
-                <p>2. 한 줄씩 읽기</p>
-                <p>3. 한 데이터씩 읽기</p>
-                <p>4. 한 블록씩 읽기</p>
-            </div>
-        </div>
-        <div id="한글자씩읽기">
-            <div class="post_heading">1) 한 글자씩 읽기</div>
-            <div class="post_subheading">< 시도 1 > 한 글자씩 읽는 알고리즘</div>
-            <div class="post_text">
-                <p>1. 한 글자(char)를 읽어옴</p>
-                <p>2. 그 글자를 필요한 곳에 사용함</p>
-                <p>3. 1번 단계로 되돌아감</p>
-            </div>
-            <div class="post_subheading">< 시도 1 > 코드</div>
-            <img src="{% static 'img/sourcecode/post10-1.png' %}" class="mb-3">
-            <div class="post_box mb-6">
-                <div class="post_text mb-0">
-                    <p class="font-bold">[ a 입력 ]</p>
-                    <p>1. 코드를 실행하면 키보드로 입력하기 전까지 c = getchar( )에 머물러 있음</p>
-                    <p>2. 키보드로 a를 누르고 엔터</p>
-                    <p class="ml-5">⇒ 스트림(버퍼)에 a, \n 입력이 됨</p>
-                    <p>3. 대입 부분 실행 → a만 먼저 읽음</p>
-                    <p>4. 화면에 a_ 출력 → 아직 줄은 바뀌지 않음 (a, a_)</p>
-                    <p>5. 버퍼에 문자('\n')가 남아 있으므로 3번으로 돌아감</p>
-                    <p>6. \n을 읽음</p>
-                    <p>7. \n 출력</p>
-                    <p>8. 줄 바뀜(a, a, _)</p>
-                    <img src="{% static 'img/sourcecode/post10-2.png' %}" class="w-1/3">
-                </div>
-            </div>
-            <div class="post_subheading">getchar()</div>
-            <img src="{% static 'img/sourcecode/post10-3.png' %}">
-            <div class="post_text">
-                <li>키보드(stdin)으로부터 문자를 하나 읽어서 int 형으로 반환</li>
-                <p class="ml-7">⇒ 많은 입출력 함수들이 문자를 읽고 쓸 때 char 대신 int를 씀</p>
-                <li>fgetc(stdin)과 같음</li>
-            </div>
-            <div class="post_subheading">< 시도 1 > 코드의 무한루프</div>
-            <div class="post_text">
-                <li>위의 < 시도 1 > 알고리즘으로 코드를 작성 시 무한루프가 발생하며, 멈추기 위한 signal이 필요함</li>
-            </div>
-            <div class="post_subheading">getchar()의 반환값</div>
-            <div class="post_box">
-                <div class="post_text mb-0">
-                    <p class="font-bold">Return value</p>
-                    <p>The obtained character on success or EOP on failure.</p>
-                    <p>If the failure has beeen caused by end-of-file condition, additionally sets the eof indicator (see feof( )) on stdin.</p>
-                    <p>If the failure has been caused by some other error, sets the error indicator (see ferror( )) on stdin.</p>
-                </div>
-            </div>
-            <div class="post_text">
-                <li>성공하면 문자를, 실패하면 EOP(end-of-file)를 반환</li>
-            </div>
-            <div class="post_subheading">입력의 끝을 나타내는 값, 'EOF'</div>
-            <div class="post_text">
-                <li>C 표준에 의하면 EOF는 음수임</li>
-                <li>그런데 표준에 따르면 char는 부호가 있을 수도 있고 없을 수도 있음</li>
-                <li>따라서 char에 언제나 음수 값을 담는 것은 불가능</li>
-                <li class="font-bold">그렇기 때문에 getchar( )는 char가 아닌 int를 반환함</li>
-                <li class="font-bold">정리하자면 getchar( )값을 아스키코드로 보여줘야하고, 반환을 실패할 경우 EOP도 보여줘야하기 때문에 char가 아닌 int를 사용</li>
-            </div>
-            <div class="post_subheading">getchar()의 완전한 정리</div>
-            <div class="post_text">
-                <li>키보드(stdin)으로부터 문자를 하나 읽음</li>
-                <li>반환값</li>
-                <div class="ml-7">
-                    <p>a. 성공 시, 읽은 문자(의 아스키코드)를 반환</p>
-                    <p>b. 실패 시, EOF를 반환</p>
-                </div>
-                <li>fgetc(stdin)과 같음</li>
-            </div>
-            <div class="post_subheading">< 시도 2 > 한 글자씩 읽는 알고리즘</div>
-            <div class="post_text">
-                <p>1. 한 글자(char)를 읽어옴</p>
-                <p>2. 글자를 읽어오는데 실패했다면(EOF) 프로그램을 종료</p>
-                <p>3. 아니라면 그 글자를 필요한 곳에 사용</p>
-                <p>4. 1번 단계로 되돌아감</p>
-            </div>
-            <div class="post_subheading">< 시도 2 > 코드</div>
-            <img src="{% static 'img/sourcecode/post10-4.png' %}">
-            <div class="post_subheading">EOF 키</div>
-            <div class="post_text">
-                <li>ctrl 키와 다른 키를 조합해서 넣음</li>
-                <div class="ml-7">
-                    <p>a. 윈도우 : ctrl + z</p>
-                    <p>b. 유닉스와 같은 시스템들 : ctrl + d</p>
-                </div>
-            </div>
-            <div class="post_subheading">< 시도 2 > 코드 정리</div>
-            <img src="{% static 'img/sourcecode/post10-4.png' %}">
-            <div class="post_text mb-0">
-                <li>getchar( )가 두번 있음</li>
-                <li>do while문으로 해결 불가능 ⇒ while 검사 전에 c를 사용하기 때문</li>
-                <li>한번으로 줄일 수 있음</li>
-            </div>
-            <img src="{% static 'img/sourcecode/post10-5.png' %}">
-            <div class="post_text">
-                <p>1. (c = getchar( )) : 먼저 getchar( ) 실행! 나머지는 일단 무시</p>
-                <p class="ml-5">⇒ 키보드로 7을 입력했다면 7의 아스키코드(0x37)가 반환</p>
-                <p>2. != EOF : 이제 c에 든 값과 EOP와 비교</p>
-            </div>
-            <div class="post_subheading">c = getchar()를 괄호로 감싸지 않을 경우</div>
-            <img src="{% static 'img/sourcecode/post10-6.png' %}">
-            <div class="post_text">
-                <li>!= 연산자가 = 연산자보다 연산자 결합 우선순위가 더 높음</li>
-                <li>따라서 c = (getchar( ) != EOF)가 되어버림</li>
-                <p class="ml-7">⇒ 이 경우 c는 0 또는 1이 됨</p>
-                <li>한 줄로 줄이는 것은 실수가 쉬움 → 그래서 요즘 다른 언어에서는 잘 하지 않는 방법</li>
-            </div>
-            <div class="post_subheading">한 글자씩 읽는 방법이 유용한 경우</div>
-            <div class="post_text">
-                <li>가장 간단한 입력 방법</li>
-                <li>입력이 문자/문자열일 때 매우 좋음</li>
-                <li>쓸데없이 메모리에 입력값을 저장해 두지 않아도 됨</li>
-                <p class="ml-7">a. 용량 절약</p>
-                <p class="ml-7">b. 실수 줄임</p>
-                <li>O(N)</li>
-                <p class="ml-7">a. for문 딱 한 번만 도는 알고리즘에 적합한 경우가 많음</p>
-                <p class="ml-7">b. 입력값을 모두 읽어 저장해두고 for문을 돌려 처리하는 것이나 키보드로부터 한 글자씩 읽어서 곧바로 처리하는 것이나 같은 것이니, 굳이 메모리를 잡아먹지 않고 처리하는 것이 효율적일 수 있음</p>
-                <li>그러나 다른 데이터형으로 쓰기는 어려움</li>
-                <p class="ml-7">예 : 정수형 숫자 1004 읽기 ⇒ '1', '0', '0', '4' 이렇게 4번 읽어서 다시 정수로 변환하기 제한이 됨</p>
-            </div>
-            <div class="post_subheading">공백(whtiespace)과 줄 수 세기</div>
-            <img src="{% static 'img/sourcecode/post10-7.png' %}">
-            <div class="post_text">
-                <li>whitespace</li>
-                <div class="ml-7">
-                    <p>a. 보통 공백문자하면 스페이스(' ')만 생각하지만 그 외 다른 것들도 있음</p>
-                    <p>b. tab이나 new line 등 다양한 것들이 공백문자에 포함이 됨</p>
-                </div>
-                <li>is space 함수: 표준 라이브러리에서 제공 → ctype.h에 들어있음</li>
-                <p class="ml-7">⇒ tab, new line 모두 찾아냄</p>
-                <li>따라서 줄바꿈은 별도로 count 해줌</li>
-            </div>
-        </div>
-        <div id="한줄씩읽기">
-            <div class="post_heading">2) 한 줄씩 읽기</div>
-            <div class="post_text">
-                <p>⇒ new line 단위로 읽기</p>
-                <p>1. 한 줄을 읽어옴</p>
-                <p>2. 한 줄을 읽어오는데 실패하면 프로그램 종료</p>
-                <p>3. 성공했다면 한 줄을 읽어온 데이터를 필요에 따라 사용</p>
-                <p>4. 1번 단계로 되돌아감</p>
-            </div>
-            <div class="post_subheading">한 줄을 읽는 방법</div>
-            <div class="post_text">
-                <li>C에선 절대로 자동으로 함수를 불러와 새로운 문자열을 반환해주거나 하지 않음</li>
-                <li>프로그래머가 미리 만든 배열을 함수에 전달하여, 그 함수가 배열의 한줄을 읽어옴</li>
-                <li>한 줄을 읽어오는 함수 gets( )</li>
-                <p class="ml-7">⇒ 위험한 함수!!</p>
-            </div>
-            <div class="post_subheading">gets()</div>
-            <img src="{% static 'img/sourcecode/post10-8.png' %}">
-            <div class="post_text">
-                <li>stdin에서 새 줄 문자('\n') 또는 EOF를 만날 때까지 계속 문자들을 읽어서 str 배열에 저장</li>
-                <p class="ml-7">⇒ 그래서 str이 const가 아님</p>
-                <li>마지막 문자 바로 다음에 널 문자('\0')도 넣어줌</li>
-                <li>stdin에서 새 줄 문자를 제거하지만 버퍼에 저장하지는 않음 → 올바르게 문자열을 완성시켜줌</li>
-                <li>stdin에서 새 줄 문자를 제거하지만 버퍼에 저장하지는 않음</li>
-            </div>
-            <div class="post_subheading">gets()의 반환값</div>
-            <div class="post_text">
-                <li>성공 시, str</li>
-                <li>실패 시, NULL(포인터) → 널 문자 아님!</li>
-            </div>
-            <div class="post_subheading">한 줄 읽기 코드 - 매우 위험한 코드</div>
-            <img src="{% static 'img/sourcecode/post10-9.png' %}">
-            <div class="post_text">
-                <li class="font-bold">매우매우 위험한 함수!!</li>
-                <li>C11에서는 아예 함수를 제거해버림</li>
-                <li>그래서 최신 헤더파일에서는 gets( )가 더 이상 존재하지 않음</li>
-                <p class="ml-7">⇒ 굳이 쓰려면 직접 함수 원형을 전방선언 해야함</p>
-            </div>
-            <div class="post_subheading">위험한 이유 : 버퍼 오버플로</div>
-            <div class="post_text">
-                <li>만약 64자 이상 입력하면 → 버퍼 오버플로 발생</li>
-                <li>단순히 LINE_LENGTH를 늘리는 방식은 무한 굴레로 빠지며, 통제가 불가능함</li>
-                <li>올바르지 않은 메모리 주소에 키보드로 입력한 값을 써버리게 되면서 버퍼 오버플로 발생</li>
-                <li class="font-bold">절대 절대 절대 절대 gets( )를 써서는 안됨</li>
-            </div>
-            <div class="post_subheading">fgets()로 안전하게 한 줄 읽기</div>
-            <img src="{% static 'img/sourcecode/post10-10.png' %}">
-            <div class="post_text">
-                <li>< stdio.h > 안에 있음</li>
-                <li>최대 count - 1개의 문자열을 읽어서 str에 저장</li>
-                <li>즉, 새 줄을 만나지 않아도 이 함수가 반환될 수 있음</li>
-                <li>str에 새 줄 문자까지 넣어줌</li>
-            </div>
-            <div class="post_subheading">fgets( )의 매개 변수</div>
-            <div class="post_text">
-                <li><span class="font-bold">str </span>: gets( )와 마찬가지로 입력받은 한 줄을 저장할 char 배열</li>
-                <p class="ml-7">⇒ 역시 const가 아님</p>
-                <li><span class="font-bold">count </span>: 한 번에 str에 쓰는 최대 문자 수</li>
-                <p class="ml-7">⇒ 널 문자를 포함하기 때문에 실제로 읽어오는 문자 수는 count - 1개</p>
-                <li><span class="font-bold">stream </span>: 데이터를 읽어올 스트림 (키보드를 읽어오고 싶다면 stdin을 넣어주면 됨)</li>
-            </div>
-            <div class="post_subheading">stream의 자료형 : FILE* steam</div>
-            <div class="post_text">
-                <li>스트림을 제어하기 위해 필요한 정보를 담고 있는 자료형</li>
-                <li>스트림을 제어하기 위해 필요한 정보</li>
-                <div class="ml-7">
-                    <p>1. 파일 위치 표시자</p>
-                    <p>2. 스트림이 사용하는 버퍼의 포인터</p>
-                    <p>3. 읽기/쓰기 중에 발생한 오류를 기록하는 오류 표시자</p>
-                    <p>4. 파일 끝에 도달했음을 기록하는 EOF 지시자</p>
-                </div>
-                <li>플랫폼마다 이 자료형을 구현하는 방식이 다를 수 있음</li>
-                <li>입력 및 출력 스트림은 오직 FILE 포인터로만 접근 및 조작 가능</li>
-                <li>이름이 FILE이라 파일만 될 것 같지만 다른 스트림도 모두 표현 가능</li>
-            </div>
-            <div class="post_subheading">fgets()의 반환값</div>
-            <div class="post_text">
-                <li>gets( )와 동일</li>
-                <p class="ml-7">a. 성공 시, str을 반환</p>
-                <p class="ml-7">실패 시, NULL을 반환</p>
-            </div>
-            <div class="post_subheading">한 줄 읽기 코드</div>
-            <img src="{% static 'img/sourcecode/post10-11.png' %}">
-            <div class="post_text">
-                <p>1. 123456789abcd\n 엔터</p>
-                <p>2. fgets(line, LINE_LENGTH, stdin) ⇒ 123456789</p>
-                <p>3. != NULL ⇒ NULL이 아니니 출력</p>
-                <p>4. fgets(line, LINE_LENGTH, stdin) ⇒ abcd\n</p>
-                <p>5. != NULL ⇒ NULL이 아니니 출력</p>
-                <p class="ml-5">⇒ 데이터를 123456 위에 덮어씌움</p>
-                <p>6. fgets(line, LINE_LENGTH, stdin) ⇒ EOP를 넣어 줬으므로 NULL 반환</p>
-            </div>
-            <div class="post_subheading">puts() 대신 printf()를 쓴 이유</div>           
-            <div class="post_text">
-                <li>gets( )로 읽어온 거엔 puts( )를 써도 말이 됨</li>
-                <p class="ml-7">⇒ puts( ) : 문자열 마지막에 새 줄 문자 자동 삽입</p>
-                <li>fgets( )에는 말이 안됨</li>
-                <p class="ml-7">⇒ fgets( )는 문장 단위로 새 줄 문자가 자동으로 삽입이 됨</p>
-                <p class="ml-7">⇒ 새 줄 문자를 직접 삽입해줘야하는 printf( )와 사용</p>
-            </div>
-            <div class="post_subheading">⇒ 새 줄 문자를 직접 삽입해줘야하는 printf( )와 사용</div>
-            <div class="post_text">
-                <li>일단 단어 하나씩 읽는 것보다 한 줄씩 읽는 것이 빠름</li>
-                <li>CPU를 벗어나 외부 구성요소로부터 뭔가를 읽어올 때 한 번에 많이 읽어오는 것이 빠름</li>
-                <li>따라서 버퍼의 크기는 충분히 큰 것이 좋음</li>
-                <li class="font-bold">하지만 한 줄씩 읽는 것 자체가 의미있다기 보다 '한 데이터씩 읽어올 때' 쓸 일이 더 많음</li>
-                <p class="ml-7">⇒ 안전하게 사용하기 위해</p>
-            </div>
-        </div>
-        <div id="한데이터씩읽기">
-            <div class="post_heading">3) 한 데이터씩 읽기</div>
-            <div class="post_subheading">입력 포맷의 3가지 버전</div>
-            <div class="post_text">
-                <p>1. scanf( ) : stdin으로부터 읽음</p>
-                <img src="{% static 'img/sourcecode/post10-12.png' %}" class="ml-5">
-                <p>2. fscanf( ) : 파일 스트림으로부터 읽음</p>
-                <img src="{% static 'img/sourcecode/post10-13.png' %}" class="ml-5">
-                <p>3. sscanf( ) : C 스타일 문자열로부터 읽음</p>
-                <img src="{% static 'img/sourcecode/post10-14.png' %}" class="ml-5">
-            </div>
-            <div class="post_subheading">stdin에서 정수 읽기</div>
-            <img src="{% static 'img/sourcecode/post10-15.png' %}" class="mb-6">
-            <div class="post_subheading">scanf()</div>
-            <img src="{% static 'img/sourcecode/post10-16.png' %}">
-            <div class="post_text">
-                <li>< stdio.h >에 있음</li>
-                <li>키보드(stdin)로부터 입력을 받아 변수에 저장</li>
-            </div>
-            <div class="post_subheading">저장할 변수의 주소를 전달하는 이유</div>
-            <img src="{% static 'img/sourcecode/post10-17.png' %}">
-            <div class="post_text">
-                <li>참조에 의한 전달 흉내</li>
-                <li>그냥 num을 넣으면 매개변수가 복사되어 함수 속에서 바꿔봐야 반환 시 사라짐</li>
-                <img src="{% static 'img/sourcecode/post10-18.png' %}" class="ml-7">
-                <li>그냥 scanf( )에서 반환? → 불가능</li>
-                <p class="ml-7">⇒ 읽는 타입에 따라 함수이름이 달라져야함</p>
-                <img src="{% static 'img/sourcecode/post10-19.png' %}" class="ml-7">
-                <li>이름을 다르게 짓는다고 해도 아래와 같은 예 떄문에 안됨 → 반환값 여러 개</li>
-                <img src="{% static 'img/sourcecode/post10-20.png' %}" class="ml-7">
-            </div>
-        </div>
-        <div id="일반적인서식문자열형식">
-            <div class="post_heading">일반적인 서식 문자열 형식</div>
-            <div class="post_box mb-6">
-                <div class="post_text mb-0">
-                    <p class="font-bold">% [ * ] [ 너비 ] [ 길이 ] 서식 지정자</p>
-                </div>
-            </div>
-            <div class="post_text">
-                <li>일반적으로 '%' 뒤에 최대 4개의 지정자를 가질 수 있음</li>
-                <li>4가지의 지정자 → 반드시 순서를 지켜 작성해야 함</li>
-                <div class="ml-7">
-                    <p>1. * (선택)</p>
-                    <p>2. 너비 (선택)</p>
-                    <p>3. 길이 수정자 (선택)</p>
-                    <p>4. 서식 지정자 (필수)</p>
-                </div>
-            </div>
-            <div class="post_subheading">scanf()의 서식 지정자</div>
-            <table class="mb-1 w-full table-fixed">
-                <tbody class="text-center">
-                    <tr>
-                        <td class="post_table_border bg-yellow-100 w-1/12">%</td>
-                        <td class="post_table_border">%를 순수하게 문자로 인식</td>
-                        <td class="post_table_border w-1/2">scanf("%%d", &num); /* 컴파일 경고 */</td>
-                    </tr>
-                    <tr>
-                        <td class="post_table_border bg-yellow-100 w-1/12">c</td>
-                        <td class="post_table_border">문자(char)</td>
-                        <td class="post_table_border w-1/2">scanf("%c", &ch);</td>
-                    </tr>
-                    <tr>
-                        <td class="post_table_border bg-yellow-100 w-1/12">s</td>
-                        <td class="post_table_border">한 단어</td>
-                        <td class="post_table_border w-1/2">scanf("%s", &str);</td>
-                    </tr>
-                    <tr>
-                        <td class="post_table_border bg-yellow-100 w-1/12">d</td>
-                        <td class="post_table_border">부호있는 10진수 수</td>
-                        <td class="post_table_border w-1/2">scanf("%d", &num);</td>
-                    </tr>
-                    <tr>
-                        <td class="post_table_border bg-yellow-100 w-1/12">x</td>
-                        <td class="post_table_border">부호없는 16진수 수</td>
-                        <td class="post_table_border w-1/2">scanf("%x", &num);</td>
-                    </tr>
-                    <tr>
-                        <td class="post_table_border bg-yellow-100 w-1/12">f</td>
-                        <td class="post_table_border">부동 소수점(float)</td>
-                        <td class="post_table_border w-1/2">scanf("%f", &num);</td>
-                    </tr>
-                </tbody>
-            </table>
-            <div class="post_text">
-                <li>반드시 넣어야 함</li>
-                <li class="font-bold">모든 데이터는 한 단어씩(공백 문자로 구분) 또는 가능할 때까지 읽음</li>
-                <li class="font-bold">공백 문자는 버림 (예외 : %c)</li>
-                <p class="ml-7 font-bold">⇒ 공백문자를 읽기 위해서는 반드시 char로 읽어야함</p>
-                <li>str은 주소연산자가 안들어감 → 문자열은 자체가 주소임!! </li>
-            </div>
-            <div class="post_subheading">대입 생략 문자 *</div>
-            <img src="{% static 'img/sourcecode/post10-21.png' %}">
-            <div class="post_text">
-                <li>영어로 assignment-suppressing character</li>
-                <li>이 문자를 쓸 경우 키보드로부터 받은 입력을 변수에 저장하지 않음</li>
-            </div>
-            <div class="post_subheading">너비</div>
-            <table class="mb-1 w-full table-fixed">
-                <tbody class="text-center">
-                    <tr>
-                        <td class="post_table_border bg-yellow-100 w-1/12">정수</td>
-                        <td class="post_table_border">읽을 최대 문자 수</td>
-                        <td class="post_table_border w-1/2">scanf("%5s", str); / scanf("%10d\n", &num);</td>
-                    </tr>                    
-                </tbody>
-            </table>
-            <div class="post_text">
-                <li>%s의 경우 너비를 지정 안하면 버퍼 오버플로가 날 수 있음</li>
-            </div>
-            <div class="post_subheading">길이 수정자(length modifier)</div>
-            <table class="mb-1 w-full table-fixed">
-                <thead class="text-center bg-yellow-100">
-                    <tr>
-                      <th class="w-1/6 post_table_border">길이 수정자</th>
-                      <th class="w-1/6 post_table_border">서식 지정자</th>
-                      <th class="post_table_border"></th>
-                      <th class="post_table_border"></th>
-                  </thead>
-                <tbody class="text-center">
-                    <tr>
-                        <td class="post_table_border bg-yellow-100"></td>
-                        <td class="post_table_border bg-yellow-100">d</td>
-                        <td class="post_table_border">int*</td>
-                        <td class="post_table_border">scanf(%d\n", &number);</td>
-                    </tr>
-                    <tr>
-                        <td class="post_table_border bg-yellow-100">l</td>
-                        <td class="post_table_border bg-yellow-100">d</td>
-                        <td class="post_table_border">long int*</td>
-                        <td class="post_table_border">scanf(%ld\n", &number);</td>
-                    </tr>
-                    <tr>
-                        <td class="post_table_border bg-yellow-100"></td>
-                        <td class="post_table_border bg-yellow-100">f</td>
-                        <td class="post_table_border">double*</td>
-                        <td class="post_table_border">scanf(%f\n", &number);</td>
-                    </tr>
-                    <tr>
-                        <td class="post_table_border bg-yellow-100 w-1/6">L</td>
-                        <td class="post_table_border bg-yellow-100 w-1/6">f</td>
-                        <td class="post_table_border">long double*</td>
-                        <td class="post_table_border">scanf(%lf\n", &number);</td>
-                    </tr>
-                </tbody>
-            </table>
-            <div class="post_text">
-                <li>인자의 바이트 크기를 지정해 줌</li>
-                <li>출력과 마찬가지로 별 의미 없음</li>
-            </div>
-            <div class="post_subheading">scanf() : 문자열</div>
-            <div class="post_text">
-                <li>문자열은 전부 읽어버림</li>
-                <li>%s 쓸 때 배열의 크기보다 큰 문자열이 들어오면 버퍼 오버플로 발생</li>
-                <li>그래서 scanf( )는 문자열을 읽을 때 좋지 않음</li>
-            </div>
-            <div class="post_subheading">scanf()의 무한루프</div>
-            <img src="{% static 'img/sourcecode/post10-22.png' %}">
-            <div class="post_text mb-0">
-                <li>뿐만 아니라 다른 자료형을 읽을 때 무한루프에 빠질 위험도도 큼</li>
-                <li>정수(int)만 읽으려 했으나 문자(char)가 있어서 읽기가 실패하면 문자가 계속 입력되고 스트림에 남아 무한 루프에 빠져버림</li>
-                <li>해결법</li>
-                <p class="ml-7">⇒ fgets( )와 sscanf( ) 함수를 같이 쓰는 것이 좋음</p>
-            </div>
-            <img src="{% static 'img/sourcecode/post10-23.png' %}">
-            <div class="post_subheading">버퍼 오버플로 문제 없이 문자열 읽기 : <span class="text-red-600">중요</span></div>
-            <img src="{% static 'img/sourcecode/post10-24.png' %}">
-            <div class="post_text">
-                <li>버퍼 오버플로는 발생하지 않음</li>
-                <li>단, 4096보다 긴 문자열이 들어오면 그냥 짤리는게 전부</li>
-                <li class="font-bold text-red-600">완벽하게 익혀야 좋은 코드!!</li>
-            </div>
-            <div class="post_subheading">clearerr()</div>
-            <img src="{% static 'img/sourcecode/post10-25.png' %}">
-            <div class="post_text">
-                <li>스트림을 읽거나 쓸 때 EOF를 만나면 그 스트림의 EOF 표시자(indicator)가 셋팅됨</li>
-                <li>그 외의 이유로 실패하면 오류 표시자(error indicator)를 셋팅</li>
-                <li>그게 잘 안 지워져서 다음에 읽거나 쓸 때 계속 실패할 수 있음</li>
-                <li>그래서 그 오류를 지워주는 것</li>
-                <li>feof( )나 ferror( ) 함수를 통해 표시자의 셋팅 여부를 확인할 수 있음</li>
-            </div>
-            <div class="post_subheading">한 데이터씩 읽는 방법이 유용한 경우</div>
-            <div class="post_text">
-                <li>텍스트를 다른 자료형으로 곧바로 읽어오는 가장 간단한 방법</li>
-                <p class="ml-7">⇒ 안 그러면 문자열로 적혀있는 정수를 일일이 변환해야함</p>
-                <li>사용자의 입력을 받을 때</li>
-                <li>여러 데이터가 혼용된 텍스트 파일을 읽어올 때</li>
-            </div>
-        </div>
-        <div id="한블록씩읽기">
-            <div class="post_heading">4) 한 블록씩 읽기</div>
-            <div class="post_text">
-                <li>이전까지 본 입력 방법은 텍스트로 저장된 데이터를 읽는 것</li>
-                <li>C에서 이진파일을 읽는 방법 ⇒ 한 블록씩 읽기</li>
-            </div>
-            <img src="{% static 'img/sourcecode/post10-26.png' %}">
-            <div class="post_text">
-                <li>size 바이트짜리 데이터를 총 count 개수만큼 읽음</li>
-                <li>그리고 buffer에 저장</li>
-                <li>EOF를 만나면 멈춤</li>
-                <p class="ml-7">⇒ count보다 적은 수를 읽을 수 있음</p>
-                <li>그래서 실제로 읽은 개수를 반환</li>
-                <li>읽을 수 있으므로 당연히 쓰기도 가능함</li>
-                <img src="{% static 'img/sourcecode/post10-27.png' %}" class="ml-7">
-                <li>이진  데이터는 파일에 쓰고 읽음</li>
-            </div>
-            <div class="post_subheading">파일 스트림이 있다면 작동하는 코드</div>
-            <img src="{% static 'img/sourcecode/post10-28.png' %}">
-            <div class="post_text">
-                <li>int 블록 저장 : 총 64개 → 총 64 * sizeof(int) 바이트</li>
-            </div>
-            <div class="post_subheading">한 블록씩 읽는 방법이 유용한 경우</div>
-            <div class="post_text">
-                <li>가장 중요한 것은 이진 데이터를 읽기 위함</li>
-                <li>이진 데이터를 하나씩 읽을 수도 있지만 한꺼번에 읽으면 성능 향상</li>
-                <li>기본 데이터형의 크기는 시스템마다 다름</li>
-                <li>따라서 아래 사항은 안될 수 있음</li>
-                <div class="ml-7">
-                    <p>a. A 시스템 용으로 빌드한 실행파일을 실행해서 파일에 저장</p>
-                    <p>b. B 시스템 용으로빌드한 실행파일을 실행해서 그 파일을 읽음</p>
-                    <p>c. 그러나 바이트 크기가 틀려서 엉뚱한 데이터가 읽힘 (4바이트로 저장한 int가 2바이트씩 읽힐 수 있음)</p>
-                </div>
-                <li>따라서 이런 일을 하려면 정확히 파일에 저장할 데이터의 크기를고정해두는 것이 좋음</li>
-            </div>
-        </div>
-        <div id="파일입출력">
-            <div class="post_heading">파일 입출력</div>
-            <div class="post_text">
-                <li>C는 파일을 다루기 매우 까다로움</li>
-                <p class="ml-7">⇒ C#처럼 파일 내용을 한번에 읽어와서 문자열 배열로 반환하는 등 좋은 함수가 없음</p>
-                <li>파일을 복사하는 함수도 없음</li>
-                <p class="ml-7">⇒ 각 운영체제에서 제공하는 함수를 사용하거나 그 기능을 직접 스트림 읽기/쓰기 함수를 사용해서 구현해야함</p>
-                <li>따라서 C에서 파일 관련 연산은 아래와 같음</li>
-                <p class="ml-7">
-                    <p>1. 파일을 열어서 파일 스트림에 가져옴</p>
-                    <p>2. 그 파일 스트림을 사용해서 하고 싶은걸 함</p>
-                    <p>3. 파일을 닫아줌</p>
-                </p>
-            </div>
-            <div class="post_subheading">파일열기</div>
-            <img src="{% static 'img/sourcecode/post10-29.png' %}" class="mb-1">
-            <img src="{% static 'img/sourcecode/post10-30.png' %}">
-            <div class="post_text">
-                <li>filename으로 지정된 파일을 엶</li>
-                <li>열 떄 사용하는 모드(예: 읽기 전용, 이진파일 등)는 mode로 지정</li>
-                <li>반환값은 파일 스트림 포인터!</li>
-            </div>
-            <div class="post_subheading">파일 열기 모드</div>
-            <table class="w-full table-fixed">
-                <thead class="text-center bg-yellow-100">
-                  <tr>
-                    <th class="w-1/12 post_table_border">모드</th>
-                    <th class="w-1/2 post_table_border">설명</th>
-                    <th class="w-1/4 post_table_border">파일이 이미 있다면</th>
-                    <th class="w-1/4 post_table_border">파일이 없다면</th>
-                  </tr>
-                </thead>
-                <tbody class="text-center">
-                  <tr>
-                    <td class="post_table_border">r</td>
-                    <td class="post_table_border">파일을 읽기 전용으로 연다(read)</td>
-                    <td class="post_table_border">파일의 첫부분부터 읽는다</td>
-                    <td class="post_table_border">열기에 실패한다</td>
-                  </tr>
-                  <tr>
-                    <td class="post_table_border">w</td>
-                    <td class="post_table_border">파일을 쓰기 전용으로 생성한다(write)</td>
-                    <td class="post_table_border">파일의 내용을 모두 없앤다</td>
-                    <td class="post_table_border">새 파일을 생성한다</td>
-                  </tr>
-                  <tr>
-                    <td class="post_table_border">a</td>
-                    <td class="post_table_border">파일을 이어 쓴다(append)</td>
-                    <td class="post_table_border">파일의 끝부분부터 읽는다</td>
-                    <td class="post_table_border">새 파일을 생성한다</td>
-                  </tr>
-                  <tr>
-                    <td class="post_table_border">r+</td>
-                    <td class="post_table_border">읽기/쓰기용으로 파일을 연다(read extended)</td>
-                    <td class="post_table_border">파일의 첫부분부터 읽는다</td>
-                    <td class="post_table_border">오류</td>
-                  </tr>
-                  <tr>
-                    <td class="post_table_border">w+</td>
-                    <td class="post_table_border">읽기/쓰기용으로 파일을 생성한다(write extended)</td>
-                    <td class="post_table_border">파일의 내용을 모두 없앤다</td>
-                    <td class="post_table_border">새 파일을 생성한다</td>
-                  </tr>
-                  <tr>
-                    <td class="post_table_border">a+</td>
-                    <td class="post_table_border">읽기/쓰기용으로 파일을 연다(append extended)</td>
-                    <td class="post_table_border">파일의 끝부분부터 읽는다</td>
-                    <td class="post_table_border">새 파일을 생성한다</td>
-                  </tr>                  
-                </tbody>
-            </table>
-            <div class="post_text">
-                <li>b를 붙이면 이진모드로 파일을 엶</li>
-                <p class="ml-7">⇒ rb, wb, ab, r+b, w+b, a+b</p>
-                <li>이진모드란?</li>
-                <div class="ml-7">
-                    <p>a. 사실 유닉스 계열에는 아무 차이가 없음 (rb나 r이나 동일)</p>
-                    <p>b. 윈도우에서 새 줄 문자 처리하는 것만 달라짐 → 그 외 문자는 그대로</p>
-                </div>
-            </div>
-            <div class="post_subheading">윈도우에서 파일 열기</div>
-            <div class="post_text">
-                <li>파일 읽기용(r, r+, rb, r+b)으로 열 때</li>
-                <img src="{% static 'img/sourcecode/post10-31.png' %}" class="ml-7 w-2/3">
-                <p class="ml-7">⇒ 파일에서 새 줄을 '\n'으로만 저장했다면, 두 모드 다 '\n'으로 읽음(OD; \r, OA; \n)</p>
-                <li>파일 쓸 때</li>
-                <img src="{% static 'img/sourcecode/post10-32.png' %}" class="ml-7 w-2/3">
-                <p class="ml-7">⇒ 문자열에 '\r\n'이 있었다면, 두 모드 다 '\r\n'으로 씀</p>
-            </div>
-            <div class="post_box mb-6">
-                <div class="post_text mb-0">
-                    <li>윈도우 자체 내에서 텍스트파일 상 표기법과 콘솔창 텍스트 문자열 표기법의 뉴라인 코드가 달라서 "r"과 "rb"에 차이가 발생함</li>
-                    <li>윈도우 텍스트파일에선 새줄이 "\r\n (ascii: 0D0A)" 이고,</li>
-                    <li>윈도우 콘솔창 텍스트 문자열에선 새줄이 "\n (ascii: 0A)"이므로,</li>
-                    <li>텍스트파일을 읽어 올 땐 "\r\n"을 "\n"으로 번역해줘야 함</li>
-                    <li>반대로 텍스트파일에 쓸 땐 "\n"을 "\r\n"으로 번역해줘야 함</li>
-                    <li>만약 텍스트 파일에 쓸 때, "\n"을 "\r\n (ascii: 0D0A)"으로 번역을 안하고, "\n (ascii: 0A)"을 고대로 쓸 경우 ("wb" 바이너리 모드) ,그 텍스트파일 열어보면, 줄바꿈이 안되어 있음.</li>
-                    <li>* UNIX 시스템은 텍스트파일이나 콘솔 텍스트나 새줄은 동일하게 "\n" 이므로,rb나 r이나 다르게 읽고 쓸 필요가 없음.</li>
-                </div>
-            </div>
-            <div class="post_subheading">파일 쓰기 예시</div>
-            <img src="{% static 'img/sourcecode/post10-33.png' %}">
-            <div class="post_text">
-                <li>"wb" 이진파일에서는 정상적으로 저장이 됨</li>
-                <li>"w", "w+"로 파일을 쓸 경우 원래 파일에 있던 내용이 모두 사라짐</li>
-            </div>
-            <img src="{% static 'img/sourcecode/post10-34.png' %}">
-            <div class="post_text">
-                <li>추가적으로 다음과 같이 저장을 해여도 바로 파일에 바로 써지지 않음</li>
-                <img src="{% static 'img/sourcecode/post10-35.png' %}" class="ml-7 w-1/3">
-                <li>버퍼링에 우선적으로 저장을 해두고 다음 단계로 넘어가게 됨</li>
-                <li>즉, 보통 쓰기는 버퍼링 때문에 바로 파일에 저장되지 않음</li>
-                <p class="ml-7">1. '\n'이 들어오거나</p>
-                <p class="ml-7">2. fflush( )를 호출해야함</p>
-                <li>fwrite( )는 '\n'을 '\n'으로 인식을 못 함</li>
-                <img src="{% static 'img/sourcecode/post10-36.png' %}" class="ml-7">
-                <div class="ml-7">
-                    <p>a. 첫 번쨰 인자로 받는 buffer가 char*도 아니고 int*도 아니고 float*도 아니고 그냥 void*임</p>
-                    <p>b. 즉, fwrite( ) 입장에서는 그냥 비트 패턴이 줄줄이 들어옴</p>
-                    <p class="ml-5">⇒ char*로 들어오면 1바이트 단위로 읽어서 아스키코드로 인식하지만 void*기 때문에 숫자에 의마가 없음</p>
-                    <p>c. 0x0A가 fwrite( )입장에서 '\n'를 의미하는지 정수 10을 의마하는지 아니면 부동소수점의 일부 인지 알 수가 없음</p>
-                    <p>d. 따라서 fflush( )만이 유일한 해결법!</p>
-                </div>
-            </div>
-            <img src="{% static 'img/sourcecode/post10-37.png' %}">
-            <div class="post_text">
-                <li>파일에 바로 쓰기 가능!</li>
-                <img src="{% static 'img/sourcecode/post10-38.png' %}" class="ml-7 w-1/3">
-            </div>
-            <div class="post_subheading">파일 읽기 예시</div>
-            <img src="{% static 'img/sourcecode/post10-39.png' %}">
-            <div class="post_text">
-                <li>이진데이터와 파일데이터의 큰 차이는 새줄 처리 문자정도!</li>
-            </div>
-            <div class="post_subheading">파일에 이어쓰기 예시</div>
-            <img src="{% static 'img/sourcecode/post10-40.png' %}" class="mb-6">
-            <div class="post_subheading">파일닫기</div>
-            <div class="post_text ml-0">
-                <p>⇒ 앞서 코드에서 파일을 열기만 하고 닫지를 않았음</p>
-            </div>
-            <img src="{% static 'img/sourcecode/post10-41.png' %}">
-            <div class="post_text">
-                <li>열어둔 파일을 안 닫으면 문제가 됨</li>
-                <li>파일은 운영체제가 열어주지만, 운영체제는 우리가 언제 파일을 다 써서 필요가 없는지 모름</li>
-                <li>따라서 직접 말 안해주면 알아서 닫아주지 않음</li>
-                <li>계속 파일을 열기만 한다면 어느 순간 운영체제가 더이상 파일을 열 수가 없음</li>
-                <li>C#에서는 언어가 알아서 해줬지만, C는 그렇지 않음</li>
-                <li class="font-bold">열었으면 언제다 닫아줘야함!!</li>
-            </div>
-            <img src="{% static 'img/sourcecode/post10-42.png' %}">
-            <div class="post_text">
-                <li>파일을 닫음</li>
-                <li>성공하면 0, 실패하면 EOF를 반환</li>
-                <li>버퍼링 중인 스트림은 다음과 같이 작종</li>
-                <div class="ml-7">
-                    <p>a. 출력 스트림 : 버퍼에 남아있는 데이터는 파일로 다 보냄</p>
-                    <p>b. 입력 스트림 : 무시하고 끝남</p>
-                </div>
-                <li class="font-bold">통제하지 못하는 환경에 대해서 신경써야함</li>
-                <div class="ml-7">
-                    <p>a. 파일이 없는 경우</p>
-                    <p>b. 있었는데 누가 지우는 경우</p>
-                </div>
-                <li class="font-bold">파일 닫기에 실패하면 예외처리를 해줘야함</li>
-                <p class="ml-7">⇒ 하지만 C는 애외처리가 따로 없음</p>
-            </div>
-            <div class="post_subheading">예외처리</div>
-            <div class="post_text ml-0 mb-0">
-                <p>⇒ fopen( ) 함수는 실패하면 널 포인터를 반환함</p>
-            </div>
-            <img src="{% static 'img/sourcecode/post10-43.png' %}" class="mb-6">
-            <div class="post_subheading">stderr</div>
-            <div class="post_text">
-                <li>프로그램이 실행될 때 자동으로 3개의 스트림을 만들어줌 (stdout, stdin, stderr)</li>
-                <li>stderr은 stdout과 비슷</li>
-                <li>다만, stderr는 오류 관련 메세지를 출력하는 전용 스트림</li>
-                <div class="ml-7">
-                    <p>a. 반드시 규칙은 아니고 그냥 관습</p>
-                    <p>b. 참고로 stderr은 보통 버퍼링을 쓰지 않음 (오류는 바로바로 보여줘야하기 때문)</p>
-                </div>
-                <li>콘솔창에서 실행할 때 stdout과 stderr 모두 까만 화면에 같이 섞여 나옴</li>
-                <p class="ml-7">⇒ 입출력 리디렉션을 통해 분리 가능</p>
-            </div>
-            <div class="post_subheading">파일 열기에 실패할 경우</div>
-            <img src="{% static 'img/sourcecode/post10-44.png' %}" class="mb-1">
-            <div class="post_console">
-                <p>> a.exe</p>
-                <p>error while opening no_file.txt</p>
-            </div>
-            <div class="post_text">
-                <li>!stream : stream이 NULL일 때</li>
-                <li>stream : 스트림이 존재한다면</li>
-                <p class="ml-7">⇒ 즉, !stream은 스트림이 존재하지 않는다면 → 스트림이 NULL일 때를 의미함</p>
-            </div>
-            <div class="post_subheading">오류코드를 보여주는 코드</div>
-            <div class="post_text mb-0">
-                <li>단순히 실패했단 사실 말고 왜 실패했는지 이유를 알 수 있음</li>
-                <li>몇몇 표준 라이브러리 함수들이 실패할 때 그 이유를 숫자(오류코드)로 어딘가 저장해둠</li>
-                <li>errno라는 매크로(#define) → < errno.h >안에 있음</li>
-            </div>
-            <img src="{% static 'img/sourcecode/post10-45.png' %}" class="mb-1">
-            <div class="post_console">
-                <p>> a.exe</p>
-                <p>[2] error while opening no_file.txt</p>
-            </div>
-            <div class="post_text">
-                <li>하지만 이 숫자는 각 컴파일러마다 의미가 달라서 숫자의 의미를 알 방법이 없음</li>
-            </div>
-            <div class="post_subheading">오류코드를 말로 설명해주는 함수</div>
-            <img src="{% static 'img/sourcecode/post10-46.png' %}">
-            <div class="post_text mb-0">
-                <li>< string.h >에 정의됨</li>
-                <li>errno를 넣으면 문자열로 된 친절한 설명을 돌려줌</li>
-            </div>
-            <img src="{% static 'img/sourcecode/post10-47.png' %}" class="mb-1">
-            <div class="post_console mb-6">
-                <p>> a.exe</p>
-                <p>no_file.txt - No such file or directory</p>
-            </div>
-            <div class="post_subheading">perror()</div>
-            <img src="{% static 'img/sourcecode/post10-48.png' %}">
-            <div class="post_text mb-0">
-                <li>이때까지 보여준 오류 내용들을 모두 보여주는 함수</li>
-                <p class="ml-7">⇒ 내부적으로 오류 관련 함수들을 호출해준다고 생각하면 됨</p>
-            </div>
-            <img src="{% static 'img/sourcecode/post10-49.png' %}" class="mb-1">
-            <div class="post_console mb-6">
-                <p>> a.exe</p>
-                <p>error while opening: No such file or directory</p>
-            </div>
-            <div class="post_subheading">참고 : C에서의 오류 처리</div>
-            <div class="post_text">
-                <p>1. 함수가 곧바로 오류코드를 반환</p>
-                <p>2. 내부적으로 오류코드를 전역변수로 들고 있고 있다가 검사</p>
-            </div>
-            <div class="post_subheading">파일 복사하기</div>
-            <img src="{% static 'img/sourcecode/post10-50.png' %}" class="mb-6">
-        </div>
-        <div id="파일탐색">
-            <div class="post_heading">파일 탐색</div>
-            <div class="post_text">
-                <li>스트림은 항 방향으로 흐르며 읽음</li>
-                <li>다음에 쓸 위치 또는 읽을 위치로 옮길 수 있음</li>
-            </div>
-            <div class="post_subheading">파일 위치 표시자(file position indicator)</div>
-            <div class="post_text mb-0">
-                <li>스트림 안에서 현재 위치를 나타내줌</li>
-            </div>
-            <div class="post_box mb-6">
-                <div class="post_text mb-0">
-                    <p class="font-bold">< 스트림의 표시자 ></p>
-                    <p>→ 총 3개의 표시자가 있음</p>
-                    <div class="ml-3">
-                        <p>1. EOF 표시자 : clearerr( )로 지울 수 있음</p>
-                        <p>오류 표시자 : clearerr( )로 지울 수 있음</p>
-                        <p>파일 위치 표시자 : 지울 수 없음</p>
-                        <p class="ml-7">⇒ 파일 위치 표시자는 오류 상황을 나타내는게 아니므로 지울 수 없음</p>
-                    </div>
-                </div>
-            </div>
-            <div class="post_subheading">스트림 위치 시작으로 되돌리기</div>
-            <img src="{% static 'img/sourcecode/post10-51.png' %}" class="mb-6">
-            <div class="post_subheading">파일 두 번 읽기</div>
-            <img src="{% static 'img/sourcecode/post10-52.png' %}" class="mb-1">
-            <div class="post_console mb-6">
-                <p>20 74 99 49 63</p>
-                <p>**rewinded**</p>
-                <p>20 74 99 49 63</p>
-            </div>
-            <div class="post_subheading">임의의 위치 옮기기</div>
-            <img src="{% static 'img/sourcecode/post10-53.png' %}">
-            <div class="post_text">
-                <li>파일 위치 표시자를 origin으로부터 offset만큼 이동함</li>
-                <li>orgin에는 세 종류(모두 매크로)가 있음</li>
-                <table class="w-1/2 table-fixed ml-7">
-                    <thead class="text-center bg-yellow-100">
-                      <tr>
-                        <th class="w-1/3 post_table_border">orgin</th>
-                        <th class="w-2/3 post_table_border">설명</th>
-                      </tr>
-                    </thead>
-                    <tbody class="text-center">
-                      <tr>
-                        <td class="post_table_border">SEEK_SET</td>
-                        <td class="post_table_border">파일의 시작</td>
-                      </tr>
-                      <tr>
-                        <td class="post_table_border">SEEK_CUR</td>
-                        <td class="post_table_border">현재 파일 위치</td>
-                      </tr>
-                      <tr>
-                        <td class="post_table_border">SEEK_END</td>
-                        <td class="post_table_border">파일의 끝</td>
-                      </tr>     
-                    </tbody>
-                </table>
-                <li>위치 이동에 성공하면 0을 반환, 실패하면 0이 아닌 수를 반환</li>
-            </div>
-            <div class="post_subheading">파일의 앞에서 약간 뒤로 이동하기</div>
-            <img src="{% static 'img/sourcecode/post10-54.png' %}" class="mb-1">
-            <div class="post_console mb-6">
-                <p>74 99 49 63</p>
-                <p>-</p>
-            </div>
-            <div class="post_subheading">파일의 앞으로 이동 실패</div>
-            <img src="{% static 'img/sourcecode/post10-55.png' %}" class="mb-1">
-            <div class="post_console mb-6">
-                <p>error while seeking: Invalid argument</p>
-                <p>-</p>
-            </div>
-            <div class="post_subheading">끝에서 앞으로 이동</div>
-            <div class="post_text mb-0">
-                <li>파일의 끝에서 다시 앞으로 가는건 가능</li>
-                <li>하지만 파일의 처음에서더 앞으로 가는 것은 당연히 불가능</li>
-            </div>
-            <img src="{% static 'img/sourcecode/post10-56.png' %}" class="mb-6">
-            <div class="post_subheading">파일 위치 표시자의 현재 위치</div>
-            <img src="{% static 'img/sourcecode/post10-57.png' %}">
-            <div class="post_text">
-                <li>파일 위치 표시자의 현재 위치를 알려주는 함수</li>
-                <li>실패하면 -1을 반환</li>
-                <div class="ml-7">
-                    <p>a. 일반적인 파일 스트림에서는 발생하지 않음</p>
-                    <p>b. 파일 크기가 없는 파일 스트림(예: 소켓, 파이프 등)에서 발생</p>
-                    <p>c. 파일의 크기가 제공되지 않는 경우에도 발생 가능(예: 가상 파일 시스템)</p>
-                </div>
-                <li>바이너리 모드로 열었을 때는 파일의 시작 지점으로부터 몇 바이트 떨어져 있는지를 알려줌</li>
-                <li>텍스트 모드로 열었을 때 어떤 값을 반환할지 정해져 있지 않으나 유효값을 반환해줌</li>
-                <p class="ml-7">⇒ 유효? fseek( )의 offset 매개편수로 사용할 때</p>
-            </div>
-        </div>
-        <div id="입출력리디렉션">
-            <div class="post_heading">입출력 리디렉션(IO redirection)</div>
-            <div class="post_text">
-                <li>파일 입출력과 다르지만 헷갈릴 수 있어 서로 비교가 필요함</li>
-                <li>리디렉션 : 방향을 틀어주는 것</li>
-                <li>즉, 입력이나 출력이 들어오고 나가는 방향을 다른데로 돌려줌</li>
-                <li>입력 리디렉션 <span class="font-bold">(코드 변경 없음)</span></li>
-                <p class="ml-7">⇒ 텍스트 파일을 열어 stdin에 대신 타이핑을 쳐주는 기능</p>
-                <li>출력 리디렉션 <span class="font-bold">(코드 변경 없음)</span></li>
-                <p class="ml-7">⇒ stdout에 출력되는 것을 화면에 보여주는 대신 텍스트 파일에 저장</p>
-                <p class="ml-7">⇒ 마찬가지로 stderr에 출력되는 것도 별도의 텍스트 파일에 저장해줌</p>
-                <li class="font-bold">입출력 리디렉션은 C의 기능이 아니라 커맨드 라인 또는 shell의 기능! → 어떤 프로그램에 써도됨</li>
-            </div>
-            <div class="post_subheading">사용 방법</div>
-            <div class="post_console">
-                <p>> a.exe < input.txt > output.txt 2> error.txt</p>
-            </div>
-            <div class="post_text">
-                <li>stdin : < 를 사용</li>
-                <li>stdout : > 를 사용</li>
-                <li>stderr : 2> 를 사용</li>
-                <li>셋 중 필요한 것만 골라 사용 가능</li>
-            </div>
-            <div class="post_box mb-6">
-                <div class="post_text mb-0">
-                    <p class="font-bold">이제까지 테스트를 진행할 때 콘솔창에 하나하나 타이팡을 다 해서 input.txt에 저장하고 a < input.txt를 해주면 끝!</p>
-                    <li>출력과 오류 메세지의 확실한 구분 가능</li>
-                    <div class="ml-7">
-                        <p>a. 출력만 파일에 저장, 오류 메세지는 여전히 화면에</p>
-                        <p>b. 아니면 출력을 화면에, 오류 메세지는 파일에</p>
-                        <p>c. 아니면 둘 다 별도의 파일에</p>
-                    </div>
-                </div>
-            </div>
-            <div class="post_subheading">파일을 다 읽는 순간 EOF가 자동으로 추가</div>
-            <div class="post_text">
-                <li>기존에 키보드에서 직접 입력할 때는 EOF + 엔터를 쳐줘야 했음</li>
-                <div class="ml-7">
-                    <p>a. 프로그램이 키보드 입력의 끝을 알 수 없으니 사용자가 직접 넣어줄 수 밖에 없었음</p>
-                    <p>b. 그러나 EOF 뒤에 새 줄 문자가 따라옴</p>
-                    <p>c. 다시 읽는 함수를 호출하면 문제가 될 수도 있음</p>
-                    <p>d. 하지만 파일로 입력 리디렉션을 대신할 경우 자동으로 EOF가 입력됨</p>
-                    <p class="ml-5">⇒ EOF(end of file)의 이유</p>
-                </div>
-            </div>
-            <div class="post_subheading">빈 input.txt를 읽을 때</div>
-            <img src="{% static 'img/sourcecode/post10-58.png' %}">
-            <img src="{% static 'img/sourcecode/post10-59.png' %}" class="mb-6">
-            <div class="post_subheading">input.txt의 숫자를 출력하기</div>
-            <img src="{% static 'img/sourcecode/post10-60.png' %}">
-            <img src="{% static 'img/sourcecode/post10-61.png' %}">
-            <div class="post_text">
-                <li>콘솔창에는 아무것도 없음!</li>
-                <li>타이핑을 안치고 파일로 stdin으로 전달 가능!</li>
-                <li>이렇게 stderr과 stdout가 분리 가능</li>
-            </div>
-            <div class="post_subheading">주의 : fopen()</div>
-            <div class="post_text">
-                <li>리디렉션과 파일을 여는 것은 완벽하게 다름</li>
-                <li>리디렉션을 하라고 할 때 파일을 여는 fopen( )을 하거나 파일을 열려고 리디렉션 하는 경우가 종종 있음</li>
-            </div>
-        </div>
-        <div id="커맨드라인인자">
-            <div class="post_heading">커맨드 라인 인자</div>
-            <div class="post_console">
-                <p>> filecopy.exe a.txt b.txt</p>
-                <p class="text-yellow-300">filecopy.exe(프로그램 이름), a.txt/b.txt(커맨드 라인 인자)</p>
-            </div>
-            <div class="post_text">
-                <li>커맨드 라인에서 프로그램을 실행할 때 인자를 넣어주는 방법</li>
-                <li>위와 같이 들어온 인자들은 main( ) 함수의 매개변수에서 읽어올 수 있음</li>
-            </div>
-            <div class="post_subheading">커맨드 라인 인자를 받는 main() 함수</div>
-            <img src="{% static 'img/sourcecode/post10-62.png' %}">
-            <div class="post_text">
-                <li>argc는 들어온 인자의 수</li>
-                <p class="ml-7">⇒ 이 수에는 실행한 파일의 이름까지 포함</p>
-                <li>아래의 경우 argc는 3임</li>
-                <div class="post_console ml-7 w-1/2">
-                    <p>> filecopy.exe a.txt b.txt</p>
-                </div>
-                <div class="ml-7">
-                    <p>a. 첫 번째 인자 : 실행한 파일의 경로</p>
-                    <p>b. 나머지 인자 : 그 후에 따라온 2개의 인자</p>
-                </div>
-                <li>argv는 char 포인터 배열</li>
-                <div class="ml-7">
-                    <p>a. argv[argc + 1]로 생성됨</p>
-                    <p>b. argv[argc + 1]로 생성됨</p>
-                    <p class="ml-5">⇒ argv[0] = filecopy.exe</p>
-                    <p>c. argv[1] ~ argv[argc-1] : 커맨드 라인 인자들이 순차적으로 들어옴</p>
-                    <p class="ml-5">⇒ argv[1] = a.txt / argv[2] = b2.txt</p>
-                    <p>d. argv[argc] : NULL</p>
-                </div>
-            </div>
-            <div class="post_subheading">char* argv[]는 포인터의 배열의 배열</div>
-            <div class="post_text mb-0">
-                <li>각 포인터는 그냥 C 스타일 문자열</li>
-                <div class="ml-7">
-                    <p>1. 커맨드 라인에 들어온 값을 프로그램 실행할 때 만든 프로세스의 메모리 어딘가에 저장하고</p>
-                    <p>2. 그 주소들을 모아 argv[ ]배열에 넣어 보내주는 것</p>
-                    <p class="ml-5">⇒ 정확히 어떤 메모리에 들어가는지는 OS에 따라 다름</p>
-                </div>
-            </div>
-            <div class="post_console">
-                <p>> filecopy.exe a.txt b.txt</p>
-            </div>
-            <div class="post_text">
-                <li>argv[0][3]은 e가 됨</li>
-            </div>
-            <div class="post_subheading">주의 : 입출력 리디렉션과의 차이</div>
-            <div class="post_text mb-0">
-                <li>입출력 리디렉션은 커맨드 라인 인자로 들어오지 않음</li>
-            </div>
-            <img src="{% static 'img/sourcecode/post10-63.png' %}" class="mb-1">
-            <div class="post_console mb-6">
-                <p>> a.exe < hello.txt</p>
-                <p>argc: 1</p>
-                <p>argv[0]: a.exe</p>
-            </div>
-            <div class="post_subheading">제대로 된 파일복사</div>
-            <div class="post_text ml-0 mb-0">
-                <p>⇒ 앞부분은 동일 main 함수만 바뀜</p>
-            </div>
-            <img src="{% static 'img/sourcecode/post10-64.png' %}">
-        </div>
-    </main>
+<main class="container w-1/2 mx-auto font_kor">
+
+{% include "blog/all_posts/css_post.html" %}
+  
+<!-- notion html -->
+<body><article id="aab5c167-e485-4ee4-b0ea-960c3fb88b3d" class="page sans"><div class="page-body"><h2 id="2c65ed70-41ba-4475-b35a-e1a520c7d1c0" class="">입력(Input)</h2><ul id="94eb499f-73e8-4bc4-845d-ef4199a6ad08" class="bulleted-list"><li style="list-style-type:disc">출력의 반대</li></ul><ul id="0dbd5946-2234-4119-8b5f-812fc63fa9ae" class="bulleted-list"><li style="list-style-type:disc">외부의 데이터를 읽어와서 프로그램에서 사용</li></ul><ul id="a8c02600-cbaa-436c-9396-156469f6f95a" class="bulleted-list"><li style="list-style-type:disc">어떤 데이터가 들어올지 몰라서 괴상한 데이터가 종종 들어옴<ul id="bbda746e-76ef-41f7-8072-8611efb1ec1a" class="bulleted-list"><li style="list-style-type:circle">사용자가 잘못된 데이터를 키보드에서 입력</li></ul><ul id="3df58cbd-2871-4cd1-b60f-befd100257ca" class="bulleted-list"><li style="list-style-type:circle">예전에 저장해 놓은 파일을 누가 잘못 바꿨거나 일부 데이터가 유실</li></ul></li></ul><h3 id="0799ba5d-21a3-4732-b255-944f6d84c46e" class="">출력보다 까다로운 입력</h3><ul id="524cbce0-0c2b-4732-a4ff-9e31c9d73bb2" class="bulleted-list"><li style="list-style-type:disc">출력에 비해 조심해야 하는 부분이 많음</li></ul><ul id="e02b632e-5440-40ca-baf5-dfe54ee0d065" class="bulleted-list"><li style="list-style-type:disc">데이터 읽기에 실패했는데 제대로 처리 안하면 여러 가지 오류들이 팡팡 터짐<p id="aa955c38-968e-4eef-83b2-9d3e4df09408" class="">⇒ 정말 많이 실수하는 부분임</p></li></ul><ul id="ac93bee0-fb20-44b6-9c94-3df3ee31bcbb" class="bulleted-list"><li style="list-style-type:disc">그래서 모든 입력 함수에는 반환값이 있음</li></ul><ul id="40accbe0-a5f1-4cc6-abab-ed62ae3a6487" class="bulleted-list"><li style="list-style-type:disc"><strong>따라서 어떤 함수가 어떤 값을 반환하는지 문서에서 확실하게 읽고 코드에서 검사해야함</strong></li></ul><ul id="6eaa6cc1-24cb-4ebe-b8b1-1bf3dde9c2f7" class="bulleted-list"><li style="list-style-type:disc">대부분 입력 처리 코드의 문제는 반환값이 뭔지 문서를 제대로 읽지 않아서 발생함</li></ul><h3 id="51e50710-7d6b-4f1a-9dbb-1722429d08ce" class="">입력의 출처</h3><ul id="39edb5e7-af5f-43f3-936d-c1a8e42a2436" class="bulleted-list"><li style="list-style-type:disc">어디선가 출력을 했다면 거기서 읽어올 수 있다고 생각하면 입력이 어디서 읽어오는지 이해하기 쉬움</li></ul><ul id="4fc46707-ee4c-4b64-9c14-60b44899d797" class="bulleted-list"><li style="list-style-type:disc">스트림<ul id="edb74596-fafa-475c-99fa-6ef7acec4446" class="bulleted-list"><li style="list-style-type:circle">콘솔 창에 출력(저장)했으니 콘솔(키보드)로부터 입력을 받아옴(읽어옴)</li></ul><ul id="5b50bb4b-029c-44e0-ba76-55d57c07dd71" class="bulleted-list"><li style="list-style-type:circle">파일에 출력(저장)했으니 파일로부터 입력을 받아옴(읽어옴)</li></ul><ul id="0ee985ec-eb52-4c61-bc8d-cf90fcf7f32a" class="bulleted-list"><li style="list-style-type:circle">등등</li></ul></li></ul><ul id="1487ced1-3832-400b-a4da-15566416e04c" class="bulleted-list"><li style="list-style-type:disc">문자열<ul id="05439810-8a0f-48ab-b95c-ee059b7f3a22" class="bulleted-list"><li style="list-style-type:circle">문자열에 출력(저장)했으니 문자열로부터 입력을 받아옴(읽어옴)</li></ul></li></ul><h3 id="953c0159-34f2-4663-8ff6-ba9407046c59" class="">입력 처리 전략</h3><p id="ef1c4c4d-40ae-46bf-995c-fe60a8eb36a4" class="">1) 한 글자씩 읽기</p><p id="4a69753b-3477-461e-bd9c-40adcfeab5cc" class="">2) 한 줄씩 읽기</p><p id="8cae6c99-6c43-44e0-990d-b00a04de992d" class="">3) 한 데이터씩 읽기</p><p id="5c05d97a-47de-442b-bbce-252fcf96c01d" class="">4) 한 블록씩 읽기</p><h2 id="58b63051-0c10-4f83-a52e-1f8728fcbee4" class="">(1) 한 글자씩 읽기</h2><h3 id="efe2f2d0-6b3c-4d73-a96f-a5b9f41783d0" class="">&lt;시도 1&gt; 한 글자씩 읽는 알고리즘</h3><p id="326baeca-f17f-4ed3-a1b9-78f5c10bd73a" class="">1) 한 글자(<code>char</code>)를 읽어옴</p><p id="1d4072a7-a0eb-4c04-8d24-1e3e82928ee2" class="">2) 그 글자를 필요한 곳에 사용함</p><p id="611398a2-6a59-4768-bc68-8791e96a8190" class="">3) 1번 단계로 되돌아감</p><h3 id="23ca147a-9791-434e-8307-4019b46dbeba" class="">&lt;시도 1&gt; 코드</h3><pre id="dd6593c0-27f3-454a-983d-0cdc4dec4252" class="code"><code>#incldue &lt;stdio.h&gt;
+
+int c;
+
+while (TRUE) {                 /* #define TRUE (1) */
+	c = getchar();
+	putchar(c);
+}
+
+/*
+1. get(char) 함수가 아직 반환 안함 (대기 중)
+2. 키보드로 &#x27;abcde&#x27;를 입력 후 엔터키를 누름
+3. 버퍼로부터 한 글자를 읽어옴
+4. 읽은 문자를 출력
+5. 더 이상 버퍼에 문자가 없으면 1번으로 돌아감
+*/</code></pre><hr id="b18d0f13-d534-4d96-a308-ec25b97e62bf"/><p id="34cc73ba-000a-4c58-b4fd-ace67af889a5" class=""><strong>[ a 입력 ]</strong></p><p id="3f94a1eb-8e67-4c9d-aa94-c39c52e50b7b" class="">1) 코드를 실행하면 키보드로 입력하기 전까지 c = <code>getchar()</code>에 머물러 있음</p><p id="6b1e4317-9f79-4ecc-9bca-bb384f18e9aa" class="">2) 키보드로 a를 누르고 엔터<div class="indented"><p id="306dbb0a-e5bd-47a7-93d1-e18f58aa8b2f" class="">⇒ 스트림(버퍼)에 a, \n 입력이 됨</p></div></p><p id="37521f37-02ab-4cf5-9b46-53821edb0def" class="">3) 대입 부분 실행 → a만 먼저 읽음</p><p id="c71605d7-838c-45df-bdba-4e3961c076c1" class="">4) 화면에 a_ 출력 → 아직 줄은 바뀌지 않음 (a, a_)</p><p id="46f9a08e-13e4-4369-bff9-84ebee83cf86" class="">5) 버퍼에 문자(&#x27;\n&#x27;)가 남아 있으므로 3번으로 돌아감</p><p id="3349c60a-3367-4182-85ca-7875d3daa012" class="">6) \n을 읽음</p><p id="26a64025-5dab-4f54-935e-e0a083b99285" class="">7) \n 출력</p><p id="db3b2ffe-abaa-41c6-983b-58786e0c0c3a" class="">8) 줄 바뀜(a, a, _)</p><hr id="20d8f569-5994-4cd4-894f-3d7fd3f153ce"/><h3 id="16fc0adf-1764-4c56-b520-eafa6bdd0c37" class="">getchar()</h3><pre id="4f71cc4f-4160-4d2c-8fc7-18c9f1aa19c5" class="code"><code>int getchar(void);
+int fgetc(FILE* stream);</code></pre><ul id="7103ec70-8d80-4c19-bfe9-58a14f8074d8" class="bulleted-list"><li style="list-style-type:disc">키보드(stdin)으로부터 문자를 하나 읽어서 <code>int</code>형으로 반환<p id="dcc13ef4-69c9-4d23-a977-f2ed38580845" class="">⇒ 많은 입출력 함수들이 문자를 읽고 쓸 때 <code>char</code> 대신 <code>int</code>를 씀</p></li></ul><ul id="4cc0fd5b-7958-4f55-974f-d6e4a9f09d99" class="bulleted-list"><li style="list-style-type:disc"><code>fgetc(stdin)</code>과 같음</li></ul><h3 id="c778c5bf-19e8-44a7-8c18-76bcbe7848db" class="">&lt;시도 1&gt; 코드의 무한루프</h3><ul id="35af85d1-712b-4c46-82e1-6bb6f886b68b" class="bulleted-list"><li style="list-style-type:disc">위의 &lt;시도 1&gt; 알고리즘으로 코드를 작성 시 무한루프가 발생하며, 멈추기 위한 signal이 필요함</li></ul><h3 id="97db637c-3bc7-4791-a832-e379fb07109c" class="">getchar()의 반환값</h3><hr id="c782ea3d-82c9-4510-a385-a5b0098e79a5"/><p id="de3e0f00-fa3e-44c6-b417-f33ecdf2079a" class=""><strong>Return value</strong></p><p id="11fa747e-51c9-4161-9187-a0fea7e7f38f" class="">The obtained character on success or EOP on failure.</p><p id="f3e352df-c513-45c8-b263-4c01a9eef31a" class="">If the failure has beeen caused by end-of-file condition, additionally sets the eof indicator (see feof( )) on stdin.</p><p id="b55f1ad0-ed9b-4059-9974-4ca3393eebb5" class="">If the failure has been caused by some other error, sets the error indicator (see ferror( )) on stdin.</p><hr id="023d790e-c111-401a-b176-cf2344feb7fd"/><ul id="3b851ccf-85c0-4421-b656-1a85a351c7d3" class="bulleted-list"><li style="list-style-type:disc">성공하면 문자를, 실패하면 EOF(end-of-file)를 반환</li></ul><h3 id="df94f0e0-a642-413f-9658-ca990883f5ec" class="">입력의 끝을 나타내는 값, &#x27;EOF&#x27;</h3><ul id="74ba0f94-1c82-405e-8f31-cb9efd92a1ed" class="bulleted-list"><li style="list-style-type:disc">C 표준에 의하면 <code>EOF</code>는 음수임</li></ul><ul id="97a3a0cc-437f-4591-b403-23588db7a382" class="bulleted-list"><li style="list-style-type:disc">그런데 표준에 따르면 <code>char</code>는 부호가 있을 수도 있고 없을 수도 있음</li></ul><ul id="3faf63c8-f502-4ba9-9a9f-d83d13ad03a1" class="bulleted-list"><li style="list-style-type:disc">따라서 <code>char</code>에 언제나 음수 값을 담는 것은 불가능</li></ul><ul id="255ab4dc-78b6-4afa-89ec-a06e4ee75488" class="bulleted-list"><li style="list-style-type:disc"><strong>그렇기 때문에 </strong><code><strong>getchar()</strong></code><strong>는 </strong><code><strong>char</strong></code><strong>가 아닌 </strong><code><strong>int</strong></code><strong>를 반환함</strong></li></ul><ul id="f69d61c5-d250-47bf-9f5e-44a06095e6b7" class="bulleted-list"><li style="list-style-type:disc"><strong>정리하자면 </strong><code><strong>getchar()</strong></code><strong>값을 아스키코드로 보여줘야하고, 반환을 실패할 경우 </strong><code><strong>EOF</strong></code><strong>도 보여줘야하기 때문에 </strong><code><strong>char</strong></code><strong>가 아닌 </strong><code><strong>int</strong></code><strong>를 사용</strong></li></ul><h3 id="4a688514-55a2-4757-821b-743abfa9f5d0" class="">getchar()의 완전한 정리</h3><ul id="36411be5-8291-4dc3-a7e5-13a4e54fc8c7" class="bulleted-list"><li style="list-style-type:disc">키보드(stdin)으로부터 문자를 하나 읽음</li></ul><ul id="f15ab017-8757-4ea6-a482-dad167b665dc" class="bulleted-list"><li style="list-style-type:disc">반환값<ol type="a" id="a82f3733-9e67-49bf-8f06-2b47c0ee557e" class="numbered-list" start="1"><li>성공 시, 읽은 문자(의 아스키코드)를 반환</li></ol><ol type="a" id="99f53ee5-d1b0-4f15-a924-fdb760361f8c" class="numbered-list" start="2"><li>실패 시, <code>EOF</code>를 반환</li></ol></li></ul><ul id="e7e9d53b-31cf-4947-a39f-159c089d943c" class="bulleted-list"><li style="list-style-type:disc"><code>fgetc(stdin)</code>과 같음</li></ul><h3 id="e6b677d0-4ad3-49e3-8202-518da81c6025" class="">&lt;시도 2&gt; 한 글자씩 읽는 알고리즘</h3><p id="4fb5a87c-8ae4-48d0-8724-6b1d56538dc7" class="">1) 한 글자(<code>char</code>)를 읽어옴</p><p id="f1b0a19d-1e08-483c-99ab-7b6c973ffdfb" class="">2) 글자를 읽어오는데 실패했다면(<code>EOF</code>) 프로그램을 종료</p><p id="9ea2a50f-1d2c-4297-a2bc-f334833e5dd0" class="">3) 아니라면 그 글자를 필요한 곳에 사용</p><p id="55206d40-fb13-4f52-a63b-5fca42cfaa0f" class="">4) 1번 단계로 되돌아감</p><h3 id="f008374d-ddf0-459f-816a-96642c10b39b" class="">&lt;시도 2&gt; 코드</h3><pre id="e9bdbc21-0e02-43ba-801e-feda386caa9f" class="code"><code>#include &lt;stdio.h&gt;
+
+int c;
+
+c = getchar();
+
+while (c != EOF) {
+	putchar(c)
+	c = getchar();
+}</code></pre><h3 id="a1ac1866-2a9d-4074-903e-7645ee58136b" class="">EOF 키</h3><ul id="51b12579-2539-489a-b5da-88c19bfec295" class="bulleted-list"><li style="list-style-type:disc"><code>ctrl</code>키와 다른 키를 조합해서 넣음<ol type="a" id="eae16638-7c19-4165-86ec-13d0110c8e23" class="numbered-list" start="1"><li>윈도우 : <code>ctrl + z</code></li></ol><ol type="a" id="7f387481-4ca8-4514-8008-f12d43e7e826" class="numbered-list" start="2"><li>유닉스와 같은 시스템들 : <code>ctrl + d</code></li></ol></li></ul><h3 id="eeb7cf93-87ee-4de8-b1c1-5cc912c7d706" class="">&lt;시도 2&gt; 코드 정리</h3><pre id="966a178e-737c-4e3e-b4e6-d8a853c328ad" class="code"><code>#include &lt;stdio.h&gt;
+
+int c;
+
+c = getchar();
+
+while (c != EOF) {
+	putchar(c)
+	c = getchar();
+}</code></pre><ul id="101994ab-ec1d-41c8-80c8-4a0a8e0ebc0d" class="bulleted-list"><li style="list-style-type:disc"><code>getchar()</code>가 두번 있음</li></ul><ul id="1fa78c35-b816-4a45-8ec7-7bf3aeb5aadc" class="bulleted-list"><li style="list-style-type:disc">do while문으로 해결 불가능 ⇒ while 검사 전에 c를 사용하기 때문</li></ul><ul id="2dfcf454-daac-4876-b9fe-c38f4e32063a" class="bulleted-list"><li style="list-style-type:disc">한번으로 줄일 수 있음</li></ul><pre id="dd6891b1-e000-4c34-8cdd-b05554adda0b" class="code"><code>int c;
+while ((c = getchar()) != EOF) {
+	putchar(c);
+}</code></pre><ol type="1" id="7e813438-fa4b-4db0-91eb-a6b071901709" class="numbered-list" start="1"><li><code>(c = getchar())</code> : 먼저 <code>getchar()</code> 실행! 나머지는 일단 무시<p id="b10c52cd-bf8f-4f3f-befa-5f75a4917d22" class="">⇒ 키보드로 7을 입력했다면 7의 아스키코드(0x37)가 반환</p></li></ol><ol type="1" id="50d2be87-0098-4c56-8e28-afc70b22a521" class="numbered-list" start="2"><li><code>!= EOF</code> : 이제 c에 든 값과 <code>EOF</code>와 비교</li></ol><h3 id="b2881e1e-503f-4283-b30a-06a200ab0c1c" class="">c = getchar()를 괄호로 감싸지 않을 경우</h3><pre id="d5218aa5-1f32-4094-afda-b210d9a8e85c" class="code"><code>int c;
+while (c = getchar() != EOF) {
+	putchar(c);
+}</code></pre><ul id="23c41bd5-38e2-4b69-b753-ad361375bf03" class="bulleted-list"><li style="list-style-type:disc"><code>!=</code> 연산자가 <code>=</code> 연산자보다 연산자 결합 우선순위가 더 높음</li></ul><ul id="c85ae010-a6fc-413a-a682-d6f77b9a6008" class="bulleted-list"><li style="list-style-type:disc">따라서 <code>c = (getchar( ) != EOF)</code>가 되어버림<p id="0451f259-6b8c-4360-ae8f-7c93da4e3f6e" class="">⇒ 이 경우 c는 0 또는 1이 됨</p></li></ul><ul id="40c90812-9b0b-4ead-9fa6-f4d46ef88eef" class="bulleted-list"><li style="list-style-type:disc">한 줄로 줄이는 것은 실수가 쉬움 → 그래서 요즘 다른 언어에서는 잘 하지 않는 방법</li></ul><h3 id="7badec3e-4593-479e-b2d5-afb90c12a8a6" class="">한 글자씩 읽는 방법이 유용한 경우</h3><ul id="06c876c0-17c0-42ec-adb4-6ba2219f212b" class="bulleted-list"><li style="list-style-type:disc">가장 간단한 입력 방법</li></ul><ul id="bc36bddd-f2d8-4b22-ae2c-7eec0fa35c79" class="bulleted-list"><li style="list-style-type:disc">입력이 문자/문자열일 때 매우 좋음</li></ul><ul id="f99e28e1-6449-4f79-a3e3-d02825c90116" class="bulleted-list"><li style="list-style-type:disc">쓸데없이 메모리에 입력값을 저장해 두지 않아도 됨<ul id="7b12d7f9-adec-427e-bc6d-a63faa28d7f3" class="bulleted-list"><li style="list-style-type:circle">용량 절약</li></ul><ul id="74edcac8-e37f-47b5-90a7-95a14ee6410f" class="bulleted-list"><li style="list-style-type:circle">실수 줄임</li></ul></li></ul><ul id="afe30e26-9907-4664-8e3c-8d402e4af802" class="bulleted-list"><li style="list-style-type:disc">O(N)<ul id="11e01bd2-a2b7-4f3e-a320-7190bfaa3d38" class="bulleted-list"><li style="list-style-type:circle">for문 딱 한 번만 도는 알고리즘에 적합한 경우가 많음</li></ul><ul id="785687a6-e1fd-49ce-ba1c-59b01914026d" class="bulleted-list"><li style="list-style-type:circle">입력값을 모두 읽어 저장해두고 for문을 돌려 처리하는 것이나 키보드로부터 한 글자씩 읽어서 곧바로 처리하는 것이나 같은 것이니, 굳이 메모리를 잡아먹지 않고 처리하는 것이 효율적일 수 있음</li></ul></li></ul><ul id="ef31ea1d-ac7e-41c4-8d12-3d21a3621245" class="bulleted-list"><li style="list-style-type:disc">그러나 다른 데이터형으로 쓰기는 어려움<p id="ee08ea22-0eb9-4555-ba2d-00bd214340d5" class="">예 : 정수형 숫자 1004 읽기 ⇒ &#x27;1&#x27;, &#x27;0&#x27;, &#x27;0&#x27;, &#x27;4&#x27; 이렇게 4번 읽어서 다시 정수로 변환하기 제한이 됨</p></li></ul><h3 id="536cf83f-98e2-4420-b747-a5dcaf5a0595" class="">공백(whtiespace)과 줄 수 세기</h3><pre id="6307ad7f-f3d9-41cb-9943-eac5a4893a72" class="code"><code>#include &lt;ctype.h&gt;
+#include &lt;stdio.h&gt;
+
+#include &quot;whitespace_counter.h&quot;
+
+void print_whitespace_stat(void)
+{
+	int c;
+	size_t num_whitespaces = 0u;
+	size_t num newlines = 0u;
+
+	c = getchar();
+	while (c != EOF) {
+		if (is_space(c)) {
+			++num_whilespaces;
+
+			if (c == &#x27;/n&#x27;) {
+				++num_newlines;
+			}
+		}
+	
+		c = getchar();
+	}
+	
+	printf(&quot;# whitespaces: %5d\n&quot;, num_whitespaces);
+	printf(&quot;# new lines: %5d\n&quot;, num_newlines);
+}
+
+/* 메인 함수 */
+
+#include &quot;whitespace_counter.h&quot;
+
+int main(void)
+{
+	print_whitespace_stat();
+
+	return 0;
+}</code></pre><ul id="c529457b-0a47-460f-b434-b156dce83382" class="bulleted-list"><li style="list-style-type:disc">whitespace<ul id="0460f291-1147-450e-89ae-d3fa62ae0aea" class="bulleted-list"><li style="list-style-type:circle">보통 공백문자하면 스페이스(&#x27; &#x27;)만 생각하지만 그 외 다른 것들도 있음</li></ul><ul id="8879a079-0bf9-4d83-b190-05a5e5330ea3" class="bulleted-list"><li style="list-style-type:circle">tab이나 new line 등 다양한 것들이 공백문자에 포함이 됨</li></ul></li></ul><ul id="21168779-e149-42ec-a480-bc046170f81e" class="bulleted-list"><li style="list-style-type:disc"><code>is_space</code> 함수: 표준 라이브러리에서 제공 → <code>ctype.h</code>에 들어있음<p id="81d36f4b-653c-42a8-a9fd-7b5f57659af3" class="">⇒ tab, new line 모두 찾아냄</p></li></ul><ul id="86c19cba-2d1d-4f59-b9c9-052793d83072" class="bulleted-list"><li style="list-style-type:disc">따라서 줄바꿈은 별도로 count 해줌</li></ul><h2 id="b176456c-92e9-4a47-8fca-5b0105551683" class="">(2) 한 줄씩 읽기</h2><p id="ea131dd0-fc62-40f6-8b7b-1d36b59271d7" class="">⇒ new line 단위로 읽기</p><p id="62fb11d7-cb18-422f-bfec-889ea20ef999" class="">1) 한 줄을 읽어옴</p><p id="2bec975d-3089-4437-9cd5-c874068b938b" class="">2) 한 줄을 읽어오는데 실패하면 프로그램 종료</p><p id="50409415-5dcf-4781-bc4a-f5b455961d9f" class="">3) 성공했다면 한 줄을 읽어온 데이터를 필요에 따라 사용</p><p id="5f319529-5201-400d-b32c-dc4f3ddeb9bf" class="">4) 1번 단계로 되돌아감</p><h3 id="1514c0cb-d463-4711-85d5-4488bb6e1497" class="">한 줄을 읽는 방법</h3><ul id="aa932f99-2bfb-4db1-be94-5819ab9be7e9" class="bulleted-list"><li style="list-style-type:disc">C에선 절대로 자동으로 함수를 불러와 새로운 문자열을 반환해주거나 하지 않음</li></ul><ul id="d08fc4ef-fdc3-4571-864b-99bf3317cda5" class="bulleted-list"><li style="list-style-type:disc">프로그래머가 미리 만든 배열을 함수에 전달하여, 그 함수가 배열의 한줄을 읽어옴</li></ul><ul id="64e91e9f-4f0f-4352-9b68-59fc8259934e" class="bulleted-list"><li style="list-style-type:disc">한 줄을 읽어오는 함수 <code>gets()</code><p id="188dc42f-158b-469b-aaae-fdba82fc5982" class="">⇒ 위험한 함수!!</p></li></ul><h3 id="0aa46e0a-9448-4d84-9e42-7f6549f65cba" class="">gets()</h3><pre id="a9a3467e-16b6-4bc4-891d-a8dbb235492e" class="code"><code>char* get(char* str);</code></pre><ul id="91e1ae96-9283-4ef0-8016-3e7c92f51921" class="bulleted-list"><li style="list-style-type:disc">stdin에서 새 줄 문자(&#x27;<code>\n</code>&#x27;) 또는 <code>EOF</code>를 만날 때까지 계속 문자들을 읽어서 str 배열에 저장<p id="073c5f20-f8c3-4b7b-9a5f-fdedb24edcb5" class="">⇒ 그래서 <code>str</code>이 <code>const</code>가 아님</p></li></ul><ul id="d3a76237-ec69-4d30-8b1d-2d4639484ffc" class="bulleted-list"><li style="list-style-type:disc">마지막 문자 바로 다음에 널 문자(&#x27;<code>\0</code>&#x27;)도 넣어줌 → 올바르게 문자열을 완성시켜줌</li></ul><ul id="560cb727-239f-4bb6-893a-c49235e38902" class="bulleted-list"><li style="list-style-type:disc">stdin에서 새 줄 문자를 제거하지만 버퍼에 저장하지는 않음</li></ul><h3 id="325cc0b9-420d-48f3-a14f-cd3f5d7facd3" class="">gets()의 반환값</h3><ul id="ee39c2fc-0ddf-4564-9f1a-0d7a382796a6" class="bulleted-list"><li style="list-style-type:disc">성공 시, str</li></ul><ul id="4d12de8b-36ec-47c2-8dfa-b65661bd85e2" class="bulleted-list"><li style="list-style-type:disc">실패 시, <code>NULL</code>(포인터) → 널 문자 아님!</li></ul><h3 id="d5d20efa-5fc9-438e-bde3-3b65a78394b9" class="">한 줄 읽기 코드 - 매우 위험한 코드</h3><pre id="55af57bd-e308-4d3a-8c0a-f6b93d3911ed" class="code"><code>#include &lt;stdio.h&gt;
+
+# define LINE_LENGTH (64)
+
+char line[LINE_LENGTH];
+
+while (gets(line) != NULL) {
+	puts(line);
+}</code></pre><ul id="a59e018c-af0e-4646-91d2-cdfbbf6cf0be" class="bulleted-list"><li style="list-style-type:disc"><strong>매우매우 위험한 함수!!</strong></li></ul><ul id="4131d8d2-56b6-45df-a4d7-5a00bd03bcc0" class="bulleted-list"><li style="list-style-type:disc">C11에서는 아예 함수를 제거해버림</li></ul><ul id="fc8166fc-4534-4578-997e-e75cc60d20a2" class="bulleted-list"><li style="list-style-type:disc">그래서 최신 헤더파일에서는 <code>gets()</code>가 더 이상 존재하지 않음<p id="d558c8e6-d6f4-43e4-a64f-984709986a01" class="">⇒ 굳이 쓰려면 직접 함수 원형을 전방선언 해야함</p></li></ul><h3 id="371bcf86-a6e3-4d49-910a-72e282ef4def" class="">위험한 이유 : 버퍼 오버플로</h3><ul id="c60747c1-1cbc-4462-98aa-6b21c941c1bd" class="bulleted-list"><li style="list-style-type:disc">만약 64자 이상 입력하면 → 버퍼 오버플로 발생</li></ul><ul id="afcb69e2-e083-4f7c-893b-d27b049cc030" class="bulleted-list"><li style="list-style-type:disc">단순히 <code>LINE_LENGTH</code>를 늘리는 방식은 무한 굴레로 빠지며, 통제가 불가능함</li></ul><ul id="e208631c-eb05-4d4b-b249-230596989cd2" class="bulleted-list"><li style="list-style-type:disc">올바르지 않은 메모리 주소에 키보드로 입력한 값을 써버리게 되면서 버퍼 오버플로 발생</li></ul><ul id="df6f5456-50ba-4984-86dc-60d50da56889" class="bulleted-list"><li style="list-style-type:disc"><strong>절대 절대 절대 절대 </strong><code><strong>gets()</strong></code><strong>를 써서는 안됨</strong></li></ul><h3 id="7dc66e11-41fe-4242-b4e5-7210ad2afa0f" class="">fgets()로 안전하게 한 줄 읽기</h3><pre id="a7076c77-bf5d-4929-988c-c95343c86bbf" class="code"><code>char* fgets(char* str, int count, FILE* stream);</code></pre><ul id="64ac9584-6cad-4865-8dd3-c9d59b531b42" class="bulleted-list"><li style="list-style-type:disc"><code>&lt;stdio.h&gt;</code> 안에 있음</li></ul><ul id="430e048d-a7fc-4e7e-95fa-fe0d0e73f0a5" class="bulleted-list"><li style="list-style-type:disc">최대 count - 1개의 문자열을 읽어서 str에 저장</li></ul><ul id="a8d3dc4d-bdab-4729-ae99-5c5d7beff536" class="bulleted-list"><li style="list-style-type:disc">즉, 새 줄을 만나지 않아도 이 함수가 반환될 수 있음</li></ul><ul id="b262a8ea-7966-41c1-8747-7f4e677891d7" class="bulleted-list"><li style="list-style-type:disc">str에 새 줄 문자까지 넣어줌</li></ul><h3 id="e38a1c60-ff20-4fc1-90c4-ba521209ea16" class=""><strong>fgets( )의 매개 변수</strong></h3><ul id="50757126-a856-4dfe-9f8a-3a18afce7cf5" class="bulleted-list"><li style="list-style-type:disc"><strong>str </strong>: <code>gets()</code>와 마찬가지로 입력받은 한 줄을 저장할 <code>char</code> 배열<p id="17eb368d-5236-4aba-b710-7cc2926e6054" class="">⇒ 역시 <code>const</code>가 아님</p></li></ul><ul id="da0b7df6-c38a-499e-bf45-35063e02c6a1" class="bulleted-list"><li style="list-style-type:disc"><strong>count </strong>: 한 번에 str에 쓰는 최대 문자 수<p id="75b0bdbd-66e7-424f-b7a6-15d64460b746" class="">⇒ 널 문자를 포함하기 때문에 실제로 읽어오는 문자 수는 count - 1개</p></li></ul><ul id="40e7a343-51a8-481c-865f-ba8ce881111a" class="bulleted-list"><li style="list-style-type:disc"><strong>stream </strong>: 데이터를 읽어올 스트림 (키보드를 읽어오고 싶다면 stdin을 넣어주면 됨)</li></ul><h3 id="0ec810c8-88d4-446a-a9bf-c367fdb75af6" class="">stream의 자료형 : FILE* steam</h3><ul id="a67dd54d-d601-4fe0-af15-6cc83df06ef7" class="bulleted-list"><li style="list-style-type:disc">스트림을 제어하기 위해 필요한 정보를 담고 있는 자료형</li></ul><ul id="6aeeccf8-b8d0-4e92-8476-15bd8ff54ca2" class="bulleted-list"><li style="list-style-type:disc">스트림을 제어하기 위해 필요한 정보<p id="2d22254c-7503-4f03-855a-0b7f8ebf1471" class="">1) 파일 위치 표시자</p><p id="366e988b-6609-4e29-b892-da58a08f60c5" class="">2) 스트림이 사용하는 버퍼의 포인터</p><p id="67d125be-1ae1-4f07-b309-cdb606f66783" class="">3) 읽기/쓰기 중에 발생한 오류를 기록하는 오류 표시자</p><p id="8983cbb8-34f6-4a23-bcac-79349633499a" class="">4) 파일 끝에 도달했음을 기록하는 EOF 지시자</p></li></ul><ul id="91e9d13b-f6f5-49e4-ba60-a79dce323e93" class="bulleted-list"><li style="list-style-type:disc">플랫폼마다 이 자료형을 구현하는 방식이 다를 수 있음</li></ul><ul id="83875238-bf0e-48f1-8453-856a03b2b177" class="bulleted-list"><li style="list-style-type:disc">입력 및 출력 스트림은 오직 FILE 포인터로만 접근 및 조작 가능</li></ul><ul id="ded418db-9603-4cb4-857f-b257f4adb432" class="bulleted-list"><li style="list-style-type:disc">이름이 FILE이라 파일만 될 것 같지만 다른 스트림도 모두 표현 가능</li></ul><h3 id="3ae2fce4-aa4c-47e9-852b-fb0f2f17159f" class="">fgets()의 반환값</h3><ul id="993daa88-b91f-42ca-8a9d-51a370c153df" class="bulleted-list"><li style="list-style-type:disc"><code>gets()</code>와 동일<ol type="a" id="7f5ff4e8-8380-446a-b76c-cf4f64734ce9" class="numbered-list" start="1"><li>성공 시, str을 반환</li></ol><ol type="a" id="998052af-1d37-4b44-bb5f-dd87a50f32d6" class="numbered-list" start="2"><li>실패 시, <code>NULL</code>을 반환</li></ol></li></ul><h3 id="b4de8c28-6257-42a1-8d7c-d7047f967e4d" class="">한 줄 읽기 코드</h3><pre id="0d015a35-e8ab-4e75-85d7-88c2ee5c46d5" class="code"><code>#incldue &lt;stdio.h&gt;
+
+#define LINE_LENGTH (10)
+
+char line[LINE_LENGTH]
+
+while (fgets(line, LINE_LENGTH, stdin) != NULL) {
+	printf(&quot;%s&quot;, line);
+}</code></pre><ol type="1" id="9aa51caf-a0d9-4e01-aeff-d10ceb391e57" class="numbered-list" start="1"><li><code>123456789abcd\n</code> 엔터</li></ol><ol type="1" id="182a9936-0c6f-4dce-940c-bb5c9afcea91" class="numbered-list" start="2"><li><code>fgets(line, LINE_LENGTH, stdin)</code> ⇒ <code>123456789</code></li></ol><ol type="1" id="54aa96a4-4bcd-4ae0-8af1-42ce365dff01" class="numbered-list" start="3"><li>!= NULL ⇒ NULL이 아니니 출력</li></ol><ol type="1" id="1e15bb4d-aa17-411f-a0b4-96d5092d0014" class="numbered-list" start="4"><li><code>fgets(line, LINE_LENGTH, stdin)</code> ⇒ <code>abcd\n</code></li></ol><ol type="1" id="f31a85f1-74fe-4256-8552-332130ae444e" class="numbered-list" start="5"><li><code>!= NULL</code> ⇒ <code>NULL</code>이 아니니 출력<p id="19375030-e677-4f96-993f-03ff4182a016" class="">⇒ 데이터를 위에 덮어씌움</p></li></ol><ol type="1" id="11eef0ec-bb41-433d-8f2c-569972b4b709" class="numbered-list" start="6"><li><code>fgets(line, LINE_LENGTH, stdin)</code> ⇒ <code>EOF</code>를 넣어 줬으므로<code> NULL</code> 반환</li></ol><h3 id="d3b621fc-9b19-422a-85bd-8ba8ec620fb9" class="">puts() 대신 printf()를 쓴 이유</h3><ul id="270cecad-9a38-4027-b01e-c352b5869d9d" class="bulleted-list"><li style="list-style-type:disc"><code>gets()</code>로 읽어온 거엔 <code>puts()</code>를 써도 말이 됨<p id="db9f8361-e8de-4810-84b5-95edee636844" class="">⇒ <code>puts()</code> : 문자열 마지막에 새 줄 문자 자동 삽입</p></li></ul><ul id="5996dabb-fdd0-4d0f-b5ec-a78f8fcd2e44" class="bulleted-list"><li style="list-style-type:disc"><code>fgets()</code>에는 말이 안됨<p id="173d8e7a-f434-4015-b0ce-2496fba6304c" class="">⇒ <code>fgets()</code>는 문장 단위로 새 줄 문자가 자동으로 삽입이 됨</p><p id="17d1b5ce-7e43-49a4-b81c-a0f0c9b38719" class="">⇒ 새 줄 문자를 직접 삽입해줘야하는 <code>printf()</code>와 사용</p></li></ul><h3 id="fb3eb109-a7d3-4470-a5f6-4847923333cc" class="">한 줄씩 읽는 방법이 유용한 경우</h3><ul id="392ae6f8-9e92-425f-8e6b-ed87d1a776c0" class="bulleted-list"><li style="list-style-type:disc">일단 단어 하나씩 읽는 것보다 한 줄씩 읽는 것이 빠름</li></ul><ul id="3cda57d0-a2c0-4508-9156-bbe6e4fc54ce" class="bulleted-list"><li style="list-style-type:disc">CPU를 벗어나 외부 구성요소로부터 뭔가를 읽어올 때 한 번에 많이 읽어오는 것이 빠름</li></ul><ul id="c60fe9f7-89ed-4d18-8ee2-30afbeb5a3f1" class="bulleted-list"><li style="list-style-type:disc">따라서 버퍼의 크기는 충분히 큰 것이 좋음</li></ul><ul id="2e7a2b6f-fd2e-4c73-a5b6-72867538ac59" class="bulleted-list"><li style="list-style-type:disc"><strong>하지만 한 줄씩 읽는 것 자체가 의미있다기 보다 &#x27;한 데이터씩 읽어올 때&#x27; 쓸 일이 더 많음</strong><p id="d2208a23-6d46-41ca-bb12-6db676d8081e" class=""><strong>⇒ 안전하게 사용하기 위해</strong></p></li></ul><h2 id="1ba39a60-7f9f-4fee-8901-f14dea164edc" class="">(3) 한 데이터씩 읽기</h2><h3 id="71c55a00-bfd1-48c0-9e4a-20e9fa6ddfd8" class="">입력 포맷의 3가지 버전</h3><p id="125ff1bf-ce3d-4bec-9f2b-3c2912eafd5a" class="">1) <code>scanf()</code> : stdin으로부터 읽음</p><pre id="23e86930-c927-4bd5-b55f-d52b0ea0f283" class="code"><code>int scanf(const char* format, ...);</code></pre><p id="d2533be7-aa34-47af-9bf5-c6c4e9e716e3" class="">2) <code>fscanf()</code> : 파일 스트림으로부터 읽음</p><pre id="f2458833-59b3-4c2f-a72a-ab3936bf104b" class="code"><code>int fscanf(FILE* stream, const char* format, ...);</code></pre><p id="70cbbce4-2647-4577-ad1a-0c3e8965bd53" class="">3) <code>sscanf()</code> : C 스타일 문자열로부터 읽음</p><pre id="39d1f1fe-3eb8-45e2-9317-151c83855614" class="code"><code>int sscanf(const char* buffer, const char* format, ...);</code></pre><h3 id="97e29184-1f89-4284-9fb0-13b9f9edf1b9" class="">stdin에서 정수 읽기</h3><pre id="37424fd9-0945-4ad7-bb6a-240045498dee" class="code"><code>#include &lt;stdio.h&gt;
+
+int main(void)
+{
+	int num;
+
+	printf(&quot;Enter a number: &quot;);
+	scanf(&quot;%d&quot;, &amp;num);
+	printf(&quot;num = %d\n&quot;, num);
+
+	return 0;
+}
+
+/*
+Enter a number: 1234
+num = 1234
+_
+*/</code></pre><h3 id="be5eb7f7-8b35-4dcb-88ae-492adc3c6bd9" class="">scanf()</h3><pre id="c9549993-574d-4226-9469-70ec15c93562" class="code"><code>int scanf(const char* format, ....);</code></pre><ul id="c8105997-ec37-4124-9625-7c840b9c3eb9" class="bulleted-list"><li style="list-style-type:disc"><code>&lt;stdio.h&gt;</code>에 있음</li></ul><ul id="ad0383c0-7453-42a5-a63c-5813652f5863" class="bulleted-list"><li style="list-style-type:disc">키보드(stdin)로부터 입력을 받아 변수에 저장</li></ul><h3 id="75616733-706e-486e-8931-1b8f3a2d708c" class="">저장할 변수의 주소를 전달하는 이유</h3><pre id="848e1132-e594-4d09-b6a6-2a9fab554b7c" class="code"><code>scanf(&quot;%d&quot;, &amp;num);</code></pre><ul id="ddb0784e-8c35-4dd5-8d5f-f7859ac408bb" class="bulleted-list"><li style="list-style-type:disc">참조에 의한 전달 흉내</li></ul><ul id="2732b1de-2b7f-4d75-b99d-e5ecdb00b94c" class="bulleted-list"><li style="list-style-type:disc">그냥 <code>num</code>을 넣으면 매개변수가 복사되어 함수 속에서 바꿔봐야 반환 시 사라짐<pre id="c760d0b3-0183-44e0-a80d-febd69a9ae88" class="code"><code>/* 정확한 코드는 아니지만 이런 식이 되어 버림 */
+int scanf(const char* format, int num, ...)
+{
+	/* 10은 입력 스트림에서 얻어옴 */
+	num = 10;
+}</code></pre></li></ul><ul id="08af622e-8a16-49d3-a553-6bab94dc306f" class="bulleted-list"><li style="list-style-type:disc">그냥 <code>scanf()</code>에서 반환? → 불가능<p id="d5f7f275-ced5-4a1c-a460-5e50c894e431" class="">⇒ 읽는 타입에 따라 함수이름이 달라져야함</p><pre id="2696c83a-9e43-4710-aeb4-e96e70dfe4cb" class="code"><code>int scanf_int();
+char scanf_char();
+float scanf_float();
+char* scanf_string();</code></pre></li></ul><ul id="412f9a1e-a003-4e28-b3d2-742b8fca7510" class="bulleted-list"><li style="list-style-type:disc">이름을 다르게 짓는다고 해도 아래와 같은 예 떄문에 안됨 → 반환값 여러 개<pre id="fbedb12b-6400-4527-89d1-18beb03d78e6" class="code"><code>scanf(&quot;%d %d&quot;, &amp;num1, &amp;num2);</code></pre></li></ul><h3 id="ab1fbe1f-923f-4aa3-a2a8-99c043316c68" class="">scanf()의 반환값</h3><ul id="3b042bc1-17cb-4094-98fa-67e5a3d4fd3d" class="bulleted-list"><li style="list-style-type:disc">몇개의 데이터를 읽었는지 반환</li></ul><ul id="f3148d07-6a4d-4350-9302-2d50a9227dc6" class="bulleted-list"><li style="list-style-type:disc">첫 데이터를 읽기 전에 실패했다면 EOF를 반환</li></ul><h3 id="40dd6086-6cdd-41fd-b940-5c5c5be5cf81" class="">일반적인 서식 문자열 형식</h3><figure class="block-color-gray_background callout" style="white-space:pre-wrap;display:flex" id="1987f568-1423-4a93-b33a-0fab2b562938"><div style="font-size:1.5em"><span class="icon">💡</span></div><div style="width:100%"><strong>% [ * ] [ 너비 ] [ 길이 ] 서식 지정자</strong></div></figure><ul id="4250ff39-d141-4b23-ae64-e1cd5fcd574a" class="bulleted-list"><li style="list-style-type:disc">일반적으로 &#x27;%&#x27; 뒤에 최대 4개의 지정자를 가질 수 있음</li></ul><ul id="cc6eef79-b97c-478b-838d-1ae03e0a71c7" class="bulleted-list"><li style="list-style-type:disc">4가지의 지정자 → 반드시 순서를 지켜 작성해야 함<p id="117a841b-39c1-467c-8e4d-34d2800e3bf8" class="">1) * (선택)</p><p id="6b23562b-2f0a-4fe3-a406-a3dd2958a0f6" class="">2) 너비 (선택)</p><p id="f393e1f0-d3f8-4c33-affc-42c922dbe9db" class="">3) 길이 수정자 (선택)</p><p id="e64d704e-75d8-4c24-846d-d109fa9e8565" class="">4) 서식 지정자 (필수)</p></li></ul><h3 id="1d03922e-4829-4cf1-84a2-1f237ef0662b" class="">scanf()의 서식 지정자</h3><div id="7ca643ff-d5dc-46c2-9314-43e3e14af730" class="collection-content"><h4 class="collection-title"></h4><table class="collection-content"><thead><tr><th><span class="icon property-icon"><svg viewBox="0 0 14 14" style="width:14px;height:14px;display:block;fill:rgba(55, 53, 47, 0.4);flex-shrink:0;-webkit-backface-visibility:hidden" class="typesTitle"><path d="M7.73943662,8.6971831 C7.77640845,8.7834507 7.81338028,8.8943662 7.81338028,9.00528169 C7.81338028,9.49823944 7.40669014,9.89260563 6.91373239,9.89260563 C6.53169014,9.89260563 6.19894366,9.64612676 6.08802817,9.30105634 L5.75528169,8.33978873 L2.05809859,8.33978873 L1.72535211,9.30105634 C1.61443662,9.64612676 1.2693662,9.89260563 0.887323944,9.89260563 C0.394366197,9.89260563 0,9.49823944 0,9.00528169 C0,8.8943662 0.0246478873,8.7834507 0.0616197183,8.6971831 L2.46478873,2.48591549 C2.68661972,1.90669014 3.24119718,1.5 3.90669014,1.5 C4.55985915,1.5 5.12676056,1.90669014 5.34859155,2.48591549 L7.73943662,8.6971831 Z M2.60035211,6.82394366 L5.21302817,6.82394366 L3.90669014,3.10211268 L2.60035211,6.82394366 Z M11.3996479,3.70598592 C12.7552817,3.70598592 14,4.24823944 14,5.96126761 L14,9.07922535 C14,9.52288732 13.6549296,9.89260563 13.2112676,9.89260563 C12.8169014,9.89260563 12.471831,9.59683099 12.4225352,9.19014085 C12.028169,9.6584507 11.3257042,9.95422535 10.5492958,9.95422535 C9.60035211,9.95422535 8.47887324,9.31338028 8.47887324,7.98239437 C8.47887324,6.58978873 9.60035211,6.08450704 10.5492958,6.08450704 C11.3380282,6.08450704 12.040493,6.33098592 12.4348592,6.81161972 L12.4348592,5.98591549 C12.4348592,5.38204225 11.9172535,4.98767606 11.1285211,4.98767606 C10.6602113,4.98767606 10.2411972,5.11091549 9.80985915,5.38204225 C9.72359155,5.43133803 9.61267606,5.46830986 9.50176056,5.46830986 C9.18133803,5.46830986 8.91021127,5.1971831 8.91021127,4.86443662 C8.91021127,4.64260563 9.0334507,4.44542254 9.19366197,4.34683099 C9.87147887,3.90316901 10.6232394,3.70598592 11.3996479,3.70598592 Z M11.1778169,8.8943662 C11.6830986,8.8943662 12.1760563,8.72183099 12.4348592,8.37676056 L12.4348592,7.63732394 C12.1760563,7.29225352 11.6830986,7.11971831 11.1778169,7.11971831 C10.5616197,7.11971831 10.056338,7.45246479 10.056338,8.0193662 C10.056338,8.57394366 10.5616197,8.8943662 11.1778169,8.8943662 Z M0.65625,11.125 L13.34375,11.125 C13.7061869,11.125 14,11.4188131 14,11.78125 C14,12.1436869 13.7061869,12.4375 13.34375,12.4375 L0.65625,12.4375 C0.293813133,12.4375 4.43857149e-17,12.1436869 0,11.78125 C-4.43857149e-17,11.4188131 0.293813133,11.125 0.65625,11.125 Z"></path></svg></span>서식 지정자</th><th><span class="icon property-icon"><svg viewBox="0 0 14 14" style="width:14px;height:14px;display:block;fill:rgba(55, 53, 47, 0.4);flex-shrink:0;-webkit-backface-visibility:hidden" class="typesText"><path d="M7,4.56818 C7,4.29204 6.77614,4.06818 6.5,4.06818 L0.5,4.06818 C0.223858,4.06818 0,4.29204 0,4.56818 L0,5.61364 C0,5.88978 0.223858,6.11364 0.5,6.11364 L6.5,6.11364 C6.77614,6.11364 7,5.88978 7,5.61364 L7,4.56818 Z M0.5,1 C0.223858,1 0,1.223858 0,1.5 L0,2.54545 C0,2.8216 0.223858,3.04545 0.5,3.04545 L12.5,3.04545 C12.7761,3.04545 13,2.8216 13,2.54545 L13,1.5 C13,1.223858 12.7761,1 12.5,1 L0.5,1 Z M0,8.68182 C0,8.95796 0.223858,9.18182 0.5,9.18182 L11.5,9.18182 C11.7761,9.18182 12,8.95796 12,8.68182 L12,7.63636 C12,7.36022 11.7761,7.13636 11.5,7.13636 L0.5,7.13636 C0.223858,7.13636 0,7.36022 0,7.63636 L0,8.68182 Z M0,11.75 C0,12.0261 0.223858,12.25 0.5,12.25 L9.5,12.25 C9.77614,12.25 10,12.0261 10,11.75 L10,10.70455 C10,10.4284 9.77614,10.20455 9.5,10.20455 L0.5,10.20455 C0.223858,10.20455 0,10.4284 0,10.70455 L0,11.75 Z"></path></svg></span>설명</th><th><span class="icon property-icon"><svg viewBox="0 0 14 14" style="width:14px;height:14px;display:block;fill:rgba(55, 53, 47, 0.4);flex-shrink:0;-webkit-backface-visibility:hidden" class="typesText"><path d="M7,4.56818 C7,4.29204 6.77614,4.06818 6.5,4.06818 L0.5,4.06818 C0.223858,4.06818 0,4.29204 0,4.56818 L0,5.61364 C0,5.88978 0.223858,6.11364 0.5,6.11364 L6.5,6.11364 C6.77614,6.11364 7,5.88978 7,5.61364 L7,4.56818 Z M0.5,1 C0.223858,1 0,1.223858 0,1.5 L0,2.54545 C0,2.8216 0.223858,3.04545 0.5,3.04545 L12.5,3.04545 C12.7761,3.04545 13,2.8216 13,2.54545 L13,1.5 C13,1.223858 12.7761,1 12.5,1 L0.5,1 Z M0,8.68182 C0,8.95796 0.223858,9.18182 0.5,9.18182 L11.5,9.18182 C11.7761,9.18182 12,8.95796 12,8.68182 L12,7.63636 C12,7.36022 11.7761,7.13636 11.5,7.13636 L0.5,7.13636 C0.223858,7.13636 0,7.36022 0,7.63636 L0,8.68182 Z M0,11.75 C0,12.0261 0.223858,12.25 0.5,12.25 L9.5,12.25 C9.77614,12.25 10,12.0261 10,11.75 L10,10.70455 C10,10.4284 9.77614,10.20455 9.5,10.20455 L0.5,10.20455 C0.223858,10.20455 0,10.4284 0,10.70455 L0,11.75 Z"></path></svg></span>코드</th></tr></thead><tbody><tr id="52de74dc-09a1-48e6-8398-5551f09b5b0d"><td class="cell-title"><a href="https://www.notion.so/52de74dc09a148e683985551f09b5b0d">%</a></td><td class="cell-\X[d">%를 순수하게 문자로 인식</td><td class="cell-YBj:">scanf(&quot;%%d&quot;, &amp;num); /* 컴파일 경고 */</td></tr><tr id="c346ee97-582b-4515-9056-052bbbee7e3a"><td class="cell-title"><a href="https://www.notion.so/c-c346ee97582b45159056052bbbee7e3a">c</a></td><td class="cell-\X[d">문자(char)</td><td class="cell-YBj:">scanf(&quot;%c&quot;, &amp;ch);</td></tr><tr id="6cea949c-7828-40f8-84e4-55841936cb24"><td class="cell-title"><a href="https://www.notion.so/s-6cea949c782840f884e455841936cb24">s</a></td><td class="cell-\X[d">한 단어</td><td class="cell-YBj:">scanf(&quot;%s&quot;, str);</td></tr><tr id="cf157e2b-f314-4256-9749-ada57b3603a6"><td class="cell-title"><a href="https://www.notion.so/d-cf157e2bf31442569749ada57b3603a6">d</a></td><td class="cell-\X[d">부호있는 10진수 수</td><td class="cell-YBj:">scanf(&quot;%d&quot;, &amp;num);</td></tr><tr id="2ed300bf-6bfa-4963-9d14-5875a4de146e"><td class="cell-title"><a href="https://www.notion.so/x-2ed300bf6bfa49639d145875a4de146e">x</a></td><td class="cell-\X[d">부호없는 16진수 수</td><td class="cell-YBj:">scanf(&quot;%x&quot;, &amp;num);</td></tr><tr id="3ac06c50-1143-4937-bfc3-c5285c4e497c"><td class="cell-title"><a href="https://www.notion.so/f-3ac06c5011434937bfc3c5285c4e497c">f</a></td><td class="cell-\X[d">부동 소수점(float)</td><td class="cell-YBj:">scanf(&quot;%f&quot;, &amp;num);</td></tr></tbody></table></div><ul id="71bd792a-eab2-40ec-8541-63c8f19aecb7" class="bulleted-list"><li style="list-style-type:disc">반드시 넣어야 함</li></ul><ul id="189a4503-6be6-4639-8b51-30dc7090d090" class="bulleted-list"><li style="list-style-type:disc"><strong>모든 데이터는 한 단어씩(공백 문자로 구분) 또는 가능할 때까지 읽음</strong></li></ul><ul id="22e8e754-acbd-4054-a1e8-1168e3e49f95" class="bulleted-list"><li style="list-style-type:disc"><strong>공백 문자는 버림 (예외 : %c)</strong><p id="da66010d-ac6d-4996-9890-08cbd19473c5" class=""><strong>⇒ 공백문자를 읽기 위해서는 반드시 char로 읽어야함</strong></p></li></ul><ul id="56f61ed3-ed06-4222-9613-831381a2df3d" class="bulleted-list"><li style="list-style-type:disc">str은 주소연산자가 안들어감 → 문자열은 자체가 주소임!! </li></ul><h3 id="4eeb9dc1-f0d8-4eda-bc0b-361f18ce2ebf" class="">대입 생략 문자 *</h3><pre id="5dc09140-1ee4-4705-802f-55e4738690e3" class="code"><code>int num;
+
+printf(&quot;Enter a number: &quot;);
+scanf(&quot;%*d%d&quot;, &amp;num); /* %*d는 무시하고 %d만 입력하라 */    
+printf(&quot;num = %d\n&quot;, num);
+
+/*
+Enter a number: 10 20
+num = 20
+*/</code></pre><ul id="ad1a05f9-286d-4f02-85ef-ac98ed1d97f6" class="bulleted-list"><li style="list-style-type:disc">영어로 assignment-suppressing character</li></ul><ul id="f4cc74f4-14c5-4d24-8645-d0cca8d8174e" class="bulleted-list"><li style="list-style-type:disc">이 문자를 쓸 경우 키보드로부터 받은 입력을 변수에 저장하지 않음</li></ul><h3 id="585dacea-55e0-4e34-8bcd-fa6a4f7959cf" class="">너비</h3><div id="5833ab67-090e-4f03-acf9-2e55a1800d92" class="collection-content"><h4 class="collection-title"></h4><table class="collection-content"><thead><tr><th><span class="icon property-icon"><svg viewBox="0 0 14 14" style="width:14px;height:14px;display:block;fill:rgba(55, 53, 47, 0.4);flex-shrink:0;-webkit-backface-visibility:hidden" class="typesTitle"><path d="M7.73943662,8.6971831 C7.77640845,8.7834507 7.81338028,8.8943662 7.81338028,9.00528169 C7.81338028,9.49823944 7.40669014,9.89260563 6.91373239,9.89260563 C6.53169014,9.89260563 6.19894366,9.64612676 6.08802817,9.30105634 L5.75528169,8.33978873 L2.05809859,8.33978873 L1.72535211,9.30105634 C1.61443662,9.64612676 1.2693662,9.89260563 0.887323944,9.89260563 C0.394366197,9.89260563 0,9.49823944 0,9.00528169 C0,8.8943662 0.0246478873,8.7834507 0.0616197183,8.6971831 L2.46478873,2.48591549 C2.68661972,1.90669014 3.24119718,1.5 3.90669014,1.5 C4.55985915,1.5 5.12676056,1.90669014 5.34859155,2.48591549 L7.73943662,8.6971831 Z M2.60035211,6.82394366 L5.21302817,6.82394366 L3.90669014,3.10211268 L2.60035211,6.82394366 Z M11.3996479,3.70598592 C12.7552817,3.70598592 14,4.24823944 14,5.96126761 L14,9.07922535 C14,9.52288732 13.6549296,9.89260563 13.2112676,9.89260563 C12.8169014,9.89260563 12.471831,9.59683099 12.4225352,9.19014085 C12.028169,9.6584507 11.3257042,9.95422535 10.5492958,9.95422535 C9.60035211,9.95422535 8.47887324,9.31338028 8.47887324,7.98239437 C8.47887324,6.58978873 9.60035211,6.08450704 10.5492958,6.08450704 C11.3380282,6.08450704 12.040493,6.33098592 12.4348592,6.81161972 L12.4348592,5.98591549 C12.4348592,5.38204225 11.9172535,4.98767606 11.1285211,4.98767606 C10.6602113,4.98767606 10.2411972,5.11091549 9.80985915,5.38204225 C9.72359155,5.43133803 9.61267606,5.46830986 9.50176056,5.46830986 C9.18133803,5.46830986 8.91021127,5.1971831 8.91021127,4.86443662 C8.91021127,4.64260563 9.0334507,4.44542254 9.19366197,4.34683099 C9.87147887,3.90316901 10.6232394,3.70598592 11.3996479,3.70598592 Z M11.1778169,8.8943662 C11.6830986,8.8943662 12.1760563,8.72183099 12.4348592,8.37676056 L12.4348592,7.63732394 C12.1760563,7.29225352 11.6830986,7.11971831 11.1778169,7.11971831 C10.5616197,7.11971831 10.056338,7.45246479 10.056338,8.0193662 C10.056338,8.57394366 10.5616197,8.8943662 11.1778169,8.8943662 Z M0.65625,11.125 L13.34375,11.125 C13.7061869,11.125 14,11.4188131 14,11.78125 C14,12.1436869 13.7061869,12.4375 13.34375,12.4375 L0.65625,12.4375 C0.293813133,12.4375 4.43857149e-17,12.1436869 0,11.78125 C-4.43857149e-17,11.4188131 0.293813133,11.125 0.65625,11.125 Z"></path></svg></span>서식 지정자</th><th><span class="icon property-icon"><svg viewBox="0 0 14 14" style="width:14px;height:14px;display:block;fill:rgba(55, 53, 47, 0.4);flex-shrink:0;-webkit-backface-visibility:hidden" class="typesText"><path d="M7,4.56818 C7,4.29204 6.77614,4.06818 6.5,4.06818 L0.5,4.06818 C0.223858,4.06818 0,4.29204 0,4.56818 L0,5.61364 C0,5.88978 0.223858,6.11364 0.5,6.11364 L6.5,6.11364 C6.77614,6.11364 7,5.88978 7,5.61364 L7,4.56818 Z M0.5,1 C0.223858,1 0,1.223858 0,1.5 L0,2.54545 C0,2.8216 0.223858,3.04545 0.5,3.04545 L12.5,3.04545 C12.7761,3.04545 13,2.8216 13,2.54545 L13,1.5 C13,1.223858 12.7761,1 12.5,1 L0.5,1 Z M0,8.68182 C0,8.95796 0.223858,9.18182 0.5,9.18182 L11.5,9.18182 C11.7761,9.18182 12,8.95796 12,8.68182 L12,7.63636 C12,7.36022 11.7761,7.13636 11.5,7.13636 L0.5,7.13636 C0.223858,7.13636 0,7.36022 0,7.63636 L0,8.68182 Z M0,11.75 C0,12.0261 0.223858,12.25 0.5,12.25 L9.5,12.25 C9.77614,12.25 10,12.0261 10,11.75 L10,10.70455 C10,10.4284 9.77614,10.20455 9.5,10.20455 L0.5,10.20455 C0.223858,10.20455 0,10.4284 0,10.70455 L0,11.75 Z"></path></svg></span>설명</th><th><span class="icon property-icon"><svg viewBox="0 0 14 14" style="width:14px;height:14px;display:block;fill:rgba(55, 53, 47, 0.4);flex-shrink:0;-webkit-backface-visibility:hidden" class="typesText"><path d="M7,4.56818 C7,4.29204 6.77614,4.06818 6.5,4.06818 L0.5,4.06818 C0.223858,4.06818 0,4.29204 0,4.56818 L0,5.61364 C0,5.88978 0.223858,6.11364 0.5,6.11364 L6.5,6.11364 C6.77614,6.11364 7,5.88978 7,5.61364 L7,4.56818 Z M0.5,1 C0.223858,1 0,1.223858 0,1.5 L0,2.54545 C0,2.8216 0.223858,3.04545 0.5,3.04545 L12.5,3.04545 C12.7761,3.04545 13,2.8216 13,2.54545 L13,1.5 C13,1.223858 12.7761,1 12.5,1 L0.5,1 Z M0,8.68182 C0,8.95796 0.223858,9.18182 0.5,9.18182 L11.5,9.18182 C11.7761,9.18182 12,8.95796 12,8.68182 L12,7.63636 C12,7.36022 11.7761,7.13636 11.5,7.13636 L0.5,7.13636 C0.223858,7.13636 0,7.36022 0,7.63636 L0,8.68182 Z M0,11.75 C0,12.0261 0.223858,12.25 0.5,12.25 L9.5,12.25 C9.77614,12.25 10,12.0261 10,11.75 L10,10.70455 C10,10.4284 9.77614,10.20455 9.5,10.20455 L0.5,10.20455 C0.223858,10.20455 0,10.4284 0,10.70455 L0,11.75 Z"></path></svg></span>코드</th></tr></thead><tbody><tr id="5637f5c4-698b-4fc1-9066-266e1d60ac77"><td class="cell-title"><a href="https://www.notion.so/5637f5c4698b4fc19066266e1d60ac77">정수</a></td><td class="cell-\X[d">읽을 최대 문자 수</td><td class="cell-YBj:">scanf(&quot;%5s&quot;, str); / scanf(&quot;%10d\n&quot;, &amp;num);</td></tr></tbody></table></div><ul id="d1c181d6-4d1e-4284-80ad-d7211ea714f6" class="bulleted-list"><li style="list-style-type:disc"><code>%s</code>의 경우 너비를 지정 안하면 버퍼 오버플로가 날 수 있음</li></ul><h3 id="25f7eda1-49fa-49c2-8235-ff073ec97972" class="">길이 수정자(length modifier)</h3><div id="20e48fb8-0fbb-4d7e-84f5-5caa23efbd22" class="collection-content"><h4 class="collection-title"></h4><table class="collection-content"><thead><tr><th><span class="icon property-icon"><svg viewBox="0 0 14 14" style="width:14px;height:14px;display:block;fill:rgba(55, 53, 47, 0.4);flex-shrink:0;-webkit-backface-visibility:hidden" class="typesTitle"><path d="M7.73943662,8.6971831 C7.77640845,8.7834507 7.81338028,8.8943662 7.81338028,9.00528169 C7.81338028,9.49823944 7.40669014,9.89260563 6.91373239,9.89260563 C6.53169014,9.89260563 6.19894366,9.64612676 6.08802817,9.30105634 L5.75528169,8.33978873 L2.05809859,8.33978873 L1.72535211,9.30105634 C1.61443662,9.64612676 1.2693662,9.89260563 0.887323944,9.89260563 C0.394366197,9.89260563 0,9.49823944 0,9.00528169 C0,8.8943662 0.0246478873,8.7834507 0.0616197183,8.6971831 L2.46478873,2.48591549 C2.68661972,1.90669014 3.24119718,1.5 3.90669014,1.5 C4.55985915,1.5 5.12676056,1.90669014 5.34859155,2.48591549 L7.73943662,8.6971831 Z M2.60035211,6.82394366 L5.21302817,6.82394366 L3.90669014,3.10211268 L2.60035211,6.82394366 Z M11.3996479,3.70598592 C12.7552817,3.70598592 14,4.24823944 14,5.96126761 L14,9.07922535 C14,9.52288732 13.6549296,9.89260563 13.2112676,9.89260563 C12.8169014,9.89260563 12.471831,9.59683099 12.4225352,9.19014085 C12.028169,9.6584507 11.3257042,9.95422535 10.5492958,9.95422535 C9.60035211,9.95422535 8.47887324,9.31338028 8.47887324,7.98239437 C8.47887324,6.58978873 9.60035211,6.08450704 10.5492958,6.08450704 C11.3380282,6.08450704 12.040493,6.33098592 12.4348592,6.81161972 L12.4348592,5.98591549 C12.4348592,5.38204225 11.9172535,4.98767606 11.1285211,4.98767606 C10.6602113,4.98767606 10.2411972,5.11091549 9.80985915,5.38204225 C9.72359155,5.43133803 9.61267606,5.46830986 9.50176056,5.46830986 C9.18133803,5.46830986 8.91021127,5.1971831 8.91021127,4.86443662 C8.91021127,4.64260563 9.0334507,4.44542254 9.19366197,4.34683099 C9.87147887,3.90316901 10.6232394,3.70598592 11.3996479,3.70598592 Z M11.1778169,8.8943662 C11.6830986,8.8943662 12.1760563,8.72183099 12.4348592,8.37676056 L12.4348592,7.63732394 C12.1760563,7.29225352 11.6830986,7.11971831 11.1778169,7.11971831 C10.5616197,7.11971831 10.056338,7.45246479 10.056338,8.0193662 C10.056338,8.57394366 10.5616197,8.8943662 11.1778169,8.8943662 Z M0.65625,11.125 L13.34375,11.125 C13.7061869,11.125 14,11.4188131 14,11.78125 C14,12.1436869 13.7061869,12.4375 13.34375,12.4375 L0.65625,12.4375 C0.293813133,12.4375 4.43857149e-17,12.1436869 0,11.78125 C-4.43857149e-17,11.4188131 0.293813133,11.125 0.65625,11.125 Z"></path></svg></span>길이 수정자</th><th><span class="icon property-icon"><svg viewBox="0 0 14 14" style="width:14px;height:14px;display:block;fill:rgba(55, 53, 47, 0.4);flex-shrink:0;-webkit-backface-visibility:hidden" class="typesText"><path d="M7,4.56818 C7,4.29204 6.77614,4.06818 6.5,4.06818 L0.5,4.06818 C0.223858,4.06818 0,4.29204 0,4.56818 L0,5.61364 C0,5.88978 0.223858,6.11364 0.5,6.11364 L6.5,6.11364 C6.77614,6.11364 7,5.88978 7,5.61364 L7,4.56818 Z M0.5,1 C0.223858,1 0,1.223858 0,1.5 L0,2.54545 C0,2.8216 0.223858,3.04545 0.5,3.04545 L12.5,3.04545 C12.7761,3.04545 13,2.8216 13,2.54545 L13,1.5 C13,1.223858 12.7761,1 12.5,1 L0.5,1 Z M0,8.68182 C0,8.95796 0.223858,9.18182 0.5,9.18182 L11.5,9.18182 C11.7761,9.18182 12,8.95796 12,8.68182 L12,7.63636 C12,7.36022 11.7761,7.13636 11.5,7.13636 L0.5,7.13636 C0.223858,7.13636 0,7.36022 0,7.63636 L0,8.68182 Z M0,11.75 C0,12.0261 0.223858,12.25 0.5,12.25 L9.5,12.25 C9.77614,12.25 10,12.0261 10,11.75 L10,10.70455 C10,10.4284 9.77614,10.20455 9.5,10.20455 L0.5,10.20455 C0.223858,10.20455 0,10.4284 0,10.70455 L0,11.75 Z"></path></svg></span>서식 지정자</th><th><span class="icon property-icon"><svg viewBox="0 0 14 14" style="width:14px;height:14px;display:block;fill:rgba(55, 53, 47, 0.4);flex-shrink:0;-webkit-backface-visibility:hidden" class="typesText"><path d="M7,4.56818 C7,4.29204 6.77614,4.06818 6.5,4.06818 L0.5,4.06818 C0.223858,4.06818 0,4.29204 0,4.56818 L0,5.61364 C0,5.88978 0.223858,6.11364 0.5,6.11364 L6.5,6.11364 C6.77614,6.11364 7,5.88978 7,5.61364 L7,4.56818 Z M0.5,1 C0.223858,1 0,1.223858 0,1.5 L0,2.54545 C0,2.8216 0.223858,3.04545 0.5,3.04545 L12.5,3.04545 C12.7761,3.04545 13,2.8216 13,2.54545 L13,1.5 C13,1.223858 12.7761,1 12.5,1 L0.5,1 Z M0,8.68182 C0,8.95796 0.223858,9.18182 0.5,9.18182 L11.5,9.18182 C11.7761,9.18182 12,8.95796 12,8.68182 L12,7.63636 C12,7.36022 11.7761,7.13636 11.5,7.13636 L0.5,7.13636 C0.223858,7.13636 0,7.36022 0,7.63636 L0,8.68182 Z M0,11.75 C0,12.0261 0.223858,12.25 0.5,12.25 L9.5,12.25 C9.77614,12.25 10,12.0261 10,11.75 L10,10.70455 C10,10.4284 9.77614,10.20455 9.5,10.20455 L0.5,10.20455 C0.223858,10.20455 0,10.4284 0,10.70455 L0,11.75 Z"></path></svg></span>자료형</th><th><span class="icon property-icon"><svg viewBox="0 0 14 14" style="width:14px;height:14px;display:block;fill:rgba(55, 53, 47, 0.4);flex-shrink:0;-webkit-backface-visibility:hidden" class="typesText"><path d="M7,4.56818 C7,4.29204 6.77614,4.06818 6.5,4.06818 L0.5,4.06818 C0.223858,4.06818 0,4.29204 0,4.56818 L0,5.61364 C0,5.88978 0.223858,6.11364 0.5,6.11364 L6.5,6.11364 C6.77614,6.11364 7,5.88978 7,5.61364 L7,4.56818 Z M0.5,1 C0.223858,1 0,1.223858 0,1.5 L0,2.54545 C0,2.8216 0.223858,3.04545 0.5,3.04545 L12.5,3.04545 C12.7761,3.04545 13,2.8216 13,2.54545 L13,1.5 C13,1.223858 12.7761,1 12.5,1 L0.5,1 Z M0,8.68182 C0,8.95796 0.223858,9.18182 0.5,9.18182 L11.5,9.18182 C11.7761,9.18182 12,8.95796 12,8.68182 L12,7.63636 C12,7.36022 11.7761,7.13636 11.5,7.13636 L0.5,7.13636 C0.223858,7.13636 0,7.36022 0,7.63636 L0,8.68182 Z M0,11.75 C0,12.0261 0.223858,12.25 0.5,12.25 L9.5,12.25 C9.77614,12.25 10,12.0261 10,11.75 L10,10.70455 C10,10.4284 9.77614,10.20455 9.5,10.20455 L0.5,10.20455 C0.223858,10.20455 0,10.4284 0,10.70455 L0,11.75 Z"></path></svg></span>코드</th></tr></thead><tbody><tr id="429cc6f5-0d8d-4e9a-9b31-2692e4e65ae1"><td class="cell-title"><a href="https://www.notion.so/429cc6f50d8d4e9a9b312692e4e65ae1">제목 없음</a></td><td class="cell-eT&lt;Y">d</td><td class="cell-\X[d">int*</td><td class="cell-YBj:">scanf(%d\n&quot;, &amp;number);</td></tr><tr id="2d75fd09-1f24-40f7-b077-3818226ae4a2"><td class="cell-title"><a href="https://www.notion.so/l-2d75fd091f2440f7b0773818226ae4a2">l</a></td><td class="cell-eT&lt;Y">d</td><td class="cell-\X[d">long int*</td><td class="cell-YBj:">scanf(%ld\n&quot;, &amp;number);</td></tr><tr id="c5974116-c0b4-49eb-a059-1d79ae4dd37b"><td class="cell-title"><a href="https://www.notion.so/c5974116c0b449eba0591d79ae4dd37b">제목 없음</a></td><td class="cell-eT&lt;Y">f</td><td class="cell-\X[d">double*</td><td class="cell-YBj:">scanf(%f\n&quot;, &amp;number);</td></tr><tr id="4da9f6b0-1a92-43ac-96c1-dd6aa0f18cd4"><td class="cell-title"><a href="https://www.notion.so/L-4da9f6b01a9243ac96c1dd6aa0f18cd4">L</a></td><td class="cell-eT&lt;Y">f</td><td class="cell-\X[d">long double*</td><td class="cell-YBj:">scanf(%lf\n&quot;, &amp;number);</td></tr></tbody></table></div><ul id="fbc42052-ecfe-4f30-a8a4-45df394eabd2" class="bulleted-list"><li style="list-style-type:disc">인자의 바이트 크기를 지정해 줌</li></ul><ul id="bf616959-4eb1-4bb0-a5c7-9cc392846110" class="bulleted-list"><li style="list-style-type:disc">출력과 마찬가지로 별 의미 없음</li></ul><h3 id="43aceff9-0ddf-4227-8968-bbc270c7737b" class="">scanf() : 문자열</h3><ul id="5198b0c3-774f-4484-a1e8-a80b8d89093a" class="bulleted-list"><li style="list-style-type:disc">문자열은 전부 읽어버림</li></ul><ul id="60b9f1dc-70e2-48a7-84ed-603b2532a001" class="bulleted-list"><li style="list-style-type:disc"><code>%s</code> 쓸 때 배열의 크기보다 큰 문자열이 들어오면 버퍼 오버플로 발생</li></ul><ul id="d21f1ef7-748a-4828-9a9f-0a2026c73207" class="bulleted-list"><li style="list-style-type:disc">그래서 <code>scanf()</code>는 문자열을 읽을 때 좋지 않음</li></ul><h3 id="703c6760-b021-43a5-ab19-6562d51be738" class="">scanf()의 무한루프</h3><pre id="5abc47b2-2863-4ece-a3a2-4990a630b2cc" class="code"><code>/* 무한루프 예 */
+
+int num;
+int sum = 0;
+
+while (TRUE) {
+	if (scanf(&quot;%d&quot;, &amp;num) == 0) {
+		printf(&quot;Error!\n&quot;);
+		continue;
+	}
+
+	if (num == 0) {
+		break;
+	}
+
+	sum += num;
+}
+
+print(&quot;Sum: %d\n&quot;, sum);</code></pre><ul id="34fc4407-88fd-4cd8-84e3-66a1d76a29d9" class="bulleted-list"><li style="list-style-type:disc">뿐만 아니라 다른 자료형을 읽을 때 무한루프에 빠질 위험도도 큼</li></ul><ul id="594648ab-efd4-4776-b971-d8a3236971d4" class="bulleted-list"><li style="list-style-type:disc">정수(<code>int</code>)만 읽으려 했으나 문자(<code>char</code>)가 있어서 읽기가 실패하면 문자가 계속 입력되고 스트림에 남아 무한 루프에 빠져버림</li></ul><ul id="dc61d6da-e8ac-44bb-9fb9-11567c495777" class="bulleted-list"><li style="list-style-type:disc">해결법<p id="07eca31e-9941-409a-b9d3-c98eb809fcd4" class="">⇒ <code>fgets()</code>와 <code>sscanf()</code> 함수를 같이 쓰는 것이 좋음</p></li></ul><pre id="d4c34e1b-e5e2-4b9e-90fa-24b93b1337ae" class="code"><code>/* 무한루프 문제 없는 숫자 읽기 */
+
+#define LINE_LENGTH (1024)
+
+int sum = 0;
+int num;
+char line[LINE_LENGTH];
+
+while (TRUE) {
+	if (fgets(line, LINE_LENGTH, stdin) == NULL) {
+		clearerr(stdin);
+		break;
+	}
+
+	if (sscanf(line, &quot;%d&quot;, &amp;num) ==1) {
+		sum += num;
+	}
+} /* 출력 코드 생략 */</code></pre><h3 id="a5977f1e-c4bf-4434-aab3-89a6a7a57749" class="">버퍼 오버플로 문제 없이 문자열 읽기 : 중요</h3><pre id="98ee3814-63c6-4844-8ace-99c1e805069d" class="code"><code>#define LENGTH (4096)
+
+char line[LENGTH];
+char word[LENGTH];
+
+while (TRUE) {
+	if (fgets(line, LENGTH, stdin) == NULL) {
+		clearerr(stdin);
+		break;
+	}
+
+	if (sscanf(line, &quot;%s&quot;, &amp;num) == 1) {
+		printf(&quot;%s\n&quot;, word);
+	}
+}</code></pre><ul id="1a778631-c3db-4560-a183-90e1a3d51037" class="bulleted-list"><li style="list-style-type:disc">버퍼 오버플로는 발생하지 않음</li></ul><ul id="bd5c1e12-df13-4c2c-89e2-28e1dac29a8a" class="bulleted-list"><li style="list-style-type:disc">단, 4096보다 긴 문자열이 들어오면 그냥 짤리는게 전부</li></ul><ul id="7cb9320a-80a6-455e-878b-f530ac46618d" class="bulleted-list"><li style="list-style-type:disc"><strong>완벽하게 익혀야 좋은 코드!!</strong></li></ul><h3 id="2024872d-13ae-47f9-a398-a331e14f805a" class="">clearerr()</h3><pre id="0aa9f8d0-7436-49b6-8ee8-234a2150fc0c" class="code"><code>void clearerr(FILE* stream);</code></pre><ul id="cd77bdb3-f52b-4e8e-a388-cdf2d5bd8661" class="bulleted-list"><li style="list-style-type:disc">스트림을 읽거나 쓸 때 <code>EOF</code>를 만나면 그 스트림의 EOF 표시자(indicator)가 셋팅됨</li></ul><ul id="603f690c-d400-4c6f-aecf-ad037d921a37" class="bulleted-list"><li style="list-style-type:disc">그 외의 이유로 실패하면 오류 표시자(error indicator)를 셋팅</li></ul><ul id="9e792474-4d50-4c70-9b0c-25539cdf6b08" class="bulleted-list"><li style="list-style-type:disc">그게 잘 안 지워져서 다음에 읽거나 쓸 때 계속 실패할 수 있음</li></ul><ul id="d712b94a-caf6-4057-a4e8-4a84623a0f2c" class="bulleted-list"><li style="list-style-type:disc">그래서 그 오류를 지워주는 것</li></ul><ul id="9fd2b603-4705-49f3-b7b0-06060d53a7ee" class="bulleted-list"><li style="list-style-type:disc"><code>feof()</code>나 <code>ferror()</code> 함수를 통해 표시자의 셋팅 여부를 확인할 수 있음</li></ul><h3 id="792bb647-c342-4ab1-a3c5-5884f791bf6d" class="">한 데이터씩 읽는 방법이 유용한 경우</h3><ul id="18d65d9e-a64f-4d7b-affa-1e7e82e066fb" class="bulleted-list"><li style="list-style-type:disc">텍스트를 다른 자료형으로 곧바로 읽어오는 가장 간단한 방법<p id="0f02ed15-defd-412f-96e9-fa8f55c1956f" class="">⇒ 안 그러면 문자열로 적혀있는 정수를 일일이 변환해야함</p></li></ul><ul id="484a0968-4acb-4e7a-8120-093d69e11f3f" class="bulleted-list"><li style="list-style-type:disc">사용자의 입력을 받을 때</li></ul><ul id="9c754e82-55f3-45f9-a5d9-0ccecd43ebaf" class="bulleted-list"><li style="list-style-type:disc">여러 데이터가 혼용된 텍스트 파일을 읽어올 때</li></ul><h2 id="f75571e4-cc06-421d-80f5-7f430f018e63" class="">(4) 한 블록씩 읽기</h2><ul id="58a0f03f-c3fa-4f12-9d3d-46886a811528" class="bulleted-list"><li style="list-style-type:disc">이전까지 본 입력 방법은 텍스트로 저장된 데이터를 읽는 것</li></ul><ul id="2302be85-0bba-4b19-8962-92b7bd35fcb6" class="bulleted-list"><li style="list-style-type:disc">C에서 이진파일을 읽는 방법 ⇒ 한 블록씩 읽기</li></ul><pre id="4652fa6a-cda0-4f87-a35f-9d010d4bafb3" class="code"><code>size_t fread(void* buffer, size_t size, size_t count, FILE* stream);</code></pre><ul id="70c26d3b-fff6-415d-9701-bb2b89b8c1bd" class="bulleted-list"><li style="list-style-type:disc">size 바이트짜리 데이터를 총 count 개수만큼 읽음</li></ul><ul id="a9d65005-7923-43c2-8681-0903057b6f68" class="bulleted-list"><li style="list-style-type:disc">그리고 buffer에 저장</li></ul><ul id="6993bcc5-f5f6-4a09-a0b3-296a8776333f" class="bulleted-list"><li style="list-style-type:disc">EOF를 만나면 멈춤<p id="2b84bc64-d140-4f0b-a1fd-31a55ea46d43" class="">⇒ count보다 적은 수를 읽을 수 있음</p></li></ul><ul id="4205be1d-9bf1-4322-a675-7a2c7655d45b" class="bulleted-list"><li style="list-style-type:disc">그래서 실제로 읽은 개수를 반환</li></ul><ul id="71aef6b0-2d79-4858-a62b-dad3208e9158" class="bulleted-list"><li style="list-style-type:disc">읽을 수 있으므로 당연히 쓰기도 가능함<pre id="da3a92b0-cc0d-473e-97d4-b30491f46a5f" class="code"><code>size_t fwrite(void* buffer, size_t size, size_t count, FILE* stream);</code></pre></li></ul><ul id="bac6497d-0578-4acf-bf1c-f84d299dfd72" class="bulleted-list"><li style="list-style-type:disc">이진  데이터는 파일에 쓰고 읽음</li></ul><h3 id="5bb03959-d7ca-44d1-a22b-5591e4093b9a" class="">파일 스트림이 있다면 작동하는 코드</h3><pre id="e3ed796b-06bc-4f23-b49f-01612bf56630" class="code"><code>int nums[64];
+size_t num_read;
+FILE* fstream;
+
+num_read = fread(nums, sizeof(nums[0]), 64, fstream);
+fwrite(nums, sizeof(nums[0]), 64, fstream);</code></pre><ul id="aeb34792-6ee3-427a-843d-62dc93992754" class="bulleted-list"><li style="list-style-type:disc">int 블록 저장 : 총 64개 → 총 64 * sizeof(int) 바이트</li></ul><h3 id="4212695d-495e-4b43-8bb3-50742d65d47a" class="">한 블록씩 읽는 방법이 유용한 경우</h3><ul id="91971808-bc93-42fd-b632-fad2935aeacf" class="bulleted-list"><li style="list-style-type:disc"><strong>가장 중요한 것은 이진 데이터를 읽기 위함</strong></li></ul><ul id="a79e2734-3a85-43a7-acb8-d2a262398510" class="bulleted-list"><li style="list-style-type:disc">이진 데이터를 하나씩 읽을 수도 있지만 한꺼번에 읽으면 성능 향상</li></ul><ul id="41e4ed7c-500e-4864-8eee-daa08612f06e" class="bulleted-list"><li style="list-style-type:disc">기본 데이터형의 크기는 시스템마다 다름</li></ul><ul id="00ec5bc1-7f11-460d-9162-3ef698c596f5" class="bulleted-list"><li style="list-style-type:disc">따라서 아래 사항은 안될 수 있음<ul id="a7096e11-70ac-4e90-885a-f65ccc84cd2a" class="bulleted-list"><li style="list-style-type:circle">A 시스템 용으로 빌드한 실행파일을 실행해서 파일에 저장</li></ul><ul id="3c6d0ba2-f6db-4c13-bf35-bd54db9abdcd" class="bulleted-list"><li style="list-style-type:circle">B 시스템 용으로빌드한 실행파일을 실행해서 그 파일을 읽음</li></ul><ul id="d8493fb4-1c1e-4bff-b733-92d8966bd631" class="bulleted-list"><li style="list-style-type:circle">그러나 바이트 크기가 틀려서 엉뚱한 데이터가 읽힘 (4바이트로 저장한 int가 2바이트씩 읽힐 수 있음)</li></ul></li></ul><ul id="158b215c-f797-4b35-8e0d-9440733f553e" class="bulleted-list"><li style="list-style-type:disc">따라서 이런 일을 하려면 정확히 파일에 저장할 데이터의 크기를고정해두는 것이 좋음</li></ul><h2 id="0d992b81-ac91-4030-b882-a5256579ac6b" class="">파일 입출력</h2><ul id="77b409cc-7a7d-48d2-a416-c5d8ba65e434" class="bulleted-list"><li style="list-style-type:disc">C는 파일을 다루기 매우 까다로움<p id="5ef2881c-0c1f-4f79-8cdc-36a452db79c0" class="">⇒ C#처럼 파일 내용을 한번에 읽어와서 문자열 배열로 반환하는 등 좋은 함수가 없음</p></li></ul><ul id="1fd06a0b-d051-45fb-a13f-313301bfef1c" class="bulleted-list"><li style="list-style-type:disc">파일을 복사하는 함수도 없음<p id="8a2c336e-5390-4cd6-af94-60466c4bc900" class="">⇒ 각 운영체제에서 제공하는 함수를 사용하거나 그 기능을 직접 스트림 읽기/쓰기 함수를 사용해서 구현해야함</p></li></ul><ul id="900575cb-cb13-4a04-80a4-2721d9f88edc" class="bulleted-list"><li style="list-style-type:disc">따라서 C에서 파일 관련 연산은 아래와 같음<p id="774a819c-0954-4d6d-ada8-0a15bd23fcb0" class="">1) 파일을 열어서 파일 스트림에 가져옴</p><p id="84474edc-1719-4630-a21a-f7f814774fc9" class="">2) 그 파일 스트림을 사용해서 하고 싶은걸 함</p><p id="2b5e8264-5980-485c-b476-c551e5f98529" class="">3) 파일을 닫아줌</p></li></ul><h3 id="119f2b7f-c355-4d53-b8da-337298570318" class="">파일열기</h3><pre id="61e7671d-935f-4c95-ba9f-c307368c8f5a" class="code"><code>#include &lt;stdio.h&gt;
+
+#define LENGTH (1024)
+
+FILE* stream;
+char list[LENGTH];
+
+stream = fopen(&quot;hello, text&quot;, &quot;r&quot;);
+
+if (fgets(list, LENGTH, stream) != NULL) {
+	printf(&quot;%s&quot;, list);
+}</code></pre><pre id="7a5130ac-fe96-4ae0-ac51-9a4e713e144b" class="code"><code>FILE* fopen(const char* filename, const char* mode);</code></pre><ul id="21f45b1b-0c0f-407e-864a-36fcd628e3f7" class="bulleted-list"><li style="list-style-type:disc">filename으로 지정된 파일</li></ul><ul id="f1f433d9-a1c9-4701-b424-78526993c2db" class="bulleted-list"><li style="list-style-type:disc">열 때 사용하는 모드(예: 읽기 전용, 이진파일 등)는 mode로 지정</li></ul><ul id="4b54cecf-a14e-4ca5-8428-7bc023af5d9d" class="bulleted-list"><li style="list-style-type:disc">반환값은 파일 스트림 포인터!</li></ul><h3 id="07866941-da44-4af7-8477-33ed114462d6" class="">파일 열기 모드</h3><div id="9ce31404-a99e-4335-81c9-0893124b7c9c" class="collection-content"><h4 class="collection-title"></h4><table class="collection-content"><thead><tr><th><span class="icon property-icon"><svg viewBox="0 0 14 14" style="width:14px;height:14px;display:block;fill:rgba(55, 53, 47, 0.4);flex-shrink:0;-webkit-backface-visibility:hidden" class="typesTitle"><path d="M7.73943662,8.6971831 C7.77640845,8.7834507 7.81338028,8.8943662 7.81338028,9.00528169 C7.81338028,9.49823944 7.40669014,9.89260563 6.91373239,9.89260563 C6.53169014,9.89260563 6.19894366,9.64612676 6.08802817,9.30105634 L5.75528169,8.33978873 L2.05809859,8.33978873 L1.72535211,9.30105634 C1.61443662,9.64612676 1.2693662,9.89260563 0.887323944,9.89260563 C0.394366197,9.89260563 0,9.49823944 0,9.00528169 C0,8.8943662 0.0246478873,8.7834507 0.0616197183,8.6971831 L2.46478873,2.48591549 C2.68661972,1.90669014 3.24119718,1.5 3.90669014,1.5 C4.55985915,1.5 5.12676056,1.90669014 5.34859155,2.48591549 L7.73943662,8.6971831 Z M2.60035211,6.82394366 L5.21302817,6.82394366 L3.90669014,3.10211268 L2.60035211,6.82394366 Z M11.3996479,3.70598592 C12.7552817,3.70598592 14,4.24823944 14,5.96126761 L14,9.07922535 C14,9.52288732 13.6549296,9.89260563 13.2112676,9.89260563 C12.8169014,9.89260563 12.471831,9.59683099 12.4225352,9.19014085 C12.028169,9.6584507 11.3257042,9.95422535 10.5492958,9.95422535 C9.60035211,9.95422535 8.47887324,9.31338028 8.47887324,7.98239437 C8.47887324,6.58978873 9.60035211,6.08450704 10.5492958,6.08450704 C11.3380282,6.08450704 12.040493,6.33098592 12.4348592,6.81161972 L12.4348592,5.98591549 C12.4348592,5.38204225 11.9172535,4.98767606 11.1285211,4.98767606 C10.6602113,4.98767606 10.2411972,5.11091549 9.80985915,5.38204225 C9.72359155,5.43133803 9.61267606,5.46830986 9.50176056,5.46830986 C9.18133803,5.46830986 8.91021127,5.1971831 8.91021127,4.86443662 C8.91021127,4.64260563 9.0334507,4.44542254 9.19366197,4.34683099 C9.87147887,3.90316901 10.6232394,3.70598592 11.3996479,3.70598592 Z M11.1778169,8.8943662 C11.6830986,8.8943662 12.1760563,8.72183099 12.4348592,8.37676056 L12.4348592,7.63732394 C12.1760563,7.29225352 11.6830986,7.11971831 11.1778169,7.11971831 C10.5616197,7.11971831 10.056338,7.45246479 10.056338,8.0193662 C10.056338,8.57394366 10.5616197,8.8943662 11.1778169,8.8943662 Z M0.65625,11.125 L13.34375,11.125 C13.7061869,11.125 14,11.4188131 14,11.78125 C14,12.1436869 13.7061869,12.4375 13.34375,12.4375 L0.65625,12.4375 C0.293813133,12.4375 4.43857149e-17,12.1436869 0,11.78125 C-4.43857149e-17,11.4188131 0.293813133,11.125 0.65625,11.125 Z"></path></svg></span>이름</th><th><span class="icon property-icon"><svg viewBox="0 0 14 14" style="width:14px;height:14px;display:block;fill:rgba(55, 53, 47, 0.4);flex-shrink:0;-webkit-backface-visibility:hidden" class="typesText"><path d="M7,4.56818 C7,4.29204 6.77614,4.06818 6.5,4.06818 L0.5,4.06818 C0.223858,4.06818 0,4.29204 0,4.56818 L0,5.61364 C0,5.88978 0.223858,6.11364 0.5,6.11364 L6.5,6.11364 C6.77614,6.11364 7,5.88978 7,5.61364 L7,4.56818 Z M0.5,1 C0.223858,1 0,1.223858 0,1.5 L0,2.54545 C0,2.8216 0.223858,3.04545 0.5,3.04545 L12.5,3.04545 C12.7761,3.04545 13,2.8216 13,2.54545 L13,1.5 C13,1.223858 12.7761,1 12.5,1 L0.5,1 Z M0,8.68182 C0,8.95796 0.223858,9.18182 0.5,9.18182 L11.5,9.18182 C11.7761,9.18182 12,8.95796 12,8.68182 L12,7.63636 C12,7.36022 11.7761,7.13636 11.5,7.13636 L0.5,7.13636 C0.223858,7.13636 0,7.36022 0,7.63636 L0,8.68182 Z M0,11.75 C0,12.0261 0.223858,12.25 0.5,12.25 L9.5,12.25 C9.77614,12.25 10,12.0261 10,11.75 L10,10.70455 C10,10.4284 9.77614,10.20455 9.5,10.20455 L0.5,10.20455 C0.223858,10.20455 0,10.4284 0,10.70455 L0,11.75 Z"></path></svg></span>설명</th><th><span class="icon property-icon"><svg viewBox="0 0 14 14" style="width:14px;height:14px;display:block;fill:rgba(55, 53, 47, 0.4);flex-shrink:0;-webkit-backface-visibility:hidden" class="typesText"><path d="M7,4.56818 C7,4.29204 6.77614,4.06818 6.5,4.06818 L0.5,4.06818 C0.223858,4.06818 0,4.29204 0,4.56818 L0,5.61364 C0,5.88978 0.223858,6.11364 0.5,6.11364 L6.5,6.11364 C6.77614,6.11364 7,5.88978 7,5.61364 L7,4.56818 Z M0.5,1 C0.223858,1 0,1.223858 0,1.5 L0,2.54545 C0,2.8216 0.223858,3.04545 0.5,3.04545 L12.5,3.04545 C12.7761,3.04545 13,2.8216 13,2.54545 L13,1.5 C13,1.223858 12.7761,1 12.5,1 L0.5,1 Z M0,8.68182 C0,8.95796 0.223858,9.18182 0.5,9.18182 L11.5,9.18182 C11.7761,9.18182 12,8.95796 12,8.68182 L12,7.63636 C12,7.36022 11.7761,7.13636 11.5,7.13636 L0.5,7.13636 C0.223858,7.13636 0,7.36022 0,7.63636 L0,8.68182 Z M0,11.75 C0,12.0261 0.223858,12.25 0.5,12.25 L9.5,12.25 C9.77614,12.25 10,12.0261 10,11.75 L10,10.70455 C10,10.4284 9.77614,10.20455 9.5,10.20455 L0.5,10.20455 C0.223858,10.20455 0,10.4284 0,10.70455 L0,11.75 Z"></path></svg></span>파일이 있다면</th><th><span class="icon property-icon"><svg viewBox="0 0 14 14" style="width:14px;height:14px;display:block;fill:rgba(55, 53, 47, 0.4);flex-shrink:0;-webkit-backface-visibility:hidden" class="typesText"><path d="M7,4.56818 C7,4.29204 6.77614,4.06818 6.5,4.06818 L0.5,4.06818 C0.223858,4.06818 0,4.29204 0,4.56818 L0,5.61364 C0,5.88978 0.223858,6.11364 0.5,6.11364 L6.5,6.11364 C6.77614,6.11364 7,5.88978 7,5.61364 L7,4.56818 Z M0.5,1 C0.223858,1 0,1.223858 0,1.5 L0,2.54545 C0,2.8216 0.223858,3.04545 0.5,3.04545 L12.5,3.04545 C12.7761,3.04545 13,2.8216 13,2.54545 L13,1.5 C13,1.223858 12.7761,1 12.5,1 L0.5,1 Z M0,8.68182 C0,8.95796 0.223858,9.18182 0.5,9.18182 L11.5,9.18182 C11.7761,9.18182 12,8.95796 12,8.68182 L12,7.63636 C12,7.36022 11.7761,7.13636 11.5,7.13636 L0.5,7.13636 C0.223858,7.13636 0,7.36022 0,7.63636 L0,8.68182 Z M0,11.75 C0,12.0261 0.223858,12.25 0.5,12.25 L9.5,12.25 C9.77614,12.25 10,12.0261 10,11.75 L10,10.70455 C10,10.4284 9.77614,10.20455 9.5,10.20455 L0.5,10.20455 C0.223858,10.20455 0,10.4284 0,10.70455 L0,11.75 Z"></path></svg></span>파일이 없다면</th></tr></thead><tbody><tr id="b8c06332-76f8-4413-b641-388aa0977639"><td class="cell-title"><a href="https://www.notion.so/r-b8c0633276f84413b641388aa0977639">r</a></td><td class="cell-^@jJ">파일을 읽기 전용으로 연다(read)</td><td class="cell-lYMS">파일의 첫부분부터 읽는다</td><td class="cell-lQJc">열기에 실패한다</td></tr><tr id="9fa5f829-3242-4031-8ec9-16748c0eee12"><td class="cell-title"><a href="https://www.notion.so/w-9fa5f829324240318ec916748c0eee12">w</a></td><td class="cell-^@jJ">파일을 쓰기 전용으로 생성한다(write)</td><td class="cell-lYMS">파일의 내용을 모두 없앤다</td><td class="cell-lQJc">새 파일을 생성한다</td></tr><tr id="4f40c539-8f33-4847-bb08-c26031077fa4"><td class="cell-title"><a href="https://www.notion.so/a-4f40c5398f334847bb08c26031077fa4">a</a></td><td class="cell-^@jJ">파일을 이어 쓴다(append)</td><td class="cell-lYMS">파일의 끝부분부터 읽는다</td><td class="cell-lQJc">새 파일을 생성한다</td></tr><tr id="fa6d4327-4e8c-457d-ab4b-488a1c7d70bb"><td class="cell-title"><a href="https://www.notion.so/r-fa6d43274e8c457dab4b488a1c7d70bb">r+</a></td><td class="cell-^@jJ">읽기/쓰기용으로 파일을 연다(read extended)</td><td class="cell-lYMS">파일의 첫부분부터 읽는다</td><td class="cell-lQJc">오류</td></tr><tr id="5572c4ba-d5a6-429a-9eef-c90d1b9ed126"><td class="cell-title"><a href="https://www.notion.so/w-5572c4bad5a6429a9eefc90d1b9ed126">w+</a></td><td class="cell-^@jJ">읽기/쓰기용으로 파일을 생성한다(write extended)</td><td class="cell-lYMS">파일의 내용을 모두 없앤다</td><td class="cell-lQJc">새 파일을 생성한다</td></tr><tr id="f4de27ab-c026-4c5c-904b-d6baaa743374"><td class="cell-title"><a href="https://www.notion.so/a-f4de27abc0264c5c904bd6baaa743374">a+</a></td><td class="cell-^@jJ">읽기/쓰기용으로 파일을 연다(append extended)</td><td class="cell-lYMS">파일의 끝부분부터 읽는다</td><td class="cell-lQJc">새 파일을 생성한다</td></tr></tbody></table></div><ul id="3b6c47b2-5ff8-4311-8192-7508f72b750e" class="bulleted-list"><li style="list-style-type:disc"><code>b</code>를 붙이면 이진모드로 파일을 엶<p id="175e2fd5-1931-4b7a-93ff-7288ab033f4e" class="">⇒ <code>rb</code>, <code>wb</code>, <code>ab</code>, <code>r+b</code>, <code>w+b</code>, <code>a+</code>b</p></li></ul><ul id="bf6e37ed-7e8d-473d-9622-41ae016251b9" class="bulleted-list"><li style="list-style-type:disc">이진모드란?<ul id="b1fba697-8913-4f4a-97ce-3be5f0562289" class="bulleted-list"><li style="list-style-type:circle">사실 유닉스 계열에는 아무 차이가 없음(<code>rb</code>나 <code>r</code>이나 동일)</li></ul><ul id="14f24e57-c7e8-4f51-bbd5-6a28b5f144b6" class="bulleted-list"><li style="list-style-type:circle">윈도우에서 새 줄 문자 처리하는 것만 달라짐 → 그 외 문자는 그대로</li></ul></li></ul><h3 id="05c0cb7a-5ea9-498b-81e3-e20cf8824af9" class="">윈도우에서 파일 열기</h3><ul id="d0ba6ce1-f51f-42eb-be2b-913513de7ade" class="bulleted-list"><li style="list-style-type:disc">파일 읽기용(<code>r</code>, <code>r+</code>, <code>rb</code>, <code>r+b</code>)으로 열 때<ul id="340c7cfe-37a3-4e56-83ee-3e4cf2d4512a" class="bulleted-list"><li style="list-style-type:circle">프로그램에서 텍스트모드로 파일을 열었을 때 : <code>\n</code>으로 저장</li></ul><ul id="9cb2b3ab-259d-44e2-b000-9368d757f3e2" class="bulleted-list"><li style="list-style-type:circle">프로그램에서 이진모드로 파일을 열었을 때 : 그대로 읽음</li></ul><p id="a048b606-d4b5-4fd3-b421-da619f5066cb" class="">⇒ 파일에서 새 줄을 &#x27;<code>\n</code>&#x27;으로만 저장했다면, 두 모드 다 &#x27;<code>\n</code>&#x27;으로 읽음(<code>OD</code>; <code>\r</code>, <code>OA</code>; <code>\n</code>)</p></li></ul><ul id="bf65b3b9-51a5-4a88-8808-582db199b06b" class="bulleted-list"><li style="list-style-type:disc">파일 쓸 때<ul id="d9a908e0-aa45-4586-8949-7d1fd931cdaf" class="bulleted-list"><li style="list-style-type:circle">프로그램에서 텍스트모드로 파일을 열었을 때 : <code>\r\n</code>으로 저장</li></ul><ul id="64401895-0b25-4484-84e9-74df8464bcb5" class="bulleted-list"><li style="list-style-type:circle">프로그램에서 이진모드로 파일을 열었을 때 : 그대로 씀</li></ul></li></ul><p id="9a8a8acc-da20-4eaa-925f-27724747aeaa" class="">⇒ 문자열에 &#x27;<code>\r\n</code>&#x27;이 있었다면, 두 모드 다 &#x27;<code>\r\n</code>&#x27;으로 씀</p><hr id="71088691-bf11-44d2-98ec-f7015e6e4216"/><p id="50e4fc00-20ab-4ce0-b5dd-688e47b651fa" class=""><strong>&lt;보충 설명&gt;</strong></p><ul id="4fd7b095-66bb-4385-9c68-7acb2998c0e4" class="bulleted-list"><li style="list-style-type:disc">윈도우 자체 내에서 텍스트파일 상 표기법과 콘솔창 텍스트 문자열 표기법의 뉴라인 코드가 달라서 &quot;<code>r</code>&quot;과 &quot;<code>rb</code>&quot;에 차이가 발생함</li></ul><ul id="921cd850-8ffd-4848-a412-c195352324a6" class="bulleted-list"><li style="list-style-type:disc">윈도우 텍스트파일에선 새줄이 &quot;<code>\r\n (ascii: 0D0A)</code>&quot; 이고,</li></ul><ul id="6b8d8cab-9832-456b-b314-92fd5e9e6fae" class="bulleted-list"><li style="list-style-type:disc">윈도우 콘솔창 텍스트 문자열에선 새줄이 &quot;<code>\n (ascii: 0A</code>)&quot;이므로,</li></ul><ul id="3b67400f-bd35-4c9a-92d1-af596eeaae17" class="bulleted-list"><li style="list-style-type:disc">텍스트파일을 읽어 올 땐 &quot;<code>\r\n</code>&quot;을 &quot;<code>\n</code>&quot;으로 번역해줘야 함</li></ul><ul id="3caae20c-4b21-4689-a064-554c45c987ad" class="bulleted-list"><li style="list-style-type:disc">반대로 텍스트파일에 쓸 땐 &quot;<code>\n</code>&quot;을 &quot;<code>\r\n</code>&quot;으로 번역해줘야 함</li></ul><ul id="c6c8965e-f53c-443e-9e5b-dd54b84d3df8" class="bulleted-list"><li style="list-style-type:disc">만약 텍스트 파일에 쓸 때, &quot;<code>\n</code>&quot;을 &quot;<code>\r\n (ascii: 0D0A)</code>&quot;으로 번역을 안하고, &quot;<code>\n (ascii: 0A)</code>&quot;을 고대로 쓸 경우 (&quot;<code>wb</code>&quot; 바이너리 모드) ,그 텍스트파일 열어보면, 줄바꿈이 안되어 있음.</li></ul><ul id="83dde197-ebde-4990-b91a-c3e4cf0f58cb" class="bulleted-list"><li style="list-style-type:disc">* UNIX 시스템은 텍스트파일이나 콘솔 텍스트나 새줄은 동일하게 &quot;<code>\n</code>&quot; 이므로, <code>rb</code>나 <code>r</code>이나 다르게 읽고 쓸 필요가 없음.</li></ul><hr id="09a47ddd-c57e-46c9-b4f6-93b38acf4a11"/><h3 id="b48be928-0e49-4f1b-9cf5-8b3811da4f3d" class="">파일 쓰기 예시</h3><pre id="8e1d6d77-b984-4de7-920d-1e4e3509ab28" class="code"><code>/* 파일에 쓰기 예 (미완성) */
+
+#include &lt;stdio.h&gt;
+#include &lt;string.h&gt;
+
+#define LENGTH (5)
+
+
+FILE* stream;
+int scores[LENGTH] = { 100, 34, 95, 56, 72 };
+
+stream = fopen(filename, &quot;wb&quot;);
+
+fwrite(scores, sizeof(scores[0]), LENGTH, stream);
+
+
+write_file(&quot;hello.text);</code></pre><ul id="4acfa193-bca3-4501-8042-d776fd826c56" class="bulleted-list"><li style="list-style-type:disc">&quot;<code>wb</code>&quot; 이진파일에서는 정상적으로 저장이 됨</li></ul><ul id="e67b796f-4232-4ca1-8d8a-b1ce666127de" class="bulleted-list"><li style="list-style-type:disc">&quot;<code>w</code>&quot;, &quot;<code>w+</code>&quot;로 파일을 쓸 경우 원래 파일에 있던 내용이 모두 사라짐</li></ul><pre id="cff44aca-dedc-4221-9cff-9bf09a8c8922" class="code"><code>FILE* stream;
+int scores[LENGTH] = { 20, 74, 99, 49, 63 };
+
+stream = fopen(filename, &quot;wb&quot;);
+
+fwrite(scores, sizeof(scores[0]), LENGTH, stream);</code></pre><ul id="74f3a70c-1040-4ead-8e20-6461840d9c51" class="bulleted-list"><li style="list-style-type:disc">추가적으로 다음과 같이 저장을 해여도 바로 파일에 바로 써지지 않음</li></ul><ul id="f689eece-aa09-4ae6-9c56-b71a0fc2af11" class="bulleted-list"><li style="list-style-type:disc"><strong>버퍼링에 우선적으로 저장을 해두고 다음 단계로 넘어가게 됨</strong></li></ul><ul id="e39840e1-43fe-4f91-8646-8f01716e3806" class="bulleted-list"><li style="list-style-type:disc">즉, 보통 쓰기는 버퍼링 때문에 바로 파일에 저장되지 않음<p id="7bcf9a96-9abb-4c62-9197-9937a41ad14d" class="">1) &#x27;<code>\n</code>&#x27;이 들어오거나</p><p id="652ea6c8-f020-490e-8187-55f1ad042179" class="">2) <code>fflush()</code>를 호출해야함</p></li></ul><ul id="1cb169cf-bc33-4509-8099-f41c73d84544" class="bulleted-list"><li style="list-style-type:disc"><code>fwrite()</code>는 &#x27;<code>\n</code>&#x27;을 &#x27;<code>\n</code>&#x27;으로 인식을 못 함<pre id="1f883b62-6f93-4525-a68d-ced115d9b3c1" class="code"><code>sie_t fwrite(const void* buffer, size_t size, size_t count, FILE* stream);</code></pre><ol type="a" id="bd7af0c7-7dc9-4c71-aba3-a7ba390ba83b" class="numbered-list" start="1"><li>첫 번 인자로 받는 buffer가 <code>char*</code>도 아니고 <code>int*</code>도 아니고 <code>float*</code>도 아니고 그냥 <code>void*</code>임</li></ol><ol type="a" id="d8891f7a-8b67-47a5-af11-edd632cbf705" class="numbered-list" start="2"><li>즉, <code>fwrite()</code> 입장에서는 그냥 비트 패턴이 줄줄이 들어옴<p id="f6191979-4552-4f0d-b5fe-31b4dd143a39" class="">⇒ <code>char*</code>로 들어오면 1바이트 단위로 읽어서 아스키코드로 인식하지만 <code>void*</code>기 때문에 숫자에 의마가 없음</p></li></ol><ol type="a" id="91592649-829b-4aab-82df-14a9d78c894b" class="numbered-list" start="3"><li>0x0A가 <code>fwrite()</code>입장에서 &#x27;<code>\n</code>&#x27;를 의미하는지 정수 10을 의마하는지 아니면 부동소수점의 일부 인지 알 수가 없음</li></ol><ol type="a" id="0d1d2a24-900b-4d4f-a5ed-267dac3959b0" class="numbered-list" start="4"><li>따라서 <code>fflush()</code>만이 유일한 해결법!</li></ol></li></ul><pre id="fd4c3cc6-cf13-416c-8b3e-08905959b562" class="code"><code>FILE* stream;
+int scores[LENGTH] = { 20, 74, 99, 49, 63 };
+
+stream = fopen(filename, &quot;wb&quot;);
+
+fwrite(scores, sizeof(scores[0]), LENGTH, stream);
+fflush(stream);</code></pre><ul id="521d58bf-5675-439a-bf71-dea4460193b0" class="bulleted-list"><li style="list-style-type:disc">파일에 바로 쓰기 가능!</li></ul><h3 id="53e2b8c5-70b4-4c32-a0f5-a51d22b600c0" class="">파일 읽기 예시</h3><pre id="0bb44bae-483a-492d-8ed5-c4433a96dbb0" class="code"><code>/* 파일 읽기 예시 (미완성) */
+
+#include &lt;stdio.h&gt;
+#include &lt;string.h&gt;
+
+#define LENGTH (6)
+
+
+void read_file(const char* filename)
+{
+	FILE* stream;
+	char data[LENGTH];
+
+	stream = fopen(filename, &quot;rb&quot;);
+
+	while (TRUE) {
+		if (fgets(data, LENTH, steam) == NULL) {
+			break;
+		}
+		printf(&quot;%s\n&quot;, data);
+	}
+}
+
+/*
+[hello.txt]
+Hello POCU!
+
+[a.exe]
+Hello
+ POCU
+!
+*/</code></pre><ul id="84813c75-ae20-46f2-a8ac-dada71fd5d9f" class="bulleted-list"><li style="list-style-type:disc">이진데이터와 파일데이터의 큰 차이는 새 줄 처리 문자정도!</li></ul><h3 id="13241125-9986-48a0-b5f0-f1dfddc8cd48" class="">파일에 이어쓰기 예시</h3><pre id="84550305-3124-46f8-a658-73790d1eadba" class="code"><code>/* 파일에 이어 쓰기 예시 (미완성) */
+
+#include &lt;stdio.h&gt;
+#include &lt;string.h&gt;
+
+#define LENGTH (6)
+
+
+void append_file(const char* filename)
+{
+	FILE* stream;
+	char data[LENGTH];
+
+	stream = fopen(filename, &quot;ab&quot;);
+
+	if (fgets(data, LENGTH, stdin) != NULL) {
+		fwrite(data, strlen(data), 1, stream);
+	}
+}
+
+
+append_file(&quot;hello.txt);</code></pre><h3 id="d75aee4a-0f88-483a-8ed1-d542f6025183" class="">파일닫기</h3><p id="3821bd56-3ecd-490b-b66a-7e8e53cf343d" class="">앞서 코드에서 파일을 열기만 하고 닫지를 않았음</p><pre id="2deebad9-b8f2-4031-91f1-04c446fa0867" class="code"><code>void open_file(const char* filename)
+{
+	FILE* stream;
+	char data[LENGTH];
+
+	stream = fopen(filename, &quot;r&quot;);
+
+	if (fgets(data, LENGTH, stream) != NULL) {
+		printf(&quot;%s&quot;, data);
+	}
+	/* 닫기 코드가 없음 */
+}</code></pre><ul id="777bae80-71b2-4555-91f8-6e4755db767b" class="bulleted-list"><li style="list-style-type:disc">열어둔 파일을 안 닫으면 문제가 됨</li></ul><ul id="360496f7-328b-4c87-a39a-92acce8c4012" class="bulleted-list"><li style="list-style-type:disc">파일은 운영체제가 열어주지만, 운영체제는 우리가 언제 파일을 다 써서 필요가 없는지 모름</li></ul><ul id="1d9568bb-dd10-4d61-b7f4-e84c71b1e99a" class="bulleted-list"><li style="list-style-type:disc">따라서 직접 말 안해주면 알아서 닫아주지 않음</li></ul><ul id="455ca919-8022-41f1-805a-7af2ec8918e9" class="bulleted-list"><li style="list-style-type:disc">계속 파일을 열기만 한다면 어느 순간 운영체제가 더이상 파일을 열 수가 없음</li></ul><ul id="74c9fbd6-915b-4ae9-8a70-6ea01114b952" class="bulleted-list"><li style="list-style-type:disc">C#에서는 언어가 알아서 해줬지만, C는 그렇지 않음</li></ul><ul id="0f1b83b5-b014-47e5-bfa6-7ef9fe91dccd" class="bulleted-list"><li style="list-style-type:disc"><strong>열었으면 언제다 닫아줘야함!!</strong></li></ul><pre id="6b06aa6e-c351-49fa-a8f1-96864830c8a5" class="code"><code>int fclose(FILE* stream);</code></pre><ul id="7b3e790c-37f7-4e6f-ab04-83e2430bff9b" class="bulleted-list"><li style="list-style-type:disc">파일을 닫음</li></ul><ul id="87cb9050-57db-49f7-a803-fbc9f69a3cdf" class="bulleted-list"><li style="list-style-type:disc">성공하면 <code>0</code>, 실패하면 <code>EOF</code>를 반환</li></ul><ul id="5c5cbcc5-59e1-4b14-948d-55338708ad15" class="bulleted-list"><li style="list-style-type:disc">버퍼링 중인 스트림은 다음과 같이 작종<ul id="182c4922-7fce-4651-b34d-36f07d847c65" class="bulleted-list"><li style="list-style-type:circle">출력 스트림 : 버퍼에 남아있는 데이터는 파일로 다 보냄</li></ul><ul id="ba009bff-1bfd-4430-8631-c2c9870a4ae4" class="bulleted-list"><li style="list-style-type:circle">입력 스트림 : 무시하고 끝남</li></ul></li></ul><ul id="acb0e8ba-b764-46ac-a951-96dcb24b743a" class="bulleted-list"><li style="list-style-type:disc"><strong>통제하지 못하는 환경에 대해서 신경써야함</strong><ul id="2c40ff45-17ce-4cfc-9413-11cc5188ba2c" class="bulleted-list"><li style="list-style-type:circle">파일이 없는 경우</li></ul><ul id="12dbc286-ab43-4b38-a667-dddcd547f4b2" class="bulleted-list"><li style="list-style-type:circle">있었는데 누가 지우는 경우</li></ul></li></ul><ul id="d8a547d8-fb37-46c1-b455-e690c25958a4" class="bulleted-list"><li style="list-style-type:disc"><strong>파일 닫기에 실패하면 예외처리를 해줘야함</strong><p id="2212008a-6afc-4868-9f28-0a2528fada7b" class="">⇒ 하지만 C는 애외처리가 따로 없음</p></li></ul><h3 id="56231563-2a1d-4856-b371-3ca8fca8e0ad" class="">예외처리</h3><p id="b3828c54-ae85-4843-88a9-5dc0cada04c2" class="">⇒ <code>fopen()</code> 함수는 실패하면 널 포인터를 반환함</p><pre id="ff4159ad-6c9b-4a7e-b34b-13140121f455" class="code"><code>#incldue &lt;stdio.h&gt;
+
+
+#define LENGTH (1024)
+
+
+void open_file(const char* filnme)
+{
+	FILE* stream
+	char data[LENGTH];
+
+	stream = fopen(filename, &quot;rb&quot;);
+	if (stream == NULL) {
+		fprintf(stderr, &quot;error while opening %s&quot;, filename);
+		return;
+	}
+
+	if (fgets(data, LENGTH, stream) != NULL) {
+		printf(&quot;%s&quot;, data);
+	}
+
+	if (fclose(stream) != 0); {
+		fprintf(stderr, &quot;error while closing&quot;);
+	}
+}
+
+int main(void)
+{
+	open_file(&quot;hello.txt);
+	return 0;
+}</code></pre><h3 id="dbcd6c69-f8d4-4971-8b41-88af94f05658" class="">stderr</h3><ul id="17a3c1b2-1c4c-4648-8b7c-50a857f926b8" class="bulleted-list"><li style="list-style-type:disc">프로그램이 실행될 때 자동으로 3개의 스트림을 만들어줌 (stdout, stdin, stderr)</li></ul><ul id="42cbd1ca-38f2-4d4e-b9bb-382e741bbbfb" class="bulleted-list"><li style="list-style-type:disc">stderr은 stdout과 비슷</li></ul><ul id="eaead65a-0ed8-4e27-a96b-2a0cd28f04ab" class="bulleted-list"><li style="list-style-type:disc">다만, stderr는 오류 관련 메세지를 출력하는 전용 스트림<ul id="cf7eac17-5424-466e-8821-fbd29637cbd3" class="bulleted-list"><li style="list-style-type:circle">반드시 규칙은 아니고 그냥 관습</li></ul><ul id="35d3f0c2-c15c-4069-9c6b-e8124319c4c7" class="bulleted-list"><li style="list-style-type:circle">참고로 stderr은 보통 버퍼링을 쓰지 않음 (오류는 바로바로 보여줘야하기 때문)</li></ul></li></ul><ul id="0e1e9f7d-62f8-4325-b9b0-c91e9544d66c" class="bulleted-list"><li style="list-style-type:disc">콘솔창에서 실행할 때 stdout과 stderr 모두 까만 화면에 같이 섞여 나옴<p id="1540bb5c-72f3-4557-9335-4a62d8aeb42a" class="">⇒ 입출력 리디렉션을 통해 분리 가능</p></li></ul><h3 id="3f9e29c7-3978-4b20-8243-40b7e982acbd" class="">파일 열기에 실패할 경우</h3><pre id="337b0dc7-39c5-4437-b734-7707e2a340a9" class="code"><code>#include &lt;stdio.h&gt;
+
+
+void open_file(const char* filename)
+{
+	FILE* stream = fopen(filename, &quot;rb&quot;);
+	if (!stream) {
+		fprintf(stderr, &quot;error while opening %s&quot;, filename);
+		return;
+	}
+
+	/* 코드 생략 */
+}
+
+
+open_file(&quot;no_file.txt&quot;);</code></pre><pre id="6fb2dd07-3aa3-411b-90c9-ee3d8d9dd469" class="code"><code>&gt; a.exe
+error while opening no_file.txt</code></pre><ul id="f813fab1-5fc0-4191-a191-29ed7e4b061c" class="bulleted-list"><li style="list-style-type:disc"><code>!stream</code> : stream이 널 일때</li></ul><ul id="e437dc48-2a70-489d-ae65-57bb6f83f29d" class="bulleted-list"><li style="list-style-type:disc"><code>stream</code> : 스트림이 존재한다면<p id="b655d643-201d-474d-92fb-bb3d70a81ea5" class="">⇒ 즉, <code>!stream</code>은 스트림이 존재하지 않는다면 → 스트림이 <code>NULL</code>일 때를 의미함</p></li></ul><h3 id="20de9520-98b0-43a5-b39f-9bc89a1c6aac" class="">오류코드를 보여주는 코드</h3><ul id="a2655eb1-4dd4-4baa-8aec-74e113539b7b" class="bulleted-list"><li style="list-style-type:disc">단순히 실패했단 사실 말고 왜 실패했는지 이유를 알 수 있음</li></ul><ul id="25fd2d65-971b-4d8a-83b5-1f8ccb4aa5a3" class="bulleted-list"><li style="list-style-type:disc">몇몇 표준 라이브러리 함수들이 실패할 때 그 이유를 숫자(오류코드)로 어딘가 저장해둠</li></ul><ul id="2e085b50-eaaa-4d7d-9f10-ff6333c7c4c5" class="bulleted-list"><li style="list-style-type:disc"><code>errno</code>라는 매크로(<code>#define</code>) → <code>&lt;errno.h&gt;</code>안에 있음</li></ul><pre id="12dcad3c-1d2e-4af3-b7a1-790c09950722" class="code"><code>#include &lt;stdio.h&gt;
+#include &lt;errno.h&gt;
+
+
+void open_file(const char* filename)
+{
+	FILE* stream = fopen(filename, &quot;rb&quot;);
+	if (!stream) {
+		fprintf(stderr, &quot;[%d] error while opening %s&quot;, errono, filename);
+		return;
+	}
+
+	/* 코드 생략 */
+}
+
+
+open_file(&quot;no_file.txt&quot;);</code></pre><pre id="a5754d94-0e86-4a49-85dd-2af108679862" class="code"><code>&gt; a.exe
+[2] error while opening no_file.txt</code></pre><ul id="5b53cf66-8ccf-4c7a-9c6f-722c8c288eed" class="bulleted-list"><li style="list-style-type:disc">하지만 이 숫자는 각 컴파일러마다 의미가 달라서 숫자의 의미를 알 방법이 없음</li></ul><h3 id="dd798368-9003-4d62-832e-903eaa1f6aee" class="">오류코드를 말로 설명해주는 함수</h3><pre id="f5b0a369-9828-4bbf-a368-96bf186eafa8" class="code"><code>char* strerror(int errnum);</code></pre><ul id="08ac041d-c0f5-4a4c-a900-60ce8c3c0a27" class="bulleted-list"><li style="list-style-type:disc"><code>&lt;string.h</code>&gt;에 정의됨</li></ul><ul id="cd9f013e-72dd-49b9-b34b-08f7b0a069e6" class="bulleted-list"><li style="list-style-type:disc"><code>errno</code>를 넣으면 문자열로 된 친절한 설명을 돌려줌</li></ul><pre id="842004f8-bb6d-4bb7-a840-0ff397b15cc1" class="code"><code>#include &lt;stdio.h&gt;
+#include &lt;errno.h&gt;
+
+
+void open_file(const char* filename)
+{
+	FILE* stream = fopen(filename, &quot;rb&quot;);
+	if (!stream) {
+		fprintf(stderr, &quot;%s - %s&quot;, filename, strerror(errno);
+		return;
+	}
+
+	/* 코드 생략 */
+}
+
+
+open_file(&quot;no_file.txt&quot;);</code></pre><pre id="41e7d8ca-1084-4eb6-8682-0ba11f6a1e6b" class="code"><code>&gt; a.exe
+no_file.txt - No such file or directory</code></pre><h3 id="9b5a19db-9244-4986-b75f-401663a07321" class="">perror()</h3><pre id="efbb1fdf-150b-43b6-896d-c26f0d8051a3" class="code"><code>void perror(const char* s);</code></pre><ul id="a4456053-3102-45d6-a31f-776d187a19d7" class="bulleted-list"><li style="list-style-type:disc">이때까지 보여준 오류 내용들을 모두 보여주는 함수<p id="d1ceb887-9c55-4e73-90c1-a8f7dae0075a" class="">⇒ 내부적으로 오류 관련 함수들을 호출해준다고 생각하면 됨</p></li></ul><pre id="0eb63b0b-4c34-48f6-ab1a-374f67ca5293" class="code"><code>#include &lt;stdio.h&gt;
+#include &lt;errno.h&gt;
+
+
+void open_file(const char* filename)
+{
+	FILE* stream = fopen(filename, &quot;rb&quot;);
+	if (!stream) {
+		perror(&quot;error while opening&quot;);
+		return;
+	}
+
+	/* 코드 생략 */
+}
+
+
+open_file(&quot;no_file.txt&quot;);</code></pre><pre id="81decd90-83ee-44d7-bc3f-0e111885fdf7" class="code"><code>&gt; a.exe
+error while opening: No such file or directory</code></pre><h3 id="ebdea8e0-8f3c-4cdb-92fe-39373ddcc9e3" class="">참고 : C에서의 오류 처리</h3><ol type="1" id="f0b022d1-cd94-4254-9a87-8bbc32645db6" class="numbered-list" start="1"><li>함수가 곧바로 오류코드를 반환</li></ol><ol type="1" id="fdfd993d-c7a8-4b7b-9266-9440127df30b" class="numbered-list" start="2"><li>내부적으로 오류코드를 전역변수로 들고 있고 있다가 검사</li></ol><h3 id="56241c22-e3b7-4cb7-8490-78275f5e1cc2" class="">파일 복사하기</h3><pre id="bf334c2a-5e35-4269-b6dc-ad8d832ceb41" class="code"><code>#define _CRT_SECURE_NO_WARNINGS
+
+#include &lt;stdio.h&gt;
+
+#include &quot;file_utils.h&quot;
+
+void copy_file(const char* src, const char* dst)
+{
+	FILE* src_file
+	FILE* dst_file;
+	int c;
+
+	src_file = fopen(src, &quot;rb&quot;);
+	if (src_file == NULL) {
+		perror(&quot;error while opening source file&quot;);
+		retrun;
+	}
+	
+	dst_file = fopen(dst, &quot;rb&quot;);
+	if (dst_file == NULL) {
+		perror(&quot;error while opening target file&quot;);
+		goto close_source;
+		/* 열려있는 원본파일을 제대로 닫아줘야함 */
+	}
+
+	c = fgetc(src_file);
+	while (c != EOF) {
+		fputc(c, dst_file);
+		c = fgetc(src_fle);
+	}
+
+	if (fclose(dst_file) == EOF) {
+		perror(&quot;error while closing target file&quot;);
+	}
+
+	close_source:
+	/* 함수의 제일 마지막 위치 : 어떤 실행 경로를 따라가던 최종적으로 여기에 오게 되어있음 */
+	/* 복사본 파일을 열다 실패하면 코드의 중간부분을 다 건너뛰고 원본 파일을 닫는 코드만 실행 */
+		if (fclose(src_file) == EOF) {
+			perror(&quot;error while closing source file&quot;);
+		}
+	}
+}
+
+/* main.c */
+
+#include &quot;file_utils.h&quot;
+
+int main(void)
+{
+	copy_file(&quot;src.txt&quot;, &quot;copy.txt&quot;);
+	return 0;
+}</code></pre><h2 id="ea68c4d3-f5b2-41a7-9778-44d1679abfd1" class="">파일 탐색</h2><ul id="5188bd74-3553-47e6-b546-dbdd64ef033c" class="bulleted-list"><li style="list-style-type:disc">스트림은 항 방향으로 흐르며 읽음</li></ul><ul id="fed878ef-8c3d-4bc6-9b71-7ca0be0ec17d" class="bulleted-list"><li style="list-style-type:disc">다음에 쓸 위치 또는 읽을 위치로 옮길 수 있음</li></ul><h3 id="245974cb-d7ab-4b2a-b2de-b4a0e0e15a0c" class="">파일 위치 표시자(file position indicator)</h3><ul id="26d81057-f5d4-46d6-abcc-9e3726803be4" class="bulleted-list"><li style="list-style-type:disc">스트림 안에서 현재 위치를 나타내줌</li></ul><hr id="7fcffca2-ef6b-451a-8909-0a5e4d6c1f49"/><p id="edb4ac55-d031-4272-a872-564caed516e4" class=""><strong>&lt;스트림의 표시자&gt;</strong></p><p id="69ffb407-7185-473f-aa3c-a4955bdec8f7" class="">→ 총 3개의 표시자가 있음</p><p id="22ffd9ca-a97e-471f-8044-a34653fa9c10" class="">1) EOF 표시자 : clearerr( )로 지울 수 있음</p><p id="17249c43-c217-4441-a7a0-32618e67a5b4" class="">2) 오류 표시자 : clearerr( )로 지울 수 있음</p><p id="e1a6661d-ce94-4e9a-90b2-623fea6ea11d" class="">3) 파일 위치 표시자 : 지울 수 없음<div class="indented"><p id="31159a41-f47c-4dde-b246-d9be35ef8043" class="">⇒ 파일 위치 표시자는 오류 상황을 나타내는게 아니므로 지울 수 없음</p></div></p><hr id="227ed7c5-7839-44e7-8508-df0389de843e"/><h3 id="071392ee-82c7-48e8-9c12-cbf1756d9656" class="">스트림 위치 시작으로 되돌리기</h3><pre id="574f4f28-aca2-446f-b766-aea4f53456d0" class="code"><code>void rewind(FILE* stream);</code></pre><ul id="42a0f7bc-9ee0-418c-a640-a0ff76403379" class="bulleted-list"><li style="list-style-type:disc">처음으로 되돌리기</li></ul><h3 id="80b1fd9e-e31c-4b46-8568-5a93990b3014" class="">파일 두 번 읽기</h3><pre id="69c6a7d6-c9f3-4e4c-a0d8-16afd75a3a43" class="code"><code>void print_array(const int* data, size_t n);
+
+
+FILE* stream;
+int data(LENGTH);
+size_t num_read;
+
+/* 오류 처리 생략 */
+stream = fopen(filename, &quot;rb&quot;);
+num_read = fread(data, sizeof(data[0]), LENGTH, stream);
+print_array(data, num_read);
+
+rewind(stream);
+printf(&quot;**rewinded**\n&quot;);
+
+num_read = fread(data, sizeof(data[0]), LENGTH, stream);
+print_array(data, num_read);
+
+fclose(stream);
+
+/*
+20 74 99 49 63
+**rewinded**
+20 74 99 49 63
+*/</code></pre><h3 id="a9b8e4d7-a39e-4c83-b75c-719f6e7f0246" class="">임의의 위치 옮기기</h3><pre id="b620a21e-b6ef-409e-b00c-a43346a8f7b7" class="code"><code>int fseek(FILE* stream, long offset, int orgin);</code></pre><ul id="c489d53a-d5fa-419d-87e5-86af068e8aca" class="bulleted-list"><li style="list-style-type:disc">파일 위치 표시자를 origin으로부터 offset만큼 이동함</li></ul><ul id="a982784e-b197-49ce-8b40-d6d11ae60d35" class="bulleted-list"><li style="list-style-type:disc">orgin에는 세 종류(모두 매크로)가 있음<div id="35ea6003-dc31-4fd6-ab2a-0935310e9233" class="collection-content"><h4 class="collection-title"></h4><table class="collection-content"><thead><tr><th><span class="icon property-icon"><svg viewBox="0 0 14 14" style="width:14px;height:14px;display:block;fill:rgba(55, 53, 47, 0.4);flex-shrink:0;-webkit-backface-visibility:hidden" class="typesTitle"><path d="M7.73943662,8.6971831 C7.77640845,8.7834507 7.81338028,8.8943662 7.81338028,9.00528169 C7.81338028,9.49823944 7.40669014,9.89260563 6.91373239,9.89260563 C6.53169014,9.89260563 6.19894366,9.64612676 6.08802817,9.30105634 L5.75528169,8.33978873 L2.05809859,8.33978873 L1.72535211,9.30105634 C1.61443662,9.64612676 1.2693662,9.89260563 0.887323944,9.89260563 C0.394366197,9.89260563 0,9.49823944 0,9.00528169 C0,8.8943662 0.0246478873,8.7834507 0.0616197183,8.6971831 L2.46478873,2.48591549 C2.68661972,1.90669014 3.24119718,1.5 3.90669014,1.5 C4.55985915,1.5 5.12676056,1.90669014 5.34859155,2.48591549 L7.73943662,8.6971831 Z M2.60035211,6.82394366 L5.21302817,6.82394366 L3.90669014,3.10211268 L2.60035211,6.82394366 Z M11.3996479,3.70598592 C12.7552817,3.70598592 14,4.24823944 14,5.96126761 L14,9.07922535 C14,9.52288732 13.6549296,9.89260563 13.2112676,9.89260563 C12.8169014,9.89260563 12.471831,9.59683099 12.4225352,9.19014085 C12.028169,9.6584507 11.3257042,9.95422535 10.5492958,9.95422535 C9.60035211,9.95422535 8.47887324,9.31338028 8.47887324,7.98239437 C8.47887324,6.58978873 9.60035211,6.08450704 10.5492958,6.08450704 C11.3380282,6.08450704 12.040493,6.33098592 12.4348592,6.81161972 L12.4348592,5.98591549 C12.4348592,5.38204225 11.9172535,4.98767606 11.1285211,4.98767606 C10.6602113,4.98767606 10.2411972,5.11091549 9.80985915,5.38204225 C9.72359155,5.43133803 9.61267606,5.46830986 9.50176056,5.46830986 C9.18133803,5.46830986 8.91021127,5.1971831 8.91021127,4.86443662 C8.91021127,4.64260563 9.0334507,4.44542254 9.19366197,4.34683099 C9.87147887,3.90316901 10.6232394,3.70598592 11.3996479,3.70598592 Z M11.1778169,8.8943662 C11.6830986,8.8943662 12.1760563,8.72183099 12.4348592,8.37676056 L12.4348592,7.63732394 C12.1760563,7.29225352 11.6830986,7.11971831 11.1778169,7.11971831 C10.5616197,7.11971831 10.056338,7.45246479 10.056338,8.0193662 C10.056338,8.57394366 10.5616197,8.8943662 11.1778169,8.8943662 Z M0.65625,11.125 L13.34375,11.125 C13.7061869,11.125 14,11.4188131 14,11.78125 C14,12.1436869 13.7061869,12.4375 13.34375,12.4375 L0.65625,12.4375 C0.293813133,12.4375 4.43857149e-17,12.1436869 0,11.78125 C-4.43857149e-17,11.4188131 0.293813133,11.125 0.65625,11.125 Z"></path></svg></span>origin</th><th><span class="icon property-icon"><svg viewBox="0 0 14 14" style="width:14px;height:14px;display:block;fill:rgba(55, 53, 47, 0.4);flex-shrink:0;-webkit-backface-visibility:hidden" class="typesText"><path d="M7,4.56818 C7,4.29204 6.77614,4.06818 6.5,4.06818 L0.5,4.06818 C0.223858,4.06818 0,4.29204 0,4.56818 L0,5.61364 C0,5.88978 0.223858,6.11364 0.5,6.11364 L6.5,6.11364 C6.77614,6.11364 7,5.88978 7,5.61364 L7,4.56818 Z M0.5,1 C0.223858,1 0,1.223858 0,1.5 L0,2.54545 C0,2.8216 0.223858,3.04545 0.5,3.04545 L12.5,3.04545 C12.7761,3.04545 13,2.8216 13,2.54545 L13,1.5 C13,1.223858 12.7761,1 12.5,1 L0.5,1 Z M0,8.68182 C0,8.95796 0.223858,9.18182 0.5,9.18182 L11.5,9.18182 C11.7761,9.18182 12,8.95796 12,8.68182 L12,7.63636 C12,7.36022 11.7761,7.13636 11.5,7.13636 L0.5,7.13636 C0.223858,7.13636 0,7.36022 0,7.63636 L0,8.68182 Z M0,11.75 C0,12.0261 0.223858,12.25 0.5,12.25 L9.5,12.25 C9.77614,12.25 10,12.0261 10,11.75 L10,10.70455 C10,10.4284 9.77614,10.20455 9.5,10.20455 L0.5,10.20455 C0.223858,10.20455 0,10.4284 0,10.70455 L0,11.75 Z"></path></svg></span>설명</th></tr></thead><tbody><tr id="4886b51d-7ef4-432f-9db0-21c7d3efd4b2"><td class="cell-title"><a href="https://www.notion.so/SEEK_SET-4886b51d7ef4432f9db021c7d3efd4b2">SEEK_SET</a></td><td class="cell-^bbL">파일의 시작</td></tr><tr id="2939bf2a-5e34-4497-846a-666dcaa89acd"><td class="cell-title"><a href="https://www.notion.so/SEEK_CUR-2939bf2a5e344497846a666dcaa89acd">SEEK_CUR</a></td><td class="cell-^bbL">현재 파일 위치</td></tr><tr id="e383c16f-4b97-4866-ae7a-328f5b9c4bd1"><td class="cell-title"><a href="https://www.notion.so/SEEK_END-e383c16f4b974866ae7a328f5b9c4bd1">SEEK_END</a></td><td class="cell-^bbL">파일의 끝</td></tr></tbody></table></div></li></ul><ul id="7aa0aa57-649d-48cb-95c9-01c7558741a9" class="bulleted-list"><li style="list-style-type:disc">위치 이동에 성공하면 0을 반환, 실패하면 0이 아닌 수를 반환</li></ul><h3 id="a601e764-18ef-4714-b1ba-092b1a7c600a" class="">파일의 앞에서 약간 뒤로 이동하기</h3><pre id="7d838e57-a4ca-4d95-8873-556872a3175d" class="code"><code>void read_file(const char* filename)
+{
+	FILE* stream;
+	int data[LENGTH];
+	size_t num_read;
+
+	/* 오류 처리 생략 */
+	stream = fopen(filename, &quot;rb&quot;); /* { 20, 74, 99, 49, 63 } */
+
+	fseek(stream, 1 * sizeof(data[0]), SEEK_SET);
+
+	num_read = fread(data, sizeof(data[0]), LENGTH, stream);
+	print_array(data, num_read);
+
+	fclose(stream);
+}
+
+/*
+74 99 49 63
+_
+*/</code></pre><h3 id="1b2c0d73-a7e9-450b-8b3d-cc2f6461b636" class="">파일의 앞으로 이동 실패</h3><pre id="c5d251e9-28bc-452a-bf31-4743988c0f24" class="code"><code>void read_file(const char* filename)
+{
+	FILE* stream;
+	int data[LENGTH];
+	size_t num_read;
+
+	/* 오류 처리 생략 */
+	stream = fopen(filename, &quot;rb&quot;); /* { 20, 74, 99, 49, 63 } */
+
+	fseek(stream, -1 * sizeof(data[0]), SEEK_CUR);
+	if (result != 0) {
+		perror(&quot;error while seeking&quot;);
+		fclose(stream)
+		return ;
+	}
+
+	num_read = fread(data, sizeof(data[0]), LENGTH, stream);
+	print_array(data, num_read);
+
+	fclose(stream);
+}</code></pre><pre id="45633254-6061-4733-8bda-7b50e5d0a076" class="code"><code>error while seeking: Invalid argument
+_</code></pre><h3 id="e2ed33df-b118-4000-af5d-46fa63d8b3cb" class="">끝에서 앞으로 이동</h3><ul id="9b126b1f-8065-43fb-af0a-25e549d68e4e" class="bulleted-list"><li style="list-style-type:disc">파일의 끝에서 다시 앞으로 가는건 가능</li></ul><ul id="afaa82b2-38d9-4773-ab8e-b2060270881a" class="bulleted-list"><li style="list-style-type:disc">하지만 파일의 처음에서더 앞으로 가는 것은 당연히 불가능</li></ul><pre id="0464b4bf-c09c-4cbe-a99e-2a40e7d6f645" class="code"><code>result = fseek(stream, 0, SEEK_SET);       /* result: 0 */
+result = fseek(stream, 0, SEEK_CUR);       /* result: 0 */
+result = fseek(stream, 0, SEEK_END);       /* result: 0 */
+
+result = fseek(stream, 1, SEEK_SET);       /* result: 0 */
+result = fseek(stream, 1, SEEK_CUR);       /* result: 0 */
+result = fseek(stream, 1, SEEK_END);       /* result: 0, 그러나 이상한 곳을 접근 */
+
+result = fseek(stream, -1, SEEK_SET);       /* result: -1 */
+result = fseek(stream, -1, SEEK_CUR);       /* result: 0 */
+result = fseek(stream, -1, SEEK_END);       /* result: 0 */</code></pre><h3 id="d279df89-e1e1-4a91-81de-f705b9602edc" class="">파일 위치 표시자의 현재 위치</h3><pre id="cc6cced6-acf4-4152-9368-80c63c38962e" class="code"><code>long ftell(FILE* stream);</code></pre><ul id="a75b405b-9a88-4639-93a2-5219c6531ea5" class="bulleted-list"><li style="list-style-type:disc">파일 위치 표시자의 현재 위치를 알려주는 함수</li></ul><ul id="d24a86c4-4d31-4e14-b4c4-23d2ec242412" class="bulleted-list"><li style="list-style-type:disc">실패하면 -1을 반환<ul id="6969ea63-cf07-4cd7-909e-3233e118e435" class="bulleted-list"><li style="list-style-type:circle">일반적인 파일 스트림에서는 발생하지 않음</li></ul><ul id="8e2f2c6d-38bb-419f-a1be-f6a801b70ae2" class="bulleted-list"><li style="list-style-type:circle">파일 크기가 없는 파일 스트림(예: 소켓, 파이프 등)에서 발생</li></ul><ul id="653b8928-b12c-4947-9a02-18e4d7a8b97b" class="bulleted-list"><li style="list-style-type:circle">파일의 크기가 제공되지 않는 경우에도 발생 가능(예: 가상 파일 시스템)</li></ul></li></ul><ul id="a77f432b-0faf-46ca-bf7c-299fddce6f68" class="bulleted-list"><li style="list-style-type:disc">바이너리 모드로 열었을 때는 파일의 시작 지점으로부터 몇 바이트 떨어져 있는지를 알려줌</li></ul><ul id="e27c0934-2729-4400-8f4c-908fecbbc585" class="bulleted-list"><li style="list-style-type:disc">텍스트 모드로 열었을 때 어떤 값을 반환할지 정해져 있지 않으나 유효값을 반환해줌<p id="99a98fa5-5b5c-48e6-8b0c-762b25e00e89" class="">⇒ 유효? fseek( )의 offset 매개편수로 사용할 때</p></li></ul><h2 id="8a169d1b-b3e0-4ef2-b2d9-c9d257da858d" class="">입출력 리디렉션(IO redirection)</h2><ul id="bb997f7b-cae8-499c-b411-75cee988baab" class="bulleted-list"><li style="list-style-type:disc">파일 입출력과 다르지만 헷갈릴 수 있어 서로 비교가 필요함</li></ul><ul id="25bcb4d7-6f36-4b5d-aea2-da11b121440c" class="bulleted-list"><li style="list-style-type:disc">리디렉션 : 방향을 틀어주는 것</li></ul><ul id="d9fc8a53-0540-4254-8322-9e50b47c7d85" class="bulleted-list"><li style="list-style-type:disc"><strong>즉, 입력이나 출력이 들어오고 나가는 방향을 다른데로 돌려줌</strong></li></ul><ul id="d07f497c-5237-4518-b5ae-0dfa957c8e74" class="bulleted-list"><li style="list-style-type:disc">입력 리디렉션 <strong>(코드 변경 없음)</strong><p id="dd17e5dd-2a61-4272-a738-4e6c1e554624" class="">⇒ 텍스트 파일을 열어 stdin에 대신 타이핑을 쳐주는 기능</p></li></ul><ul id="5ac85176-e0c5-4437-922a-0da2cd7289d4" class="bulleted-list"><li style="list-style-type:disc">출력 리디렉션 <strong>(코드 변경 없음)</strong><p id="57e30185-27de-43f5-a429-5a107948bb85" class="">⇒ stdout에 출력되는 것을 화면에 보여주는 대신 텍스트 파일에 저장</p><p id="ae6e36dd-82f7-464e-a666-b86368ebc2f3" class="">⇒ 마찬가지로 stderr에 출력되는 것도 별도의 텍스트 파일에 저장해줌</p></li></ul><ul id="0d193c52-b46a-4a0a-b7dd-716902ad5de8" class="bulleted-list"><li style="list-style-type:disc"><strong>입출력 리디렉션은 C의 기능이 아니라 커맨드 라인 또는 shell의 기능! → 어떤 프로그램에 써도됨</strong></li></ul><h3 id="6e9a3760-1503-4ef3-b1de-a3e79c8dfe46" class="">사용 방법</h3><pre id="a648e95b-01ce-4f6f-9028-6be0d5812daf" class="code"><code>&gt; a.exe &lt; input.txt &gt; output.txt 2&gt; error.txt</code></pre><ul id="0ce80e5a-6fea-4fa2-8df5-82b4acbff163" class="bulleted-list"><li style="list-style-type:disc">stdin : &lt; 를 사용</li></ul><ul id="6fa2594b-bf8c-49f5-a449-d6e7f8dbdb57" class="bulleted-list"><li style="list-style-type:disc">stdout : &gt; 를 사용</li></ul><ul id="262c6382-df55-4280-b8c0-fd72bc465154" class="bulleted-list"><li style="list-style-type:disc">stderr : 2&gt; 를 사용</li></ul><ul id="d5ddee3a-f65b-42bc-a2fb-08f5e5c3ab08" class="bulleted-list"><li style="list-style-type:disc">셋 중 필요한 것만 골라 사용 가능</li></ul><hr id="60daa182-cdbd-4381-9f72-da3745cab9b9"/><p id="edbe0f89-49f8-4450-bf10-d316932dca75" class=""><strong>이제까지 테스트를 진행할 때 콘솔창에 하나하나 타이팡을 다 해서 </strong><code><strong>input.txt</strong></code><strong>에 저장하고 </strong><code><strong>a &lt; input.txt</strong></code><strong>를 해주면 끝!</strong></p><ul id="12d6c9d0-494f-4bc7-bcc6-55a8b1a2bd72" class="bulleted-list"><li style="list-style-type:disc">출력과 오류 메세지의 확실한 구분 가능<ul id="33d5a8dd-7284-4805-b30e-b986edd9b2ac" class="bulleted-list"><li style="list-style-type:circle">출력만 파일에 저장, 오류 메세지는 여전히 화면에</li></ul><ul id="595aebaf-21a1-442b-9c1e-79b4bb84a5de" class="bulleted-list"><li style="list-style-type:circle">아니면 출력을 화면에, 오류 메세지는 파일에</li></ul><ul id="3478a330-1cc5-47ec-8610-8c9c21cac854" class="bulleted-list"><li style="list-style-type:circle">아니면 둘 다 별도의 파일에</li></ul></li></ul><hr id="cc06fe78-cc39-4382-960f-fbdfd7ba02f5"/><h3 id="a9c89bf9-510c-44cc-8e67-623740fdb5fc" class="">파일을 다 읽는 순간 EOF가 자동으로 추가</h3><ul id="9c11a381-3446-4e6e-8813-e5a65e56173d" class="bulleted-list"><li style="list-style-type:disc">기존에 키보드에서 직접 입력할 때는 <code>EOF</code> + 엔터를 쳐줘야 했음<ul id="2717564d-72c1-4b45-8b4f-60fcc8d2ce81" class="bulleted-list"><li style="list-style-type:circle">프로그램이 키보드 입력의 끝을 알 수 없으니 사용자가 직접 넣어줄 수 밖에 없었음</li></ul><ul id="4dcf7691-d92b-4756-9268-de6f54394279" class="bulleted-list"><li style="list-style-type:circle">그러나 <code>EOF</code> 뒤에 새 줄 문자가 따라옴</li></ul><ul id="18f0a2a9-c156-4a4c-9f9e-fd67e04a58c4" class="bulleted-list"><li style="list-style-type:circle">다시 읽는 함수를 호출하면 문제가 될 수도 있음</li></ul><ul id="68a37523-3d10-4323-b189-4b8f31dc6291" class="bulleted-list"><li style="list-style-type:circle">하지만 파일로 입력 리디렉션을 대신할 경우 자동으로 <code>EOF</code>가 입력됨</li></ul><p id="183b065f-cc18-4853-af15-2e93147b62bd" class="">⇒ <code>EOF</code>(end of file)의 이유</p></li></ul><h3 id="f9dab6b6-7b36-4a08-97aa-835014be5d81" class="">주의 : fopen()</h3><ul id="649c4127-3dbe-4bab-8f0e-6b7d4b0134da" class="bulleted-list"><li style="list-style-type:disc">리디렉션과 파일을 여는 것은 완벽하게 다름</li></ul><ul id="220f04d0-1854-460f-947e-410973636999" class="bulleted-list"><li style="list-style-type:disc">리디렉션을 하라고 할 때 파일을 여는 <code>fopen()</code>을 하거나 파일을 열려고 리디렉션 하는 경우가 종종 있음</li></ul><h2 id="bf5e3826-5795-45fb-a3a8-a5429a2b3e46" class="">커맨드 라인 인자</h2><pre id="cabe03de-4f58-4502-aecc-18760b1c5ee1" class="code"><code>&gt; filecopy.exe a.txt b.txt
+
+/*
+filecopy.exe : 프로그램 이름
+a.txt, b.txt : 커맨드 라인 인자 두개
+*/</code></pre><ul id="17af43a1-eeb8-4c7c-af15-b26eabf7dbc2" class="bulleted-list"><li style="list-style-type:disc">커맨드 라인에서 프로그램을 실행할 때 인자를 넣어주는 방법</li></ul><ul id="188505f3-b7a8-4536-96ff-3f92c250a357" class="bulleted-list"><li style="list-style-type:disc">위와 같이 들어온 인자들은 <code>main()</code> 함수의 매개변수에서 읽어올 수 있음</li></ul><h3 id="68e5404e-a7da-4537-9bbf-4747d4192506" class="">커맨드 라인 인자를 받는 main() 함수</h3><pre id="cddc76bc-c3e6-456f-89f4-cc1fe6a7565d" class="code"><code>int main(int argc, const char* argv[]) {}</code></pre><ul id="5f571bdb-6acd-495f-ac65-b053bb47d6eb" class="bulleted-list"><li style="list-style-type:disc"><code>argc</code>는 들어온 인자의 수<p id="5fbafd36-81e6-4877-a237-733207527309" class="">⇒ 이 수에는 실행한 파일의 이름까지 포함</p></li></ul><ul id="87b934a0-8f8d-45a1-9530-64721d3ae9ed" class="bulleted-list"><li style="list-style-type:disc">아래의 경우 <code>argc</code>는 3임<pre id="a2bc4707-2672-4469-baca-74ef724177e3" class="code"><code>&gt; filecopy.exe a.txt b.txt</code></pre><ul id="d2a3f4cf-d294-4e96-8088-c53b12d7f53d" class="bulleted-list"><li style="list-style-type:circle">첫 번째 인자 : 실행한 파일의 경로</li></ul><ul id="e052c2c0-06df-4ed1-95ba-f22c244c7bc7" class="bulleted-list"><li style="list-style-type:circle">나머지 인자 : 그 후에 따라온 2개의 인자</li></ul></li></ul><ul id="4777725a-bf66-4cc3-b3b1-823c618494a5" class="bulleted-list"><li style="list-style-type:disc"><code>argv</code>는 <code>char</code> 포인터 배열<ul id="754d0cec-d776-4668-9b32-ab578dc98c2b" class="bulleted-list"><li style="list-style-type:circle"><code>argv[argc + 1]</code>로 생성됨</li></ul><ul id="be091200-5fa7-401b-91f1-f117095b285f" class="bulleted-list"><li style="list-style-type:circle"><code>argv[0]</code> : 첫 번쨰 요소에는 실행 파일의 이름<p id="3a0376cf-fd0f-41c4-a493-9bd747a4864f" class="">⇒ <code>argv[0]</code> = <code>filecopy.exe</code></p></li></ul><ul id="91df1a40-20d1-4713-906b-1e31709c5e63" class="bulleted-list"><li style="list-style-type:circle"><code>argv[1] ~ argv[argc-1]</code> : 커맨드 라인 인자들이 순차적으로 들어옴<p id="6f822630-a41c-4bf9-a25b-d0143dd0e30b" class="">⇒ <code>argv[1]</code> = <code>a.txt</code> / <code>argv[2]</code> = <code>b2.txt</code></p></li></ul><ul id="59652f10-8e09-4b72-bfaa-b2114fd0b37b" class="bulleted-list"><li style="list-style-type:circle"><code>argv[argc]</code> : <code>NULL</code></li></ul></li></ul><h3 id="c46e6481-588e-4c1e-b8d3-7c6631684678" class="">char* argv[]는 포인터의 배열의 배열</h3><ul id="6671ac83-8126-45ca-8172-bb34eae17550" class="bulleted-list"><li style="list-style-type:disc">각 포인터는 그냥 C 스타일 문자열<p id="f22b9f7f-b563-4dfb-a16c-ff09047a5e78" class="">1) 커맨드 라인에 들어온 값을 프로그램 실행할 때 만든 프로세스의 메모리 어딘가에 저장하고</p><p id="4d8a1b4d-6eb0-4c38-beed-e7bb4e009a75" class="">2) 그 주소들을 모아 <code>argv[]</code>배열에 넣어 보내주는 것<div class="indented"><p id="aa2e01ee-8136-4e84-b44a-4a3ce0458aeb" class="">⇒ 정확히 어떤 메모리에 들어가는지는 OS에 따라 다름</p></div></p></li></ul><h3 id="bd24a43f-351e-4a25-9fe8-c7e40d465a11" class="">퀴즈</h3><hr id="777796d6-7e2b-4235-822c-6455cf21d4ce"/><p id="aa234d0b-8975-491e-bf49-ff4c194da684" class="">어떤 C 프로그램 <code>a.exe</code>에 다음과 같은 커맨드라인 인자를 전했습니다.</p><p id="bbdc0fcf-b8e7-4c28-b98b-fe694144b6ab" class=""><code>a.exe hello world &lt; input.txt output.txt</code></p><p id="59751e38-dd64-4880-8749-8690fd7f6120" class="">이 때, <code>argc</code>와 <code>argv</code>의 요소값으로 무엇이 들어있는지 학생들이 각자 자신의 의견을 냈습니다.</p><p id="162f8957-cc1a-41d1-990a-98a75d192d3d" class="">학생들의 의견을 읽고 질문에 답하세요.</p><hr id="9a7d90b2-fb8d-4307-9e79-94949e802014"/><p id="54767ac2-fa15-4015-a54c-150cab32f452" class="">[정답]</p><p id="fad6d4db-b48d-464b-a894-ff482abe9654" class=""><code>argc</code>: <code>4</code> / <code>argv[0]</code>: <code>a.exe</code> / <code>argv[1]</code>: <code>hello</code> / <code>argv[2]</code>: <code>world</code> / <code>argv[3]</code>: <code>output.txt</code></p><p id="12c35e2c-49e9-4760-8af3-254bf44068cf" class="">⇒ &lt; input.text : 커맨드 인자가 아님! 순수하게 리디렉션</p><h3 id="d19b43e9-2a9b-4a9d-85d6-0369ded9f87c" class="">주의 : 입출력 리디렉션과의 차이</h3><ul id="da118846-d9ad-4752-9106-f6efe56ad4c8" class="bulleted-list"><li style="list-style-type:disc">입출력 리디렉션은 커맨드 라인 인자로 들어오지 않음</li></ul><pre id="dd266ecd-9744-4a09-a5c8-1d16d29e34a7" class="code"><code>int main(int argc, const char* argv[])
+{
+	int i;
+
+	printf(&quot;argc: %d\n&quot;, argc);
+
+	for (i = 0; i &lt; argc; ++i) {
+		printf(&quot;argv[%d]: %s\n, i, argv[i]);
+	}
+	
+	return 0;
+}</code></pre><pre id="b1b9bee2-4932-477b-b15d-b1d3799c4763" class="code"><code>&gt; a.exe &lt; hello.txt
+argc: 1
+argv[0]: a.exe</code></pre><h3 id="7c3a64aa-4914-44ca-ba0a-84ef2876caec" class="">제대로 된 파일복사</h3><p id="e1e8008b-d850-43dc-a228-e443559d8cc1" class="">⇒ 앞부분은 동일 main 함수만 바뀜</p><pre id="8776b2ed-34c4-4fc9-8d45-9e7d3eafb92a" class="code"><code>#define _CRT_SECURE_NO_WARNINGS
+
+#include &lt;stdio.h&gt;
+
+#include &quot;file_utils.h&quot;
+
+void copy_file(const char* src, const char* dst)
+{
+	FILE* src_file
+	FILE* dst_file;
+	int c;
+
+	src_file = fopen(src, &quot;rb&quot;);
+	if (src_file == NULL) {
+		perror(&quot;error while opening source file&quot;);
+		retrun;
+	}
+	
+	dst_file = fopen(dst, &quot;rb&quot;);
+	if (dst_file == NULL) {
+		perror(&quot;error while opening target file&quot;);
+		goto close_source;
+		/* 열려있는 원본파일을 제대로 닫아줘야함 */
+	}
+
+	c = fgetc(src_file);
+	while (c != EOF) {
+		fputc(c, dst_file);
+		c = fgetc(src_fle);
+	}
+
+	if (fclose(dst_file) == EOF) {
+		perror(&quot;error while closing target file&quot;);
+	}
+
+	close_source:
+	/* 함수의 제일 마지막 위치 : 어떤 실행 경로를 따라가던 최종적으로 여기에 오게 되어있음 */
+	/* 복사본 파일을 열다 실패하면 코드의 중간부분을 다 건너뛰고 원본 파일을 닫는 코드만 실행 */
+		if (fclose(src_file) == EOF) {
+			perror(&quot;error while closing source file&quot;);
+		}
+	}
+}
+
+/* main.c */
+
+#include &lt;stdio.h&gt;
+#include &lt;string.h&gt;
+
+#include &quot;file_utils.h&quot;
+
+int main(int argc, const char* argv[])
+{
+	if (argc != 3) { /* 실제 인자로 2개를 받음 : 원본과 복사본 파일 */
+		FILE* out; /* 사용자가 올바른 인자를 전달하지 않았다면 이 프로그램의 사용법을 알려줘야함 */
+
+			if (argc == 2 &amp;&amp; strcmp(argv[1], &quot;--help&quot;) ==0 {
+				out = stdout; /* 메뉴얼을 보여달라고 했을 경우 에러창이 아닌 stdout에 나타나도록 */
+			} else {
+				out = stderr; /* 그것이 아닌 실수로 잘못된 인자를 넣었을 경우 에러창에 표시 */
+			}
+			fprintf(out, &quot;usage: copy --help to see help page&quot;);
+
+			if (out == stderr) {
+				fprintf(out, &quot;\nerror: invalid arguments\n&quot;)
+		
+			return 1; /* 프로그램이 제대로 실행되지 않으면 0이 아닌 값을 반환 */
+	}
+	
+	copy_file(argv[1], arbv[2]);
+
+	return 0;
+}</code></pre><p id="a0c5c41a-f579-4c36-98ef-5aa0b3308117" class="">
+</p><p id="15b4b9de-f55a-4975-8f14-e40df9e46ffd" class="">
+</p></div></article></body>
+
 {% endblock post_content %}

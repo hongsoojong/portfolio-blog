@@ -3,218 +3,741 @@
 {% load static %}
 
 {% block post_title %}
-    <a href="{% url 'blog:all-posts' %}" class="font_kor">(6)</a>
+    <a href="{% url 'blog:all-posts' %}" class="font_kor">(8) 구조체, 공용체, 함수 포인터</a>
 {% endblock post_title %}
 
 {% block post_content %}
 
 {% block post_date %}
-    <div class="container w-1/2 mx-auto mb-10 post_date">[ Sept 25, 2021 ]</div>    
+    <div class="container w-1/2 mx-auto mb-10 post_date">[ Sept 27, 2021 ]</div>    
 {% endblock post_date %}
 
 <main class="container w-1/2 mx-auto font_kor">
 
 {% include "blog/all_posts/css_post.html" %}
-                
-<body><article id="18153dcd-e033-43ba-b983-6b7e40fc8787" class="page sans"><header><h1 class="page-title">(2) C 언어의 기본 문법 1</h1></header><div class="page-body"><p id="bd103f96-5ee5-453c-8b07-a65b8e67c9ae" class="">C는 순수하게 절차적 언어로만 사용 가능</p><ul id="bea942a7-9391-4aa6-9d85-d9927af42d92" class="bulleted-list"><li style="list-style-type:disc">C로 작성한 코드는 데이터보다 프로세스에 중점이 맞쳐져 있음 (기능보단 프로세스)</li></ul><ul id="63596ac6-7772-4a76-aedf-6f2aa9ef49ef" class="bulleted-list"><li style="list-style-type:disc">그냥 메뉴얼에 적힌 내용을 순서대로 따라가는 느낌으로 절차적 언어는 이해하기가 쉬움</li></ul><ul id="7147ceaf-d5a5-429d-9532-f4e916f5bcfa" class="bulleted-list"><li style="list-style-type:disc">실제 컴퓨터 구조의 모습, 추상적인 느낌이 거의 없으며 직관적임</li></ul><ul id="59b10c5a-fc6d-4d06-b695-0289c7cf0567" class="bulleted-list"><li style="list-style-type:disc">함수 : 모두 전역(global)함수, 기본적으로 어디에서나 호출 가능 (전역 : 누구나 접근이 가능)</li></ul><ul id="5e8c5a93-86a7-49ab-b622-72b2173bcc6e" class="bulleted-list"><li style="list-style-type:disc">변수 : 함수 밖에 선언 되어있으면 전역변수, 안에 선언되어 있으면 지역변수 ⇒ 딱 두가지로만 나뉨</li></ul><ul id="7953f03a-458f-42be-b9c0-8d1d94e3a2a5" class="bulleted-list"><li style="list-style-type:disc">반대 개념 : 객체 지향 언어(Object Oriented Programming; OOP)<p id="fc50159e-3fda-4632-b48c-d566f379e0fe" class="">객체 지향 언어 : 객체 지향 특성 (클래스, 중복, 상속, 가상함수, 추상화 등) / 모든 데이터를 오브젝트로 취급하여 프로그래밍 하는 방법</p></li></ul><h2 id="532bc2f3-32d0-46ca-b9e5-4c714bf28190" class="">기본 자료형(primitive) - 정수형(char, short, int, long)</h2><div id="a1a2c2e0-de69-4c39-b5ff-f6f2bc3e889a" class="collection-content"><h4 class="collection-title"></h4><table class="collection-content"><thead><tr><th><span class="icon property-icon"><svg viewBox="0 0 14 14" style="width:14px;height:14px;display:block;fill:rgba(55, 53, 47, 0.4);flex-shrink:0;-webkit-backface-visibility:hidden" class="typesTitle"><path d="M7.73943662,8.6971831 C7.77640845,8.7834507 7.81338028,8.8943662 7.81338028,9.00528169 C7.81338028,9.49823944 7.40669014,9.89260563 6.91373239,9.89260563 C6.53169014,9.89260563 6.19894366,9.64612676 6.08802817,9.30105634 L5.75528169,8.33978873 L2.05809859,8.33978873 L1.72535211,9.30105634 C1.61443662,9.64612676 1.2693662,9.89260563 0.887323944,9.89260563 C0.394366197,9.89260563 0,9.49823944 0,9.00528169 C0,8.8943662 0.0246478873,8.7834507 0.0616197183,8.6971831 L2.46478873,2.48591549 C2.68661972,1.90669014 3.24119718,1.5 3.90669014,1.5 C4.55985915,1.5 5.12676056,1.90669014 5.34859155,2.48591549 L7.73943662,8.6971831 Z M2.60035211,6.82394366 L5.21302817,6.82394366 L3.90669014,3.10211268 L2.60035211,6.82394366 Z M11.3996479,3.70598592 C12.7552817,3.70598592 14,4.24823944 14,5.96126761 L14,9.07922535 C14,9.52288732 13.6549296,9.89260563 13.2112676,9.89260563 C12.8169014,9.89260563 12.471831,9.59683099 12.4225352,9.19014085 C12.028169,9.6584507 11.3257042,9.95422535 10.5492958,9.95422535 C9.60035211,9.95422535 8.47887324,9.31338028 8.47887324,7.98239437 C8.47887324,6.58978873 9.60035211,6.08450704 10.5492958,6.08450704 C11.3380282,6.08450704 12.040493,6.33098592 12.4348592,6.81161972 L12.4348592,5.98591549 C12.4348592,5.38204225 11.9172535,4.98767606 11.1285211,4.98767606 C10.6602113,4.98767606 10.2411972,5.11091549 9.80985915,5.38204225 C9.72359155,5.43133803 9.61267606,5.46830986 9.50176056,5.46830986 C9.18133803,5.46830986 8.91021127,5.1971831 8.91021127,4.86443662 C8.91021127,4.64260563 9.0334507,4.44542254 9.19366197,4.34683099 C9.87147887,3.90316901 10.6232394,3.70598592 11.3996479,3.70598592 Z M11.1778169,8.8943662 C11.6830986,8.8943662 12.1760563,8.72183099 12.4348592,8.37676056 L12.4348592,7.63732394 C12.1760563,7.29225352 11.6830986,7.11971831 11.1778169,7.11971831 C10.5616197,7.11971831 10.056338,7.45246479 10.056338,8.0193662 C10.056338,8.57394366 10.5616197,8.8943662 11.1778169,8.8943662 Z M0.65625,11.125 L13.34375,11.125 C13.7061869,11.125 14,11.4188131 14,11.78125 C14,12.1436869 13.7061869,12.4375 13.34375,12.4375 L0.65625,12.4375 C0.293813133,12.4375 4.43857149e-17,12.1436869 0,11.78125 C-4.43857149e-17,11.4188131 0.293813133,11.125 0.65625,11.125 Z"></path></svg></span>정수형</th><th><span class="icon property-icon"><svg viewBox="0 0 14 14" style="width:14px;height:14px;display:block;fill:rgba(55, 53, 47, 0.4);flex-shrink:0;-webkit-backface-visibility:hidden" class="typesText"><path d="M7,4.56818 C7,4.29204 6.77614,4.06818 6.5,4.06818 L0.5,4.06818 C0.223858,4.06818 0,4.29204 0,4.56818 L0,5.61364 C0,5.88978 0.223858,6.11364 0.5,6.11364 L6.5,6.11364 C6.77614,6.11364 7,5.88978 7,5.61364 L7,4.56818 Z M0.5,1 C0.223858,1 0,1.223858 0,1.5 L0,2.54545 C0,2.8216 0.223858,3.04545 0.5,3.04545 L12.5,3.04545 C12.7761,3.04545 13,2.8216 13,2.54545 L13,1.5 C13,1.223858 12.7761,1 12.5,1 L0.5,1 Z M0,8.68182 C0,8.95796 0.223858,9.18182 0.5,9.18182 L11.5,9.18182 C11.7761,9.18182 12,8.95796 12,8.68182 L12,7.63636 C12,7.36022 11.7761,7.13636 11.5,7.13636 L0.5,7.13636 C0.223858,7.13636 0,7.36022 0,7.63636 L0,8.68182 Z M0,11.75 C0,12.0261 0.223858,12.25 0.5,12.25 L9.5,12.25 C9.77614,12.25 10,12.0261 10,11.75 L10,10.70455 C10,10.4284 9.77614,10.20455 9.5,10.20455 L0.5,10.20455 C0.223858,10.20455 0,10.4284 0,10.70455 L0,11.75 Z"></path></svg></span>표준 메모리</th><th><span class="icon property-icon"><svg viewBox="0 0 14 14" style="width:14px;height:14px;display:block;fill:rgba(55, 53, 47, 0.4);flex-shrink:0;-webkit-backface-visibility:hidden" class="typesText"><path d="M7,4.56818 C7,4.29204 6.77614,4.06818 6.5,4.06818 L0.5,4.06818 C0.223858,4.06818 0,4.29204 0,4.56818 L0,5.61364 C0,5.88978 0.223858,6.11364 0.5,6.11364 L6.5,6.11364 C6.77614,6.11364 7,5.88978 7,5.61364 L7,4.56818 Z M0.5,1 C0.223858,1 0,1.223858 0,1.5 L0,2.54545 C0,2.8216 0.223858,3.04545 0.5,3.04545 L12.5,3.04545 C12.7761,3.04545 13,2.8216 13,2.54545 L13,1.5 C13,1.223858 12.7761,1 12.5,1 L0.5,1 Z M0,8.68182 C0,8.95796 0.223858,9.18182 0.5,9.18182 L11.5,9.18182 C11.7761,9.18182 12,8.95796 12,8.68182 L12,7.63636 C12,7.36022 11.7761,7.13636 11.5,7.13636 L0.5,7.13636 C0.223858,7.13636 0,7.36022 0,7.63636 L0,8.68182 Z M0,11.75 C0,12.0261 0.223858,12.25 0.5,12.25 L9.5,12.25 C9.77614,12.25 10,12.0261 10,11.75 L10,10.70455 C10,10.4284 9.77614,10.20455 9.5,10.20455 L0.5,10.20455 C0.223858,10.20455 0,10.4284 0,10.70455 L0,11.75 Z"></path></svg></span>메모리 크기</th><th><span class="icon property-icon"><svg viewBox="0 0 14 14" style="width:14px;height:14px;display:block;fill:rgba(55, 53, 47, 0.4);flex-shrink:0;-webkit-backface-visibility:hidden" class="typesText"><path d="M7,4.56818 C7,4.29204 6.77614,4.06818 6.5,4.06818 L0.5,4.06818 C0.223858,4.06818 0,4.29204 0,4.56818 L0,5.61364 C0,5.88978 0.223858,6.11364 0.5,6.11364 L6.5,6.11364 C6.77614,6.11364 7,5.88978 7,5.61364 L7,4.56818 Z M0.5,1 C0.223858,1 0,1.223858 0,1.5 L0,2.54545 C0,2.8216 0.223858,3.04545 0.5,3.04545 L12.5,3.04545 C12.7761,3.04545 13,2.8216 13,2.54545 L13,1.5 C13,1.223858 12.7761,1 12.5,1 L0.5,1 Z M0,8.68182 C0,8.95796 0.223858,9.18182 0.5,9.18182 L11.5,9.18182 C11.7761,9.18182 12,8.95796 12,8.68182 L12,7.63636 C12,7.36022 11.7761,7.13636 11.5,7.13636 L0.5,7.13636 C0.223858,7.13636 0,7.36022 0,7.63636 L0,8.68182 Z M0,11.75 C0,12.0261 0.223858,12.25 0.5,12.25 L9.5,12.25 C9.77614,12.25 10,12.0261 10,11.75 L10,10.70455 C10,10.4284 9.77614,10.20455 9.5,10.20455 L0.5,10.20455 C0.223858,10.20455 0,10.4284 0,10.70455 L0,11.75 Z"></path></svg></span>데이터 표현범위 (signed)</th><th><span class="icon property-icon"><svg viewBox="0 0 14 14" style="width:14px;height:14px;display:block;fill:rgba(55, 53, 47, 0.4);flex-shrink:0;-webkit-backface-visibility:hidden" class="typesText"><path d="M7,4.56818 C7,4.29204 6.77614,4.06818 6.5,4.06818 L0.5,4.06818 C0.223858,4.06818 0,4.29204 0,4.56818 L0,5.61364 C0,5.88978 0.223858,6.11364 0.5,6.11364 L6.5,6.11364 C6.77614,6.11364 7,5.88978 7,5.61364 L7,4.56818 Z M0.5,1 C0.223858,1 0,1.223858 0,1.5 L0,2.54545 C0,2.8216 0.223858,3.04545 0.5,3.04545 L12.5,3.04545 C12.7761,3.04545 13,2.8216 13,2.54545 L13,1.5 C13,1.223858 12.7761,1 12.5,1 L0.5,1 Z M0,8.68182 C0,8.95796 0.223858,9.18182 0.5,9.18182 L11.5,9.18182 C11.7761,9.18182 12,8.95796 12,8.68182 L12,7.63636 C12,7.36022 11.7761,7.13636 11.5,7.13636 L0.5,7.13636 C0.223858,7.13636 0,7.36022 0,7.63636 L0,8.68182 Z M0,11.75 C0,12.0261 0.223858,12.25 0.5,12.25 L9.5,12.25 C9.77614,12.25 10,12.0261 10,11.75 L10,10.70455 C10,10.4284 9.77614,10.20455 9.5,10.20455 L0.5,10.20455 C0.223858,10.20455 0,10.4284 0,10.70455 L0,11.75 Z"></path></svg></span>데이터 표현범위 (unsigned)</th></tr></thead><tbody><tr id="b8505406-0b58-4568-ade7-3c51c20cf798"><td class="cell-title"><a href="https://www.notion.so/char-b85054060b584568ade73c51c20cf798">char</a></td><td class="cell-U:Vi">최소 8비트</td><td class="cell-iJIv">8비트</td><td class="cell-wutq">-128 ~ 127</td><td class="cell-]{:t">0 ~ 255</td></tr><tr id="701aad21-f217-417d-9418-394ba3741c87"><td class="cell-title"><a href="https://www.notion.so/short-701aad21f217417d9418394ba3741c87">short</a></td><td class="cell-U:Vi">최소 16비트</td><td class="cell-iJIv">16비트</td><td class="cell-wutq">-32,768 ~ 32,768</td><td class="cell-]{:t">0 ~ 65,535</td></tr><tr id="5204285c-f43a-4246-9b45-538cda857d04"><td class="cell-title"><a href="https://www.notion.so/int-5204285cf43a42469b45538cda857d04">int</a></td><td class="cell-U:Vi">최소 16비트</td><td class="cell-iJIv">32비트</td><td class="cell-wutq">-2,147,483,648 ~ 2147,483,647</td><td class="cell-]{:t">0 ~ 4,294,967,295</td></tr><tr id="2e6fc402-6b66-422b-b587-285273ac0a0d"><td class="cell-title"><a href="https://www.notion.so/long-2e6fc4026b66422bb587285273ac0a0d">long</a></td><td class="cell-U:Vi">최소 32비트</td><td class="cell-iJIv">32비트</td><td class="cell-wutq">-2,147,483,648 ~ 2147,483,647</td><td class="cell-]{:t">0 ~ 4,294,967,295</td></tr></tbody></table></div><h3 id="05a51e6b-82ba-4f43-89a7-4104e67fa58d" class="">char</h3><ul id="ad357ef4-7c0a-44b9-8fb0-4238c747a9dc" class="bulleted-list"><li style="list-style-type:disc">최소 8비트인 정수형 (표준은 8비트 이상이라고만 정의하여 컴파일러 제멋대로 1백만 비트도 가능)<p id="9302fa8c-d8b9-4883-887f-c126cd2091eb" class="">⇒ 즉, C에서는 1 byte가 8 bit라고 확실하게 정의할 수 없음!</p></li></ul><ul id="77b1ed9e-a542-421f-b4ed-220017f6b6fa" class="bulleted-list"><li style="list-style-type:disc">char가 몇 비트인지 찾는 방법<p id="711a28cb-0d45-436d-bbf4-7943e008a1f1" class="">⇒ 헤더를 include 한 뒤, CHAR_BIT 확인</p><pre id="948a9071-6544-48c6-b42e-9016ca427e53" class="code"><code>#include &lt;limits.h?
+  
+<!-- notion html -->
+<body><article id="0e3b97d6-9c45-49c7-b93e-c356936899d4" class="page sans"><div class="page-body"><h2 id="1e027663-701f-462a-918f-1a222d46263c" class="">구조체</h2><ul id="714c9ddb-1805-422e-a4ec-e4ad64656e30" class="bulleted-list"><li style="list-style-type:disc">데이터의 집합 → 멤버 함수 따위 없음!</li></ul><ul id="1f6f7a45-d35e-41c6-883d-5f18ce931350" class="bulleted-list"><li style="list-style-type:disc">여러 자료형을 가진 변수들을 하나의 패키지로 만들어 놓은 것</li></ul><ul id="dc48370c-d933-464e-8f59-1ac1291f56ae" class="bulleted-list"><li style="list-style-type:disc">C에서는 모든 자료형은 값형<p id="c0c6e43c-7f70-42fe-be55-24e4cf212dd1" class="">⇒ 하지만 주소를 전달하면 참조형으로 쓸 수 있음! 주소를 전달하지 않는 한 모두 값형임!</p></li></ul><h3 id="bf05d0b8-92fa-4006-a48e-d36ffa7a916b" class="">구조체를 사용하는 이유</h3><ul id="dbcc0880-2d0e-49b8-a823-000caab93cfe" class="bulleted-list"><li style="list-style-type:disc">여러 데이터가 합쳐져 하나의 단위로 봐야하는 경우들이 있음<p id="28037a8e-4d0c-413a-915a-5700b96cac5b" class="">⇒ 시간의 표현 (2시 + 34분)</p></li></ul><ul id="f5209b60-fc4c-4046-bfc3-791d31291f96" class="bulleted-list"><li style="list-style-type:disc">구조체를 통해 실수를 막을 수 있음<pre id="c01b1eb1-39f5-4c6c-9d97-6febcc3334a9" class="code"><code>if (is_monday(2043, 10, 1)) {
+	run_format();
+}
+/*
+10월 1일인지 1월 10일인지 사람마다 다르게 해석 가능
+*/</code></pre></li></ul><ul id="6f489bde-8853-41dd-99e8-37836c3333f6" class="bulleted-list"><li style="list-style-type:disc">같은 형의 데이터 여러개를 매개변수로 받을 때 순서가 바뀌면 컴파일러가 실수를 찾을 방법이 없음<pre id="380f8fab-662a-4388-8d43-179862487f08" class="code"><code>float calculate_BMI(float height, float weight);
+
+calculate_BMI(75.2f, 180.3f); /* 키와 몸무게가 잘못 들어감 */</code></pre></li></ul><ul id="7747066a-3f63-42a3-9cf2-89c13d49c93d" class="bulleted-list"><li style="list-style-type:disc">묵시적으로 변환 가능한 자료형이 여러 개 일때도 마찬가지로 컴파일러가 실수를 찾을 수 없음<pre id="55f8a57d-3898-41c6-97d1-f448afd8f8e6" class="code"><code>int save_data(unsigned char level, float money, const char* name)
+
+unsigned char lvl = 10;
+unsigned int exp = 12355;
+float money = 256.10;
+const char* name = &quot;Griff Bright&quot;;
+
+int result = save_data(lvl, exp, name);</code></pre></li></ul><ul id="fa806045-f9b8-4033-a037-b3354d044b32" class="bulleted-list"><li style="list-style-type:disc">매개변수 목록이 길어질수록 실수가 발생할 가능성이 높음<pre id="abff9d73-1834-4771-b745-3588cbb06c22" class="code"><code>int save_data(unsigned char level, unsigned int exp, float money, unsigned char str, unsigned char intell, unsigned short death_count, ...);
+
+save_data(level, money, exp, intel, str, death, assist, ...);</code></pre></li></ul><ul id="edc1e823-6f03-4325-b9a9-d3c90f701045" class="bulleted-list"><li style="list-style-type:disc">중간에 누군가 매개변수를 바꾸면 문제가 생김<pre id="f9eb0fcf-8ecd-40b4-a226-ea1ccbcd592f" class="code"><code>void update_KDA(int kill, int assist, int death);
+
+int kill = 40;
+int assist = 60;
+int death = 1;
+update_KDA(kill, assist, death);
+
+/* 변경 후 */
+void update_KDA(int kill, int death, int assist);
+
+int kill = 40;
+int assist = 60;
+int death = 1;
+update_KDA(kill, assist, death);</code></pre></li></ul><figure class="block-color-gray_background callout" style="white-space:pre-wrap;display:flex" id="b75ecbe7-1108-417e-9d66-58683b23aa26"><div style="font-size:1.5em"><span class="icon">💡</span></div><div style="width:100%"><strong>실수를 줄일려면 원자성을 보장하는 연산(atomic operation)을 사용하는 것이 좋음</strong></div></figure><h3 id="d4328761-7f63-4a75-8917-f04c8469d069" class="">실수 없는 구조체의 예시</h3><p id="fab4c78e-5696-4692-a45d-51ffee65aac1" class=""><strong>&lt;구조체의 선언&gt;</strong></p><pre id="54a4f68a-b150-4abd-82c9-2864e8bf9436" class="code"><code>struct date{
+	int year;
+	int month;
+	int day;
+};</code></pre><ul id="58c36139-4d0f-40c8-9385-34ff6ab1b79b" class="bulleted-list"><li style="list-style-type:disc"><mark class="highlight-red"><strong>반드시 세미콜론 마지막에 붙여야함</strong></mark></li></ul><ul id="c605d339-7e73-4b7d-a8c8-44dd0a94adf8" class="bulleted-list"><li style="list-style-type:disc">date란 구조체(새로운 형)를 만듬</li></ul><ul id="8b403ecb-d134-46a8-932d-eec9ae37cc7e" class="bulleted-list"><li style="list-style-type:disc">그 안에 들어가 있는 데이터(멤버 변수)는 총 세 개(year, month, day)</li></ul><ul id="bb636ba2-8027-489b-bfc1-3a49eb87f405" class="bulleted-list"><li style="list-style-type:disc"><code>struct date</code> 여기서 <code>date</code>를 자료형, 즉 <code>int</code>형, <code>char</code>형 등과 같은 개념으로 생각해주면 됨</li></ul><p id="835fdc7b-4d4c-4b0c-a5ee-62c67ffcfb70" class=""><strong>&lt;구조체의 변수 선언 및 사용하기&gt;</strong></p><pre id="26dc56d6-7536-48a1-9c09-0d78ae362865" class="code"><code>
+int is_monday(struct date date)
+{
+	int day = date.day;
+	int month = date.month;
+	int year = date.year;
+
+	/* 위 세 변수 가지고 월요일인지 아닌지 구해서 참/거짓 반환 */
+}</code></pre><pre id="d9041eb7-8131-439d-89c9-55d8bd7c3edd" class="code"><code>struct date date;
+
+date.year = 2043;
+date.month = 10;
+date.day = 1;
+
+if (is_monday(date)) {
+	/* 포맷 */
+}</code></pre><ul id="33baf158-b4f5-4d47-ae50-e9987a1fd20a" class="bulleted-list"><li style="list-style-type:disc"> <code>int is_monday(struct date date);</code> / <code>struct date date;</code><ul id="184018c5-fb3a-4557-b92a-bb7f683a2481" class="bulleted-list"><li style="list-style-type:circle">date라는 구조체(자료형)</li></ul><ul id="0ee37730-0d54-44a9-91a0-25218729e5d9" class="bulleted-list"><li style="list-style-type:circle">변수명은 date</li></ul><ul id="953c3fef-960c-40e7-81fd-7c5498acd5bc" class="bulleted-list"><li style="list-style-type:circle">함수의 매개변수로도 사용 가능</li></ul></li></ul><ul id="78f2dbdb-a121-4727-b5c2-33f15fa8ef92" class="bulleted-list"><li style="list-style-type:disc"><code>struct date date;</code><ul id="db1034a5-4b6b-4fb5-9d8e-f00970934f43" class="bulleted-list"><li style="list-style-type:circle">지역변수 선언시 0으로 초기화 안됨</li></ul><ul id="08a6e043-2e49-439c-80cc-4d3a2214bab0" class="bulleted-list"><li style="list-style-type:circle">스택 위치에 있던 값을 그대로 가져다 씀</li></ul></li></ul><h3 id="b12714a8-7ec1-433f-bc75-cb0f2e77982c" class="">너무 장황한 구조체의 데이터형</h3><pre id="7546e85f-de37-487a-8346-ef9214867a50" class="code"><code>struct date date;</code></pre><ul id="9400288a-8eef-4dc8-b1d2-51f840e584e9" class="bulleted-list"><li style="list-style-type:disc">해결책 → <code>typedef</code></li></ul><h3 id="77c523ed-d69d-4e94-b244-ef89c89ce115" class="">typedef</h3><pre id="9ac44fc4-14ef-4ee4-8fe3-526c0f4fcbf1" class="code"><code>/* &lt;stddef.n&gt; */
+typedef unsigned int        size_t;</code></pre><ul id="e706f7fe-0f68-4cb5-a730-44e69456299d" class="bulleted-list"><li style="list-style-type:disc">이미 있는 unsigned int에 새로운 별명을 지어줌</li></ul><ul id="5ac00a88-177d-48c1-bf37-f871e874b25d" class="bulleted-list"><li style="list-style-type:disc">그 새로운 이름은 size_t<p id="37c8ab0a-55b9-40a2-9b7b-9995f12e26d1" class="">⇒ 그냥 unsigned int를 써도 전혀 상관없음<div class="indented"><p id="ba5245fb-f347-464d-ba1f-e9547b92abe4" class="">서로 바꿔가며 써도 됨</p></div></p></li></ul><ul id="a9be736d-0033-45bc-b394-332d1211b59e" class="bulleted-list"><li style="list-style-type:disc">물론 size_t의 경우 각 구현마다 자료형이 달라질 수 있어서 typedef를 해놓은 것</li></ul><h3 id="ea4ce0ab-e67c-4b33-818d-6360158c5660" class="">typedef 사용법 (1)</h3><ul id="96413a13-2e2b-4bd1-96c5-c926039009ca" class="bulleted-list"><li style="list-style-type:disc">구조체에서 typedef를 쓰면 다른 자료형처럼 간결하게 변수 선언이 가능함</li></ul><pre id="6101a2eb-7897-4fed-9517-81754b035c85" class="code"><code>struct date {
+	int year;
+	int month;
+	int day;
+};
+
+typedef struct date date_t;</code></pre><pre id="81bb5171-e524-4121-86c7-fc8955a170db" class="code"><code>date_t date;
+
+date.year = 2043;
+date.month = 10;
+date.day = 1;
+
+if (is_monday(date)) {
+	/* 포맷 */
+}</code></pre><h3 id="1a094a70-a7b7-44d2-8256-34c31a13ef35" class="">typedef 사용법 (2)</h3><pre id="3ba5129f-040c-482e-b8da-57e73b1a6477" class="code"><code>typedef struct date {
+	int year;
+	int month;
+	int day;
+} date_t;</code></pre><h3 id="c898b4ec-62d6-4913-bc1e-203a01ee28da" class="">typedef 사용법 (3)</h3><pre id="a987ac5d-0afd-411b-b069-d49fa998d233" class="code"><code>typedef struct {
+	int year;
+	int month;
+	int day;
+} date_t;</code></pre><p id="8cbf5f7e-2605-42dd-a125-0c245131261a" class="">⇒ <code>_t</code> : typedef를 의미함</p><h3 id="478c8a2e-e6c0-41bf-a77d-a91287cfd5c3" class="">세 가지 typedef 사용법 정리</h3><pre id="9013b223-4f57-494b-8f41-f1fcbeeb371f" class="code"><code>/* 1 */
+
+struct date {
+	int year;
+	int month;
+	int day;
+};
+
+typedef struct date date_t;
+
+/* 2 */
+
+typedef struct date {
+	int year;
+	int month;
+	int day;
+} date_t;
+
+/* 3 */
+
+typedef struct {
+	int year;
+	int month;
+	int day;
+} date_t;</code></pre><ul id="4be7d677-14b7-460a-8b16-5b58fb350f73" class="bulleted-list"><li style="list-style-type:disc">1번, 2번 : 함수 선언시 <code>struct date</code>, <code>date_t</code> 두가지 사용가능</li></ul><ul id="02dffd6c-d33f-467d-92e0-28a85662da02" class="bulleted-list"><li style="list-style-type:disc">3번 : <code>struct date</code> 사용이 불가능하며, 유일하게 <code>date_t</code>만 사용가능</li></ul><h3 id="bcb1c33d-94d4-49cb-bf5c-05ec5e7e4435" class="">enum의 typedef 활용</h3><pre id="c8154b7e-0a65-46c5-8f48-1b9dc3ef2016" class="code"><code>/* 기본형 */
+
+enum game_role {
+	GAME_ROLE_MID,
+	GAME_ROLE_JUNGLE
+};</code></pre><pre id="0b595644-177c-4198-80cf-b497f528d9bd" class="code"><code>/* 1 */
+
+struct game_role {
+	GAME_ROLE_MID,
+	GAME_ROLE_JUNGLE
+};
+
+typedef struct game_role game_role_t;
+
+/* 2 */
+
+typedef struct game_role {
+	GAME_ROLE_MID,
+	GAME_ROLE_JUNGLE
+} game_role_t;
+
+/* 3 */
+
+typedef struct {
+	GAME_ROLE_MID,
+	GAME_ROLE_JUNGLE
+} game_role_t;</code></pre><h3 id="6e9ba59f-4999-474d-928e-a94031b80374" class="">코딩 표준 : 커스텀 자료형에 typedef를 쓰자</h3><ul id="e9b55a94-def0-45de-ab7e-066773e53bce" class="bulleted-list"><li style="list-style-type:disc">가능하면 구조체, 열거형, 공용체에 typedef를 써서 정말 제대로 된 자료형처럼 보이게 하는 것이 좋음</li></ul><h3 id="5bd860a4-7ff3-47a7-be0d-2a5dbb6d267e" class="">구조체 변수 초기화하기</h3><ul id="7c9d66ba-2b50-47aa-86be-ee22d2e47071" class="bulleted-list"><li style="list-style-type:disc">구조체 선언과 동시에 초기화는 되지 않음<p id="86bcab1a-e06c-45a7-8db1-22abe666634f" class="">⇒ 스택에 남아있는 데이터를 그대로 사용</p></li></ul><ul id="de73133e-2290-4bb0-bb77-a39b52ff676e" class="bulleted-list"><li style="list-style-type:disc">그냥 구조체는 지역 변수를 여러 개 따로 사용하는 것과 마찬가지<ul id="8e5f56fc-fa1a-4228-8eeb-97b1ccf0df86" class="bulleted-list"><li style="list-style-type:circle">기계는 구조체라는 개념 자체를 알지 못함</li></ul><ul id="45acd45e-549c-429b-bf17-493b1450d2af" class="bulleted-list"><li style="list-style-type:circle">프로그래밍 언어가 프로그래머 편하고 실수하지 말라고 제공해준 개념</li></ul></li></ul><h3 id="b183df67-91bc-47f9-914e-09ae517f5ebc" class="">메모리/어셈블리어 확인</h3><pre id="3a41da49-df12-4e7e-838e-2a8e1317be8e" class="code"><code>/* 그냥 int형 지역변수 사용 */
 
 int main(void)
 {
-	char char_size = CHAR_BIT;
+	int day;
+	int month;
+	int year;
+
+	year = 2043;
+	month = 10;
+	day = 1;
+
 	return 0;
 }
 
-/* Window OS, Clang에서 확인 : char_size =8&#x27;\b&#x27; */</code></pre></li></ul><ul id="9e2857dc-f906-4ea3-aea9-708e318bf552" class="bulleted-list"><li style="list-style-type:disc">C의 표준은 기본 자료형의 정확한 바이트 수를 강요 안 함<p id="ffb12ec1-8e97-4196-885f-0a5a3b1a8e05" class="">⇒ 각 컴파일러마다 알아서 하라고 함</p></li></ul><ul id="b5dade26-41bc-4a52-8bab-025dfa7329d7" class="bulleted-list"><li style="list-style-type:disc">더 나아가 1 바이트를 CHAR_BIT만큼이라고 말함<p id="68bfd9be-1b5f-4e6b-8c23-467bd8a8d986" class="">CHAR_BIT : 현재 이 기기에서 돌릴 수 있는 가장 작은 단위의 메모리 (bit는 절대적임)</p><p id="0bd1b40b-a9a2-443e-ba03-d8c0c90c3c49" class="">why? 소형기기에 따라 특정 크기를 사용하는게 어려울 수도 있음</p></li></ul><ul id="41381af6-6836-47f7-966c-e5cea3042a8e" class="bulleted-list"><li style="list-style-type:disc">(표준) 표현 가능한 숫자의 범위<p id="6703a7fe-8af5-42f0-9713-ee61174d3102" class="">포팅에 문제 없는 값의 범위</p><ul id="8196f04c-415c-4e39-bc41-79e1e1003e68" class="bulleted-list"><li style="list-style-type:circle">unsigned char : 0 ~ 255</li></ul><ul id="5259499c-ab1a-42b9-8126-1c8ea1cbf844" class="bulleted-list"><li style="list-style-type:circle">char : 0 ~ 127</li></ul><ul id="a80b342f-cf67-4652-92fa-457e47ec9d53" class="bulleted-list"><li style="list-style-type:circle">signed char : -127 ~ 127</li></ul></li></ul><ul id="25a3b1ed-b031-4819-869f-961eca7b3e74" class="bulleted-list"><li style="list-style-type:disc">(보통) 표현 가능한 숫자의 범위<ul id="11200808-1b4a-4299-b70d-aebd48946544" class="bulleted-list"><li style="list-style-type:circle">크기 : 8비트</li></ul><ul id="0ce98547-e9d6-4923-bb88-c8715f3c5ff9" class="bulleted-list"><li style="list-style-type:circle">범위(unsigned) : 0 ~ 255</li></ul><ul id="9c4e103a-b12c-45d7-bfca-b42166483a58" class="bulleted-list"><li style="list-style-type:circle">범위(signed) : -128 ~ 127</li></ul></li></ul><h3 id="ff1fa6c7-b4dd-4666-a93b-bb1d10ae02cf" class="">char와 signed/unsigned</h3><ul id="9e8c5e12-45ba-4e75-b946-f1bf4502edaa" class="bulleted-list"><li style="list-style-type:disc">char은 정수형이니 signed/unsigned가 있음</li></ul><ul id="2a754b83-320a-48bf-af44-5e232e94841b" class="bulleted-list"><li style="list-style-type:disc">signed/unsigned를 생략하면?<p id="4271b7b9-08a3-4778-8a10-c6add93c3611" class="">⇒ 컴파일러 구현에 따라 signed인지 unsigned인지 정해짐 (C표준 자체가 정하지 않음; Clang Windows의 경우, signed)</p></li></ul><ul id="4135a408-b49d-45ad-930a-1a1aef5e2d0d" class="bulleted-list"><li style="list-style-type:disc">ASCII 문자의 범위는 0~127이므로 부호 여부 상관이 없음<p id="12fbfb59-6da4-4739-8da3-95b54c64bfd0" class="">ASCII(아스키): 0~127인 숫자 (정수형)</p></li></ul><ul id="874c46a9-fced-47fc-86bd-ca18a5b61236" class="bulleted-list"><li style="list-style-type:disc">단, 8비트 정수형으로 쓰려고 할 때는 반드시 char 앞에 signed나 unsigned를 넣어주는게 좋음</li></ul><ul id="b67af9ec-0a82-4852-96b3-cc09bcd42695" class="bulleted-list"><li style="list-style-type:disc">안 그러면 포팅해도 문제없는 정수 범위는 0~127 사이 뿐</li></ul><ul id="8bde245d-4ba7-4f5e-b4c9-0c3cefefe173" class="bulleted-list"><li style="list-style-type:disc">char의 부호 여부를 판단하는 방법<p id="48d125a4-c0c0-4861-a5fa-b32122574a1b" class="">⇒ 헤더파일에서 CHAR_MIN을 보면 부호 식별자가 없는 char가 signed인지 unsigned인지 알 수 있음 (SCHAR_MIN = -128인 경우 signed)</p><p id="45da95f2-6222-43be-9d4a-be115d3a1a01" class="">왠만하면 반드시 char에 signed/unsigned 입력해줘라!</p></li></ul><h3 id="a78ff17e-e034-4ab2-b04f-82d833ba4da5" class="">short</h3><ul id="41a7f3f7-d298-4ed4-b20a-f706f0ecb389" class="bulleted-list"><li style="list-style-type:disc">최소 16비트이고 char 이상인 정수형</li></ul><ul id="852fc2a7-8914-46bf-8fd5-e3aac3bde535" class="bulleted-list"><li style="list-style-type:disc">default : signed</li></ul><ul id="801b4a7b-0c2f-4504-873a-41e71504582e" class="bulleted-list"><li style="list-style-type:disc">(표준) 표현 가능한 숫자의 범위<p id="02334a02-bba1-417e-b77b-fff86cdbb1ec" class="">포팅에 문제 없는 값의 범위</p><ul id="e58215c6-de0d-46be-94e7-7af177a7b5bb" class="bulleted-list"><li style="list-style-type:circle">unsigned short : 0 ~ 65,535</li></ul><ul id="841e9add-cc72-429a-a31b-d10db894e0af" class="bulleted-list"><li style="list-style-type:circle">signed shot : -32,767 ~ 32,767</li></ul></li></ul><ul id="299235c2-7ef9-4fec-b5ec-412f014f270d" class="bulleted-list"><li style="list-style-type:disc">(보통) 표현 가능한 숫자의 범위<ul id="e812a629-e1c8-4340-972a-624cbda77c8e" class="bulleted-list"><li style="list-style-type:circle">크기 : 16비트</li></ul><ul id="20444fdb-8beb-4cd6-870c-e863d8bea00d" class="bulleted-list"><li style="list-style-type:circle">범위(unsigned) : 0 ~ 65,535</li></ul><ul id="40adfb26-cbcb-4344-a4c0-f10bcc822d9a" class="bulleted-list"><li style="list-style-type:circle">범위(signed) : -32,768 ~ 32,767</li></ul></li></ul><ul id="3808498f-7982-4a0b-8e95-596f0d580235" class="bulleted-list"><li style="list-style-type:disc">기본 정수형(보통 int)보다 짧음<p id="48b01bd2-e7bb-45ca-8216-4ba54b2901f9" class="">⇒ 메모리를 적게 쓰기 위해 사용하나, int 대신 short를 사용할 경우 성능이 느려질 수 있음</p></li></ul><h3 id="c9cc5374-791a-42dc-8dda-6d2e8a68eecc" class="">int</h3><ul id="d43d92ca-3372-483d-8822-f3fd29dd3ee3" class="bulleted-list"><li style="list-style-type:disc">최소 16비트이고 short 이상인 정수형</li></ul><ul id="f432cdc3-3c53-40d8-91b6-6304c75f6979" class="bulleted-list"><li style="list-style-type:disc">default : signed</li></ul><ul id="a1957277-a1fc-46ad-b234-c78891e8c344" class="bulleted-list"><li style="list-style-type:disc">(표준) 표현 가능한 숫자의 범위<ul id="f9725186-a45b-4eb7-9fe6-42d820a87eca" class="bulleted-list"><li style="list-style-type:circle">unsigned short : 0 ~ 65,535</li></ul><ul id="8a3b1690-2941-43fd-b9ae-3cd63d913af5" class="bulleted-list"><li style="list-style-type:circle">signed shot : -32,767 ~ 32,767</li></ul></li></ul><ul id="573a3c72-4dd7-44b1-820c-46e9398358f2" class="bulleted-list"><li style="list-style-type:disc">(보통) 표현 가능한 숫자의 범위<ul id="b6fb6a65-ef2c-465d-bf96-86b96f0c5524" class="bulleted-list"><li style="list-style-type:circle">크기 : 32비트</li></ul><ul id="8ee0ead6-a51c-4aba-8de7-5ebe6f12a4fa" class="bulleted-list"><li style="list-style-type:circle">범위(unsigned) : 0 ~ 4,294,967,295</li></ul><ul id="8abde0d7-3906-4d90-a81d-2d4cd32bb936" class="bulleted-list"><li style="list-style-type:circle">범위(signed) : -2,147,483,648 ~ 2,147,483,647</li></ul></li></ul><ul id="d572b4c8-ffa8-4539-9cd2-bb73ffa4b981" class="bulleted-list"><li style="list-style-type:disc">int의 리터럴<p id="1334b731-ab3a-4ca4-9751-5a0d8412657d" class="">리터럴 : 컴퓨터 과학 분야에서 소스 코드의 고정된 값을 대표하는 용어</p><pre id="a20e4e4f-dc7b-4d6b-864b-d02b77c38c5f" class="code"><code>int signed_int = -1024;
-unsigned int unsigned_int1 = 394;
-unsigned int unsigned_int2 = 2147483648;    /* 경고 */
-unsigned int unsigned_int3 = 2147483648u;   /* 경고없음, 대분자 U도 가능 */</code></pre><p id="6886d5c1-d13e-4d36-98bb-039c5c748386" class="">⇒ u 혹은 U : 부호 없는(unsigned) 수를 표현하는 접미사 (안 붙이면 경고 warning 발생)</p></li></ul><h3 id="138adfbd-6f6a-48d6-b551-366ec3dd6247" class="">int는 기본 정수</h3><ul id="208f51c6-a40f-40e2-b4db-a1e8ade8ee17" class="bulleted-list"><li style="list-style-type:disc">int는 그냥 &#x27;정수(integer)&#x27;라는 의미</li></ul><ul id="0105dafa-5b1b-4df1-a778-8886d90f9fdb" class="bulleted-list"><li style="list-style-type:disc">따라서, CPU에게 앞/뒤 생략하고 &#x27;정수 처리해!&#x27;라고 하면, CPU가 딱 아는 크기여야 함</li></ul><ul id="0b4955b7-9953-4cc9-98f1-4059c21ef684" class="bulleted-list"><li style="list-style-type:disc">그게 무엇의 크기일까?<p id="37ebf63e-19e2-4700-89c8-b225e0f08d72" class="">⇒ CPU의 산술논리장치(ALU, Arithmetic Logic Unit)가 사용하는 기본 데이터</p><p id="64397af4-ef6a-4ac9-a838-4f367bfee3ac" class="">이 데이터를 워드(word)라 하고, 그 크기를 워드 크기라고 함</p><p id="69808389-68c6-40a3-87d9-e8151cd92d65" class="">워드 크기는 레지스터 크기랑 일치</p><p id="809208ef-e91c-42f4-8a53-a0225fc11a7e" class="">즉, CPU 따라 다름</p></li></ul><ul id="84ff5c72-eac7-4587-9990-7d5505a7beba" class="bulleted-list"><li style="list-style-type:disc">예전에는 16비트 CPU가 흔했음 → 그래서 최소 16비트</li></ul><h3 id="081f073f-8752-41df-bf04-f7c96b30a24d" class="">int와 64비트 플랫폼</h3><ul id="6311f86e-5cb3-4dcc-9c4b-02a36f48bf82" class="bulleted-list"><li style="list-style-type:disc">그 뒤에 32비트 컴퓨터가 나오면서 int의 크기는 32비트가 됨</li></ul><ul id="a16c7a1b-b15f-4fff-8670-04e6b973c930" class="bulleted-list"><li style="list-style-type:disc">그러나 이제 64비트 컴퓨터인데? 그래도 32비트에 멈춤 → 여러가지 이슈들로 인해!</li></ul><ul id="7a5bc568-b89c-4f45-a594-5e7f0125fec1" class="bulleted-list"><li style="list-style-type:disc">원칙적으로 말하면 C 표준을 어긴 것</li></ul><h3 id="8c16d7fb-2232-437d-a242-c134541f37c7" class="">long</h3><ul id="6e954921-731f-4ca6-a61e-cd0916473221" class="bulleted-list"><li style="list-style-type:disc">최소 32비트이고 int 이상인 정수형</li></ul><ul id="b4c33fce-b767-4892-88c2-d6feb18e55f2" class="bulleted-list"><li style="list-style-type:disc">default : signed</li></ul><ul id="59af4249-0af9-40f4-b8c2-accdabbd7ec3" class="bulleted-list"><li style="list-style-type:disc">(표준) 표현 가능한 숫자의 범위<ul id="4227172c-08e6-4e98-b7be-a4ff22c87ff6" class="bulleted-list"><li style="list-style-type:circle">unsigned short : 0 ~ 4,294,967,295</li></ul><ul id="a1c7652b-880f-46ff-89ca-4d3ffdadf15a" class="bulleted-list"><li style="list-style-type:circle">signed shot : -2,147,483,647 ~ 2,147,483,647</li></ul></li></ul><ul id="17620c8a-cf50-4a46-8740-1e174b19d410" class="bulleted-list"><li style="list-style-type:disc">(보통) 표현 가능한 숫자의 범위<ul id="04abb332-08ab-415e-802e-8cf587345961" class="bulleted-list"><li style="list-style-type:circle">크기 : 32비트</li></ul><ul id="297d8f97-6156-4068-b447-4f8015433f82" class="bulleted-list"><li style="list-style-type:circle">범위(unsigned) : 0 ~ 4,294,967,295</li></ul><ul id="b32c1961-1f76-45f4-8999-87b17a5077e5" class="bulleted-list"><li style="list-style-type:circle">범위(signed) : -2,147,483,648 ~ 2,147,483,647</li></ul></li></ul><ul id="ae1f6030-94bd-4515-80f4-bd745759917f" class="bulleted-list"><li style="list-style-type:disc">long의 리터럴<pre id="5f724afd-0a00-497b-be34-a375ad37c84b" class="code"><code>long signed_long = -200000000l;                   /* 대문자 L도 가능 */
-unsigned long unsigned_long1 = 2147483647;
-unsigned long unsigned_long2 = 2147483648;        /* 경고 */
-unsigned long unsigned_long3 = 2147483647ul;      /* 경고 없음 */</code></pre><p id="2219df02-c6e9-46b4-805a-da97d7bd3e34" class="">⇒ l 혹은 L : long을 의미하는 접미사</p><p id="9a008930-38f2-4aea-854e-527124553ffd" class="">⇒ u 혹은 U : 부호 없는(unsigned) 수를 표현하는 접미사 (안 붙이면 경고 warning 발생)<div class="indented"><p id="b18069fb-9f39-4ced-9c28-930130cfdc87" class="">두 접미사를 같이 쓸수 있음 (unsigned long) : UL, LU, lu, ul</p></div></p></li></ul><h2 id="f208ba4b-0cdc-40f5-bf00-640575bb301a" class="">기본 자료형(primitive) - 실수형(float, double, long double)</h2><div id="43581910-1a5c-4972-9be2-0ad485c4a41a" class="collection-content"><h4 class="collection-title"></h4><table class="collection-content"><thead><tr><th><span class="icon property-icon"><svg viewBox="0 0 14 14" style="width:14px;height:14px;display:block;fill:rgba(55, 53, 47, 0.4);flex-shrink:0;-webkit-backface-visibility:hidden" class="typesTitle"><path d="M7.73943662,8.6971831 C7.77640845,8.7834507 7.81338028,8.8943662 7.81338028,9.00528169 C7.81338028,9.49823944 7.40669014,9.89260563 6.91373239,9.89260563 C6.53169014,9.89260563 6.19894366,9.64612676 6.08802817,9.30105634 L5.75528169,8.33978873 L2.05809859,8.33978873 L1.72535211,9.30105634 C1.61443662,9.64612676 1.2693662,9.89260563 0.887323944,9.89260563 C0.394366197,9.89260563 0,9.49823944 0,9.00528169 C0,8.8943662 0.0246478873,8.7834507 0.0616197183,8.6971831 L2.46478873,2.48591549 C2.68661972,1.90669014 3.24119718,1.5 3.90669014,1.5 C4.55985915,1.5 5.12676056,1.90669014 5.34859155,2.48591549 L7.73943662,8.6971831 Z M2.60035211,6.82394366 L5.21302817,6.82394366 L3.90669014,3.10211268 L2.60035211,6.82394366 Z M11.3996479,3.70598592 C12.7552817,3.70598592 14,4.24823944 14,5.96126761 L14,9.07922535 C14,9.52288732 13.6549296,9.89260563 13.2112676,9.89260563 C12.8169014,9.89260563 12.471831,9.59683099 12.4225352,9.19014085 C12.028169,9.6584507 11.3257042,9.95422535 10.5492958,9.95422535 C9.60035211,9.95422535 8.47887324,9.31338028 8.47887324,7.98239437 C8.47887324,6.58978873 9.60035211,6.08450704 10.5492958,6.08450704 C11.3380282,6.08450704 12.040493,6.33098592 12.4348592,6.81161972 L12.4348592,5.98591549 C12.4348592,5.38204225 11.9172535,4.98767606 11.1285211,4.98767606 C10.6602113,4.98767606 10.2411972,5.11091549 9.80985915,5.38204225 C9.72359155,5.43133803 9.61267606,5.46830986 9.50176056,5.46830986 C9.18133803,5.46830986 8.91021127,5.1971831 8.91021127,4.86443662 C8.91021127,4.64260563 9.0334507,4.44542254 9.19366197,4.34683099 C9.87147887,3.90316901 10.6232394,3.70598592 11.3996479,3.70598592 Z M11.1778169,8.8943662 C11.6830986,8.8943662 12.1760563,8.72183099 12.4348592,8.37676056 L12.4348592,7.63732394 C12.1760563,7.29225352 11.6830986,7.11971831 11.1778169,7.11971831 C10.5616197,7.11971831 10.056338,7.45246479 10.056338,8.0193662 C10.056338,8.57394366 10.5616197,8.8943662 11.1778169,8.8943662 Z M0.65625,11.125 L13.34375,11.125 C13.7061869,11.125 14,11.4188131 14,11.78125 C14,12.1436869 13.7061869,12.4375 13.34375,12.4375 L0.65625,12.4375 C0.293813133,12.4375 4.43857149e-17,12.1436869 0,11.78125 C-4.43857149e-17,11.4188131 0.293813133,11.125 0.65625,11.125 Z"></path></svg></span>실수형</th><th><span class="icon property-icon"><svg viewBox="0 0 14 14" style="width:14px;height:14px;display:block;fill:rgba(55, 53, 47, 0.4);flex-shrink:0;-webkit-backface-visibility:hidden" class="typesText"><path d="M7,4.56818 C7,4.29204 6.77614,4.06818 6.5,4.06818 L0.5,4.06818 C0.223858,4.06818 0,4.29204 0,4.56818 L0,5.61364 C0,5.88978 0.223858,6.11364 0.5,6.11364 L6.5,6.11364 C6.77614,6.11364 7,5.88978 7,5.61364 L7,4.56818 Z M0.5,1 C0.223858,1 0,1.223858 0,1.5 L0,2.54545 C0,2.8216 0.223858,3.04545 0.5,3.04545 L12.5,3.04545 C12.7761,3.04545 13,2.8216 13,2.54545 L13,1.5 C13,1.223858 12.7761,1 12.5,1 L0.5,1 Z M0,8.68182 C0,8.95796 0.223858,9.18182 0.5,9.18182 L11.5,9.18182 C11.7761,9.18182 12,8.95796 12,8.68182 L12,7.63636 C12,7.36022 11.7761,7.13636 11.5,7.13636 L0.5,7.13636 C0.223858,7.13636 0,7.36022 0,7.63636 L0,8.68182 Z M0,11.75 C0,12.0261 0.223858,12.25 0.5,12.25 L9.5,12.25 C9.77614,12.25 10,12.0261 10,11.75 L10,10.70455 C10,10.4284 9.77614,10.20455 9.5,10.20455 L0.5,10.20455 C0.223858,10.20455 0,10.4284 0,10.70455 L0,11.75 Z"></path></svg></span>메모리 크기</th><th><span class="icon property-icon"><svg viewBox="0 0 14 14" style="width:14px;height:14px;display:block;fill:rgba(55, 53, 47, 0.4);flex-shrink:0;-webkit-backface-visibility:hidden" class="typesText"><path d="M7,4.56818 C7,4.29204 6.77614,4.06818 6.5,4.06818 L0.5,4.06818 C0.223858,4.06818 0,4.29204 0,4.56818 L0,5.61364 C0,5.88978 0.223858,6.11364 0.5,6.11364 L6.5,6.11364 C6.77614,6.11364 7,5.88978 7,5.61364 L7,4.56818 Z M0.5,1 C0.223858,1 0,1.223858 0,1.5 L0,2.54545 C0,2.8216 0.223858,3.04545 0.5,3.04545 L12.5,3.04545 C12.7761,3.04545 13,2.8216 13,2.54545 L13,1.5 C13,1.223858 12.7761,1 12.5,1 L0.5,1 Z M0,8.68182 C0,8.95796 0.223858,9.18182 0.5,9.18182 L11.5,9.18182 C11.7761,9.18182 12,8.95796 12,8.68182 L12,7.63636 C12,7.36022 11.7761,7.13636 11.5,7.13636 L0.5,7.13636 C0.223858,7.13636 0,7.36022 0,7.63636 L0,8.68182 Z M0,11.75 C0,12.0261 0.223858,12.25 0.5,12.25 L9.5,12.25 C9.77614,12.25 10,12.0261 10,11.75 L10,10.70455 C10,10.4284 9.77614,10.20455 9.5,10.20455 L0.5,10.20455 C0.223858,10.20455 0,10.4284 0,10.70455 L0,11.75 Z"></path></svg></span>데이터 표현범위</th><th><span class="icon property-icon"><svg viewBox="0 0 14 14" style="width:14px;height:14px;display:block;fill:rgba(55, 53, 47, 0.4);flex-shrink:0;-webkit-backface-visibility:hidden" class="typesText"><path d="M7,4.56818 C7,4.29204 6.77614,4.06818 6.5,4.06818 L0.5,4.06818 C0.223858,4.06818 0,4.29204 0,4.56818 L0,5.61364 C0,5.88978 0.223858,6.11364 0.5,6.11364 L6.5,6.11364 C6.77614,6.11364 7,5.88978 7,5.61364 L7,4.56818 Z M0.5,1 C0.223858,1 0,1.223858 0,1.5 L0,2.54545 C0,2.8216 0.223858,3.04545 0.5,3.04545 L12.5,3.04545 C12.7761,3.04545 13,2.8216 13,2.54545 L13,1.5 C13,1.223858 12.7761,1 12.5,1 L0.5,1 Z M0,8.68182 C0,8.95796 0.223858,9.18182 0.5,9.18182 L11.5,9.18182 C11.7761,9.18182 12,8.95796 12,8.68182 L12,7.63636 C12,7.36022 11.7761,7.13636 11.5,7.13636 L0.5,7.13636 C0.223858,7.13636 0,7.36022 0,7.63636 L0,8.68182 Z M0,11.75 C0,12.0261 0.223858,12.25 0.5,12.25 L9.5,12.25 C9.77614,12.25 10,12.0261 10,11.75 L10,10.70455 C10,10.4284 9.77614,10.20455 9.5,10.20455 L0.5,10.20455 C0.223858,10.20455 0,10.4284 0,10.70455 L0,11.75 Z"></path></svg></span>정밀도</th></tr></thead><tbody><tr id="7a67b569-9f97-451e-b3bf-724f196f1edf"><td class="cell-title"><a href="https://www.notion.so/float-7a67b5699f97451eb3bf724f196f1edf">float</a></td><td class="cell-qjSK">32비트</td><td class="cell-l{Rm">1.2E-38 ~ 3.4E+38</td><td class="cell-sCJr">소수점 이하 6자리</td></tr><tr id="67f8dc37-cb52-407d-9780-2f477a61d31c"><td class="cell-title"><a href="https://www.notion.so/double-67f8dc37cb52407d97802f477a61d31c">double</a></td><td class="cell-qjSK">64비트</td><td class="cell-l{Rm">2.3E-308 ~ 1.7E+38</td><td class="cell-sCJr">소수점 이하 15자리</td></tr><tr id="4de647b5-ee20-40d5-a8b3-54cbb80195bc"><td class="cell-title"><a href="https://www.notion.so/long-double-4de647b5ee2040d5a8b354cbb80195bc">long double</a></td><td class="cell-qjSK">80비트</td><td class="cell-l{Rm">3.4E-4932 ~ 1.1E+4932</td><td class="cell-sCJr">소수점 이하 19자리</td></tr></tbody></table></div><h3 id="69652616-812b-4a3d-87be-d30d1e02af12" class="">float</h3><pre id="ea33de5f-5598-4277-bcac-695894212380" class="code"><code>float_num = 3.14f;                              /* 컴파일, 대문자 F도 가능 */
-unsigned float unsigned_float = 3.14f;          /* 컴파일 오류 */
-unsigned float unsigned_float = 3.14u;          /* 컴파일 오류, float은 접미사 u 안 씀 */ 
-signed float signed_float = -3.14f;             /* 컴파일 오류 */</code></pre><ul id="d6dabf2d-26bc-4feb-a94c-c56b0cd5707d" class="bulleted-list"><li style="list-style-type:disc">소프트웨어 공학용 수학<p id="8d1ed275-f53c-4968-ac63-c6e476dec0b4" class="">float, double, long double → 부동 소수점 자료형</p><p id="aec48ddc-1fbd-4198-b605-64632094648b" class="">⇒ 부동 소수점 자료형은 IEEE754로 대동단결<div class="indented"><p id="2f7c33d3-faac-45ae-9deb-0993f07d5702" class="">1) float : IEEE 754 Single (32비트)</p><p id="777eeb05-b757-4ff3-958d-9b6065ef2963" class="">2) double : IEEE 754 Double (64비트)</p></div></p></li></ul><ul id="047f319b-f50e-4944-a49f-6fc5073f24be" class="bulleted-list"><li style="list-style-type:disc">하지만 C는 CPU가 IEEE 754를 지원하는 실수계산장치 장착 전부터 쓰임</li></ul><ul id="2984c9d7-64a8-4c99-931e-bffd4256f21a" class="bulleted-list"><li style="list-style-type:disc">표준에 따르면 C의 float은 IEEE 754가 아닐 수도 있음<p id="ace6bc5b-95a7-4b13-bfa2-0d6a30ccdff4" class="">⇒ 역시 컴파일러 구현에 따라 다름 (최소한 C89에서는)</p></li></ul><ul id="1e28cb19-9f3c-4f5b-aeaf-cfe4359e21ac" class="bulleted-list"><li style="list-style-type:disc">크기는 char 이상이면 됨</li></ul><ul id="6e4ef107-96c9-404b-895c-e90e7902dc50" class="bulleted-list"><li style="list-style-type:disc">unsigned 형 없음</li></ul><ul id="4d3d459a-e328-448a-be69-9443bbfaf0ae" class="bulleted-list"><li style="list-style-type:disc">(표준) 표현 가능한 숫자의 범위<ul id="a43a42ea-f9ff-45ca-8041-1f3414fa75e1" class="bulleted-list"><li style="list-style-type:circle">크기 : 32비트</li></ul><ul id="4bf6fdfc-458f-4f81-b6d9-e210f78ac8ee" class="bulleted-list"><li style="list-style-type:circle">범위 : IEEE 754 Single과 동일</li></ul></li></ul><ul id="c1339279-500f-4baf-82d4-5e15eb9167b5" class="bulleted-list"><li style="list-style-type:disc">관련 헤드 파일 : float.h</li></ul><ul id="7a6a36a7-7536-476d-bf72-da6b964e03b5" class="bulleted-list"><li style="list-style-type:disc">float의 리터럴<p id="63c52e39-b68a-483a-8f37-45e11ed8c85e" class="">⇒ f 혹은 F : float을 의미하는 접미사</p></li></ul><h3 id="be14ce7d-edfa-4639-8b64-43cecf17ccf2" class="">double</h3><pre id="cfba0173-bb4a-4212-9e6c-079a8f39f60f" class="code"><code>double num = 3.14;                        
-unsigned double unsigned_double = 3.14;      /* 컴파일 오류 */
-signed double signed_double = -3.14;         /* 컴파일 오류 */</code></pre><ul id="92fd6399-3481-4c6c-9cf6-fcafeae4b14d" class="bulleted-list"><li style="list-style-type:disc">표준에 따르면 CPU가 계산에 사용하는 기본 데이터 크기<ul id="36f6f821-ca83-4ae5-b863-66e9e9af3639" class="bulleted-list"><li style="list-style-type:circle">크기는 float 이상이면 됨</li></ul><ul id="da6ee342-1c7b-4331-8b25-34fe6ede2d2a" class="bulleted-list"><li style="list-style-type:circle">float은 그저 double보다 빠르게 연산하기 위해 만든 작은 부동소수점</li></ul></li></ul><ul id="793ba06d-251d-4200-b406-2f3b976ae70b" class="bulleted-list"><li style="list-style-type:disc">역시 컴파일러 구현에 따라 다름<p id="eeae7a4b-46f1-4183-8c70-59448b668247" class="">⇒ 즉, IEEE 754 Double이란 보장 없음</p></li></ul><ul id="9ace6626-826a-4493-a839-4d9af80ae828" class="bulleted-list"><li style="list-style-type:disc">unsigned 형 없음</li></ul><ul id="5ab9ffa9-e82b-4df4-afb2-985944abd6e3" class="bulleted-list"><li style="list-style-type:disc">(표준) 표현 가능한 숫자의 범위<ul id="45879c82-00ef-46bd-b3c0-8067d8af836d" class="bulleted-list"><li style="list-style-type:circle">크기 : 64비트</li></ul><ul id="970f1fc4-467b-40e7-a446-4dfabedd387e" class="bulleted-list"><li style="list-style-type:circle">범위 : IEEE 754 Double과 동일</li></ul></li></ul><ul id="eff523b7-0701-4d3a-9de7-055e0cf3bcd9" class="bulleted-list"><li style="list-style-type:disc">관련 헤드 파일 : float.h</li></ul><h2 id="014c3d7c-ee26-4b59-934a-8b495eca4c7a" class="">기본 정수형(primitive) - 정리</h2><ul id="88b9ee59-3ccf-4e32-9c81-0fbaa5744882" class="bulleted-list"><li style="list-style-type:disc">데스크톱에서는 다른 언어와 비슷하게 사용 가능<p id="f6af9842-6715-4a84-9488-b76b66319a05" class="">⇒ 예외: long (32비트)</p></li></ul><ul id="ad7edec6-73fe-4c97-be91-ba8b2658ba6f" class="bulleted-list"><li style="list-style-type:disc">소형기기를 다룰 땐? 메뉴얼에서 자료형 크기 확인 후 사용할 것</li></ul><ul id="6192b78e-e602-4633-98b0-b65c0abd103e" class="bulleted-list"><li style="list-style-type:disc">여기저기 사용할 코드라면?<p id="5faebe47-a7d0-4bd2-8cae-452614d4612f" class="">포팅 보장되는 범위의 값으로만 사용</p><p id="70878311-3478-46c3-900b-8af9423ac0ad" class="">float/double은 플랫폼 사이에 값이 정확하게 일치하지 않을 수 있음</p></li></ul><h2 id="f821d029-d041-4f67-813f-72a9eb07cf9c" class="">서식 지정자</h2><div id="2484cd7f-ba89-406b-a885-f50dc7fef3b1" class="collection-content"><h4 class="collection-title"></h4><table class="collection-content"><thead><tr><th><span class="icon property-icon"><svg viewBox="0 0 14 14" style="width:14px;height:14px;display:block;fill:rgba(55, 53, 47, 0.4);flex-shrink:0;-webkit-backface-visibility:hidden" class="typesTitle"><path d="M7.73943662,8.6971831 C7.77640845,8.7834507 7.81338028,8.8943662 7.81338028,9.00528169 C7.81338028,9.49823944 7.40669014,9.89260563 6.91373239,9.89260563 C6.53169014,9.89260563 6.19894366,9.64612676 6.08802817,9.30105634 L5.75528169,8.33978873 L2.05809859,8.33978873 L1.72535211,9.30105634 C1.61443662,9.64612676 1.2693662,9.89260563 0.887323944,9.89260563 C0.394366197,9.89260563 0,9.49823944 0,9.00528169 C0,8.8943662 0.0246478873,8.7834507 0.0616197183,8.6971831 L2.46478873,2.48591549 C2.68661972,1.90669014 3.24119718,1.5 3.90669014,1.5 C4.55985915,1.5 5.12676056,1.90669014 5.34859155,2.48591549 L7.73943662,8.6971831 Z M2.60035211,6.82394366 L5.21302817,6.82394366 L3.90669014,3.10211268 L2.60035211,6.82394366 Z M11.3996479,3.70598592 C12.7552817,3.70598592 14,4.24823944 14,5.96126761 L14,9.07922535 C14,9.52288732 13.6549296,9.89260563 13.2112676,9.89260563 C12.8169014,9.89260563 12.471831,9.59683099 12.4225352,9.19014085 C12.028169,9.6584507 11.3257042,9.95422535 10.5492958,9.95422535 C9.60035211,9.95422535 8.47887324,9.31338028 8.47887324,7.98239437 C8.47887324,6.58978873 9.60035211,6.08450704 10.5492958,6.08450704 C11.3380282,6.08450704 12.040493,6.33098592 12.4348592,6.81161972 L12.4348592,5.98591549 C12.4348592,5.38204225 11.9172535,4.98767606 11.1285211,4.98767606 C10.6602113,4.98767606 10.2411972,5.11091549 9.80985915,5.38204225 C9.72359155,5.43133803 9.61267606,5.46830986 9.50176056,5.46830986 C9.18133803,5.46830986 8.91021127,5.1971831 8.91021127,4.86443662 C8.91021127,4.64260563 9.0334507,4.44542254 9.19366197,4.34683099 C9.87147887,3.90316901 10.6232394,3.70598592 11.3996479,3.70598592 Z M11.1778169,8.8943662 C11.6830986,8.8943662 12.1760563,8.72183099 12.4348592,8.37676056 L12.4348592,7.63732394 C12.1760563,7.29225352 11.6830986,7.11971831 11.1778169,7.11971831 C10.5616197,7.11971831 10.056338,7.45246479 10.056338,8.0193662 C10.056338,8.57394366 10.5616197,8.8943662 11.1778169,8.8943662 Z M0.65625,11.125 L13.34375,11.125 C13.7061869,11.125 14,11.4188131 14,11.78125 C14,12.1436869 13.7061869,12.4375 13.34375,12.4375 L0.65625,12.4375 C0.293813133,12.4375 4.43857149e-17,12.1436869 0,11.78125 C-4.43857149e-17,11.4188131 0.293813133,11.125 0.65625,11.125 Z"></path></svg></span>서식지정자</th><th><span class="icon property-icon"><svg viewBox="0 0 14 14" style="width:14px;height:14px;display:block;fill:rgba(55, 53, 47, 0.4);flex-shrink:0;-webkit-backface-visibility:hidden" class="typesText"><path d="M7,4.56818 C7,4.29204 6.77614,4.06818 6.5,4.06818 L0.5,4.06818 C0.223858,4.06818 0,4.29204 0,4.56818 L0,5.61364 C0,5.88978 0.223858,6.11364 0.5,6.11364 L6.5,6.11364 C6.77614,6.11364 7,5.88978 7,5.61364 L7,4.56818 Z M0.5,1 C0.223858,1 0,1.223858 0,1.5 L0,2.54545 C0,2.8216 0.223858,3.04545 0.5,3.04545 L12.5,3.04545 C12.7761,3.04545 13,2.8216 13,2.54545 L13,1.5 C13,1.223858 12.7761,1 12.5,1 L0.5,1 Z M0,8.68182 C0,8.95796 0.223858,9.18182 0.5,9.18182 L11.5,9.18182 C11.7761,9.18182 12,8.95796 12,8.68182 L12,7.63636 C12,7.36022 11.7761,7.13636 11.5,7.13636 L0.5,7.13636 C0.223858,7.13636 0,7.36022 0,7.63636 L0,8.68182 Z M0,11.75 C0,12.0261 0.223858,12.25 0.5,12.25 L9.5,12.25 C9.77614,12.25 10,12.0261 10,11.75 L10,10.70455 C10,10.4284 9.77614,10.20455 9.5,10.20455 L0.5,10.20455 C0.223858,10.20455 0,10.4284 0,10.70455 L0,11.75 Z"></path></svg></span>약자</th><th><span class="icon property-icon"><svg viewBox="0 0 14 14" style="width:14px;height:14px;display:block;fill:rgba(55, 53, 47, 0.4);flex-shrink:0;-webkit-backface-visibility:hidden" class="typesText"><path d="M7,4.56818 C7,4.29204 6.77614,4.06818 6.5,4.06818 L0.5,4.06818 C0.223858,4.06818 0,4.29204 0,4.56818 L0,5.61364 C0,5.88978 0.223858,6.11364 0.5,6.11364 L6.5,6.11364 C6.77614,6.11364 7,5.88978 7,5.61364 L7,4.56818 Z M0.5,1 C0.223858,1 0,1.223858 0,1.5 L0,2.54545 C0,2.8216 0.223858,3.04545 0.5,3.04545 L12.5,3.04545 C12.7761,3.04545 13,2.8216 13,2.54545 L13,1.5 C13,1.223858 12.7761,1 12.5,1 L0.5,1 Z M0,8.68182 C0,8.95796 0.223858,9.18182 0.5,9.18182 L11.5,9.18182 C11.7761,9.18182 12,8.95796 12,8.68182 L12,7.63636 C12,7.36022 11.7761,7.13636 11.5,7.13636 L0.5,7.13636 C0.223858,7.13636 0,7.36022 0,7.63636 L0,8.68182 Z M0,11.75 C0,12.0261 0.223858,12.25 0.5,12.25 L9.5,12.25 C9.77614,12.25 10,12.0261 10,11.75 L10,10.70455 C10,10.4284 9.77614,10.20455 9.5,10.20455 L0.5,10.20455 C0.223858,10.20455 0,10.4284 0,10.70455 L0,11.75 Z"></path></svg></span>설명</th></tr></thead><tbody><tr id="eb3d628b-2781-4223-bbd0-988212884c4d"><td class="cell-title"><a href="https://www.notion.so/d-i-eb3d628b27814223bbd0988212884c4d">%d, %i</a></td><td class="cell-zr|=">Decimal Integal</td><td class="cell-`Zft">10진 정수 (양수와 음수 모두 표현 가능)</td></tr><tr id="e4d3f666-22c1-4241-8e40-e013978c9a56"><td class="cell-title"><a href="https://www.notion.so/u-e4d3f66622c142418e40e013978c9a56">%u</a></td><td class="cell-zr|=">Unsigned</td><td class="cell-`Zft">10진 정수 (양수만 표현 가능)</td></tr><tr id="cde6750c-8ffc-488d-8d41-c0f1dd556275"><td class="cell-title"><a href="https://www.notion.so/o-cde6750c8ffc488d8d41c0f1dd556275">%o</a></td><td class="cell-zr|=">Octal</td><td class="cell-`Zft">8진 정수 (양수만 표현 가능)</td></tr><tr id="5de96e23-4485-4b79-82f9-af7f5c365eb2"><td class="cell-title"><a href="https://www.notion.so/x-5de96e2344854b7982f9af7f5c365eb2">%x</a></td><td class="cell-zr|=">Hexadecimal</td><td class="cell-`Zft">16진 정수 (양수만 표현 가능)</td></tr><tr id="c6971557-7be9-4e3f-9ae8-d4da4cf81dcb"><td class="cell-title"><a href="https://www.notion.so/f-c69715577be94e3f9ae8d4da4cf81dcb">%f</a></td><td class="cell-zr|=">Float</td><td class="cell-`Zft">10진수 실수 (양수와 음수 모두 표현 가능)</td></tr><tr id="63ac2438-6dd4-443f-a100-a26acb0f1276"><td class="cell-title"><a href="https://www.notion.so/c-63ac24386dd4443fa100a26acb0f1276">%c</a></td><td class="cell-zr|=">Character</td><td class="cell-`Zft">한 개의 문자</td></tr><tr id="6cc68d94-b05b-46d6-8f95-0ce264719271"><td class="cell-title"><a href="https://www.notion.so/s-6cc68d94b05b46d68f950ce264719271">%s</a></td><td class="cell-zr|=">String</td><td class="cell-`Zft">문자열</td></tr><tr id="d999f6e7-3137-40e1-912d-354bb36b68d3"><td class="cell-title"><a href="https://www.notion.so/e-d999f6e7313740e1912d354bb36b68d3">%e</a></td><td class="cell-zr|="></td><td class="cell-`Zft">e 표기법에 의한 실수</td></tr><tr id="575b2196-60d7-4dc8-aa51-d68632f7addd"><td class="cell-title"><a href="https://www.notion.so/E-575b219660d74dc8aa51d68632f7addd">%E</a></td><td class="cell-zr|="></td><td class="cell-`Zft">E 표기법에 의한 실수</td></tr><tr id="310a0f93-2003-48e6-adbd-b602f3a886e2"><td class="cell-title"><a href="https://www.notion.so/g-310a0f93200348e6adbdb602f3a886e2">%g</a></td><td class="cell-zr|="></td><td class="cell-`Zft">소수점 이하 자리 수에 따라 %f, %e 둘 중 하나를 선택</td></tr><tr id="70689556-6849-4f56-b65e-b79714e7a013"><td class="cell-title"><a href="https://www.notion.so/G-7068955668494f56b65eb79714e7a013">%G</a></td><td class="cell-zr|="></td><td class="cell-`Zft">소수점 이하 자리 수에 따라 %f, %E 둘 중 하나를 선택</td></tr><tr id="559749fd-7cad-44af-b640-3800ef1bfff8"><td class="cell-title"><a href="https://www.notion.so/559749fd7cad44afb6403800ef1bfff8">%%</a></td><td class="cell-zr|="></td><td class="cell-`Zft">% 기호 출력</td></tr></tbody></table></div><h2 id="5ce6a1a9-64d6-4029-bbec-18ee410e5b6a" class="">C 언어의 bool형</h2><ul id="94a8c912-488b-4f21-9034-15fb3dc10776" class="bulleted-list"><li style="list-style-type:disc">C89에 없음</li></ul><ul id="5f907e8e-a197-4a95-907a-2219ba6f99fa" class="bulleted-list"><li style="list-style-type:disc">C99에는 비슷한 형태가 있으나 대부분의 C 프로그래머들은 bool을 사용하지 않음</li></ul><h3 id="d4915a90-db0b-4129-940e-28f59dad80a6" class="">bool 형을 안쓰는 이유</h3><ul id="0ed23793-86e4-4983-b874-2bf01af9e460" class="bulleted-list"><li style="list-style-type:disc">정수로 대신 쓸 수 있음</li></ul><ul id="a27e139b-a82f-4977-af0a-754c4fd2eb31" class="bulleted-list"><li style="list-style-type:disc"><strong>0이면 False, 0이 아니면 True</strong></li></ul><ul id="1c4fda4e-fb57-4cad-984b-e4b474c15131" class="bulleted-list"><li style="list-style-type:disc">하드웨어에서도 실제 bool이 없음 (0이냐 아니냐만 존재)</li></ul><ul id="8e8c7b29-233a-421c-bfa9-e39da5554163" class="bulleted-list"><li style="list-style-type:disc">while문의 조건으로 숫자를 사용 가능함</li></ul><h3 id="afbd14d6-92aa-4f62-b119-c15f494eaa6b" class="">코딩표준: 참, 거짓을 반환해야 할 때</h3><p id="cdeeb0bc-d3c4-4165-bc9f-192edb674ac5" class="">C에서 참이나 거짓을 반환해야하는 함수의 경우 보통 다음과 같이 함</p><ul id="3d2e9597-c048-473b-9f61-74893d143232" class="bulleted-list"><li style="list-style-type:disc">거짓일 때는, 0을 반환</li></ul><ul id="a1f57e72-ba67-4788-b3fb-578eddfd918b" class="bulleted-list"><li style="list-style-type:disc">참일 때는, 1을 반환</li></ul><h2 id="f1ec428d-27c0-4b00-9626-fce4298fe0d4" class="">열거형(enum)</h2><ul id="656354c9-d7d2-47f4-893c-f33cc64e8dd7" class="bulleted-list"><li style="list-style-type:disc">같은 종류의 상수를 묶어놓은 것</li></ul><ul id="f4d80e4e-b00b-4700-b5f5-64b97ae817d4" class="bulleted-list"><li style="list-style-type:disc">명시적인 캐스팅이 없이도 int와 섞어서 사용 가능<p id="455795b2-8043-4a5b-bf4c-6b7482309b7b" class="">int → enum / enum → int / enum → enum</p></li></ul><ul id="6e7a535e-db76-4db1-900d-4b9014dbd047" class="bulleted-list"><li style="list-style-type:disc">C에서의 열거형은 그냥 정수에 별명을 붙이는 수준<pre id="fa2711e6-5fcb-4bd2-bc35-f6604a7fb0c8" class="code"><code>/* C# */
+/* 구조체 사용 */
 
-enum EDAY {MONDAY, TUESDAY, WEDNESDAY, /* 생략 */ };
-enum EMONTH {JANUARY, FEBURARY, MARCH, /* 생략 */ };
-
-EDAY humpDay = EDAY.WEDNESDAY;
-EMONTH birthMonth = humpDay;               /* 컴파일 오류 */
-
-/* C */
-
-enum day {DAY_MONDAY, DAY_TUESDAY, DAY_WEDNESDAY, /* 생략 */ };
-enum month {MONTH_JANUARY, MONTH_FEBURARY, MONTH_MARCH, /*생략 */ };
-
-enum day hump_day = DAY.WEDNESDAY;
-enum month birth_month = hump_day;         /* 컴파일 됨, 태어난 달이 수요일 */</code></pre></li></ul><h2 id="bab77448-f7cf-4cf9-ba84-26e6bb3203b0" class="">변수 선언 위치</h2><ul id="9e2b0092-19c8-4d7c-944c-67ad14bed5aa" class="bulleted-list"><li style="list-style-type:disc">변수 선언은 반드시 블럭의 시작에서만 해야함<pre id="c5df3b50-523f-429b-91a5-146c4aac3d76" class="code"><code>int main(void)
+int main(void)
 {
-	int num1 = 10;
-	int num2 = 1234;
+	date_t date;
 
-	printf(&quot;num1 = %d, num2 = %d&quot;, num1, num2);
+	date.year = 2043;
+	date.month = 10;
+	date.day = 1;
 
-	int result = add(num1, num2);                   /* 컴파일 오류 */
+	return 0; 
+}</code></pre><ul id="71c3ffc4-7079-4c88-a681-6daf10a1a72f" class="bulleted-list"><li style="list-style-type:disc">완전히 똑같음!</li></ul><h3 id="0493f396-39f6-4c3a-808f-24ac6b9a481b" class="">구조체의 초기화 방법</h3><pre id="c575a58d-5cc9-4638-a83c-361f5c67d9f3" class="code"><code>date_t date;
 
-	printf(&quot;%d + %d = %d&quot;, num1, num2, result);
+date.year = 0;
+date.month = 0;
+date.day = 0;</code></pre><pre id="48d22670-7f1a-4f62-9d6f-ec8026846330" class="code"><code>date_t date = {0, );</code></pre><ul id="51c3be2b-68e7-4ba3-9ffb-d14163a768f1" class="bulleted-list"><li style="list-style-type:disc">배열 초기화 방법과 같음</li></ul><ul id="4ac052b4-4584-47d4-b1c3-fa99055db275" class="bulleted-list"><li style="list-style-type:disc">컴파일러에 따라 그냥 date가 차지하는 모든 메모리 공간을 0으로 채워주는 명령어로 바꿔줄 수도 있음 <code>memset()</code></li></ul><ul id="2e4d773e-7015-44e1-a104-f36819a56662" class="bulleted-list"><li style="list-style-type:disc">배열의 초기화에서 쓴 방법처럼 요소 나열법으로 초기화도 가능함<pre id="e4a3577f-2c0f-4808-b6b9-9d1009f17171" class="code"><code>typedef struct date {
+	int year;
+	int month;
+	int day;
+} date_t;
 
-	return 0;
-}</code></pre></li></ul><ul id="f374ae66-70e6-4b16-87d8-b4b3aaf52a5c" class="bulleted-list"><li style="list-style-type:disc">코드 중간에 사용하는 변수는 블록 시작에서 선언만 하고 뒤에 대입 가능<pre id="91b7ce4c-7f45-4102-8b9d-b3b3edfb4d1c" class="code"><code>int main(void)
+date_t date = { 2043, 10, 1 };</code></pre><ul id="89542bff-f7db-4a2e-b97d-53d9fa9b6d94" class="bulleted-list"><li style="list-style-type:circle">하지만 이 방법은 최대한 쓰지 않는 것이 좋음 </li></ul><ul id="18f402f8-ed6b-447d-89a5-ffd7fe2d7e15" class="bulleted-list"><li style="list-style-type:circle">실수의 여지가 농후함<p id="3881f809-17ff-4758-be71-35babe86d770" class="">⇒ 나중에 다른 프로그래머가 구조체의 멤버 변수 분서를 바꾸고 변수 초기화 목록을 안 고칠 경우 엉뚱한 변수가 매치되버림</p></li></ul><ul id="921018dc-e940-4aa6-80ed-1216a3905da1" class="bulleted-list"><li style="list-style-type:circle">요소 나열법을 통한 초기화 방법이 유일한 경우는 단 하나<p id="0a187a65-2c97-4bf3-8009-d8d936459e9c" class="">⇒ 멤버 변수가 <code>const</code>일 때, 선언 시 초기화 안하면 다시는 못함</p><pre id="76252431-b34b-421c-bdc9-4315e01f43b7" class="code"><code>typedef struct date {
+	const int year;
+	int month;
+	int day;
+} date_t;
+
+/* 컴파일 오류나는 경우 */ 
+
+date_t date;
+
+date.year = 2019;                 /* 컴파일 오류 */
+date.month = 12;
+date.day = 31;
+
+/* 컴파일 되는 경우 */
+
+date_t date = { 2019, 12, 31);    /* OK */</code></pre></li></ul></li></ul><h3 id="51f77912-e432-4ef1-8634-faa68f0bd684" class="">1년 더하기 - 잘못된 예시</h3><pre id="521078fa-5d56-434f-bf5c-ffb75bf7e492" class="code"><code>void increase_year(date_t date)
 {
-	int num1 = 10;
-	int num2 = 1234;
-	int result;
+	++date.year;
+}</code></pre><pre id="068565bd-c203-4d4d-863d-76841d1b8709" class="code"><code>date_t date;
 
-	printf(&quot;num1 = %d, num2 = %d&quot;, num1, num2);
+date.year = 2019;
+date.month = 12;
+date.day = 31;
 
-	result = add(num1, num2);                   /* 컴파일 */
+increase_year(date);
 
-	printf(&quot;%d + %d = %d&quot;, num1, num2, result);
+printf(&quot;%d-%d-%d\n&quot;, date.year, date.month, date.day);</code></pre><figure class="block-color-gray_background callout" style="white-space:pre-wrap;display:flex" id="093862a5-510a-47be-9c51-fe0e4cdce930"><div style="font-size:1.5em"><span class="icon">💡</span></div><div style="width:100%"><strong>위와 같이 아무리 바꿔봐야 사본이 바뀔 뿐 원본은 바뀌지 않음! C에서 자료형은 다 똑같이 참조형이 아닌 값형으로 작동함!!! 잊어버리면 안됨!!</strong></div></figure><h3 id="e21605a1-4bbd-46cb-8df9-9f11d1c7e8af" class="">원본을 바꾸고 싶다면? 구조체의 포인터</h3><pre id="51af5233-72a3-4336-b522-49039db93f09" class="code"><code>date_t* date</code></pre><pre id="a15f0f29-938d-441c-8db8-3bc06bb1e98f" class="code"><code>void increase_year(date_t* date)
+{
+	(*date).year = (*date).year + 1
+}</code></pre><ul id="4280d6dd-1bdd-4645-a0da-4847332ca2d4" class="bulleted-list"><li style="list-style-type:disc"><code>()</code>이 필요한 이유<ul id="3eddaf1c-2c08-4324-ba40-436ab0db0206" class="bulleted-list"><li style="list-style-type:circle">연산자 우선순위 때문</li></ul><ul id="1cb5da15-419d-4d9c-8a85-25f3901deb0a" class="bulleted-list"><li style="list-style-type:circle"><code>.</code>연산자의 우선순위는 1, <code>*</code>연산자 우선순위는 2</li></ul></li></ul><ul id="a5909b82-7335-4478-b1ce-ec0550b44e78" class="bulleted-list"><li style="list-style-type:disc">즉, 괄호가 없다면 <code>*date.year</code> → <code>*(date.year)</code></li></ul><h3 id="0263a6c4-38e0-4f79-b89b-a8463c3769f0" class="">-&gt; 연산자</h3><pre id="a8d41f9f-356a-4344-bcf0-99961a5aa84d" class="code"><code>(*date).year = (*date).year + 1;
+date-&gt;year = date-&gt; + 1;
+date-&gt;year++;
 
-	return 0;
-}</code></pre></li></ul><h2 id="351e5bb5-65bf-4b2a-90b6-c19218a57a63" class="">연산자</h2><div id="142d4bf0-d3dd-4606-8564-f9ca3eaef0a0" class="collection-content"><h4 class="collection-title"></h4><table class="collection-content"><thead><tr><th><span class="icon property-icon"><svg viewBox="0 0 14 14" style="width:14px;height:14px;display:block;fill:rgba(55, 53, 47, 0.4);flex-shrink:0;-webkit-backface-visibility:hidden" class="typesTitle"><path d="M7.73943662,8.6971831 C7.77640845,8.7834507 7.81338028,8.8943662 7.81338028,9.00528169 C7.81338028,9.49823944 7.40669014,9.89260563 6.91373239,9.89260563 C6.53169014,9.89260563 6.19894366,9.64612676 6.08802817,9.30105634 L5.75528169,8.33978873 L2.05809859,8.33978873 L1.72535211,9.30105634 C1.61443662,9.64612676 1.2693662,9.89260563 0.887323944,9.89260563 C0.394366197,9.89260563 0,9.49823944 0,9.00528169 C0,8.8943662 0.0246478873,8.7834507 0.0616197183,8.6971831 L2.46478873,2.48591549 C2.68661972,1.90669014 3.24119718,1.5 3.90669014,1.5 C4.55985915,1.5 5.12676056,1.90669014 5.34859155,2.48591549 L7.73943662,8.6971831 Z M2.60035211,6.82394366 L5.21302817,6.82394366 L3.90669014,3.10211268 L2.60035211,6.82394366 Z M11.3996479,3.70598592 C12.7552817,3.70598592 14,4.24823944 14,5.96126761 L14,9.07922535 C14,9.52288732 13.6549296,9.89260563 13.2112676,9.89260563 C12.8169014,9.89260563 12.471831,9.59683099 12.4225352,9.19014085 C12.028169,9.6584507 11.3257042,9.95422535 10.5492958,9.95422535 C9.60035211,9.95422535 8.47887324,9.31338028 8.47887324,7.98239437 C8.47887324,6.58978873 9.60035211,6.08450704 10.5492958,6.08450704 C11.3380282,6.08450704 12.040493,6.33098592 12.4348592,6.81161972 L12.4348592,5.98591549 C12.4348592,5.38204225 11.9172535,4.98767606 11.1285211,4.98767606 C10.6602113,4.98767606 10.2411972,5.11091549 9.80985915,5.38204225 C9.72359155,5.43133803 9.61267606,5.46830986 9.50176056,5.46830986 C9.18133803,5.46830986 8.91021127,5.1971831 8.91021127,4.86443662 C8.91021127,4.64260563 9.0334507,4.44542254 9.19366197,4.34683099 C9.87147887,3.90316901 10.6232394,3.70598592 11.3996479,3.70598592 Z M11.1778169,8.8943662 C11.6830986,8.8943662 12.1760563,8.72183099 12.4348592,8.37676056 L12.4348592,7.63732394 C12.1760563,7.29225352 11.6830986,7.11971831 11.1778169,7.11971831 C10.5616197,7.11971831 10.056338,7.45246479 10.056338,8.0193662 C10.056338,8.57394366 10.5616197,8.8943662 11.1778169,8.8943662 Z M0.65625,11.125 L13.34375,11.125 C13.7061869,11.125 14,11.4188131 14,11.78125 C14,12.1436869 13.7061869,12.4375 13.34375,12.4375 L0.65625,12.4375 C0.293813133,12.4375 4.43857149e-17,12.1436869 0,11.78125 C-4.43857149e-17,11.4188131 0.293813133,11.125 0.65625,11.125 Z"></path></svg></span>우선순위</th><th><span class="icon property-icon"><svg viewBox="0 0 14 14" style="width:14px;height:14px;display:block;fill:rgba(55, 53, 47, 0.4);flex-shrink:0;-webkit-backface-visibility:hidden" class="typesMultipleSelect"><path d="M4,3 C4,2.447715 4.447715,2 5,2 L12,2 C12.5523,2 13,2.447716 13,3 C13,3.55228 12.5523,4 12,4 L5,4 C4.447715,4 4,3.55228 4,3 Z M4,7 C4,6.447715 4.447715,6 5,6 L12,6 C12.5523,6 13,6.447716 13,7 C13,7.55228 12.5523,8 12,8 L5,8 C4.447715,8 4,7.55228 4,7 Z M4,11 C4,10.447715 4.447715,10 5,10 L12,10 C12.5523,10 13,10.447716 13,11 C13,11.55228 12.5523,12 12,12 L5,12 C4.447715,12 4,11.55228 4,11 Z M2,4 C1.44771525,4 1,3.55228475 1,3 C1,2.44771525 1.44771525,2 2,2 C2.55228475,2 3,2.44771525 3,3 C3,3.55228475 2.55228475,4 2,4 Z M2,8 C1.44771525,8 1,7.55228475 1,7 C1,6.44771525 1.44771525,6 2,6 C2.55228475,6 3,6.44771525 3,7 C3,7.55228475 2.55228475,8 2,8 Z M2,12 C1.44771525,12 1,11.5522847 1,11 C1,10.4477153 1.44771525,10 2,10 C2.55228475,10 3,10.4477153 3,11 C3,11.5522847 2.55228475,12 2,12 Z"></path></svg></span>연산자</th></tr></thead><tbody><tr id="99368319-7914-4320-a267-e9e5482b5a7d"><td class="cell-title"><a href="https://www.notion.so/1-9936831979144320a267e9e5482b5a7d">1</a></td><td class="cell-[b~H"></td></tr><tr id="572cb457-3886-4dd4-9aa8-053b99f06fbd"><td class="cell-title"><a href="https://www.notion.so/2-572cb45738864dd49aa8053b99f06fbd">2</a></td><td class="cell-[b~H"></td></tr><tr id="0f5db7e5-be71-491c-8113-5649320b4337"><td class="cell-title"><a href="https://www.notion.so/3-0f5db7e5be71491c81135649320b4337">3</a></td><td class="cell-[b~H"></td></tr><tr id="3cdaaa9b-3643-4569-8cb0-35d2aa34cf8d"><td class="cell-title"><a href="https://www.notion.so/4-3cdaaa9b364345698cb035d2aa34cf8d">4</a></td><td class="cell-[b~H"></td></tr><tr id="42f2b277-5955-4604-8e16-c4bf69717deb"><td class="cell-title"><a href="https://www.notion.so/5-42f2b277595546048e16c4bf69717deb">5</a></td><td class="cell-[b~H"></td></tr><tr id="8aac937a-9b21-4391-ac85-7b3a9d576cd6"><td class="cell-title"><a href="https://www.notion.so/6-8aac937a9b214391ac857b3a9d576cd6">6</a></td><td class="cell-[b~H"></td></tr><tr id="3526b868-e5be-4dfb-a6ef-9bfde44698bc"><td class="cell-title"><a href="https://www.notion.so/7-3526b868e5be4dfba6ef9bfde44698bc">7</a></td><td class="cell-[b~H"></td></tr><tr id="33edad87-dfc4-43a4-8a5a-4fb83d8f4107"><td class="cell-title"><a href="https://www.notion.so/8-33edad87dfc443a48a5a4fb83d8f4107">8</a></td><td class="cell-[b~H"></td></tr><tr id="258ce178-3e57-4fc4-ae20-644c9f45d234"><td class="cell-title"><a href="https://www.notion.so/9-258ce1783e574fc4ae20644c9f45d234">9</a></td><td class="cell-[b~H"></td></tr><tr id="727069a2-65c2-4d32-87fc-20ac7a58e3b8"><td class="cell-title"><a href="https://www.notion.so/10-727069a265c24d3287fc20ac7a58e3b8">10</a></td><td class="cell-[b~H"></td></tr><tr id="c541a13d-6ff1-4b59-b5a3-246422504c12"><td class="cell-title"><a href="https://www.notion.so/11-c541a13d6ff14b59b5a3246422504c12">11</a></td><td class="cell-[b~H"></td></tr><tr id="1b430c57-794f-4471-806a-ac019f72e7f6"><td class="cell-title"><a href="https://www.notion.so/12-1b430c57794f4471806aac019f72e7f6">12</a></td><td class="cell-[b~H"></td></tr><tr id="551e9a61-9589-4020-8f5c-5ad26f8ac43d"><td class="cell-title"><a href="https://www.notion.so/13-551e9a61958940208f5c5ad26f8ac43d">13</a></td><td class="cell-[b~H"></td></tr><tr id="fcdb564d-dfe2-4e47-9c62-818d00cde06c"><td class="cell-title"><a href="https://www.notion.so/14-fcdb564ddfe24e479c62818d00cde06c">14</a></td><td class="cell-[b~H"></td></tr><tr id="5b137f23-d9c0-49e5-8e98-19ab77377f7a"><td class="cell-title"><a href="https://www.notion.so/15-5b137f23d9c049e58e9819ab77377f7a">15</a></td><td class="cell-[b~H"></td></tr></tbody></table></div><figure id="7681ee63-1a76-4807-9ce5-15bf5a28a199" class="image"><a href="(2)%20C%20%E1%84%8B%E1%85%A5%E1%86%AB%E1%84%8B%E1%85%A5%E1%84%8B%E1%85%B4%20%E1%84%80%E1%85%B5%E1%84%87%E1%85%A9%E1%86%AB%20%E1%84%86%E1%85%AE%E1%86%AB%E1%84%87%E1%85%A5%E1%86%B8%201%207681ee631a7648079ce515bf5a28a199/Untitled.png"><img style="width:959px" src="(2)%20C%20%E1%84%8B%E1%85%A5%E1%86%AB%E1%84%8B%E1%85%A5%E1%84%8B%E1%85%B4%20%E1%84%80%E1%85%B5%E1%84%87%E1%85%A9%E1%86%AB%20%E1%84%86%E1%85%AE%E1%86%AB%E1%84%87%E1%85%A5%E1%86%B8%201%207681ee631a7648079ce515bf5a28a199/Untitled.png"/></a></figure><h2 id="15c06e6a-1ce0-46dc-a34f-522137e7e3df" class="">C에서 새로 만난 연산자</h2><h3 id="4ef60f75-d6ad-43ba-b0e2-be2ee9b23acb" class="">sizeof()</h3><pre id="dd01563d-a889-444c-923f-d594722bcb0f" class="code"><code>char ch = &#x27;a&#x27;;
-int num = 100;
-char char_array[30];
+/* 세 코드는 모두 같은 의미 */</code></pre><ul id="ab175d07-3d31-42f3-8a5c-79bdab90b0e6" class="bulleted-list"><li style="list-style-type:disc"><code>(* ).</code> : <code>*</code>과 <code>()</code>를 합친 간단한 연산자</li></ul><h3 id="8e74111e-e262-487a-814c-5abb58700947" class="">구조체 매개변수 베스트 프랙티스</h3><p id="93133dd9-5da5-4547-8273-8a9e32d9f3ee" class="">1) 값으로 전달 vs 주소로 전달</p><ul id="0209fa9b-6b0a-4c4e-a8b1-1c72eb5ea02a" class="bulleted-list"><li style="list-style-type:disc">기본 자료형 전달할 때는 간단했음<ul id="8a163c4d-82ec-4294-a53a-af6e4d0a3d7c" class="bulleted-list"><li style="list-style-type:circle">기본 데이터 크기가 작으니 원본을 바꿀 때만 주소로 전달하면 됨</li></ul></li></ul><ul id="9fc341bb-020e-4125-a6e9-9b5735ddef06" class="bulleted-list"><li style="list-style-type:disc">구조체의 경우 데이터 크기가 클 수도 있음<ul id="402b46c6-00aa-4449-a4ba-9ff8dc26c9aa" class="bulleted-list"><li style="list-style-type:circle">구조체 안에서 <code>int</code>형 멤버 변수가 5만 개면 200KB</li></ul><ul id="3396e341-65ae-4091-8cb9-a0826f1b12c5" class="bulleted-list"><li style="list-style-type:circle">이럴 때는 다 복사하는 게 성능이 느릴 수 있음 → 주소로 전달!</li></ul><ul id="5212e71d-e4fa-4aed-959b-d9ac2deb1869" class="bulleted-list"><li style="list-style-type:circle">포인터에 <code>const</code> 포인터를 붙이면 원본을 못 바꾸니 안전</li></ul></li></ul><pre id="13f8220c-b1a0-4d3b-af95-cd65e8f3f794" class="code"><code>typedef struct achievement {
+	int achv1;
+	/* ... */
+	int achv50000;
+} achievement_t;
 
-size_t size_char = sizeof(ch);                          /* 1 */
-size_t size_num = sizeof(num);                          /* 4 */
-size_t size_float = sizeof(float);                      /* 4 */
-size_t size_char_array = sizeof(char_array);            /* 4 */</code></pre><ul id="0db42257-6107-4a8c-851c-d6f275931392" class="bulleted-list"><li style="list-style-type:disc">피연산자의 크기를 바이트로 반환해주는 연산자</li></ul><ul id="6d0fb253-f629-40fa-a5e4-6538becbf411" class="bulleted-list"><li style="list-style-type:disc">함수가 아님!<p id="973669ac-2014-4cbb-8849-515cf22e4e7a" class="">⇒ 실행 중이 아니라 컴파일 도중에 크기를 찾음! 즉, 컴파일 할 때 모르는 크기는 찾아줄 수 없음</p></li></ul><ul id="1317d1b0-dfd4-4aa0-a179-04186c6abfd6" class="bulleted-list"><li style="list-style-type:disc">char형을 넣으면 반드시 1이 반환 → 보통 바이트는 char의 크기이다!</li></ul><ul id="f82888dd-f8e5-43b5-b057-51ac1b37b71c" class="bulleted-list"><li style="list-style-type:disc">이 연산자가 반환하는 값은 부호없는 정수형의 상수로 size_t형</li></ul><h3 id="07c57650-8113-4646-9ecd-524f99a53a96" class="">size_t</h3><ul id="82a5d46a-2908-495d-8a1f-ab6d67c53f4c" class="bulleted-list"><li style="list-style-type:disc">부호없는 정수형이나 실제 데이터형은 아님</li></ul><ul id="da6ac5bd-0cc3-47fa-a1da-74ef16364f38" class="bulleted-list"><li style="list-style-type:disc">_t는 typedef를 했다는 힌트 (플랫폼에 따라 다른 자료형을 쓰기 위해 size_t를 typedef한 것</li></ul><pre id="25678b3b-f437-44a8-ab9e-c89db7fb909d" class="code"><code>/* Clang Window */
+void save_achievements(const achievement_t achv)     /* BAD */
+void save_achievements(const achievement_t* achv)    /* GOOD */</code></pre><p id="81159337-3249-4dca-9367-4936f680c9f5" class="">2) 구조체 매개변수 vs 여러 개의 개별 변수</p><ul id="1e5752ba-bfec-4561-9aeb-a10b7a09011b" class="bulleted-list"><li style="list-style-type:disc">딱히 정확한 규칙이 있지 않지만 보통 변수가 많이 전달하는 대신 구조체 하나 전달하라고 함</li></ul><ul id="3c126ced-dc99-4ed3-9fca-c27581930515" class="bulleted-list"><li style="list-style-type:disc">한 4개까지는 낱개 변수로 그 이후에는 구조체로 넘기라는 규칙을 쓰는 회사도 있음</li></ul><ul id="7ba7f3d5-9edf-49ae-baaf-7da9fadb3a56" class="bulleted-list"><li style="list-style-type:disc">이유는 다양함<ul id="05a49af0-55ff-447e-85f0-88f9d6b36fc2" class="bulleted-list"><li style="list-style-type:circle">실수를 줄이기 위해</li></ul><ul id="54e4c6ff-1d75-438b-8d54-a8a633d83a35" class="bulleted-list"><li style="list-style-type:circle">성능을 빠르게 하기 위해 (특히, 주소로 전달할 경우)</li></ul></li></ul><pre id="955e7221-d234-4037-abd6-0e3a6e39da89" class="code"><code>void save_character_info(id_t id, const char* name, level_t lvl, float exp, class_t class, ... date_t last_logout);
+/* 매개변수가 10개쯤 되는 함수 */
 
-#indef WIN^$
-	typedef unsigned  int64;  size_t;    /* 64비트 운영체제: unsigned __int64(64비트) */
-	typedef __int64;          ptrdiff_t; 
-	typedef __int64;          intptr_t;    
-#else
-	typedef unsigned  int     size_t;     /* 그 외 운영체제: unsigned_int 32비트 */
-	typedef int               ptrdiff_t;   </code></pre><ul id="68f40479-4aab-4d3d-9d63-f01a36925fcc" class="bulleted-list"><li style="list-style-type:disc">C89 표준은 size_t의 크기를 딱히 명시하지 않았음</li></ul><ul id="20e3cade-656b-4c2a-990f-c703f075f9d9" class="bulleted-list"><li style="list-style-type:disc">단, 배열을 만들면 그 배열의 바이트의 크기를 얻을 수 있다고 명시함<p id="db338d32-accb-435e-8229-3820b5681529" class="">여기서 추측할 수 있는 것은 size_t는 최소 배열을 담을 수 있는 크기여야함</p><p id="0e090e3a-ac13-4139-a046-54fae3246114" class="">그럼, 배열의 크기가 얼마나 커질 수 있는가? 최소 65,535정도는 되어야 할 것으로 예상</p><p id="cbddad6e-8f0d-4bff-8d51-de56ae61431d" class="">다행히 C99 표준에는 확실하게 최소 16비트를 요구함</p></li></ul><ul id="b51fd60e-883b-4d65-a9b6-0bcafa3b8da2" class="bulleted-list"><li style="list-style-type:disc">보통 unsigned int 사용 (헤더에서 확인 가능)</li></ul><h3 id="e398edad-e33b-4e69-a6b4-9c9aa2b57db9" class="">size_t의 용도</h3><ul id="a04c56c8-7dba-4e96-af86-eed8854d86e5" class="bulleted-list"><li style="list-style-type:disc">어떤 것의 크기를 나타내기 위해 사용</li></ul><ul id="134b5f12-2ff9-4bf5-af53-30138d6cddb4" class="bulleted-list"><li style="list-style-type:disc">좋은 예 : 반복문이나 배열에 접근하기 위해 사용<p id="1f755337-76fb-4217-b73c-b21fe46a9b23" class="">1) 반복문의 카운터 변수에 음수가 필요없을 때</p><p id="4d9ed4c8-f29d-47c6-90a9-b544ec1b0ea8" class="">2) 배열의 경우 길이가 음수가 될 수 없으니 ⇒ my_array[-1] 존재할 수 없음</p><pre id="ee0e521f-0505-42aa-b7df-7ffef43a0210" class="code"><code>int int_array[30];
-size_t;
+typedef struct character_info {
+	id_t id;
+	const char* name;
+	/* ... */
+	date_t last_logout;
+} character_info_t
 
-for (i = 0; i &lt; 30; ++i) {
-	int_array[1] = 1;
-}</code></pre></li></ul><h3 id="2c898f74-72ca-48e3-8fb2-bdd83481fe44" class="">역 참조 연산자( * )</h3><pre id="9001a3f8-2827-4e96-a62e-b5d35c4115c3" class="code"><code>int num = 10;
-int* p = &amp;num;                    /* 역 참조 연산자 X, 포인터 변수 선언 O */
-int num1 = *p;                    /* 역 참조 연산자 O */
+void save_character_info(const character_info_t* character)</code></pre><h3 id="6ccbcd1c-ff94-454b-9b83-53d03b0748b1" class="">퀴즈</h3><pre id="6526b3ee-b071-4f81-8b19-0edc14f114b7" class="code"><code>#include &lt;stdio.h&gt;
 
-int result = num1 * num2          /* 역 참조 연산자 X, 곱셈 연산자 O */</code></pre><ul id="60a76b5d-a5fd-421c-ab48-da0813bb844c" class="bulleted-list"><li style="list-style-type:disc">*의 피연산자가 하나면 역참조(indiraction, dereference) 연산자<p id="feaed276-57ae-4035-b6b6-e46bd1a4922e" class="">⇒ 피연산자가 2개일 때 사용하는 곱셈 연산자가 아님</p></li></ul><ul id="2ac27e5e-4a4c-42b2-a5ab-9f4506d68556" class="bulleted-list"><li style="list-style-type:disc">포인터형 변수에만 사용 가능</li></ul><ul id="091a99d1-ea4a-47fc-91f9-7b8ff39bfa0d" class="bulleted-list"><li style="list-style-type:disc">주소 연산자와 더불어 메모리를 들었다놨다 하는 연산자</li></ul><ul id="4822b6d6-ac95-4bd0-9e9a-6684910f7e3b" class="bulleted-list"><li style="list-style-type:disc">&#x27;포인터형 변수에 저장된 주소&#x27;의 위치에 들어있는 값에 접근 ⇒ 포인터와 관련된 중요한 개념!</li></ul><h3 id="d4974a8b-d7a6-4241-874b-fe071a835a93" class="">주소 연산자( &amp; )</h3><pre id="0ed83216-e6d8-415b-912b-3609dfe0ed3a" class="code"><code>int num = 10;
-int*p = &amp;num;
+typedef struct {
+    float x;
+    float y;
+} point_t;
 
-int still_num = num &amp; num;            /* 주소 연산자 X, 비트 연산자 O */</code></pre><ul id="741ffddb-145c-4400-91c5-d37c9abdc4c7" class="bulleted-list"><li style="list-style-type:disc">피연산자가 하나면 주소연산자<p id="1304d810-ab2e-4967-ab35-913b8b61c064" class="">⇒ 피연산자가 2개일 때 사용하는 비트연산자가 아님</p></li></ul><ul id="ead57858-2e50-40fe-ba96-faef16c92d3d" class="bulleted-list"><li style="list-style-type:disc">어떤 변수의 메모리 주소를 반환</li></ul><h3 id="d7d34c84-7ab8-4630-9385-e6d7de7c7bed" class="">구조체와 공용체 멤버 접근자 ( . )과 ( -&gt; )</h3><p id="51ccf8c1-50d6-4114-8fb4-71c5a31dfadd" class=""><strong>&lt; . 연산자 &gt;</strong></p><ul id="c8deb642-a7de-410f-9741-b28f39924f82" class="bulleted-list"><li style="list-style-type:disc">C에는 클래스가 없으므로 함수 호출에 쓸 수 없음</li></ul><ul id="a45a1c18-1d05-4b94-ab7e-f80abcd70b47" class="bulleted-list"><li style="list-style-type:disc">단, 구조체와 공용체는 있으니 그들의 멤버변수에 접근할 때 사용</li></ul><p id="208d31f8-4b9f-4e6b-a1a8-f6f3ec5934c3" class=""><strong>&lt; -&gt; 연산자 &gt;</strong></p><ul id="2adaa17a-2881-45fe-b7e4-c071d2263a5d" class="bulleted-list"><li style="list-style-type:disc">2개의 연산자 &#x27;.&#x27;와 &#x27;*&#x27;를 합친 것 [ &#x27;(*s).data&#x27; = &#x27;s-&gt;data&#x27; ]</li></ul><ul id="b1d99b1c-5aa8-4cb9-8d66-3ece0756718d" class="bulleted-list"><li style="list-style-type:disc">이 또한 구조체와 공용체의 멤버변수에 접근할 때 사용</li></ul><h3 id="8742fc25-60c4-421f-8f3f-4f132ce98eff" class="">비교(relational) 연산자와 논리(logical) 연산자</h3><ul id="d1e4285a-b186-418a-b19d-74efa6278641" class="bulleted-list"><li style="list-style-type:disc">비교연산자 : ==, !=, &lt;, &lt;=, =&gt;, &gt;</li></ul><ul id="2d7b9f20-4342-48d7-a046-d17c331497e7" class="bulleted-list"><li style="list-style-type:disc">논리 연산자 : &amp;&amp;, ||, !</li></ul><h3 id="803a508e-d2ee-42f7-b4d6-2f311bdc3f67" class="">조건(conditional) 연산자</h3><pre id="99e1e7c4-f645-4087-b263-6701a74ad13b" class="code"><code>int num1 = 10;
-int num2 = 56;
+void AddValueToPoint(point_t p);
 
-int min = num1 &lt; num2 ? num1 : num2;
+int main(void)
+{
+    point_t point;
+    point.x = 5.0f;
+    point.y = 10.0f;
 
-/* if 구문을 한 줄로 표현 : num1이 num2보다 작으면, num1을 반환하고 아니면 num2를 반환 */</code></pre><ul id="16c27ca3-98da-4105-aaf4-f13d2746252a" class="bulleted-list"><li style="list-style-type:disc">보통 삼항 연산자(ternary operator)라고 부름</li></ul><h2 id="d80600a8-f812-43bf-a912-ce7871098c22" class="">조건문(if, switch/case)과 반복문(for, while, do while)</h2><h3 id="c2f7f854-30a1-4d5b-bfa2-00e57f99b81e" class="">if문</h3><pre id="fa8fed11-d387-4e3a-b3cb-9766325f5e7e" class="code"><code>int num1 = 10;
-int num2 = 56;
-int min;
+    AddValueToPoint(point);
 
-if (num1 &lt; num2) {
-	min = num1;
+    printf(&quot;%.1f, %.1f\n&quot;, point.x, point.y);
+
+    return 0;
 }
-else {
-	min = num2;
-}</code></pre><ul id="24f19236-e2de-42b8-a1d0-d5ff60c7dbd5" class="bulleted-list"><li style="list-style-type:disc">bool형이 없다고 했는데 어떻게 if문이 작동하는 것일까?<p id="e4681491-9c69-464d-9614-53a422f093ad" class="">C의 비교 연산자나 조건 연산자를 사용한 표현식은 참일 경우 1, 거짓일 경우 0을 반환함</p><p id="e0514d99-7c02-4e14-9957-9e01a353a0b7" class="">즉, b &gt; 10은 True/False를 반환하는 것이 아니라 1 또는 0을 반환</p></li></ul><ul id="1bedd7c2-887d-4315-95d4-b7a3a974d43c" class="bulleted-list"><li style="list-style-type:disc">숫자를 if문의 조건식에 넣어도 곧바로 판단 가능(False : 0 / True : 1)</li></ul><ul id="f152ff4c-015f-4ed7-91f9-e4483fde95d9" class="bulleted-list"><li style="list-style-type:disc">메모리 주소(포인터)나 float형도 마찬가지<p id="42cf0394-5d74-4549-9f40-9502e617c0d6" class=""><strong>모든 비트패턴이 0이면 False, 아니면 True</strong></p></li></ul><ul id="f40180d8-f69c-44d8-9158-b39dd9f942be" class="bulleted-list"><li style="list-style-type:disc">if ~ else문 : 조건식이 참일 경우와 거짓일 경우 실행문장을 구분하여 프로그램 흐름 제어</li></ul><ul id="1020ae93-163a-4f9b-88ed-64ef78dbf327" class="bulleted-list"><li style="list-style-type:disc">if ~ else if ~ else문 : 조건식의 결과에 따라 경우의 수가 여러 가지인 경우 사용</li></ul><h3 id="2edea4f4-04e4-4ff3-87cd-2942e92cda07" class="">switch/case문</h3><pre id="c86c80dd-4c59-4079-b727-354b31977c55" class="code"><code>int num = 1;
 
-switch (num) {
-	case 0:
-		printf(&quot;Hello\n&quot;);
-		break;
-	case 1:
-		printf(&quot;Hello World\n&quot;);
-		break;
-	case 2:
-		printf(&quot;Hello entry\n&quot;);
-		break;
-}</code></pre><ul id="d919afdd-0239-450e-b818-79426ef41211" class="bulleted-list"><li style="list-style-type:disc">하나의 조건식으로 많은 경우의 수를 처리할 경우 사용</li></ul><ul id="1ce93b1f-a23b-40f2-9566-f16317bad2a5" class="bulleted-list"><li style="list-style-type:disc">switch문의 조건식은 반드시 정수형 또는 정수형으로 반환되는 자료형이어야 함</li></ul><ul id="80cf4dac-7bd0-4b49-8e8e-cb50b841dd4e" class="bulleted-list"><li style="list-style-type:disc">switch문은 if문처럼 변수끼리 비교하거나 대소관계를 비교하는 등의 처리는 불가능함</li></ul><ul id="c4d49d05-a74f-4de3-99f5-571874f1b7f5" class="bulleted-list"><li style="list-style-type:disc">case문의 값은 정수값만 가능하며 중복되지 않아야 함</li></ul><ul id="b8977ec9-6def-4aaf-8a5e-ba6da75d7de9" class="bulleted-list"><li style="list-style-type:disc">변수나 실수, 조건식, 문자열은 case문의 값으로 사용할 수 없음</li></ul><h3 id="f12e0cc8-3729-4686-ba82-22e8dde58b51" class="">case에서 사용 가능한 데이터형</h3><pre id="cff2c0dc-87c7-4fbd-bf4e-dc9099ef4a64" class="code"><code>const char* name = &quot;Banana&quot;
-switch(name) {                          /* 컴파일 오류 */
-	case &quot;Apple&quot;:                         /* 컴파일 오류 */
-		printf(&quot;Breakfast/n&quot;);
-		break;
-	case &quot;Mango&quot;:                         /* 컴파일 오류 */
-		printf(&quot;Lunch/n&quot;);
-		break;
-	default:
-		printf(&quot;Unknown/n&quot;);
-		break;</code></pre><ul id="f7bb2ed2-fe73-4b11-8b3f-c9582b5ee8a9" class="bulleted-list"><li style="list-style-type:disc">정수형(예: int, char, enum)만 가능 ⇒ string형은 사용 불가능</li></ul><h3 id="a75c1c86-e3be-48f2-b3e5-59a884e3180d" class="">case 안에서 break를 빼먹으면?</h3><ul id="82ca27ec-4b7a-4286-bff4-33df0aa55ba6" class="bulleted-list"><li style="list-style-type:disc">switch문을 곧바로 탈출하지 못하고 보통 그 아래 다른 case 또는 dafault 레이블에 있는 코드를 계속 실행</li></ul><ul id="e76d697b-721f-4c99-b99f-8c6c5cb5a266" class="bulleted-list"><li style="list-style-type:disc">다른 곳에서 break를 만나거나 switch 블록 끝에 도착하면 탈출</li></ul><ul id="fd68c53d-b1fc-4abc-a0dc-9c30f9f94e13" class="bulleted-list"><li style="list-style-type:disc">이렇게 계속 아래에 있는 코드를 실행하는 것을 <strong>fall-through</strong>라고 함</li></ul><h3 id="894137fb-c30b-425a-921a-702f000057ff" class="">코딩표준 : fall-through를 명시적으로 표시</h3><pre id="950cdacf-bf7f-4d2f-8f20-86584401943b" class="code"><code>enum fruit { FRUIT_APPLE, FRUIT_MANGO };
-enum fruit fruit = FRUIT_APPLE;
+void AddValueToPoint(point_t p)
+{
+    p.x += 10.0f;
+    p.y += 15.0f;
+}
 
-switch(fruit) {
-	case &quot;FRUIT_APPLE&quot;:
-		printf(&quot;Breakfast/n&quot;);
-		/* intentional fallthrough */
-	case &quot;FRUIT_MANGO&quot;:
-		printf(&quot;Lunch/n&quot;);
-		break;
-	default:
-		printf(&quot;Unknown food/n&quot;);
-		break;</code></pre><p id="62fa419d-b7f1-4212-a3d2-a8a42dc8c48d" class="">⇒ 의도를 가지고&#x27;break&#x27;를 사용하지 않을 경우, /* intentional fallthrough*/의 주석을 반드시 붙이자</p><h3 id="f81a5b1b-1c02-4131-bf5c-788d8b716010" class="">case 레이블은 반드시 상수만</h3><pre id="4173afa5-e0a2-4e12-aef4-23731aba8bd3" class="code"><code>int calories[] = {100, 500};
-int calorie;
+/* 정답 : 5.0 10.0 */</code></pre><h3 id="04453448-2089-47cc-8695-dc65f216a64b" class="">함수 반환값으로서의 구조체</h3><pre id="5ef70db2-6acc-4b70-b4a1-c4d0d9053fb3" class="code"><code>date_t get__dday(void)
+{
+	date_t date;
 
-switch(calorie) {
-	case calories[0]:                         /* 컴파일 오류: 상수값 */  
-		printf(&quot;Breakfast: 100/n&quot;);
-		/* intentional fallthrough */
-	case calories[1]:                         /* 컴파일 오류: 상수값 */
-		printf(&quot;Lunch: 500/n&quot;);
-		break;
-	default:
-		printf(&quot;Unknown calorie/n&quot;);
-		break;</code></pre><ul id="6f52ae90-e614-4d50-b958-822a3095ad00" class="bulleted-list"><li style="list-style-type:disc">추가적으로 이 상수는 반드시 컴파일 시에 결정되어야 함 ⇒ 컴파일러가 자동으로 if문을 만들어준다고 생각하면 됨<p id="b682058b-e861-4793-9de3-846697b55a55" class="">상수(constant) : 변수에 대하여 항상 일정한 값을 취하는 수</p></li></ul><h3 id="05f8c0c3-cdb8-49ca-bd0f-892b977c7d8c" class="">for문</h3><pre id="8029c9f7-7683-4121-a084-44d7c293c29f" class="code"><code>int sum = 0;
+	date.year = 2043;
+	date.month = 10;
+	date.day = 1;
+
+	return date;
+}</code></pre><pre id="e8d405e7-a4e4-4f74-9800-f02ecd621f2e" class="code"><code>date_t date;
+date = get_dday();</code></pre><ul id="8ca4eb83-e863-47b1-8331-0e1900c38f7c" class="bulleted-list"><li style="list-style-type:disc"><code>int</code>형 하나 반환하는 것과 마찬가지로 <strong>복사에 의해 반환</strong></li></ul><ul id="ab05421b-da89-4c1f-98c9-cf03e58c972e" class="bulleted-list"><li style="list-style-type:disc">C 언어의 함수는 반환값이 하나라고 했음</li></ul><ul id="ce1e5f98-17c8-42a8-8341-c5c0002beb12" class="bulleted-list"><li style="list-style-type:disc">이렇게 구조체를 반환하면 실질적으로 여러 개의 값을 반환하는 격</li></ul><h3 id="3d8904a3-e865-4aeb-821f-d1c4e38bb4b4" class="">구조체 대입</h3><ul id="d4c40ddb-fe45-4d03-822e-e232a9093919" class="bulleted-list"><li style="list-style-type:disc"><code>date = get_dday();</code>가 된다는 건 대입도 가능하다는 것을 의미</li></ul><pre id="5c8ae9be-d317-4e21-90b5-fd63c74c1216" class="code"><code>date_t date1; /* { 2043, 10, 1 } */
+date_t date2; /* { 0, 0, 0 } */
+
+date2 = date1</code></pre><ul id="d49bbfb9-68f7-40a5-afa3-02c0ad5d6c66" class="bulleted-list"><li style="list-style-type:disc">개념상 각 멤버 변수를 돌아가며 하나씩 대입한다고 봐도 됨</li></ul><ul id="0c705b6c-93b3-45d5-a9b1-d930b7156213" class="bulleted-list"><li style="list-style-type:disc">어떤 컴파일러들은 메모리를 통째로 그냥 복사해줌 <code>memcpy()</code></li></ul><h3 id="5baed922-0e16-4325-b185-b4c383fb06d2" class="">구조체 배열</h3><ul id="6c3dc45d-f70c-411a-9fda-87d51e1c4a00" class="bulleted-list"><li style="list-style-type:disc">구조체를 정말 기본 자료형이랑 다르지 않다고 생각하는게 편함</li></ul><ul id="c739148c-c2d6-46f6-88c7-a66a2e1cff04" class="bulleted-list"><li style="list-style-type:disc">구조체마다 자료 크기가 딱 정해져 있으니 컴파일러가 다른 변수와 똑같이 처리해 줄 수 있음</li></ul><pre id="66d314ed-7289-4ec2-b3e9-169ef70d662e" class="code"><code>typedef struct date {
+	int year;
+	int month;
+	int day;
+}
+
+/*
+int year 크기 + int month 크기 + int day 크기
+sizeof(int) + sizeof(int) + sizeof(int)
+*/</code></pre><pre id="50109e99-36bb-4287-8d2a-3af54fca462a" class="code"><code>date_t family_birthdates[4];
+
+family_birthdates[0].year = 1950;
+family_birthdates[0].month = 1;
+family_birthdates[0].day = 2;
+
+family_birthdates[1].year = 1948;
+family_birthdates[1].month = 8;
+family_birthdates[1].day = 3;
+
+family_birthdates[2].year = 1980;
+family_birthdates[2].month = 12;
+family_birthdates[2].day = 28;
+
+family_birthdates[3].year = 1984;
+family_birthdates[3].month = 4;
+family_birthdates[3].day = 1;
+
 size_t i;
 
-for (i = 0; i &lt; 10; ++i) {         /* for (초기화; 조건식; 증감식) */
-	sum += i;
-}</code></pre><ul id="e7bbe4fe-675e-4835-883c-752d1a0020db" class="bulleted-list"><li style="list-style-type:disc">초기화가 먼저 수행되고, 이후부터는 조건식을 검사하여, 조건식이 참일 동안 조건식 ~ 반복 실행할 문장 ~ 증감식 순서로 반복함</li></ul><ul id="e4350989-4b26-4a14-9cf1-5f2569a2ff02" class="bulleted-list"><li style="list-style-type:disc">foreach문이 없음</li></ul><ul id="ccd43909-bae7-4178-a8e3-6f8133965156" class="bulleted-list"><li style="list-style-type:disc">for문의 초기화 코드에 &#x27;size_t i = 0&#x27;을 못 씀(변수 선언을 제일 먼저 해야함)</li></ul><h3 id="a863e1d4-3d9d-4755-bacd-77568de7a1ef" class="">while문</h3><pre id="beb188fe-643e-4f61-a9af-4c1d60f24020" class="code"><code>int day = 5;
-while (day-- &gt; 0) {
-	printf(&quot;%d\n&quot;, day);
+for (i = 0; i &lt; LENGTH; ++i) {
+	printf(&quot;%d-%d-%d\n&quot;, family_birthday[i].year, family_birthday[i].month, family_birthday[i].day);
+}</code></pre><ul id="b792e42d-987b-4272-9c03-6d89756e927d" class="bulleted-list"><li style="list-style-type:disc">요소 하나의 크기 : <code>sizeof(int) + sizeof(int) + sizeof(int)</code> = 12<pre id="10c4d4eb-e6d5-4bd3-9c98-5488fe680d39" class="code"><code>size_t s;
+s = sizeof(family_birthdates[0]);
+
+size_t gap;
+gap = (char*)&amp;family_birthdates[1] -(char*)&amp;family_birthdates[0];</code></pre></li></ul><h3 id="59636e35-ee9d-4c91-b1f9-fe37f08e1dd6" class="">퀴즈</h3><pre id="5eb7a660-a26c-493e-af83-03a7c30e71d9" class="code"><code>typedef struct name {
+	char* lastname;
+	char* firstname;
+} name_t;
+
+char firstname[] = &quot;Lulu&quot;;
+char lastname[] = &quot;Lee&quot;;
+
+name_t name;
+name_t clone;
+
+name.lastname = lastname;
+name.firstname = firstname;
+
+clone = name;
+name.lastname[0] = &#x27;Nee&#x27;;
+
+printf(&quot;origin: %s %s\n&quot;, name.firstname, name.lastname);
+printf(&quot;clone: %s %s\n&quot;, clone.firstname, clone.lastname);
+
+/*
+정답 : 
+orgin: Lulu Nee
+clone: Luly Nee
+*/</code></pre><ul id="1f662ec6-b382-4318-a5a0-3e620ecb6462" class="bulleted-list"><li style="list-style-type:disc">포인터 변수에 대입한 값은 주소<pre id="f2dce031-bdb5-435f-b774-22737b640bb0" class="code"><code>clone = name;
+
+=
+
+clone.firstname = name.firstname
+clone.lastname = name.lastname;</code></pre></li></ul><ul id="cc7fe456-aabc-464d-b70e-3a46e42d05e9" class="bulleted-list"><li style="list-style-type:disc">name과 clone은 둘다 주소로 같은 문자열을 가리키고 있으므로, 하나를 바꾸면 당연히 다른것도 바뀜 → 즉 둘 다 Nee를 가리키고 있음</li></ul><h3 id="8253b6f0-34be-4c95-98c9-f0071be0195c" class="">얕은 복사</h3><p id="4e923a9f-67af-45ea-9698-b74dc4c94d6a" class="">위의 퀴즈와 같이 실제 데이터가 아니라 주소를 복사하는 것을 얕은 복사라고 함</p><h3 id="86b7a08f-0696-4f2f-9ed7-303cea4b41c3" class="">얕은 복사 예제 1 - 포인터 사용</h3><pre id="52c5bd47-ecff-401c-a197-57d1bc1852c1" class="code"><code>name_t names[NUM_NAMES];
+FILE* stream;
+
+name[0].firstname = &quot;Teemo&quot;;
+name[0].lastname = &quot;Kim&quot;;
+name[1].firstname = &quot;Lulu&quot;;
+name[1].lastname = &quot;Lee&quot;;
+
+/* 오류 처리 생략 */
+stream = fopen(&quot;names.text&quot;, &quot;wb&quot;);
+
+fwrite(names, sizeof(names[0]), NUM_NAMES, stream);
+fflush(stream);
+
+fclose(stream);</code></pre><ul id="5f14877a-42d7-4223-a228-9929d79d4f77" class="bulleted-list"><li style="list-style-type:disc">먼저 파일에 다음과 같은 정보를 적은 후 프로그램 종료</li></ul><pre id="0194c322-6e92-4343-9f85-8950880a8ae8" class="code"><code>FILE* stream;
+size_t read_num;
+size_t i;
+name_t names[NUM_NAMES];
+
+/* 오류 처리 생략 */
+stream = fopen(&quot;names.text&quot;, &quot;rb&quot;);
+
+read num = fread(names, sizeof(names[0]), NUM_NAMES, stream);
+for (i = 0; i &lt; read_num; ++i) {
+	printf(&quot;%s %s\n&quot;, names[i].firstname, names[i].lastname);
 }
 
-/* 4, 3, 2, 1, 0, _ */</code></pre><ul id="c912a37a-9962-4835-a728-030020c9d76e" class="bulleted-list"><li style="list-style-type:disc">조건식이 참일 동안 while문에 포함된 문장을 반복 실행하고, 조건식이 거짓이면 while문 블록을 벗어남</li></ul><pre id="ea26a342-ace5-4208-89eb-be4edc590cae" class="code"><code>size_t num = 30;
+fclose(stream);</code></pre><ul id="13a8db5e-3faa-411c-9041-38179e5fc39a" class="bulleted-list"><li style="list-style-type:disc">이번엔 읽는 코드를 짠 후 프로그램 실행</li></ul><ul id="8caef154-5485-46b6-aefb-d9129cd35b6b" class="bulleted-list"><li style="list-style-type:disc">프로그램 재실행시 문자열이 다른 주소에 저장이 되어 출력시 오류가 발생할 수 있음</li></ul><ul id="b3f91c07-02dd-49c2-91b0-004ea8e5cd02" class="bulleted-list"><li style="list-style-type:disc">주소는 파일이 돌아갈 때 그 순간의 위치를 나타내기 때문에 다음을 보장할 수 없음</li></ul><ul id="cd3b89a8-1486-4366-b858-186abe43d082" class="bulleted-list"><li style="list-style-type:disc">문제는 포인터임!! 포인터를 없애야함</li></ul><h3 id="76cb549b-2088-4792-ac80-29377c8b453e" class="">얕은 복사 예제 2 - 포인터 사용 X</h3><ul id="b07dbe0e-eb63-4627-bef2-faefe8a25e43" class="bulleted-list"><li style="list-style-type:disc">구조체를 배열에 저장하면</li></ul><pre id="52a256d7-6635-4a31-b545-11b4e398a1c5" class="code"><code>name_t names[NUM_NAMES];
+FILE* stream;
 
-while (num &gt; 0) {
+const char* firstname = &quot;Teemo&quot;;
+const char* lastname = &quot;Kim&quot;;
+const char* firstname = &quot;Lulu&quot;;
+const char* lastname = &quot;Lee&quot;;
 
-	print f(&quot;%d\n&quot;, num);
-	--num;
+strncpy(name[0].firstname, firstname, NAME_LEN);
+names[0].firstname[NAME_LEN - 1] = &#x27;\0&#x27;
+strncpy(name[0].lastname, lastname, NAME_LEN);
+names[0].lastname[NAME_LEN - 1] = &#x27;\0&#x27;
+strncpy(name[1].firstname, firstname, NAME_LEN);
+names[0].firstname[NAME_LEN - 1] = &#x27;\0&#x27;
+strncpy(name[1].firstname, firstname, NAME_LEN);
+names[0].lastname[NAME_LEN - 1] = &#x27;\0&#x27;</code></pre><pre id="387e161b-64a7-4366-ab50-942e5472b84c" class="code"><code>/* 오류 처리 생략 */
+stream = fopen(&quot;names.text&quot;, &quot;wb&quot;);
 
-	if (num &lt; 15) {
-		break;
+fwrite(names, sizeof(names[0]), NUM_NAMES, stream);
+fflush(stream);
+
+fclose(stream);</code></pre><pre id="ac455570-c129-47c5-9cdf-bd799b3fe577" class="code"><code>FILE* stream;
+size_t read_num;
+size_t i;
+name_t names[NUM_NAMES];
+
+/* 오류 처리 생략 */
+stream = fopen(&quot;names.text&quot;, &quot;rb&quot;);
+
+read num = fread(names, sizeof(names[0]), NUM_NAMES, stream);
+for (i = 0; i &lt; read_num; ++i) {
+	printf(&quot;%s %s\n&quot;, names[i].firstname, names[i].lastname);
+}
+
+fclose(stream);</code></pre><ul id="5dbe7f02-0522-4843-94c7-970f1e92a003" class="bulleted-list"><li style="list-style-type:disc">파일에 저장할 때는 포인터가 없어야 제대로 저장이됨</li></ul><hr id="e0f51d66-9bb8-46d6-a64c-571ce626a558"/><p id="c367147e-3173-4c73-9ee6-132defad4713" class=""><strong>포인터만 없으면 됨</strong></p><ul id="ff4fbe9b-7e9d-41b6-800f-a205b9a73059" class="bulleted-list"><li style="list-style-type:disc">반드시 그럴 순 없겠지만 가능한 위와 같이 한 덩어리 메모리에 모든 데이터가 들어가고 대입 가능한 구조체를 만드는 것이 좋음</li></ul><ul id="cadf1dbd-fa80-4e31-a3c8-d1b6b35e262b" class="bulleted-list"><li style="list-style-type:disc">즉, 구조체를 구성할 때 데이터가 최대한 포인터가 없는 경우가 좋음</li></ul><hr id="c9c27d18-15ac-4a2a-9ece-8c88a3845936"/><h3 id="f62bdddf-b860-4c4e-a249-aa26070c20f2" class="">구조체를 다른 구조체의 멤버로 사용하기 - 패딩(padding)</h3><pre id="e5695194-639b-440a-819f-747f70720a3f" class="code"><code>struct user_info {
+	unsigned int id;
+	name_t name;
+	unsigned short height;
+	float weight;
+	unsigned short age;
+};</code></pre><pre id="6a3f8597-8fd3-44f3-a7c4-2b4f9cae0ddc" class="code"><code>user_info_t user;
+
+user.id = 1234;
+strncpy(user.name.firstname, firstname, NAME_LEN);
+user.name.firstname[NAME_LEN -1] = &#x27;\0&#x27;;
+strncpy(user.name.lastname, lastname, NAME_LEN);
+user.name.lastname[NAME_LEN -1] = &#x27;\0&#x27;;
+user.height = 1;
+user.weight = 20.5f;
+user.age = 30;</code></pre><p id="1e404b69-bb6c-4671-9cff-10a2d7a134d8" class=""><strong>&lt;파일 안 메모리 확인&gt;</strong></p><pre id="6cb9dbdc-3214-4c47-ab0e-49ca2bb8252c" class="code"><code>struct user_info {
+	unsigned int id;          /* 4바이트 */
+	name_t name;              /* 64바이트 */
+	unsigned short height;    /* 2바이트 */
+	float weight;             /* 4바이트 */
+	unsigned short age;       /* 2바이트 */
+};</code></pre><p id="a9b03ed3-e788-4292-b121-92c865f8410b" class="">⇒ 예상 총 76바이트</p><pre id="1d32753d-c8e5-451a-a22d-d28abb48b2d1" class="code"><code>user_info_t info;
+
+int off id = (char*)&amp;info.id - (char*)&amp;info;               /* 0 */
+int off name = (char*)&amp;info.name - (char*)&amp;info;           /* 4 */
+int off height = (char*)&amp;info.height - (char*)&amp;info;       /* 68 */
+int off weight = (char*)&amp;info.weight - (char*)&amp;info;       /* 72 */
+int off age = (char*)&amp;info.age - (char*)&amp;info;             /* 76 */</code></pre><p id="44ad7604-a2d3-453d-a59d-748deb92903a" class="">⇒ 실제론 80바이트로 쓰여짐</p><p id="0b0eba12-2830-40cf-b99a-11705c64c5d3" class=""><strong>&lt;바이트 정렬 요구사항 때문에 구멍이 생김&gt;</strong></p><ul id="fb0bca51-6c33-43e6-bc07-ef4e4c2599b4" class="bulleted-list"><li style="list-style-type:disc">4바이트를 꽉 채우지 않은 데이터들의 쓸데없는 공간을 차지함</li></ul><ul id="beb28658-e77f-47cd-9138-e0b566ce0724" class="bulleted-list"><li style="list-style-type:disc">각 시스템마다 메모리에 접근할 때 사용하는 주소에 대한 요구사항이 다르게 때문<ul id="b293d2a9-2404-4af4-a675-2e5e40d17102" class="bulleted-list"><li style="list-style-type:circle">시스템 상의 제약이 있거나</li></ul><ul id="67289d01-b2b5-468b-8d36-e93f31a7532b" class="bulleted-list"><li style="list-style-type:circle">효율성 때문</li></ul></li></ul><ul id="5004fe03-ad1c-4842-8990-0d518a086065" class="bulleted-list"><li style="list-style-type:disc">어떤 시스템은 n바이트 배수인 시작주소에서만 메모리 접근 가능</li></ul><ul id="d2f656df-c0cc-495e-86ae-efd965bd3845" class="bulleted-list"><li style="list-style-type:disc">x86 시스템은 4바이트(워드 크기) 경계에서 읽어오는게 효율적<ul id="c05fffbb-32d3-441f-a995-84e38511b0f3" class="bulleted-list"><li style="list-style-type:circle">이를 4바이트 경계에서 정렬된다(aligned)고 말함</li></ul></li></ul><ul id="e6191d42-f470-4ee5-a8a2-8f54caf36e0d" class="bulleted-list"><li style="list-style-type:disc">따라서 컴파일러가 알아서 각 멤버의 세작 위치를 그 경계에 맞춤</li></ul><ul id="33aaa185-2bfb-418b-bf33-ee5bad68b84f" class="bulleted-list"><li style="list-style-type:disc">그러기 위해 안 쓰는 바이트를 덧 붙임 <strong>(padding)</strong></li></ul><ul id="e11e9733-307b-4027-87cd-26e87395f102" class="bulleted-list"><li style="list-style-type:disc">32비트 clang 윈도우는 4바이트 정렬을 하려고함</li></ul><ul id="e8f8e449-f3ce-439f-83ec-50149e164d7e" class="bulleted-list"><li style="list-style-type:disc">따라서 어떤 아키텍쳐에서 저장한 파일이 다른 아키텍쳐에서 읽으면 잘못 읽힐 수 있음</li></ul><p id="630e8c6a-2dea-4739-a43f-8af735e11a7d" class=""><strong>&lt;패딩 줄이기&gt;</strong></p><ul id="cd904da3-7b3d-4e85-a1aa-32b32f965963" class="bulleted-list"><li style="list-style-type:disc">2개의 <code>short</code>형 변수를 4바이트로 합체</li></ul><pre id="a5d78415-9e01-429b-a416-1db83b213167" class="code"><code>struct user_info {
+	unsigned int id;          /* 4바이트 */
+	name_t name;              /* 64바이트 */
+	unsigned short height;    /* 2바이트 */
+	float weight;             /* 4바이트 */
+	unsigned short age;       /* 2바이트 */
+};
+
+/* 아래와 같이 2바이트끼리 묶어주는 것 만으로도 없어짐 : 크기도 76 */
+
+struct user_info {
+	unsigned int id;          /* 4바이트 */
+	name_t name;              /* 64바이트 */
+	unsigned short height;    /* 2바이트 */
+	unsigned short age;       /* 2바이트 */
+	float weight;             /* 4바이트 */
+};</code></pre><ul id="a5e2229a-ac82-4dbb-a1d8-b8bd3d83054b" class="bulleted-list"><li style="list-style-type:disc"><code>#pragma pack</code><pre id="8f48f3e0-e761-41d9-aae1-a6303dc2a787" class="code"><code>#pragma pack(push, 1)
+typedef struct {
+	unsigned int id;
+	name_t name;
+	unsigned short height; 
+	float weight;
+	unsigned short age;
+} user_info ;
+#pragma pack(pop)
+
+/* sizeof(user_info ) 76 */</code></pre><ul id="4f0d5e1e-286e-48ca-8373-9e6428e872bd" class="bulleted-list"><li style="list-style-type:circle">76바이트 메모리 크기가 나옴</li></ul><ul id="348cf0fc-e06b-4c8d-b48b-22c0d90699e2" class="bulleted-list"><li style="list-style-type:circle">그러나 표준은 아님 → 요즘 컴파일러들이 잘 지원해주는 것일 뿐</li></ul></li></ul><h3 id="16b0cd59-406b-4656-ba14-9ffada973b3f" class="">구조체 베스트 프랙티스</h3><ul id="d7886e13-6a02-4b84-97a9-ed718350d851" class="bulleted-list"><li style="list-style-type:disc">구조체를 파일이나 다른데 저장해야 해서 바이트 크기가 정확히 맞아야 한다면?<ul id="dd7c3583-9986-419e-849c-b2c0b5a413fb" class="bulleted-list"><li style="list-style-type:circle">보통 <code>assert()</code>를 사용해서 크기를 확인<pre id="d1107612-3576-4fb3-8ed4-95c663926053" class="code"><code>#include &lt;assert.h&gt;
+assert(sizeof(user_info_t) == 76);</code></pre></li></ul></li></ul><ul id="727d8707-5be0-46d9-b53f-2427583e7887" class="bulleted-list"><li style="list-style-type:disc">어쩔 수 없이 패딩이 생길 거라면 구조체에 패딩을 명시적으로 넣기도 함<pre id="9701f29f-b759-406b-a2ef-7a235a24d30d" class="code"><code>typedef struct {
+	unsigned int id;
+	name_t name;
+	float weight;
+	unsigned short height;      
+	unsigned short age;
+	char unused[2];
+} user_info_t;</code></pre><p id="145a19b1-d8a1-4f49-a856-aab34b992daf" class="">⇒ 특히 데이터의 전체 크기가 4바이트로 안 나눠 떨어질 때</p></li></ul><h3 id="057a88d3-4e82-4bdc-874b-820301a4a96b" class="">구조체 - 비트 필드</h3><p id="8c020d11-bc55-4f25-90d9-0dc1c72d16dd" class=""><strong>&lt;비트 플래그&gt;</strong></p><ul id="24a5557b-2d7e-4761-a8f3-b0d5a2fe0bd6" class="bulleted-list"><li style="list-style-type:disc">8개 이하의 <code>bool</code>값을 하나의 byte에 저장하는 방법</li></ul><ul id="95651d03-69b5-447c-9261-ea921523fb25" class="bulleted-list"><li style="list-style-type:disc">C#에는 <code>bool</code>형이 있지만 C는 없으니 <code>int</code>형</li></ul><ul id="564277eb-b7e5-49c2-83b2-d3af6fc2cecb" class="bulleted-list"><li style="list-style-type:disc">원래 8 x 4 = 32바이트이지만 1바이트로 사용하니 더 효율적임</li></ul><p id="98d659c1-f57a-4fc6-9f88-139c0364dc6d" class=""><strong>&lt;구조체와 비트플래그&gt;</strong></p><ul id="6b48fbaa-b054-4703-9797-78330eff1ee7" class="bulleted-list"><li style="list-style-type:disc">C에서 구조체를 사용하면 매우 간단히 비트플래그를 구현할 수 있음</li></ul><pre id="7766a07a-2e3b-4cd8-8240-9d27d6cf2d23" class="code"><code>typedef struct {
+	unsigned char b0 : 1;
+	unsigned char b1 : 1;
+	unsigned char b2 : 1;
+	unsigned char b3 : 1;
+	unsigned char b4 : 1;
+	unsigned char b5 : 1;
+	unsigned char b6 : 1;
+	unsigned char b7 : 1;
+} bitflags_t;
+
+/* sizeof(bitflags_t) = 1 */</code></pre><p id="6a0f6854-8b9d-4b15-9a98-a7bd80a67e5d" class="">⇒  <code>: 1</code> : 1비트로만 쓰겠다는 것을 의미함 </p><p id="c1cafbf6-4590-4eea-9c69-4420b22205f1" class=""><strong>&lt;플래그 전체 체크&gt;</strong></p><pre id="47548835-6676-4c9b-be1c-4ab7edb3ad21" class="code"><code>int is_set = (flags.b1 == 1);                 /* OK */
+int is_same = (flags.b1 == flags.b7);         /* OK */
+int is_all = (flags == 0xFF);                 /* 컴파일 오류 */
+int is_zero = (flags == 0);                   /* 컴파일 오류 */</code></pre><ul id="b3fa385a-f645-4894-a7f3-6cd9bdd3679d" class="bulleted-list"><li style="list-style-type:disc">지금 방식은 멤버 함수들끼리 비교만 가능</li></ul><ul id="7a9543a8-3ac4-428a-885f-0064192bf66c" class="bulleted-list"><li style="list-style-type:disc">구조체 전체가 0(모든 플래그가 거짓)인지 비교는 안됨<p id="eac762bd-9fb4-4156-881e-7d1c280a46f2" class="">→ <strong>하지만 포인트를 사용하면 가능함</strong></p></li></ul><pre id="a1efeb9a-0e84-4778-b37d-663dd0b7e4ae" class="code"><code>char* val;
+int is_zero;
+bitflag_t flags = { 0, };
+
+flag.b3 = 1;
+
+val = (char*)&amp;flags;
+is_zero = (*val == 0); /* 0 */</code></pre><p id="e6428302-4cce-4c4f-bfb0-7da530e5fe26" class="">⇒ 이를 좀더 제대로 해주는 C언어 기능이 있음 → <strong>공용체</strong></p><h2 id="de1a3ccd-2035-4843-be7c-f92b5f6c19df" class="">공용체</h2><p id="0e0e5afa-87d4-420d-af6f-efd6b75cdadf" class="">⇒ 어떤 메모리를 어떻게 읽을건가에 대한 내용과 관련이 있음</p><ul id="a2448be6-fe11-4607-bdf2-229894806922" class="bulleted-list"><li style="list-style-type:disc">똑같은 메모리 위치를 다른 변수로 접근하는 방법</li></ul><ul id="3e356221-37b1-4dfd-8820-3b0b8bd62ed8" class="bulleted-list"><li style="list-style-type:disc">즉, 공용체 안에 있는 여러 변수들이 같은 메모리를 공유</li></ul><pre id="d4c7cc54-72b3-4ca6-aa68-04213c1d5b6c" class="code"><code>typedef union {
+	unsigned char val;
+	struct {
+		unsigned char b0 :1;
+		unsigned char b1 :1;
+		unsigned char b2 :1;
+		unsigned char b3 :1;
+		unsigned char b4 :1;
+		unsigned char b5 :1;
+		unsigned char b6 :1;
+		unsigned char b7 :1;
+	} bits;
+} bitflags_t</code></pre><pre id="6c334207-2ce8-40f0-bfe0-e4af9e2dd853" class="code"><code>int is_same;
+int is_zero;
+bitflags_t flags = { 0, };
+
+flags.bits.b1 = 1;
+flags.bits.b4 = 1;
+
+is_same = (flags.bits.b1 == flags.bits.b7);
+is_zero = (flags.val == 0); /* 0 */</code></pre><h3 id="cfcf2ee8-d24e-4127-b969-1f6651381c50" class="">val로도 bits로도 접근이 가능함</h3><ul id="9808dcb3-b2f4-449e-bfbc-581d6918ae9d" class="bulleted-list"><li style="list-style-type:disc">동일한 메모리를 두 개의 서로 다른 자료형으로 접근</li></ul><ul id="1acd9593-1f4a-432e-904a-0b20563a84de" class="bulleted-list"><li style="list-style-type:disc">그러나 그 메모리 안에 있는 값은 동일함</li></ul><h3 id="eb1b6d75-4e3c-4fc2-983d-3dc1d2ad65ec" class="">메모리 공유만 위한 공용체의 예</h3><pre id="c61e1398-810b-428f-9939-d8e336650a95" class="code"><code>typedef union {
+	int ivalue;
+	double dvalue;
+} value_t;</code></pre><ul id="6e943612-a67d-4f4a-9781-a200fd59040c" class="bulleted-list"><li style="list-style-type:disc">한 메모리 공간을 용도에 따라 다른 기본 데이터형으로 읽을 때 사용</li></ul><ul id="78bb9df1-3329-4f1b-9bcc-2d0a094cd5b0" class="bulleted-list"><li style="list-style-type:disc">앞의 예보다 덜 유용</li></ul><ul id="215f159f-96d1-493d-9092-e0269f271f8d" class="bulleted-list"><li style="list-style-type:disc">사용하기도 어렵고 실수가 쉬움</li></ul><pre id="fc9d7387-7103-44ff-aaca-da15e2042f44" class="code"><code>value_t op1;
+value_t op2;
+value_t result;
+
+op1.ivalue = 55;
+op2.ivalue - 27;
+result = calculate(op1, op2, OP_INTADD);
+
+op1.dvalue = 10.3453;
+op2.dvalue - 53.24753;
+result = calculate(op1, op2, OP_BOUBLEADD);
+</code></pre><pre id="5be30b88-d664-4ef5-b447-f9719a1786c3" class="code"><code>value_t calculate(value_t lhs, value_t rhs, op_t op)
+{
+	value_t result;
+
+	if {op == OP_INTADD) {
+		result.ivalue = lhs.ivalue + rhs.ivalue;
+	} else if (op == OP_DOUBLEADD) {
+		result.dvalue = lhs.dvalue + rhs.dvalue;
+	} else {
+		assert(0);
+	}
+
+	return result;
+}</code></pre><ul id="ea3c7486-52e4-4a80-807d-23265ff53dff" class="bulleted-list"><li style="list-style-type:disc">서로 부분이 되는 것이 아닌 전혀 다른 메모리 공유</li></ul><h3 id="92116724-0e8b-4b37-b51b-be4d34c88d7d" class="">퀴즈</h3><p id="064cf825-509b-4560-b31f-da5e5384d489" class="">다음 공용체에 대한 질문에 답하세요.</p><p id="7ae00056-a541-42de-afd5-596678b070f8" class="">(각 기본 자료형의 크기는 <code>sizeof(int)</code>= 4, <code>sizeof(float)</code> = 4, <code>sizeof(double)</code> = 8, <code>sizeof(char)</code> = 1, <code>sizeof(short)</code> = 2, 패딩은 없다고 가정)</p><pre id="b77dcb16-0938-4aab-b5ce-34935a07d9f8" class="code"><code>typedef union {
+    int ivalue;
+    float fvalue;
+    double dvalue;
+    char cvalue;
+    short svalue;
+} value_t;
+
+/* 정답 : 8 */</code></pre><h2 id="2efb065b-d19a-42ad-8a82-ef0bbe2f77c2" class="">함수 포인터</h2><h3 id="600d6ec9-2d3f-4f24-8178-59383912de1a" class="">switch문을 사용한 사칙연산 프로그램</h3><pre id="5284d4f4-e780-4520-9593-204119d25f3e" class="code"><code>/* caclulator.h */
+
+double add(double, double);
+double sub(double, double);
+double mul(double, double);
+double div(double, double);
+
+/* calculator.c */
+
+double add(double x, doublt y)
+{
+	return x + y
+}
+double sub(double x, doublt y)
+{
+	return x - y
+}
+double mul(double x, doublt y)
+{
+	return x * y
+}
+double div(double x, doublt y)
+{
+	return x / y
+}
+
+/* main.c */
+
+double op1 = 10.234
+double op2 = 3.521
+double result;
+char op = &#x27;+&#x27;
+
+/* 입력 받을 코드 생략 */
+
+swiitch (op) {
+case &#x27;+&#x27;:
+	result = add(op1, op2)
+	break;
+case &#x27;-&#x27;:
+	result = sub(op1, op2)
+	break;
+case &#x27;*&#x27;:
+	result = mul(op1, op2)
+	break;
+case &#x27;/&#x27;:
+	result = div(op1, op2)
+	break;
+default:
+	fputs(&quot;Unknown op!&quot;, stderr);
+{</code></pre><h3 id="d833d224-48ab-4302-a0a8-00a852a60d1c" class="">switch문 외에 다른 방법이 없을까?</h3><ul id="17f540f5-9fd9-4a49-bcb7-2943fc52d35b" class="bulleted-list"><li style="list-style-type:disc">피연산자 2개, 함수 시그니처 비슷 → 유일하게 다른 점은 함수 이름 정도</li></ul><pre id="1e56610b-bde6-4d7f-889d-10712ae54814" class="code"><code>result = calculator(op1, op2, operater); /* operator - add() */
+result = calculator(op1, op2, operater); /* operator - sub() */
+result = calculator(op1, op2, operater); /* operator - mul() */
+result = calculator(op1, op2, operater); /* operator - div() */
+</code></pre><ul id="eb86274d-ce3c-4829-a3f5-217d30f704f4" class="bulleted-list"><li style="list-style-type:disc">언제나 변하는 피연한자를 매개변수로 전달하듯이 함수도 어디다 저장해둔 뒤 매개변수로 전달할 수 없을까?</li></ul><h3 id="807bcb36-daf8-438a-984f-aabcf7c05819" class="">함수를 변수에 저장할 수 있을까?</h3><ul id="1c36fbf7-6462-4ff9-ac41-375235f565c1" class="bulleted-list"><li style="list-style-type:disc">어떤 함수를 호출할 때 직접 함수명을 씀<pre id="63ae5e5b-1272-4b61-ac06-6f0a8162755c" class="code"><code>result = sub(op1, op2);</code></pre></li></ul><ul id="cca4ca16-ca54-4448-bf25-8ba885b1a15a" class="bulleted-list"><li style="list-style-type:disc">그러나 어셈블리어로는 <strong>그 함수의 주소</strong>로 점프</li></ul><ul id="b6f9a1f6-4952-4931-8d4d-9d1b1a8f3275" class="bulleted-list"><li style="list-style-type:disc">실행 도중에 함수에서 반활할 때 돌아가야할 호출자 코드의 주소, 즉 돌아가야할 주소는 스택 메모리에 저장되어 있음<p id="ff6b2e9c-b532-4d4c-ab07-89d89701f5d7" class="">⇒ 어셈블리어가 저장해주는 것이 아닌 실행할 때마다 바뀜</p></li></ul><ul id="97f7b641-39b0-4077-90e9-9f83446d21ab" class="bulleted-list"><li style="list-style-type:disc">실행 도중 조건에 따라 어떤 함수를 살행해주려면 그 함수의 시작 주소를 변수에 기억해야함</li></ul><h3 id="a13d7386-ab84-45e8-9b43-c6daff986151" class="">함수를 매개변수로 전달할 때 필요한 것들</h3><pre id="431dd0d5-5bcc-4c60-a47f-6587050d891b" class="code"><code>double calculator(double, double, 매개변수로_전달된_함수*);</code></pre><p id="974e2533-2031-4390-a20f-c0dea37eefaa" class="">⇒ 앞의 두 <code>double</code>은 <code>calculator()</code>의 매개변수지 매개변수로_전달된_함수의 매개변수가 아님</p><ul id="f3480f04-9cf1-4a24-b6c5-dee4dec5152f" class="bulleted-list"><li style="list-style-type:disc">매개변수로 전달된 함수가 무사히 실행되려면 그 함수에서 쓸 매개변수가 스택에 들어가 있어야 함</li></ul><ul id="26ffd7f2-035f-46f9-9767-1b1dd5321859" class="bulleted-list"><li style="list-style-type:disc">또한 반환값이 있다면 어떻게 가져다 써야하는지 모름</li></ul><ul id="ffdaeef6-8d6f-4f98-b33d-a8dc3424c086" class="bulleted-list"><li style="list-style-type:disc">즉, 함수를 매개변수로 전달하기 위해서는 다음의 정보가 필요함<p id="26deb6e0-dc96-4298-a483-777c13117f23" class="">1) 자기 자신이 받아야하는 매개변수 목록</p><p id="9f85df25-7ec3-4ded-b1d5-ba916c555c36" class="">2) 자기 자신이 반환하는 자료형</p></li></ul><pre id="4a23eca7-6036-4190-8631-b45bdbd32aa8" class="code"><code>double add(double x, double y)
+{
+	return x + y;
+}
+
+/* 함수 포인터 변수의 선언과 사용 */
+double (*func)(double, double) = add;
+result = func(op1, op2);
+
+/* 함수 포인터 매개변수의 선언과 사용 */
+double calculate(double, double, double (*)(double, double));           /* 매개변수 이름 생략 가능 */
+double calculate(double x, double y, double (*func)(double, double))    /* 실제 구현 */
+{
+	return fuc(x, y);
+}
+result calculate(op1, op2, add);</code></pre><h3 id="b2d3d4d5-6326-4612-b24c-dd7d9fda6aee" class="">함수 포인터 선언</h3><figure class="block-color-gray_background callout" style="white-space:pre-wrap;display:flex" id="b721f1ae-1334-40c7-9816-33b3b41e4cf8"><div style="font-size:1.5em"><span class="icon">💡</span></div><div style="width:100%"><strong>&lt;반환형&gt; (*&lt;변수명&gt;)(&lt;매개변수 목록&gt;);</strong></div></figure><ul id="1bbbb4c7-0fd2-4657-835d-b128854e135d" class="bulleted-list"><li style="list-style-type:disc">함수의 시작 주소를 저장하는 변수</li></ul><ul id="8d14d20d-2942-4f5a-9791-7f58c6edcec8" class="bulleted-list"><li style="list-style-type:disc">함수의 매개변수 목록과 반환형을 반드시 표기해야함</li></ul><h3 id="50e15c24-df4b-498b-af9b-88b726a29aa4" class="">함수 포인터 읽는 방법</h3><p id="f1994c5e-7878-4abc-b0cf-9b35d6bce9bf" class="">⇒ 오른쪽-왼쪽 규칙(Right-Left Rule)이라고도 함</p><pre id="3e614187-d64d-445b-a505-60b99ebd223f" class="code"><code>double (*func)(double, double)</code></pre><ul id="87f41c10-762a-4360-a287-7a7ac498a6c9" class="bulleted-list"><li style="list-style-type:disc">변수 <code>func</code>는 두개의 <code>double</code>형 매개변수를 받고 <code>double</code>형을 반환하는 함수의 포인터</li></ul><pre id="87cdf585-fc49-472d-a1ab-26387b0f95ac" class="code"><code>void (*func)(int)</code></pre><ul id="84a860d9-e5aa-4f59-9f97-42d767f5dc5b" class="bulleted-list"><li style="list-style-type:disc">변수 <code>func</code>는 한개의 <code>int</code>형 매개변수를 받고 반환값이 없는 함수의 포인터</li></ul><h3 id="84e5c8b8-5707-40fb-bcdd-50fb7246257c" class="">정리</h3><pre id="b04d2308-913f-43f5-86c3-a4c853935781" class="code"><code>double calculate(double, double, double (*)(double, double)); </code></pre><ul id="631a05c6-aba8-4b39-8345-e768006f1363" class="bulleted-list"><li style="list-style-type:disc">함수 <code>calculator()</code>는<ul id="e79790b7-3b6c-4667-b2ba-0296d6cb8bd0" class="bulleted-list"><li style="list-style-type:circle">총 3개의 매개변수<p id="233c3ec8-6e61-4b11-ac07-8633ebc8edbe" class="">1) <code>double</code>형</p><p id="0ef8fcd9-ef45-451c-b93c-b49349943a1f" class="">2) <code>double</code>형</p><p id="ece6f931-eb77-48a1-ad41-5be7a72e8da3" class="">3) 함수 포인터<div class="indented"><p id="b5c64574-abf3-451e-889d-94585f556338" class="">⇒ 두개의 <code>double</code>형 매개변수를 받고 <code>double</code>형을 반환하는 함수의 포인터</p></div></p></li></ul><ul id="51a12c90-53e1-4dd3-b690-e9d37798b199" class="bulleted-list"><li style="list-style-type:circle">반환형은 <code>double</code>형</li></ul></li></ul><pre id="98d089cc-fd79-443d-8bb1-537f3c2547b8" class="code"><code>int (*ops[])(int, int) = { add, sub, mul, div };</code></pre><ul id="54749113-1df7-4c2e-9d6e-0600db5c490d" class="bulleted-list"><li style="list-style-type:disc">배열 또한 오른쪽-왼쪽 법칙을 사용해서 읽을 수 있음</li></ul><ul id="3144c057-72c3-4981-ac11-245473f48f5c" class="bulleted-list"><li style="list-style-type:disc">ops는 배열<ul id="d6aea421-7a7c-4258-8949-56286ae30c49" class="bulleted-list"><li style="list-style-type:circle">배열의 각 요소는 함수 포인터<p id="12d13166-8a1b-4a24-8171-2eab2e989ab1" class="">1) 두 개의 <code>int</code>형 매개변수</p><p id="b0fd0cab-e8ec-45f8-a003-284221ce8e02" class="">2) <code>int</code>형을 반환</p></li></ul></li></ul><pre id="6b168912-bce9-4e37-8f7c-86db2c07057b" class="code"><code>void (*bsd_signal(int, void (*)(int)))(int);</code></pre><ul id="50c2c352-b16a-4f8a-9f34-da16aad7a838" class="bulleted-list"><li style="list-style-type:disc"><code>bsd_signal</code> 함수의 선언<ul id="617abacb-d7d9-4d6f-be2c-540766e5abe9" class="bulleted-list"><li style="list-style-type:circle">매개변수<ul id="e36cdb16-ba6f-463d-bbae-bd7e256d9361" class="bulleted-list"><li style="list-style-type:square"><code>int</code> 형</li></ul><ul id="2024021a-6976-403e-921e-0bcc176699c2" class="bulleted-list"><li style="list-style-type:square">함수의 포인터 : <code>void (*)(int)</code></li></ul></li></ul><ul id="3278e92a-fffa-423f-b33f-0590b58ddc7d" class="bulleted-list"><li style="list-style-type:circle">반환형<ul id="9dcef2d8-99b6-4b28-8721-6bdb2048d85d" class="bulleted-list"><li style="list-style-type:square">함수 포인터 : <code>void (*)(int)</code></li></ul></li></ul></li></ul><h3 id="62aad833-c168-4ef9-abb6-014dc49a6cd1" class="">콜백 함수</h3><pre id="bfec4d72-211e-4c00-9c3c-89d923e266e5" class="code"><code>/* error_handler.h */
+
+#ifndef ERROR_HANDLER_H
+#define ERROR_HANDLER_H
+
+void register_error_handler(void (*handler)(const char* msg));
+void (log_error(const char* msg);
+
+void defaut_error_handler(const char* msg);
+
+#endif /* ERROR_HANDLER_H */
+
+/* error_handler.c */
+
+#define _CRT_SECURE_NO_WARNINGS
+
+#include &lt;stdio.h&gt;
+#include &lt;time.h&gt;
+
+#include &quot;error_handler.h&quot;
+
+static void (*s_handler)(const char*) = NULL;
+
+void register_error_handler(void (*handler)(const char* msg))
+{
+	s_handler = handler;
+}
+
+void log_error(const char* msg)
+{
+	if (s_handler != NULL) {
+		s_handler(msg);
 	}
 }
 
-/* 30, 29, 28, ~ , 15, _ */
+void default_error_handler(const char* msg)
+{
+	time_t now;
+	struct tm* local;
 
-size_t num = 10;
+	now = time(NULL);
 
-while (num &gt; 0) {
+	local = localtime(&amp;now);
 
-	if (num == 5) {
-		--num;
-		continue;
+	fprintf(stderr, &quot;[#02d:%02d:%02d] %s\n&quot;, local-&gt;tm_hour, local-&gt;tm_min, local-&gt;tim_sec, msg);
+}
+
+/* main.c */
+
+#define _CRT_SECURE_NO_WARNINGS
+
+#include &lt;stdio.h&gt;
+#include &lt;time.h&gt;
+
+#include &quot;error_handler.h&quot;
+
+#define TRUE (1)
+#define FALSE (0)
+
+void simple_stderr_print(const char* msg));
+int run(void);
+
+int main(void)
+{
+	int success;
+
+	success = run();
+
+	register_error_handler(default_error_handler);
+	if (run() == FALSE) {
+		success = FALSE;
+	}
+}
+
+int run(void)
+{
+	int numerator;
+	int denominator;
+
+	while (TRUE) {
+		pirntf(&quot;endter numerator: &quot;);
+		if (scanf(&quot;%d&quot;, &amp;numerator) == 1) {
+			break;
+		}
 	}
 
-	printf(&quot;%d\n&quot;, num);
-	--num;
+	while (TRUE) {
+			pirntf(&quot;endter denominator: &quot;);
+			if (scanf(&quot;%d&quot;, &amp;denominator) == 1) {
+				break;
+			}
+		}
+
+	if (denominator == 0) {
+		log_error(&quot;cannot divide by zero&quot;);
+		return FALSE;
+	}
+
+	printf(&quot;%d / %d = %02f\n&quot;, numerator, denominator, numerator / (float)denominator);
+
+	return TRUE;
+}
+	
+void simple_stderr_print(const char*msg)
+{
+	fputs(msg, stderr);
+}</code></pre><h3 id="2c52b2c1-19f4-465d-9241-236572b784f0" class="">배열의 포인터</h3><pre id="a7d6f81e-a447-4bec-b993-9f0dc082559c" class="code"><code>int scores[3] = { 80, 90, 100 };
+int* p = scores;</code></pre><ul id="d45c0c9c-858b-4e8e-b836-5bf09491f930" class="bulleted-list"><li style="list-style-type:disc">p는 scores[0]을 가리키고 있음</li></ul><pre id="8d43bca8-5c82-4220-ad7f-7e83f009c65f" class="code"><code>int scores[3] = { 80, 90, 100 };
+int(*p)[3] = %scores;      /* OK */</code></pre><pre id="f90f06a6-b8ba-4525-b09e-847c077a45ab" class="code"><code>int scores[5] = { 11, 22, 33, 44, 55 };
+int(*p)[3] = %scores;      /* 컴파일 오류 */</code></pre><ul id="2a8e277b-b025-4bbf-b8cb-1ba7eab8243d" class="bulleted-list"><li style="list-style-type:disc">배열 전체를 다 가리키는 포인터도 있음</li></ul><ul id="ddc39772-630c-4684-9f88-8b23dfeac0cd" class="bulleted-list"><li style="list-style-type:disc">이것이 바로 배열의 포인터</li></ul><ul id="4e4cd004-6864-4833-9476-a5de9733f174" class="bulleted-list"><li style="list-style-type:disc">영어로 pinter to array</li></ul><figure class="block-color-gray_background callout" style="white-space:pre-wrap;display:flex" id="802b9b44-1a57-43c8-a7ab-8d82c8c69cdb"><div style="font-size:1.5em"><span class="icon">💡</span></div><div style="width:100%"><strong>&lt;자료형&gt; (*&lt;변수이름&gt;)[&lt;요소의 수&gt;];</strong></div></figure><ul id="19d99dec-9a03-4294-8e55-9cfa7403a713" class="bulleted-list"><li style="list-style-type:disc">어디에 쓸지는 정말 모르겠고 사실 거의 쓰는 경우는 없음</li></ul><ul id="114a64f8-1b9f-40b3-a4ca-7945483ed843" class="bulleted-list"><li style="list-style-type:disc">단, 2차원 배열을 매개변수로 받을 때 쓸 수 있음<ul id="086f700f-f3f3-4a86-abd0-206a7840c07e" class="bulleted-list"><li style="list-style-type:circle">1차원 배열의 2번째 요소에 접근할 때,</li></ul><ul id="ed4a5b92-e575-4e32-b321-3eeaf4fadcbd" class="bulleted-list"><li style="list-style-type:circle">arr[1]로도 쓰지만 arr + 1도 된다고 했음</li></ul><ul id="e8e050e9-a065-4e61-b799-92db01f22206" class="bulleted-list"><li style="list-style-type:circle">그럼 2D 배열은? arr[1][2] == *(*(arr + 1) + 2 )</li></ul></li></ul><pre id="98d93e7a-dc63-4a34-98f4-9605718cd4c0" class="code"><code>void do_magic(int matrix[][10], size_t m)
+{
+	/* 테스트를 위해 하나만 출력 */
+	printf(&quot;m[1][2]: %d&quot;, *(*(matrix  + 1) + 2 ));
 }
 
-/* 10, 9, 8, 7, 6, 4, 3, 2, 1 (5 없음) */</code></pre><ul id="56790855-abd6-4444-b138-37d92e405910" class="bulleted-list"><li style="list-style-type:disc">반복문을 실행 도중 탈출하려면 break, 다음 회차로 넘어가려면 continue</li></ul><ul id="cf5ef0a7-8a1b-458b-86bc-57d4f40aa2e0" class="bulleted-list"><li style="list-style-type:disc">for문, do-while문에서도 사용 가능</li></ul><h3 id="ab9e0691-bbbf-40be-b161-8f7b05f9e13f" class="">코딩표준 : while문</h3><pre id="b22d00ef-f520-445b-9928-f228597ef5ee" class="code"><code>/* 나쁜 예 */
-int day = 5;
-while (day--) {
-	printf(&quot;%d\n&quot;, day);
-}
+int main(void)
+{
+	int matrx[5][10] = {
+		{ 1, 2, 3, 4, 5, 6, 7, 8, 9, 10 },
+		{ 11, 12, 13, 14, 15, 16, 17, 18, 19, 20 }, 
+		{ 1, 2, 3, 4, 5, 6, 7, 8, 9, 10 },
+		{ 1, 2, 3, 4, 5, 6, 7, 8, 9, 10 },
+		{ 1, 2, 3, 4, 5, 6, 7, 8, 9, 10 },
+	};
 
-/* 좋은 예 */
-int day = 5;
-while (day-- != 0) {
-	printf(&quot;%d\n&quot;, day);
-}</code></pre><ul id="93456a1b-c023-4e15-a386-438922cfc34a" class="bulleted-list"><li style="list-style-type:disc">조건식은 bool형(True/False) 대신 1, 0을 반환</li></ul><ul id="4620f9b1-08a2-4c73-a053-76bc7a1fbff5" class="bulleted-list"><li style="list-style-type:disc">그래서 그냥 counter 변수를 넣는 경우가 있으나 좋은 습관이 아님</li></ul><ul id="d4ec64e6-7322-4d62-bb11-c6bc0d0d91e7" class="bulleted-list"><li style="list-style-type:disc">&#x27;== 0&#x27; 혹은 &#x27;!= 0&#x27;을 넣어주자</li></ul><h3 id="3d057499-0a12-4a80-98e0-c5dfa1aafb2d" class="">do while문</h3><pre id="b182d219-e383-4b87-b4a1-f1c0b2cfabb8" class="code"><code>int day = 5;
+	do_magic(matrix, 5);
+}</code></pre><pre id="d7a6f390-3602-4ce5-b5b4-6a04384da08d" class="code"><code>m[1][2]: 13
+_</code></pre><h3 id="5c0e06a5-6a28-41e5-b1d3-b91b6f58cf5b" class="">함수 포인터 : 퀵 정렬</h3><pre id="e5576f46-af43-4316-9326-6c8115cfa3c6" class="code"><code>void qsort(void *ptr, size_t count, size_t size, int (*comp)(const void*, const void*));</code></pre><ul id="1e13ca70-c918-449b-820e-f6d37907d6b2" class="bulleted-list"><li style="list-style-type:disc"><code>&lt;stdlib.h&gt;</code> 안에 있는 함수 포인터를 받는 표준 라이브러리 함수</li></ul><ul id="1360bded-89b2-4cfc-93ee-c8e6a87897ae" class="bulleted-list"><li style="list-style-type:disc">실행속도 : O(NlogN)</li></ul><ul id="8ccc18cc-39a1-4589-9e16-7fa151514647" class="bulleted-list"><li style="list-style-type:disc">어떤 데이터라도 처리 가능</li></ul><ul id="5d21cae4-16e5-46f4-8ec2-3a663e3c6501" class="bulleted-list"><li style="list-style-type:disc">자료마다 정렬하는 기준이 다를 수 있음<ul id="e403c06b-bc6d-4d68-bfa4-338f759088b3" class="bulleted-list"><li style="list-style-type:circle">그 기준마다 정렬함수를 넘겨주기 위한 세 번째 인자가 존재</li></ul><pre id="b2075087-9c78-4daf-b6ad-9e9ca2028fef" class="code"><code>int (*comp)(const void*, const void*)</code></pre></li></ul><h3 id="e4f3ecbb-8770-46fc-a38d-4429d5c20251" class="">void*</h3><ul id="ac5c8d1b-4335-45f4-9ea9-e043821f00b0" class="bulleted-list"><li style="list-style-type:disc">범용적 포인터</li></ul><ul id="93855047-4d23-4d94-a5f6-9699fa1f544e" class="bulleted-list"><li style="list-style-type:disc">어떤 포인터라도 여기에 대입 가능<ul id="87e1e109-43bd-4e31-b43c-b39fcb5c16b3" class="bulleted-list"><li style="list-style-type:circle">그 반대로 그냥 대입 가능</li></ul><ul id="e2b17395-232b-4970-afc7-0c4111d65c5c" class="bulleted-list"><li style="list-style-type:circle">따라서 어떤 변수의 주소라도 곧바로 대입 가능</li></ul><ul id="d523f9b2-6e1e-4c7e-814e-3094fd7c14fe" class="bulleted-list"><li style="list-style-type:circle">매개변수 형으로 <code>void*</code>를 사용하면 어떤 포인터라도 받을 수 있는 함수 탄생</li></ul></li></ul><ul id="ec9cb3a7-88ad-4735-b0af-e1bb95ed5f4c" class="bulleted-list"><li style="list-style-type:disc">단, 다음과 같은 경우 다른 포인터로 캐스팅 또는 대입해서 써야함<ul id="32c823cb-7386-4b8a-af03-bff6d5ff24cd" class="bulleted-list"><li style="list-style-type:circle">역 참조 (몇 바이트 읽을지 모르기 때문)</li></ul><ul id="75d316f3-5ba2-4b31-86af-167163e9c91c" class="bulleted-list"><li style="list-style-type:circle">포인터 산술 연산 (몇 바이트를 이동할지 모르기 때문)</li></ul><pre id="c32629b2-1b71-439f-934f-d87928aa5278" class="code"><code>float pi = 3.14f;
+void* p;
+float* q;
 
-do {
-	printf(&quot;%d\n&quot;, day);
-} while (day-- != 0);
+p = &amp;pi;
+q = p;
 
-/* 5, 4, 3, 2, 1, 0 */</code></pre><ul id="8f9dd161-ecb6-4c86-bc9b-4064ef27242f" class="bulleted-list"><li style="list-style-type:disc">조건식 검사를 마지막에 하므로, 조건식의 참/거짓 여부에 관계없이 반복문 내 코드를 최소 한 번은 실행함</li></ul><p id="6d51096d-a4ba-49ca-8424-d395dbbbf4ea" class="">
-</p><p id="aa5ff7e0-9d59-4a4e-969d-df90bc3809e7" class="">
-</p></div></article></body>
+printf(&quot;%f\n&quot;, *p);                      /* 컴파일 오류 */
+printf(&quot;%f\n&quot;, *(float*)p);</code></pre><pre id="1c2aea24-181d-41f7-996a-45324c2d427b" class="code"><code>int add(void* op1, void* op2)
+{
+	int result;
+	result = *op1 + *op2;                  /* 컴파일 오류 */
+	result = *(int*)op1 + *(int*)op2;      /* OK */ </code></pre><p id="e6ca6709-f730-4dfa-908c-6a092eba1ddc" class="">
+</p></li></ul></div></article></body>
+
 {% endblock post_content %}

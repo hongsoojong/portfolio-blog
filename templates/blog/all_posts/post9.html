@@ -8,687 +8,500 @@
 
 {% block post_content %}
 
-    {% block post_date %}
-        <div class="container w-1/2 mx-auto mb-10 post_date">[ Sept 22, 2021 ]</div>    
-    {% endblock post_date %}
+{% block post_date %}
+    <div class="container w-1/2 mx-auto mb-10 post_date">[ Sept 22, 2021 ]</div>    
+{% endblock post_date %}
 
-    <main class="container w-1/2 mx-auto font_kor">
-        <div id="문자열의표현과길이">
-            <div class="post_heading">문자열의 표현과 길이</div>
-            <div class="post_subheading">문자열과 다른 기본 자료형의 차이</div>
-            <div class="post_text">
-                <li>기분 자료형 : 그 자료형의 크기와 범위는 고정되어 있음</li>
-                <li>문자열(문장의 크기) : 컴퓨터는 문자열을 몇 바이트로 읽어야하는지 모름</li>
-                <p class="ml-7">⇒ 문자열이 기본 자료형이 아닌 이유</p>
-            </div>
-            <div class="post_subheading">문자열의 표현</div>
-            <div class="post_text">
-                <li>여러 가지 글자(문자)가 모인 것</li>
-                <li>공백조차 글자!</li>
-                <li>'여러 개'의 문자를 표현하려면 ⇒ 배열</li>
-                <li>따라서 char str[글자수]로 표현 가능</li>
-                <li>하지만 배열은 길이를 구할 수 없으므로 그 길이를 프로그래머가 따로 기억해둬야함</li>
-            </div>
-            <div class="post_subheading">문자열 관리 시 길이의 문제</div>
-            <img src="{% static 'img/sourcecode/post9-1.png' %}" class="mb-1">
-            <img src="{% static 'img/sourcecode/post9-2.png' %}" class="mb-1">
-            <img src="{% static 'img/sourcecode/post9-3.png' %}">
-            <div class="post_text">
-                <li>배열의 길이를 저장하는 변수를 만들어 관리할 경우 여러가지 실수들이 발생할 수 있음</li>
-            </div>
-            <div class="post_subheading">문자열 길이 문제 해결방법 1 : 길이를 배열 첫 위치에 저장</div>
-            <div class="post_text">
-                <li>첫 메모리 위치에 문자열 길이를 저장하고, 실제 문자열이 뒤 따라오게 함</li>
-                <div class="ml-7">
-                    <p>1. unsigned char로 길이를 저장하기엔 너무 짧음 → 최대 255자</p>
-                    <p>2. int로 길이를 저장하고, 그 뒤의 문자들은 char로 저장</p>
-                </div>
-                <li>첫 주소만 봐도 총 글자수를 알 수 있음</li>
-                <li>다른 언어들은 보통 이 방식을 이용하여 문자열의 길이 저장하기 때문에 문자열의 크기를 바로 알 수 있었음</li>
-                <img src="{% static 'img/sourcecode/post9-4.png' %}" class="ml-7">
-                <li>단점</li>
-                <div class="ml-7">
-                    <p>a. 글자 하나가 1바이트인데 길이 저장에 4바이트를 쓰는 것은 비효율적 → 이러한 방식은 클래스 또는 구조체에서 쓰는 방법</p>
-                    <p>b. 순수 C코드로 어떻게 작성할지 애매함</p>
-                    <p class="ml-5">첫 데이터는 int*로 캐스팅해서 읽고 그 다음부터는 char*로 읽어야함</p>
-                    <p class="ml-5">물론 디스크로부터 이진파일을 통째로 메모리에 읽어오면 이런 식으로 접근하기는 함</p>
-                    <p class="ml-5">그러나 이걸 언어 기본으로 한다는 생각 자체가 힘듬</p>
-                </div>
-                <img src="{% static 'img/sourcecode/post9-5.png' %}" class="ml-7">
-            </div>
-            <div class="post_subheading">문자열 길이 문제 해결방법 2 : 문자열이 끝나는 위치를 표시</div>
-            <div class="post_text">
-                <li>그냥 char[ ]만 쓰되 그 문자열이 끝나는 위치에 특수한 문자를 두는 방법</li>
-                <p class="ml-7">⇒ 배열에서 값을 찾을 수 없으면 존재할 수 없는 색인 -1을 반환하는 방식과 마찬가지</p>
-                <img src="{% static 'img/sourcecode/post9-6.png' %}" class="ml-7">
-                <li>아스키코드 중에 화면에 출력되지 않는 특수한 문자들이 있음</li>
-                <p class="ml-7">⇒ 제어 문자(control character) : 0~31, 126</p>
-                <li>그 중 하나가 바로 0</li>
-                <p class="ml-7">⇒ <span class="font-bold">널 문자(null character, 널 캐릭터)</span>라고 불림</p>
-                <img src="{% static 'img/sourcecode/post9-7.png' %}" class="ml-7">
-                <div class="ml-7">
-                    <p>a. 0은 숫자 영</p>
-                    <p>b. \는 이스케이프 문자</p>
-                    <p>c. 아스키코드로 0이니 char null_char = 0;으로 작성은 가능하지만 읽기 쉽게 '\0'으로 써주는 것이 좋음</p>
-                </div>
-            </div>
-        </div>
-        <div id="C스타일문자열">
-            <div class="post_heading">C 스타일 문자열</div>
-            <div class="post_text">
-                <li>char[ ]로만 구성</li>
-                <li>문자열이 끝나는 곳에 널 문자를 붙임</li>
-                <li>아래 두 코드는 저장 위치 외에는 동일</li>
-                <img src="{% static 'img/sourcecode/post9-8.png' %}" class="ml-7">
-                <div class="ml-7">
-                    <p>⇒ 문자열 뒤에 별도로 '\0'을 넣지 않아도 컴파일러가 알아서 넣어줌</p>
-                    <p>⇒ char*를 이용할 땐 데이터 섹션에 배열이 들어가므로 반드시 const를 써주는 것이 좋음</p>
-                </div>
-                <li>아래의 경우 '\0'을 넣어주지 않음</li>
-                <img src="{% static 'img/sourcecode/post9-9.png' %}" class="ml-7">
-                <p class="ml-7">⇒ 이 경우는 보통 문자열이 아닌 charater를 배열로 쓸 때 사용</p>
-            </div>
-            <div class="post_subheading">C 스타일 문자열 예시</div>
-            <img src="{% static 'img/sourcecode/post9-10.png' %}">
-            <div class="post_text">
-                <p>a. 문자열의 길이는 4</p>
-                <p>b. 배열의 길이는 최소한 5 (언제나 배열에 널 문자도 포함되어 있음)</p>
-                <p class="ml-5">⇒ 최소한 : 배열을 실제 크기보다 크게 잡고 널 문자를 마지막에 넣는 경우가 흔함</p>
-            </div>
-            <div class="post_subheading">C 스타일 문자열의 장단점</div>
-            <div class="post_text">
-                <li>장점</li>
-                <div class="ml-7">
-                    <p>a. 가장 최소한의 메모리</p>
-                    <p>b. 한 가지의 데이터형으로 문자열과 길이를 다 표현</p>
-                </div>
-                <li>단점</li>
-                <p class="ml-7">a. 어떤 문자열의 길이를 알려면 배열을 끝까지 훑어야함. O(N)7</p>
-            </div>
-        </div>
-        <div id="문자열길이구하기">
-            <div class="post_heading">문자열 길이 구하기</div>
-            <p class="post_text">⇒ 스스로 작성할 수 있어야함! 매우 흔한 기초 면접문제! 못 맞추면 곧바로 탈락각..</p>
-            <div class="post_subheading">문자열 길이를 위한 기본 개념</div>
-            <div class="post_text">
-                <p>1. char 배열의 요소를 처음부터 차례로 읽음</p>
-                <p>2. 널 문자를 만나면 멈춤</p>
-                <p>3. 여태까지 총 몇 개의 char를 방문했는지 카운트하여 반환</p>
-                <img src="{% static 'img/sourcecode/post9-11.png' %}" class="ml-3">
-                <p class="ml-3">⇒ 이 경우 반복문의 매 회차마다 시작주소 + i 만큼 점프</p>
-                <img src="{% static 'img/sourcecode/post9-12.png' %}" class="ml-3">
-                <p class="ml-3">⇒ 포인터를 이용한다면 조금 더 효율적인 코드 작성 가능</p>
-            </div>
-            <div class="post_subheading">문자열 길이 함수 : strlen()</div>
-            <img src="{% static 'img/sourcecode/post9-13.png' %}">
-            <div class="post_text">
-                <li>< string.h >를 인클루드하면 사용할 수 있음</li>
-                <li>위에서 만든 코드와 거의 유사함</li>
-            </div>
-            <div class="post_subheading">strlen 함수 사용시 가능한 실수 예제</div>
-            <img src="{% static 'img/sourcecode/post9-14.png' %}" class="mb-1">
-            <img src="{% static 'img/sourcecode/post9-15.png' %}">
-            <div class="post_text">
-                <p>⇒ 문자열의 맨 끝이 '\0'으로 끝나지 않아서 발생하는 문제들임</p>
-                <li>외부에서 들어오는 문자열을 읽을 땐 조심해서 읽어야함</li>
-                <li>C11의 strlen_s( ) 함수가 이 문제을 해결하기도 함</li>
-                <li>strlen(str)은 그냥 읽는거니 안전할 수도 있음 -. 물론 아닐 수도 있음</li>
-                <p class="ml-7">⇒ 나중에 '/0'이 나오지 않아 하드웨어가 보호하는 메모리를 읽는 경우 심각한 오류가 발생</p>
-            </div>
-        </div>
-        <div id="문자열의비교">
-            <div class="post_heading">문자열의 비교 : compare_string()</div>
-            <img src="{% static 'img/sourcecode/post9-16.png' %}">
-            <div class="post_text">
-                <li>두 문자열 비교를 위한 매개변수는 두 문자열 포인터</li>
-                <li>반환형은 아직 미정</li>
-                <li>단순히 같다/틀리다를 비교하는 것이 아님</li>
-                <li>사전식 순서(lexicographical order)로 '어떤 문자의 아스키코드가 더 작냐/크냐/같냐/'를 판별</li>
-            </div>
-            <div class="post_subheading">사전식 순서의 예</div>
-            <div class="post_text">
-                <li>ABCD는 ABCE보다 작음</li>
-                <li>abcd는 ABCD보다 큼</li>
-                <li>ABC는 ABCEFG보다 작음</li>
-                <p class="ml-7">Why? 길이가 짧음 (ABC의 숨겨진 마지막 문자인 널문자와 ABCEFG의 E와 비교한다고 생각 가능)</p>
-                <li>abcd는 abcd와 같음</li>
-            </div>
-            <div class="post_subheading">compare_string()의 반환값</div>
-            <img src="{% static 'img/sourcecode/post9-17.png' %}">
-            <div class="post_text">
-                <li>같으면 0</li>
-                <li>좌항이 작으면 < 0</li>
-                <li>좌항이 크면 > 0</li>
-                <li>음수도 반환하니 반환형은 int</li>
-            </div>
-            <div class="post_subheading">더 효율적인 문자열 비교 함수 작성하기</div>
-            <img src="{% static 'img/sourcecode/post9-18.png' %}" class="mb-1">
-            <img src="{% static 'img/sourcecode/post9-19.png' %}">
-            <li class="post_text mb-1">문자열 비교 함수는 왠지 if문이 많을 것 같지만 간단하게 작성이 가능함</li>
-            <img src="{% static 'img/sourcecode/post9-20.png' %}">
-            <li class="post_text">위의 코드는 strlen( )을 구하는 과정에서 for문을 사용하기 때문에 불필요하게 for문을 여러 번 돌려 원하는 반환값을 구해냄 → 한번의 for문으로 가능한 것을 굳이 느리게 할 필요없음</li>
-            <div class="post_subheading">문자열 비교 함수 1 : strcmp()</div>
-            <img src="{% static 'img/sourcecode/post9-21.png' %}" class="mb-1">
-            <img src="{% static 'img/sourcecode/post9-22.png' %}">
-            <li class="post_text">< string.h >를 인클루드하면 사용할 수 있음</li>
-            <div class="post_subheading">문자열 비교 함수 2 : strncmp()</div>
-            <img src="{% static 'img/sourcecode/post9-23.png' %}">
-            <li class="post_text">최대 n문자까지만 비교</li>
-            <div class="post_subheading">대소문자 구분 없는 문자열 비교</div>
-            <img src="{% static 'img/sourcecode/post9-24.png' %}" class="mb-6">
-        </div>
-        <div id="문자열복사">
-            <div class="post_heading">문자열 복사</div>
-            <img src="{% static 'img/sourcecode/post9-25.png' %}" class="mb-6">
-            <div class="post_subheading">문자열 복사 함수 1 : strcpy()</div>
-            <img src="{% static 'img/sourcecode/post9-26.png' %}">
-            <div class="post_text">
-                <li>< string.h >를 인클루드하면 사용할 수 있음</li>
-                <li>반환값 char*는 dest를 반환 → 왜 그런지는 알 수 없음, 실제로 아무도 안 씀</li>
-                <li>C11에서 나온 strcpy_s( )는 errno_t를 반환</li>
-                <img src="{% static 'img/sourcecode/post9-27.png' %}" class="ml-7">
-            </div>
-            <div class="post_subheading">dest가 src보다 짧으면</div>
-            <img src="{% static 'img/sourcecode/post9-28.png' %}">
-            <div class="post_text">
-                <li>남은 메모리에 덮어써버림 → 매우 위험한 함수</li>
-                <li>단, src와 dest의 크기가 확실하게 통제 가능하다면 안전</li>
-                <li>C11에서 이보다 안전한 strcpy_s( )라는 함수가 나옴</li>
-            </div>
-            <div class="post_subheading">문자열 복사 함수 2 : strncpy()</div>
-            <p class="post_text mb-1">⇒ C89에서 그나마 안전한 문자열 복사 함수</p>
-            <img src="{% static 'img/sourcecode/post9-29.png' %}">
-            <div class="post_text mb-1">
-                <li>최대 count만큼 복사 / 널 문자를 먼저 만나면 그 전에 끝냄</li>
-                <li>src가 count보다 짧으면 남은걸 다 0 ('\0')으로 채워줌</li>
-                <li>src가 count보다 길거나 같다면 count만큼 복사함 → 널 문자 붙일 곳 없음</li>
-            </div>
-            <img src="{% static 'img/sourcecode/post9-30.png' %}">
-            <div class="post_text">
-                <li>비교적 안전한 프로그래밍을 위해 언제나 코드 한 줄을 추가</li>
-                <li>0이 앞에 붙으면 어차피 멈춤</li>
-                <li>안 붙었으면 맨 마지막에 널 문자를 붙여줌</li>
-            </div>
-            <div class="post_subheading">정리 : strcpy()와 strncpy()</div>
-            <div class="post_text">
-                <p>1. strcpy( )</p>
-                <div class="ml-5">
-                    <li>위험할 수 있는 함수</li>
-                    <li>dest 크기 < src 크기 : 잘못된 메모리 쓰기 발생</li>
-                    <li>두 크기를 확실히 통제 가능하다면 안전</li>
-                </div>
-                <p>2. strncpy( )</p>
-                <div class="ml-5">
-                    <li>strcpy( )보다 안전</li>
-                    <li>덜 빠름 → dest의 남은 요소를 0으로 채우기 때문</li>
-                    <li>여전히 위험한 경우가 있음</li>
-                    <p class="ml-7">count보다 src가 긴 경우 : 다 복사하고 널 문자가 없음 → 프로그래머가 널 문자를 넣어주는 한줄 코드가 필요함</p>
-                </div>
-            </div>
-        </div>
-        <div id="문자열합치기">
-            <div class="post_heading">문자열 합치기</div>
-            <div class="post_subheading">문자열 합치기 함수 1 : strcat()</div>
-            <img src="{% static 'img/sourcecode/post9-31.png' %}">
-            <div class="post_text">
-                <li>< string.h >안에 있음</li>
-                <li>src의 문자열을 dest 뒤에 덧붙이는 함수 (dest의 널 문자 위치부터 src의 문자열 추가)</li>
-                <p class="ml-7">⇒ dest의 널 문자가 src[0]로 교체</p>
-                <li>dest의 길이가 충분해야함</li>
-                <p class="ml-7">⇒ 이 길이를 넘어 쓸 경우 정의되지 않은 결과 발생</p>
-            </div>
-            <div class="post_subheading">문자열 합치기 함수 2 : strncat()</div>
-            <img src="{% static 'img/sourcecode/post9-32.png' %}">
-            <div class="post_text mb-1">
-                <li>strcat( )보다 조금 더 안전한 함수</li>
-                <li>< string.h >안에 있음</li>
-                <li>최대 count의 수만큼 src문자열을 dest 뒤에 덧붙이는 함수</li>
-                <li>count개의 문자를 복사한 뒤, 널 문자를 가장 마지막에 붙여줌</li>
-                <p class="ml-7">⇒ 따라서 최대 count +1 개의 문자를 덮어씀</p>
-            </div>
-            <img src="{% static 'img/sourcecode/post9-33.png' %}">
-            <div class="post_text">
-                <li>dest의 길이보다 길게 쓰면 마찬가지로 정의되지 않은 결과 발생</li>
-                <p class="ml-7">a. 그러나 count로 이러한 경우가 발생하지 않도록 프로그래머가 제어 가능</p>
-                <p class="ml-7">b. 따라서 strcat( )보다는 조금 더 안전</p>
-            </div>
-            <div class="post_subheading">정리 : strcat()와 strncat()</div>
-            <div class="post_text">
-                <p>1. strcat( )</p>
-                <div class="ml-5">
-                    <li>위험할 수 있는 함수</li>
-                    <li>dest의 남아있는 공간 < src의 크기 → 정의되지 않은 결과 발생</li>
-                    <li>두 크기를 확실히 통제할 수 있다면 안전</li>
-                </div>
-                <p>2. strncat( )</p>
-                <div class="ml-5">
-                    <li>strcat( )보다 안전 → count로 얼만큼 붙일지 제어 가능</li>
-                    <li>dest의 남아있는 공간 < count의 크기 → 정의되지 않은 결과 발생</li>
-                </div>
-                <p>⇒ C11에서 이보다 안전한 strcat_s( ), strncat_s( ) 함수가 있음</p>
-            </div>
-            <div class="post_subheading">문자열 버퍼를 이용한 출력</div>
-            <img src="{% static 'img/sourcecode/post9-34.png' %}" class="mb-6">
-        </div>
-        <div id="문자열찾기">
-            <div class="post_heading">문자열 찾기</div>
-            <div class="post_subheading">없는 문자열을 찾는 경우</div>
-            <img src="{% static 'img/sourcecode/post9-35.png' %}" class="mb-1">
-            <img src="{% static 'img/sourcecode/post9-36.png' %}" class="mb-6">
-            <div class="post_subheading">존재하는 문자열을 찾는 경우</div>
-            <img src="{% static 'img/sourcecode/post9-37.png' %}" class="mb-6">
-            <div class="post_subheading">문자열 속에서 문자열 찾기</div>
-            <img src="{% static 'img/sourcecode/post9-38.png' %}">
-            <div class="post_text">
-                <li>< string.h >안에 있음</li>
-                <li>반환값 : char 포인터</li>
-                <div class="ml-7">
-                    <p>a. substr이 str에 있다면 : 해당 substr이 시작하는 주소</p>
-                    <p>b. substr이 str에 없다면 : 널 포인터(NULL)</p>
-                </div>
-            </div>
-            <div class="post_subheading">문자열 찾기의 주소반환</div>
-            <div class="post_text">
-                <li>C#의 string.IndexOf( )처럼 문자열의 색인을 반환하지 않고, 그렇다고 찾은 위치부터 문자열을 새로 만들어 주는것도 아닌 찾은 위치의 주소를 알려줌</li>
-                <p class="ml-7">⇒ Why? 새로운 문자열을 만등러 반환할 경우 메모리 관리 측면에서 효율적이지 못하고 실수할 수 있음</p>
-                <li>새 문자열을 반환하려면 메모리 어딘가에 그 문자열을 복사해야함</li>
-                <div class="ml-7">
-                    <p>a. 복사하는 위치가 스택이면 </p>
-                    <img src="{% static 'img/sourcecode/post9-39.png' %}" class="ml-5">
-                    <p class="ml-5">⇒ 함수가 끝나면 사라짐 </p>
-                    <p class="ml-5">⇒ 반환값이 더이상 유효하지 않은 메모리 주소</p>
-                    <p>b. 복사하는 위치가 힙이면 (동적메모리 할당) </p>
-                    <img src="{% static 'img/sourcecode/post9-40.png' %}" class="ml-5">
-                    <p class="ml-5">⇒ 메모리 할당을 운영체제에게 부탁해야하므로 느림</p>
-                    <p class="ml-5">⇒ 더이상 사용하지 안 할 경우 프로그래머가 직접 메모리 해제 함수를 호출해야하는데 깜빡 잊고 하지 않을 수도 있음</p>
-                </div>
-                <li>그냥 원본에서 찾고자 하는 문자열이 시작하는 주소를 반환하는 것로 간단하게 해결</li>
-                <li>추가적으로 메모리를 쓰지도 않고, 사람이 저지를 수 있는 실수도 줄일 수 있음</li>
-            </div>
-        </div>
-        <div id="문자열토큰화">
-            <div class="post_heading">문자열 토큰화</div>
-            <img src="{% static 'img/sourcecode/post9-41.png' %}">
-            <li class="post_text mb-1">C의 토큰화 함수는 지금까지 본 문자열 함수처럼 새로운 메모리에 할당 안함</li>
-            <img src="{% static 'img/sourcecode/post9-42.png' %}">
-            <div class="post_text">
-                <li>토큰화를 시작하려면 문자열(msg)를 strtok( )에 넣음</li>
-                <li>그 msg의 다음 토큰을 구하려면 대신 NULL</li>
-                <li>더 이상 토큰이 없다면 strtok( )은 NULL을 반환</li>
-                <li>두 가지 포인트</li>
-                <div class="ml-7">
-                    <p>1. 토큰화 하는 문자열은 const가 아님! → 원본이 바뀜</p>
-                    <p>2. 함수 매개변수로 NULL이 들어올 때 그 전에 받았던 msg를 사용하니 이건 어딘가에 저장되어 있어야 함</p>
-                </div>
-                <li>C11에 안전한 버전의 함수가 들어옴 → strtok_s( )</li>
-            </div>
-        </div>
-        <div id="<string.h>에있는문자열함수들">
-            <div class="post_heading">< string.h >에 있는 문자열 함수들</div>
-            <div class="post_text">
-                <li>strlen( )</li>
-                <li>strcmp( ) / strncmp( )</li>
-                <li>strcpy( ) / strncpy( )</li>
-                <li>strstr( )</li>
-                <li>strcat( ) / strncat( )</li>
-                <li>strto( )</li>
-                <li>그 외 다수</li>
-            </div>
-        </div>
-        <div id="C문자열함수들의특징">
-            <div class="post_heading">C 문자열 함수들의 특징</div>
-            <div class="post_text">
-                <li>꽤 많은 함수들이 문자열을 절대 변경하지 않음!</li>
-                <p class="ml-7">⇒ const char* 표시 필요</p>
-                <li>문자열을 변경하더라도 원본은 변경하지 않으려 함 → 사본만 변경</li>
-                <p class="ml-7"></p>
-                <li>절대 새로운 문자열(즉, 연속된 char)을 만들어주지 않음</li>
-            </div>
-        </div>
-        <div id="문자열을대문자또는소문자로바꾸기">
-            <div class="post_heading">문자열을 대문자 또는 소문자로 바꾸기</div>
-            <img src="{% static 'img/sourcecode/post9-43.png' %}" class="mb-1">
-            <img src="{% static 'img/sourcecode/post9-42.png' %}">
-            <div class="post_text">
-                <li>비트마스킹 코드</li>
-                <li>0x20은 십진수 32 → 이것은 아스키 값으로 동일한 대문자와 소문자 간 차이 (예 : A와 a)</li>
-                <li>c & ~0x20은 c로부터 32를 빼는 것을 의미함</li>
-                <div class="ml-7">
-                    <p>1. a의 비트패턴 (110 0001) / z의 비트패턴 (111 1010)</p>
-                    <p>2. a와 z 사이에 있는 모든 알파벳은 110 0001와 111 1010 사이의 값</p>
-                    <p>3. 32의 비트패턴 (10 0000)</p>
-                    <p>4. 따라서 이 숫자를 빼버리면 오른쪽으로부터 6번쨰 비트를 지우는 것과 마찬가지</p>
-                    <p>5. 10 0000을 뒤집으면 01 1111이 되고 이것을 c와 비트연산 &를 하면 6번째 비트가 지워짐</p>
-                </div>
-            </div>
+<main class="container w-1/2 mx-auto font_kor">
 
-        </div>
-        <div id="출력(Output)">
-            <div class="post_heading">출력(Output)</div>
-            <div class="post_text">
-                <li>프로그램에서 프로그램 외부로 데이터를 보여주는 행위</li>
-                <li>프로그램이 어떤 데이터를 출력할지 아니까 괴상한 데이터들이 없음</li>
-                <p class="ml-7">⇒ 입력보다 쉬움</p>
-                <li>커맨드 창에 출력/파일에 출력</li>
-            </div>
-        </div>
-        <div id="서식지정(formatted)출력">
-            <div class="post_heading">서식 지정(formatted) 출력</div>
-            <div class="post_text">
-                <li>C에서 출력을 논할때 가장 기본이 되는 함수</li>
-                <li>세 가지 종류</li>
-                <div class="ml-7">
-                    <p>1. printf( ) : 콘솔창(stdout)에 출력</p>
-                    <p>2. fprintf( ) : 스트림에 출력 (f; file)</p>
-                    <p>3. sprintf( ) : 문자열에 출력 (s; stream)</p>
-                </div>
-                <li>fprintf( )와 sprintf( )는 printf( )와 작동법 동일</li>
-                <p class="ml-7">⇒ 첫 번째 매개변수로 '출력할 곳'을 넣어주는 것이 유일한 차이점</p>
-                <img src="{% static 'img/sourcecode/post9-45.png' %}">
-            </div>
-            <div class="post_subheading">printf()의 첫 번째 매개변수는 문자열</div>
-            <img src="{% static 'img/sourcecode/post9-46.png' %}">
-            <div class="post_text">
-                <li>printf( )는 그냥 int형 변수를 넣는다고 int를 출력해주지 않음</li>
-                <p class="ml-7">⇒ 함수 오버로딩 없음</p>
-                <li>따라서 printf( ) 는 무조건 첫 번째 인자로 문자열을 받아야함</li>
-            </div>
+{% include "blog/all_posts/css_post.html" %}
+  
+<!-- notion html -->
+<body><article id="1161329f-bd7c-4755-8afd-5724ddbfdfe3" class="page sans"><div class="page-body"><h2 id="9039b8ac-df8e-4fe8-83da-40180822b02d" class="">문자열의 표현과 길이</h2><h3 id="7c84354a-56ef-489b-a0ed-c7996130aaeb" class="">문자열과 다른 기본 자료형의 차이</h3><ul id="e66dad4e-e6e4-4f9b-afab-c70e89614ac1" class="bulleted-list"><li style="list-style-type:disc">기분 자료형 : 그 자료형의 크기와 범위는 고정되어 있음</li></ul><ul id="7a8298de-493e-4ac9-a126-bed5cbd4969a" class="bulleted-list"><li style="list-style-type:disc">문자열(문장의 크기) : 컴퓨터는 문자열을 몇 바이트로 읽어야하는지 모름<p id="8921dd5d-ddb5-4c8b-88d3-322001d6b7f3" class="">⇒ 문자열이 기본 자료형이 아닌 이유</p></li></ul><h3 id="07a01d60-9a93-4dbf-b05d-c469085cdb5f" class="">문자열의 표현</h3><ul id="1b2f8b47-024b-4cc5-8c3a-306760c1fc15" class="bulleted-list"><li style="list-style-type:disc">여러 가지 글자(문자)가 모인 것</li></ul><ul id="b276b3e2-6003-460e-a36c-d6e4fb9b7e56" class="bulleted-list"><li style="list-style-type:disc">공백조차 글자!</li></ul><ul id="fc598968-7eb6-42f4-b441-486c7e3c8bd3" class="bulleted-list"><li style="list-style-type:disc">&#x27;여러 개&#x27;의 문자를 표현하려면 ⇒ 배열</li></ul><ul id="69e6bd1d-ce01-4e3c-89e3-f35be2f252f1" class="bulleted-list"><li style="list-style-type:disc">따라서 <code>char str[글자수]</code>로 표현 가능</li></ul><ul id="7d0d68b5-46e8-41f0-9d84-48d16d9529a5" class="bulleted-list"><li style="list-style-type:disc">하지만 배열은 길이를 구할 수 없으므로 그 길이를 프로그래머가 따로 기억해둬야함</li></ul><h3 id="cf65fae0-d60a-4812-b736-c3271e90a1b0" class="">문자열 관리 시 길이의 문제</h3><ul id="f587199e-c2c4-4aaa-b079-13f0b653554a" class="bulleted-list"><li style="list-style-type:disc">배열의 길이를 저장하는 변수를 만들어 관리할 경우 여러가지 실수들이 발생할 수 있음</li></ul><pre id="22953e52-a9d2-4386-a168-672b6ba4e6dd" class="code"><code>void print_string(void)
+{
+    char chars[] = &quot;Pointer is the best!&quot;;
+    const size_t NUM_CHARS = 20;
 
-        </div>
-        <div id="서식문자열(format string)">
-            <div class="post_heading">서식 문자열(format string)</div>
-            <img src="{% static 'img/sourcecode/post9-47.png' %}">
-            <div class="post_text">
-                <li>printf( )는 일반 문자열 혹은 서식 문자열을 매개변수로 받음</li>
-                <li>서식 문자열</li>
-                <div class="ml-7">
-                    <p>a. %로 시작하는 문자열</p>
-                    <p>b. 소수점 이하 자리수, 자릿수 정렬, 어떤 데이터(숫자, 문자)를 출력할지 등을 알려주는 문자열</p>
-                    <p>c. 하나 이상의 데이터가 들어갈 수 있음</p>
-                    <p>d. 이 때, 서식 지정자의 순서와 동일한 순서로 데이터들을 printf( )의 추가 매개변수로 전달</p>
-                </div>
-            </div>
-            <div class="post_subheading">일반적인 서식 문자열 형식</div>
-            <div class="post_box font-bold">% [ 플래그 ] [ 너비 ] [ .숫자 정밀도 | .문자열 최소/최대 출력 개수 ] [ 길이 ] 서식 지정자</div>
-            <div class="post_text">
-                <li>일반적으로 '%' 뒤에 최대 4개의 지정자를 가질 수 있음</li>
-                <div class="ml-5">
-                    <p>1. 플래그 (선택)</p>
-                    <p>2. 너비 (선택)</p>
-                    <p>3. 정밀도 (선택)</p>
-                    <p class="ml-5">a. 숫자 정밀도</p>
-                    <p class="ml-5">b. 문자열 최소/최대 출력 개수</p>
-                    <p>4. 길이 (선택)</p>
-                    <p>5. 서식 지정자 <span class="font-bold">(필수)</span></p>
-                    <p>⇒ 반드시 순서를 지켜 작성해야 함</p>
-                </div>
-            </div>
-            <div class="post_subheading">서식 지정자</div>
-            <table class="mb-1 w-full table-fixed">
-                <tbody class="text-center">
-                    <tr>
-                        <td class="post_table_border bg-yellow-100 w-1/6">%</td>
-                        <td class="post_table_border w-1/2">'%'를 출력</td>
-                        <td class="post_table_border">printf("%%/n");</td>
-                    </tr>
-                    <tr>
-                        <td class="post_table_border bg-yellow-100 w-1/6">c</td>
-                        <td class="post_table_border w-1/2">문자(char)를 출력</td>
-                        <td class="post_table_border">printf("%c\n", 'D');</td>
-                    </tr>
-                    <tr>
-                        <td class="post_table_border bg-yellow-100 w-1/6">s</td>
-                        <td class="post_table_border w-1/2">문자열(char[])를 출력</td>
-                        <td class="post_table_border">printf("%s/n", "Hong");</td>
-                    </tr>
-                    <tr>
-                        <td class="post_table_border bg-yellow-100 w-1/6">d</td>
-                        <td class="post_table_border w-1/2">부호있는 정수 출력</td>
-                        <td class="post_table_border">printf("%d/n", -10);</td>
-                    </tr>
-                    <tr>
-                        <td class="post_table_border bg-yellow-100">u</td>
-                        <td class="post_table_border w-1/2">부호없는 정수 출력</td>
-                        <td class="post_table_border">printf("%u/n", 10);</td>
-                    </tr>
-                    <tr>
-                        <td class="post_table_border bg-yellow-100">o</td>
-                        <td class="post_table_border w-1/2">부호없는 정수를 8진수로 출력, 숫자 앞에 0을 <span class="font-bold">안 붙여줌</span></td>
-                        <td class="post_table_border">printf("%o/n", 10);</td>
-                    </tr>
-                    <tr>
-                        <td class="post_table_border bg-yellow-100">x</td>
-                        <td class="post_table_border w-1/2">부호없는 정수를 8진수(소문자)로 출력, 숫자 앞에 0x을 <span class="font-bold">안 붙여줌</span></td>
-                        <td class="post_table_border">printf("%x/n", 10);</td>
-                    </tr>
-                    <tr>
-                        <td class="post_table_border bg-yellow-100">X</td>
-                        <td class="post_table_border">부호없는 정수를 8진수(대문자)로 출력, 숫자 앞에 0X을 <span class="font-bold">안 붙여줌</span></td>
-                        <td class="post_table_border">printf("%X/n", 10);</td>
-                    </tr>
-                    <tr>
-                        <td class="post_table_border bg-yellow-100 w-1/6">f</td>
-                        <td class="post_table_border w-1/2">부동소수점 출력</td>
-                        <td class="post_table_border">printf("%f/n", 3.14);</td>
-                    </tr>
-                    <tr>
-                        <td class="post_table_border bg-yellow-100">e/E</td>
-                        <td class="post_table_border w-1/2">부동소수점을 지수표기법으로 출력</td>
-                        <td class="post_table_border">printf("%e/n", 10); / printf("%E/n", 10);</td>
-                    </tr>
-                    <tr>
-                        <td class="post_table_border bg-yellow-100">p</td>
-                        <td class="post_table_border w-1/2">포인터값을 출력</td>
-                        <td class="post_table_border">printf("%p/n", (void*)name);</td>
-                    </tr>
-                </tbody>
-            </table>
-            <div class="post_text">
-                <li>서식 문자라고도 함</li>
-                <li>'%'가 서식 문자열에서 사용 중이므로 출력하려면 어쩔 수 없이 반복</li>
-                <li>"%s" 쓸바엔 그냥 문자열로 곧바로 printf( )해도 됨</li>
-                <p class="ml-7">⇒ 단 문자열 두 개 합치거나 문자열 + 숫자 합쳐서 출력할 땐 유용함</p>
-                <img src="{% static 'img/sourcecode/post9-48.png' %}" class="ml-7">
-                <li>"%u"에 부호있는 수를 넣을 경우, 해당 수의 비트패턴에 해당하는 부호없는 수가 출력</li>
-                <img src="{% static 'img/sourcecode/post9-49.png' %}" class="ml-7">
-                <li>"%X"는 있는데 "%O"가 없는 이유</li>
-                <p class="ml-7">⇒ 8진수는 숫자로만 이루어져 있기 때문</p>
-                <li>"%p"는 주소를 출력하는데 void*만 받음</li>
-                <p class="ml-7">⇒ 모든 주소는 어차피 길이가 같다고 했으니 어떤 포인터를 void*로 캐스팅해도 안전</p>
-            </div>
-            <div class="post_subheading">플래그</div>
-            <table class="mb-1 w-full table-fixed">
-                <tbody class="text-center">
-                    <tr>
-                        <td class="post_table_border bg-yellow-100 w-1/6">-</td>
-                        <td class="post_table_border w-1/2">왼쪽 정렬</td>
-                        <td class="post_table_border">printf("%-5d/n", number);</td>
-                    </tr>
-                    <tr>
-                        <td class="post_table_border bg-yellow-100 w-1/6">0</td>
-                        <td class="post_table_border w-1/2">빈 공백을 0으로 채워줌</td>
-                        <td class="post_table_border">printf("%05d/n", number);</td>
-                    </tr>
-                    <tr>
-                        <td class="post_table_border bg-yellow-100 w-1/6">+</td>
-                        <td class="post_table_border w-1/2">항상 부호(+/-)를 표시</td>
-                        <td class="post_table_border">printf("%+5d/n", number);</td>
-                    </tr>
-                    <tr>
-                        <td class="post_table_border bg-yellow-100 w-1/6">공백</td>
-                        <td class="post_table_border w-1/2">양수인 경우에도 부호칸을 비워둠</td>
-                        <td class="post_table_border">printf("% d/n", number);</td>
-                    </tr>
-                    <tr>
-                        <td class="post_table_border bg-yellow-100 w-1/6">#o</td>
-                        <td class="post_table_border w-1/2">부호없는 정수를 8진수로 출력, 숫자 앞에 항상 '0'이 붙음</td>
-                        <td class="post_table_border">printf("%#o/n", number);</td>
-                    </tr>
-                    <tr>
-                        <td class="post_table_border bg-yellow-100 w-1/6">#x</td>
-                        <td class="post_table_border w-1/2">부호없는 정수를 16진수(소문자)로 출력, 숫자 앞에 항상 '0x'이 붙음</td>
-                        <td class="post_table_border">printf("%#x/n", number);</td>
-                    </tr>
-                    <tr>
-                        <td class="post_table_border bg-yellow-100 w-1/6">#X</td>
-                        <td class="post_table_border w-1/2">부호없는 정수를 16진수(대문자)로 출력, 숫자 앞에 항상 '0x'이 붙음</td>
-                        <td class="post_table_border">printf("%#X/n", number);</td>
-                    </tr>
-                </tbody>
-            </table>
-            <div class="post_text">
-                <li>'-' : 기본은 오른쪽 정렬</li>
-                <li>' ' : '+'가 있을ㅇ 경우 무시됨</li>
-                <li>'+' : 기본은 음수 기호만 출력</li>
-                <li>'0' : '-'가 있을 경우 무시됨</li>
-                <li>'#'</li>
-                <div class="ml-7">
-                    <p>a. 어디에 붙이냐에 따라 의미가 달라지며, 그나마 유용한 곳은 x나 X에 붙일 때</p>
-                    <p>b. "#x/X/o"를 쓸때는 다른 플래그나 서식 지정자 'd'를 붙이지 않음</p>
-                    <p>⇒ '-'는 붙일 수 있으나 의미 없음</p>
-                </div>
-            </div>
-            <div class="post_subheading">정밀도</div>
-            <div class="post_text">
-                <li>서식 지정자 'f'와 함꼐 사용</li>
-                <div class="ml-7">
-                    <p>a. '최소 너비. 소수점 아랫자리 수'</p>
-                    <p>b. (소수점 포함) 원래 숫자의 너비보다 최소 너비가 크면 공백으로 채움</p>
-                    <p>c. (소수점 포함하지 않음) 원래 숫자의 소수점 아랫자리 수보다 소수점 아랫자리수가 크면 0으로 채움</p>
-                    <p>d. 기본 수수점 아랫자리 수 : 6</p>
-                </div>
-                <li>서식 지정자 's'와 함꼐 사용</li>
-                <div class="ml-7">
-                    <p>a. '최소너비.최대너비'</p>
-                    <p>b. 출력할 문자열의 길이가 최소 너비보다 작으면 왼쪽을 공백으로 채움</p>
-                    <p>c. 출력할 문자열의 길이가 최대 너비보다 크면 자름</p>
-                </div>
-            </div>
-            <div class="post_subheading">길이 수정자(length modifier)</div>
-            <table class="mb-1 w-full table-fixed">
-                <thead class="text-center bg-yellow-100">
-                    <tr>
-                      <th class="w-1/6 post_table_border">길이 수정자</th>
-                      <th class="w-1/6 post_table_border">서식 지정자</th>
-                      <th class="post_table_border"></th>
-                      <th class="post_table_border"></th>
-                  </thead>
-                <tbody class="text-center">
-                    <tr>
-                        <td class="post_table_border bg-yellow-100"></td>
-                        <td class="post_table_border bg-yellow-100">d</td>
-                        <td class="post_table_border">int</td>
-                        <td class="post_table_border">printf("%d/n", number);</td>
-                    </tr>
-                    <tr>
-                        <td class="post_table_border bg-yellow-100">l</td>
-                        <td class="post_table_border bg-yellow-100">d</td>
-                        <td class="post_table_border">long int</td>
-                        <td class="post_table_border">printf("%ld/n", number);</td>
-                    </tr>
-                    <tr>
-                        <td class="post_table_border bg-yellow-100"></td>
-                        <td class="post_table_border bg-yellow-100">f</td>
-                        <td class="post_table_border">double</td>
-                        <td class="post_table_border">printf("%f/n", number);</td>
-                    </tr>
-                    <tr>
-                        <td class="post_table_border bg-yellow-100 w-1/6">L</td>
-                        <td class="post_table_border bg-yellow-100 w-1/6">f</td>
-                        <td class="post_table_border">long double</td>
-                        <td class="post_table_border">printf("%lf/n", number);</td>
-                    </tr>
-                </tbody>
-            </table>
-            <div class="post_text">
-                <li>인자의 바이트 크기를 지정해줌</li>
-                <li>몇 가지가 있지만 'l'(소문자 L)과 ' L'이 그나마 유용함</li>
-                <div class="ml-7">
-                    <p>a. 하지만 최근 플랫폼에선 별 의미가 없음</p>
-                    <p>b. int == long int, double == long double인 경우가 보통</p>
-                    <p>c. 설사 위의 경우가 아니더라도 long double은 잘 사용하지 않음</p>
-                    <img src="{% static 'img/sourcecode/post9-50.png' %}">
-                </div>
-            </div>
-            <div class="post_subheading">퀴즈</div>
-            <img src="{% static 'img/sourcecode/post9-51.png' %}" class="mb-6">
-            <div class="post_subheading">ASCII 표 그리기</div>
-            <img src="{% static 'img/sourcecode/post9-52.png' %}" class="mb-6">
-            <div class="post_subheading">바이트 단위 변환 표</div>
-            <img src="{% static 'img/sourcecode/post9-53.png' %}" class="mb-6">
-            <div class="post_subheading">서식 문자열이 필요한 이유</div>
-            <div class="post_text">
-                <li>일단 오버로딩 없음 ⇒ printf(int), printf(char) 불가능</li>
-                <li>임시 문자열 등을 자동으로 생성 안 해줌</li>
-                <img src="{% static 'img/sourcecode/post9-54.png' %}" class="ml-7">
-                <li>물론 strcat( )을 이용해서 프로그래머가 직접 임시 문자열을 관리할 수 있음</li>
-                <li>서식 문자열은 추가 메모리 할당 없이 있는 자료형을 출력스트림에 문자들로 출력해줌</li>
-            </div>
-            <div class="post_subheading">fprintf()</div>
-            <img src="{% static 'img/sourcecode/post9-55.png' %}">
-            <div class="post_text">
-                <li>스트림을 사용</li>
-                <li>보통 프로그램이 실행할 때 기본적으로 3개의 스트림을 줌</li>
-                <div class="ml-7">
-                    <p>1. stdout (콘솔 출력)</p>
-                    <p class="ml-5">a. 이제까지 계속 봐왔던 콘솔 스트림</p>
-                    <p class="ml-5">b. 라인 버퍼링(line buffering) 사용</p>
-                    <p>2. stdin (콘솔 입력)</p>
-                    <p>3. stderr (콘솔 출력; 오류 메세지를 출력하는 스트림)</p>
-                    <p class="ml-5">⇒ 이 3개의 스트림을 표준 스트림(standard stream)이라 함</p>
-                <li>모든 출력 스트림에 사용 가능</li>
-                <p class="ml-7">⇒ 첫 인자로 들어가는 스트림만 달라지고, 나머지는 매개변수 그대로</p>
-                </div>
-            </div>
-            <div class="post_box mb-6">
-                <p class="font-bold">< 버퍼링 ></p>
-                <li>출력할 내용이 있어도 곧바로 출력하지 않고 쌓아둠</li>
-                <li>어느정도 버퍼가 차면 그제서야 출력</li>
-                <p class="font-bold">< 버퍼링의 종류 ></p>
-                <li>풀 버퍼링(full buffering)</li>
-                <p class="ml-7">⇒ 버퍼가 가득 차면 비움</p>
-                <p class="ml07">⇒ 강제로 버퍼를 비우고 싶다면 fflush(stdout);을 호출하면 됨</p>
-                <li>라인 버퍼링(line buffering)</li>
-                <p class="ml-7">⇒ 1) 버퍼가 꽉 차거나 2) 버퍼에 '/n'가 들어오면 버퍼를 비움</p>
-                <p class="ml-7">⇒ 강제로 버퍼를 비우고 싶다면 fflush(stdout);을 호출하면 됨</p>
-                <li>버퍼링 없음(no buffering)</li>
-                <p class="ml-7">⇒ 버퍼를 사용하지 않음</p>
-                <li>표준에서 stdout, stderr, stdin의 버퍼링 종류를 지정하지 않음 (구현에 따라 다를 수 있음)</li>
-            </div>
-            <div class="post_subheading">sprintf()</div>
-            <img src="{% static 'img/sourcecode/post9-56.png' %}">
-            <div class="post_text">
-                <li>C에 문자열 스트림은 없지만 그 대신 sprintf( )가 있음</li>
-                <li>그냥 char 배열에 출력</li>
-                <li>굉장히 많이 쓰임 → 심지어 C++에서 string 클래스가 있는데도 이걸 대신 많이 씀</li>
-                <p class="ml-7">Why? 속도 때문 (가장 빨리 문장려을 조작하는 함수는 C 함수)</p>
-                <li>다만 프로그래머가 충분히 큰 버퍼를 잡아주지 않으면 위험함</li>
-            </div>
-            <img src="{% static 'img/sourcecode/post9-57.png' %}">
-            <div class="post_text">
-                <li>안전하지 않음 ⇒ strcpy( ), strcat( )와 같은 이유</li>
-                <li>안전하게 돌아가게 하기 위한 n이 들어가는 함수</li>
-                <p class="ml-7">a. C89에는 없음</p>
-                <p class="ml-7">b. C99에 들어옴 → snprintf( )</p>
-                <li>대신 표준은 아니지만 컴파일러마다 다르게 제공하는 함수가 있음</li>
-                <p class="ml-7">예 :  마이크로소프트 비주얼 C의 _snprintf( )</p>
-                <p class="ml-7">그러나 표준이 아니라서 작동하는 방법이 다름</p>
-            </div>
-        </div>
-        <div id="기타출력함수">
-            <div class="post_heading">기타 출력 함수</div>
-            <div class="post_subheading">puts()</div>
-            <img src="{% static 'img/sourcecode/post9-58.png' %}">
-            <div class="post_text">
-                <li>문자열을 stdout에 출력</li>
-                <li>fputs(str, stdout)와 매우 비슷</li>
-            </div>
-            <div class="post_subheading">putchar()</div>
-            <img src="{% static 'img/sourcecode/post9-59.png' %}">
-            <div class="post_text">
-                <li>문자열을 stdout에 출력</li>
-                <li>fputc(ch, stdout)과 같음</li>
-            </div>
-        </div>
-    </main>
+    size_t;
+    for (i = 0; i &lt; NUM_CHARS; ++i) {
+        printf(&quot;%c&quot;, chars[i]);
+    }
+}
+
+/* Pointer is the best! */</code></pre><pre id="ef443a36-40d6-4e11-9119-6c783bf7f15c" class="code"><code>void print_string(void)
+{
+    char chars[] = &quot;I want to be the best C programmer&quot;;   /* 문자열 변경 */
+    const size_t NUM_CHARS = 20;                           /* 배열의 길이 변경 안함 */
+
+    size_t;
+    for (i = 0; i &lt; NUM_CHARS; ++i) {
+        printf(&quot;%c&quot;, chars[i]);
+    }
+}
+
+/* I want to be the best */</code></pre><pre id="0aac73bc-fb8a-4829-b1a4-282cc870b770" class="code"><code>void print_string(void)
+{
+    char chars[] = &quot;I want to be the best C programmer&quot;;   /* 문자열 변경 */
+    const size_t NUM_CHARS = 33;                           /* 배열의 길 오류 */
+
+    size_t;
+    for (i = 0; i &lt; NUM_CHARS; ++i) {
+        printf(&quot;%c&quot;, chars[i]);
+    }
+}
+
+/* I want to be the best C programme */</code></pre><h3 id="47b4146e-f572-4bef-96de-ac33a797dd17" class="">문자열 길이 문제 해결방법 1 : 길이를 배열 첫 위치에 저장</h3><ul id="89cb7719-98e4-4f81-b182-4aa7f5d6e0a8" class="bulleted-list"><li style="list-style-type:disc">첫 메모리 위치에 문자열 길이를 저장하고, 실제 문자열이 뒤 따라오게 함<ol type="1" id="149ff0ed-bc0f-46b4-985b-4c8f4a119fc3" class="numbered-list" start="1"><li>unsigned char로 길이를 저장하기엔 너무 짧음 → 최대 255자</li></ol><ol type="1" id="a52a6377-d09c-4c2e-b6dd-c2eeaebd055d" class="numbered-list" start="2"><li>int로 길이를 저장하고, 그 뒤의 문자들은 char로 저장</li></ol></li></ul><ul id="3fb9170a-5cbd-421a-ac81-d11a61840672" class="bulleted-list"><li style="list-style-type:disc">첫 주소만 봐도 총 글자수를 알 수 있음</li></ul><ul id="a21f9580-a0cb-4744-8b04-e48cbdeef10a" class="bulleted-list"><li style="list-style-type:disc">다른 언어들은 보통 이 방식을 이용하여 문자열의 길이 저장하기 때문에 문자열의 크기를 바로 알 수 있었음<pre id="eaaabf2c-c80e-47ad-a903-ac675c34b203" class="code"><code>C#
+string message = &quot;Hello&quot;;
+Console.WriteLine($&quot;message len: {message.Length}&quot;);</code></pre></li></ul><ul id="efa50156-a07c-490c-9445-c440d5510768" class="bulleted-list"><li style="list-style-type:disc">단점<ul id="fe0c3a0a-3f96-4804-b611-c035ca439396" class="bulleted-list"><li style="list-style-type:circle">글자 하나가 1바이트인데 길이 저장에 4바이트를 쓰는 것은 비효율적 → 이러한 방식은 클래스 또는 구조체에서 쓰는 방법</li></ul><ul id="46a31c3c-f1f7-41a2-926b-82b99de63392" class="bulleted-list"><li style="list-style-type:circle">순수 C코드로 어떻게 작성할지 애매함<p id="495a4314-5974-4c87-b44e-7d683f3af184" class="">첫 데이터는 <code>int*</code>로 캐스팅해서 읽고 그 다음부터는 <code>char*</code>로 읽어야함</p><p id="767dddad-c997-4cc8-9a9f-ba5d2c906530" class="">물론 디스크로부터 이진파일을 통째로 메모리에 읽어오면 이런 식으로 접근하기는 함</p><p id="29d29623-0ac8-421f-8165-62a3522edb8a" class="">그러나 이걸 언어 기본으로 한다는 생각 자체가 힘듬</p><pre id="a226a548-e2b6-4b1b-9eef-d1e9a95a22fc" class="code"><code>char array[9]; /* 길이 5와 문자열 &quot;Hello가 적혀있음 */
+
+int* len = (int*)&amp;array[0];
+char* str = &amp;array[4];</code></pre></li></ul></li></ul><h3 id="a30a0512-a410-4e36-9cf5-43bfa5a0d39e" class="">문자열 길이 문제 해결방법 2 : 문자열이 끝나는 위치를 표시</h3><ul id="9feadefc-823d-4d4f-9958-8aa4286a7063" class="bulleted-list"><li style="list-style-type:disc">그냥 <code>char[ ]</code>만 쓰되 그 문자열이 끝나는 위치에 특수한 문자를 두는 방법<p id="4bbb566e-4ed3-4a12-8c2d-b435ed50fa8e" class="">⇒ 배열에서 값을 찾을 수 없으면 존재할 수 없는 색인 -1을 반환하는 방식과 마찬가지</p><pre id="5aeb20b4-69ae-43f5-b6c7-c77bc661a2e4" class="code"><code>size_t index_of(const char* str, char c)
+{
+    /* str 안에 c가 있으면 해당 색인 */
+
+    /* 없으면 -1 */
+    return -1&#x27;
+}</code></pre></li></ul><ul id="0d2a40aa-2039-438c-8706-bae95743d1a1" class="bulleted-list"><li style="list-style-type:disc">아스키코드 중에 화면에 출력되지 않는 특수한 문자들이 있음<p id="96681f45-856d-427e-8fac-80aad5ca2369" class="">⇒ 제어 문자(control character) : 0~31, 126</p></li></ul><ul id="e74e22e7-9268-43ae-bfb9-1068e7023004" class="bulleted-list"><li style="list-style-type:disc">그 중 하나가 바로 0<p id="a5f1565f-303f-4d24-876d-86e73e58e1b4" class="">⇒ <strong>널 문자(null character, 널 캐릭터)</strong>라고 불림</p></li></ul><pre id="2df6b925-5d78-45c4-a8a3-4570499b5738" class="code"><code>char null_char = &#x27;\0&#x27;;</code></pre><ul id="7e1d4a69-76e9-4c3a-a4ea-c366e333a6f7" class="bulleted-list"><li style="list-style-type:disc">0은 숫자 영</li></ul><ul id="dea99c17-c9b1-409c-9bf0-1cb69ffbccb3" class="bulleted-list"><li style="list-style-type:disc">\는 이스케이프 문자</li></ul><ul id="3937785a-6c72-4fad-98a7-c4643d2a27e5" class="bulleted-list"><li style="list-style-type:disc">아스키코드로 0이니 <code>char null_char = 0;</code>으로 작성은 가능하지만 읽기 쉽게 &#x27;<code>\0</code>&#x27;으로 써주는 것이 좋음</li></ul><h2 id="534567d3-a80a-478c-8818-dc2d5e4dcbb1" class="">C 스타일 문자열</h2><ul id="30084161-ebbc-4e51-b1e2-b7a95ef1882c" class="bulleted-list"><li style="list-style-type:disc"><code>char[ ]</code>로만 구성</li></ul><ul id="6348fe29-89d8-4a4f-8cb0-a92f7de28285" class="bulleted-list"><li style="list-style-type:disc">문자열이 끝나는 곳에 널 문자를 붙임</li></ul><ul id="b36d80c6-ec1b-4eec-b537-f158ef6aea8c" class="bulleted-list"><li style="list-style-type:disc">아래 두 코드는 저장 위치 외에는 동일<pre id="53cc154e-015c-40f0-8d18-1d1e6a4e54ca" class="code"><code>char str1[] = &quot;abc&quot;;  /* 스택에 &quot;abc&quot; 저장 */
+char* str2 = &quot;abc&quot;;   /* 데이터 섹션에 &quot;abc&quot; 저장 */</code></pre><p id="039ef017-8b52-4fdb-b093-687617df3e99" class="">⇒ 문자열 뒤에 별도로 &#x27;<code>\0</code>&#x27;을 넣지 않아도 컴파일러가 알아서 넣어줌</p><p id="91cd3bec-45dc-46eb-a7f0-3fecb6c5d742" class="">⇒ <code>char*</code>를 이용할 땐 데이터 섹션에 배열이 들어가므로 반드시 <code>const</code>를 써주는 것이 좋음</p></li></ul><ul id="d0339e22-4044-4c92-bd52-6ef4882cfdaa" class="bulleted-list"><li style="list-style-type:disc">아래의 경우 &#x27;<code>\0</code>&#x27;을 넣어주지 않음<pre id="8cd083d7-274e-47f7-b65a-939ad4e2fa20" class="code"><code>char str[] = { &#x27;a&#x27;, &#x27;b&#x27;, &#x27;c&#x27; };</code></pre><p id="da160814-a681-48d9-95ac-4f089a36f134" class="">⇒ 이 경우는 보통 문자열이 아닌 charater를 배열로 쓸 때 사용</p></li></ul><h3 id="04be9b84-1191-496c-ba41-4612d7eea814" class="">C 스타일 문자열 예시</h3><pre id="99b3f6a7-f996-4b0e-b80d-c4de032f6b63" class="code"><code>const char str[] = &quot;HONG&quot;;
+printf(&quot;str length: %d\n&quot;, sizeof(str));
+
+/* str length : 5 */</code></pre><ul id="2e2cfb9a-95f1-4eb7-9ff2-4c268fef08e5" class="bulleted-list"><li style="list-style-type:disc">문자열의 길이는 4</li></ul><ul id="cd24ea1c-31a2-4526-b3e9-486b5e52fd9e" class="bulleted-list"><li style="list-style-type:disc">배열의 길이는 최소한 5 (언제나 배열에 널 문자도 포함되어 있음)<p id="3adf3b8c-df2e-4306-8a03-5f493b2ec2e0" class="">⇒ 최소한 : 배열을 실제 크기보다 크게 잡고 널 문자를 마지막에 넣는 경우가 흔함</p></li></ul><h3 id="e6b93a68-4918-4475-bade-fe77b2933436" class="">C 스타일 문자열의 장단점</h3><ul id="fa84c894-1d13-480e-a071-4683e25fcb30" class="bulleted-list"><li style="list-style-type:disc">장점<ul id="71d59e93-fe8a-4137-a982-907055ec1638" class="bulleted-list"><li style="list-style-type:circle">가장 최소한의 메모리</li></ul><ul id="1ddec728-0992-4430-ae39-27d4c9f914a3" class="bulleted-list"><li style="list-style-type:circle">한 가지의 데이터형으로 문자열과 길이를 다 표현</li></ul></li></ul><ul id="1b8d0d22-15a5-44f7-9dc5-5034aee864d4" class="bulleted-list"><li style="list-style-type:disc">단점 <ul id="1cdcfe9d-1778-4e11-b948-aa11fff58ce8" class="bulleted-list"><li style="list-style-type:circle">어떤 문자열의 길이를 알려면 배열을 끝까지 훑어야함. O(N)</li></ul></li></ul><h2 id="51b70614-dba5-4aa4-9a43-3650ff2c9156" class="">문자열 길이 구하기</h2><p id="14c7bc97-cbe7-4411-9e91-83a8acdc492b" class="">⇒ 스스로 작성할 수 있어야함! 매우 흔한 기초 면접문제! 못 맞추면 곧바로 탈락각..</p><h3 id="dfa3ec56-b8f4-4d4d-9da2-05c5a92d8bc7" class="">문자열 길이를 위한 기본 개념</h3><p id="fa609032-f892-4c7b-9945-566aead40435" class="">1) char 배열의 요소를 처음부터 차례로 읽음</p><p id="ddfeedba-78af-4576-baaf-0dda2e3ad8ac" class="">2) 널 문자를 만나면 멈춤</p><p id="50da606f-17fc-419c-b054-c95fedce2ab4" class="">3) 여태까지 총 몇 개의 char를 방문했는지 카운트하여 반환<div class="indented"><pre id="fa08580c-9844-46a0-a633-9a8b9b282ec7" class="code"><code>size_t get_string_length(const char* str)
+{
+    size_t i;
+    for (i = 0; str[i] != &#x27;\0&#x27;; ++i) {
+    }
+    
+    return i;
+}</code></pre><p id="b67d906c-f52e-4f0b-aa8f-69752e560ff0" class="">⇒ 이 경우 반복문의 매 회차마다 시작주소 + i 만큼 점프</p><pre id="7a59ea62-9835-445d-a3ff-e66743fbd1a5" class="code"><code>/* 코드 1 */
+
+size_t get_string_length(const char* str)
+{
+    const char* p = str;
+
+    while (*p++ != &#x27;\0&#x27;) {
+    }
+    
+    return p - str - 1;         /* p에서 시작위치(str)을 빼줌, -1은 널 캐릭터 */
+}
+
+/* 코드 2 */
+
+size_t get_string_length(const char* str)
+{
+    size_t count = 0;
+    const char* p = str;
+
+    while (*p++ != &#x27;\0&#x27;) {
+        ++count;
+    }
+    
+    return count;
+}</code></pre><p id="5bb4bdbf-b15d-4938-aa68-8d85fdab48ed" class="">⇒ 포인터를 이용한다면 조금 더 효율적인 코드 작성 가능</p></div></p><h3 id="4d6480ce-248b-4e7b-8d71-db16a42f4d17" class="">문자열 길이 함수 : strlen()</h3><pre id="d71f8fda-e653-4ad5-83d4-2315f508c10b" class="code"><code>size_t strlen(const char* str);</code></pre><ul id="36941b98-f2f3-4f8c-8472-1d95231ef5e3" class="bulleted-list"><li style="list-style-type:disc"><code>&lt;string.h&gt;</code>를 인클루드하면 사용할 수 있음</li></ul><ul id="6b22b073-e6df-4043-8e92-ed791e603614" class="bulleted-list"><li style="list-style-type:disc">위에서 만든 코드와 거의 유사함</li></ul><h3 id="94f310c3-89e0-435b-8a06-a23628e83e82" class="">strlen 함수 사용시 가능한 실수 예제</h3><pre id="8e38fb70-4129-4d61-9b39-c5d40dff315a" class="code"><code>char str[] = { &#x27;P&#x27;, &#x27;O&#x27;, &#x27;C&#x27;, &#x27;U&#x27; }
+size_t len;
+
+len = strlen(str);
+printf(&quot;%d\n&quot;, len);
+
+/* 19 -&gt; 잘못된 값 */</code></pre><pre id="889678a9-a2a8-429e-b7b3-52d1c4a7e1f0" class="code"><code>#define BUFFER_LENGTH (4)
+
+char str[BUFFER_LENTH];
+size_t len;
+
+str[0] = &#x27;P&#x27;;
+str[1] = &#x27;O&#x27;;
+str[2] = &#x27;C&#x27;;
+str[3] = &#x27;U&#x27;;
+
+len = strlen(str);
+printf(&quot;%d\n&quot;, len);
+
+/* 13 -&gt; 잘못된 값 */</code></pre><p id="ab532948-3969-4f2a-b297-c15e07ce69ee" class="">⇒ 문자열의 맨 끝이 &#x27;<code>\0</code>&#x27;으로 끝나지 않아서 발생하는 문제들임</p><ul id="00d1cff9-3a6a-43de-8af5-050eaae2ddc7" class="bulleted-list"><li style="list-style-type:disc">외부에서 들어오는 문자열을 읽을 땐 조심해서 읽어야함</li></ul><ul id="b0105d53-2144-40e4-b44a-df686e28ac28" class="bulleted-list"><li style="list-style-type:disc">C11의 <code>strlen_s()</code> 함수가 이 문제을 해결하기도 함</li></ul><ul id="4e9547b7-94ad-4acd-88c1-581909965333" class="bulleted-list"><li style="list-style-type:disc"><code>strlen(str)</code>은 그냥 읽는거니 안전할 수도 있음 → 물론 아닐 수도 있음<p id="dc3dadf2-b8eb-4dc8-ba68-819be4945c37" class="">⇒ 나중에 &#x27;<code>/0</code>&#x27;이 나오지 않아 하드웨어가 보호하는 메모리를 읽는 경우 심각한 오류가 발생</p></li></ul><h2 id="6f14d219-4836-400f-9905-3bae687e2f8d" class="">문자열의 비교 : compare_string()</h2><pre id="57c00cdb-6ae8-4e30-a954-c3fca02e18df" class="code"><code>_______ compare_string(cost char* str0, const char* str1);</code></pre><ul id="30d428e9-4ece-464c-b76a-05e7d6080a90" class="bulleted-list"><li style="list-style-type:disc">두 문자열 비교를 위한 매개변수는 두 문자열 포인터</li></ul><ul id="3ba0569c-5083-4bd8-ad1b-c0f92b005fdc" class="bulleted-list"><li style="list-style-type:disc">반환형은 아직 미정</li></ul><ul id="b37ea528-d67b-4d0b-9b59-e5c3c019d3e0" class="bulleted-list"><li style="list-style-type:disc">단순히 같다/틀리다를 비교하는 것이 아님</li></ul><ul id="7aa4075f-71f7-45a8-b76f-8cb0fb42c372" class="bulleted-list"><li style="list-style-type:disc">사전식 순서(lexicographical order)로 &#x27;어떤 문자의 아스키코드가 더 작냐/크냐/같냐/&#x27;를 판별</li></ul><h3 id="4cd2a259-6e4d-40ae-9f27-282e646e10ce" class="">사전식 순서의 예</h3><p id="87c6aeb3-3739-46b6-bbd1-eaadb4058f1a" class="">1) ABCD는 ABCE보다 작음</p><p id="bb9e4eeb-f9d4-4238-8812-72899e5ce792" class="">2) abcd는 ABCD보다 큼</p><p id="4f2dbad6-578e-43c8-8c79-35635675c917" class="">3) ABC는 ABCEFG보다 작음<div class="indented"><p id="1bdf410a-23e4-4445-a948-97255ca5450d" class="">Why? 길이가 짧음 (ABC의 숨겨진 마지막 문자인 널문자와 ABCEFG의 E와 비교한다고 생각 가능)</p></div></p><p id="d187ea6d-3af1-49af-967d-7bd06a6e1536" class="">4) abcd는 abcd와 같음</p><h3 id="0f91e972-d32d-459c-aacf-d31074774141" class="">compare_string()의 반환값</h3><pre id="fd4638f6-1820-4102-9481-ac309e9de65a" class="code"><code>int compare_string(const char* str0, const char* str1);</code></pre><ul id="9b6b30ef-be69-4ba7-aed9-ccaea8441524" class="bulleted-list"><li style="list-style-type:disc">같으면 0</li></ul><ul id="082d02ca-dca9-43cc-809f-8d229a75f329" class="bulleted-list"><li style="list-style-type:disc">좌항이 작으면 &lt; 0</li></ul><ul id="ceb64fc5-45f8-45b4-a69d-2d921aa16cf0" class="bulleted-list"><li style="list-style-type:disc">좌항이 크면 &gt; 0</li></ul><ul id="ce8ba871-9d9f-4dcb-a4c5-fd1e3d24e691" class="bulleted-list"><li style="list-style-type:disc">음수도 반환하니 반환형은 int</li></ul><h3 id="2749f621-0de4-439a-a78b-f112a8d72050" class="">더 효율적인 문자열 비교 함수 작성하기</h3><pre id="34b5de93-ae94-4eae-9143-0e55aa156475" class="code"><code>/* 방법 1 */
+
+int compare_string(const char* str0, const char* str1)
+{
+    while (*str0 != &#x27;\0&#x27; &amp;&amp; *str0 == *str1) {               
+    /* *str0 != &#x27;\0&#x27;과 *str1 != &#x27;\0&#x27; 둘 중 하나만 넣어도 조건이 성립됨 */
+        ++str0;
+        ++str1;
+    }
+
+    return *str0 - *str1
+}</code></pre><pre id="cba3243d-ab32-414e-87fb-294c047cdff9" class="code"><code>/* 방법 2 */
+
+int compare_string(const char* str0, const char* str1)
+{
+    while (*str != &#x27;\0&#x27; &amp;&amp; *str0 == *str1) {
+        ++str0;
+        ++str1;
+    }
+
+    if (*str0 == *str1) {
+        return 0;
+    }
+
+    return *str0 &gt; *str1 ? 1 : -1;
+}</code></pre><ul id="62d26acd-1796-41b8-951e-ddee28550e69" class="bulleted-list"><li style="list-style-type:disc">문자열 비교 함수는 왠지 if문이 많을 것 같지만 간단하게 작성이 가능함</li></ul><pre id="67b6f7a5-8a12-4123-92dd-586d6d8e71ca" class="code"><code>int compare_string(const char* str0, const char* str1)
+{
+    size_t i;
+    size_t len0 = strlen(str0);
+    size_t len1 = strlen(str1);
+
+    if (len0 != len1) {
+        for (i = 0; i &lt; min(len0, len1); ++i) {
+            /* 달라지면 str0[i] - str1[i] 반환 */
+        }
+        /* len0, len1에 따라 -1 또는 1 반환 */
+    }
+
+
+    for (i = 0; i &lt; len0; ++i) {
+        /* 달라지면 str0[i] - str1[i] 반환 */
+    }
+    return 0;
+}</code></pre><ul id="9965b674-879e-4823-a4a6-cb1ff17cac03" class="bulleted-list"><li style="list-style-type:disc">위의 코드는 <code>strlen()</code>을 구하는 과정에서 for문을 사용하기 때문에 불필요하게 for문을 여러 번 돌려 원하는 반환값을 구해냄 → 한번의 for문으로 가능한 것을 굳이 느리게 할 필요없음</li></ul><h3 id="333116b3-739e-45d5-b62d-198369969af1" class="">문자열 비교 함수 1 : strcmp()</h3><pre id="db73174b-a916-417c-968c-3918d45a1ae2" class="code"><code>int strcmp(const char* lhs, const char*, rhs);</code></pre><ul id="dfa16303-483b-4ed5-ba4c-afed58b18dad" class="bulleted-list"><li style="list-style-type:disc"><code>&lt;string.h&gt;</code>를 인클루드하면 사용할 수 있음</li></ul><pre id="4994a8d0-0a48-4ac9-9092-2770c8a63440" class="code"><code>#include &lt;string.h&gt;
+
+const char* str1 = &quot;AB&quot;;
+const char* str2 = &quot;AD&quot;;
+int result = strcmp(str0, str1);</code></pre><h3 id="7b084f7f-ac82-4f47-9820-101e46763760" class="">문자열 비교 함수 2 : strncmp()</h3><pre id="50192144-0a84-400f-a583-6b99c20ca73f" class="code"><code>int strncmp(const char* lhs, const char* rhs, size_t count);</code></pre><ul id="fd409e3d-c739-44a1-9064-c960ea6f5350" class="bulleted-list"><li style="list-style-type:disc">최대 n문자까지만 비교</li></ul><h3 id="7eae1a65-b7d3-4bf9-8d8b-015c8a51583e" class="">대소문자 구분 없는 문자열 비교</h3><pre id="f51801c9-a90e-4360-93bc-7930354ee873" class="code"><code>#incldue &lt;ctype.h&gt;
+
+#include &quot;string_utils.h&quot;
+
+int string_case_insensitive_compare(const char* str0, const char* str1)
+{
+    int c1;
+    int c2;
+
+    c1 = tolower(*str0);
+    c2 = tolower(*str1);
+
+    while (c1 != &#x27;\0&#x27; &amp;&amp; c1 == c2) {
+        c1 = tolower(*++str0);
+        c2 = tolower(*++str1);
+    }
+    
+    if (c1 == c2) {
+        return 0;
+    }
+    
+    return c1 &gt; c2 ? 1 : -1;
+}</code></pre><h2 id="f63dcf9b-60a8-4340-a9b7-f0e6c4cb1c97" class="">문자열 복사</h2><pre id="54c3e5ef-0b74-4a12-87e4-a01ff7bb93c3" class="code"><code>void copy_string(char* dest, const char* src)
+{
+    while (*src != &#x27;\0&#x27;) {
+        *dest++ = *src++;
+    }
+    
+    *dest = &#x27;\0&#x27;;
+}
+
+/* 다른 함수 */
+const char* str1 = &quot;Pope&quot;
+char str2[5];
+
+copystring(str2, str1);</code></pre><h3 id="b404e4a5-8eba-4040-b631-5818c8a577fd" class="">문자열 복사 함수 1 : strcpy()</h3><pre id="b190b694-4f9c-481e-adaa-434c621338be" class="code"><code>char* strcpy(char* dest, const char* src);</code></pre><ul id="1839d92c-037b-4264-a92d-bc4b65119e3e" class="bulleted-list"><li style="list-style-type:disc"><code>&lt;string.h&gt;</code>를 인클루드하면 사용할 수 있음</li></ul><ul id="8079835c-2a41-48be-a456-e89b259046f0" class="bulleted-list"><li style="list-style-type:disc">반환값 <code>char*</code>는 <code>dest</code>를 반환 → 왜 그런지는 알 수 없음, 실제로 아무도 안 씀</li></ul><ul id="35c5ad76-b266-45d5-a5e4-cef61d7095e1" class="bulleted-list"><li style="list-style-type:disc">C11에서 나온 <code>strcpy_s()</code>는 <code>errno_t</code>를 반환<pre id="18edfb43-0b49-4003-b433-06143cafd74f" class="code"><code>/* C11 */
+errno_t strcpy_s(char *restrict dest, resize_t destsz, const char *restrict src);</code></pre></li></ul><h3 id="d72f4386-8bf4-4399-b912-8cabb2d12468" class="">dest가 src보다 짧으면</h3><pre id="770889e3-922b-41b4-abf1-f8183b1b251c" class="code"><code>const char* str1 = &quot;Pope&quot;;
+char str2[3];
+
+string_copy(str2, str1);</code></pre><ul id="b746dce0-e6b9-4d32-b545-003c8b4c0a69" class="bulleted-list"><li style="list-style-type:disc">남은 메모리에 덮어써버림 → 매우 위험한 함수</li></ul><ul id="ae7b4eef-97d1-4fa7-a0a6-5680131c77cd" class="bulleted-list"><li style="list-style-type:disc">단, <code>src</code>와 <code>dest</code>의 크기가 확실하게 통제 가능하다면 안전</li></ul><ul id="93cccce0-132f-4bf3-9b9c-e8b7d25db874" class="bulleted-list"><li style="list-style-type:disc">C11에서 이보다 안전한 <code>strcpy_s()</code>라는 함수가 나옴</li></ul><h3 id="47a852b9-49de-490e-999e-febad1c4dcf7" class="">문자열 복사 함수 2 : strncpy()</h3><p id="aa962e0d-a980-4f9c-aec3-6d569d2a1eb0" class="">⇒ C89에서 그나마 안전한 문자열 복사 함수</p><pre id="1afeff7b-2f21-4d63-9e11-fe214af67f1e" class="code"><code>char* strncpy(char* dest, const char* src, size_t count);</code></pre><ul id="06576ef4-0ada-4492-a69b-4b2e918d8822" class="bulleted-list"><li style="list-style-type:disc">최대 count만큼 복사 / 널 문자를 먼저 만나면 그 전에 끝냄</li></ul><ul id="69608c46-778f-4780-848a-2a64152a3fac" class="bulleted-list"><li style="list-style-type:disc">src가 count보다 짧으면 남은걸 다 0 (&#x27;<code>\0</code>&#x27;)으로 채워줌</li></ul><ul id="41de0a60-fa4d-41de-bf40-7439d03fd869" class="bulleted-list"><li style="list-style-type:disc">src가 count보다 길거나 같다면 count만큼 복사함 → 널 문자 붙일 곳 없음</li></ul><pre id="921efcf4-b2e5-44fe-81d4-0554b12f32ea" class="code"><code>strncpy(dest, src, DEST_SIZE);
+dest[DEST_SIZE -1] = &#x27;\0&#x27;;</code></pre><ul id="efab4042-c892-4806-84ff-793aa61d010f" class="bulleted-list"><li style="list-style-type:disc"><strong>비교적 안전한 프로그래밍을 위해 언제나 코드 한 줄을 추가</strong></li></ul><ul id="ec6a3d1b-5801-4646-8cca-ff199577da1b" class="bulleted-list"><li style="list-style-type:disc">0이 앞에 붙으면 어차피 멈춤</li></ul><ul id="569f71e8-4fe6-4523-9931-3f06880315b7" class="bulleted-list"><li style="list-style-type:disc">안 붙었으면 맨 마지막에 널 문자를 붙여줌</li></ul><h3 id="f05130be-60c1-447f-b914-4fac1ae4fa7a" class="">정리 : strcpy()와 strncpy()</h3><ol type="1" id="c0267a99-e8a5-44f9-8f73-0ad2bcf54ce0" class="numbered-list" start="1"><li><code>strcpy()</code><ul id="f7319cbd-5c62-4adf-9545-d54cfb416e15" class="bulleted-list"><li style="list-style-type:disc">위험할 수 있는 함수</li></ul><ul id="af1c37c7-9bfe-4b44-a8c2-0dda57d49558" class="bulleted-list"><li style="list-style-type:disc">dest 크기 &lt; src 크기 : 잘못된 메모리 쓰기 발생</li></ul><ul id="803b0a60-e29e-47ac-aea2-9da53bb9b417" class="bulleted-list"><li style="list-style-type:disc">두 크기를 확실히 통제 가능하다면 안전</li></ul></li></ol><ol type="1" id="52a20ce0-dcc4-4b3c-9f2f-ae68eb333041" class="numbered-list" start="2"><li><code>strncpy()</code><ul id="886791cd-37d0-4725-a7f8-a4cc3607eb16" class="bulleted-list"><li style="list-style-type:disc">strcpy( )보다 안전</li></ul><ul id="38d4eb3d-0bc7-40fd-a824-6b231a9456e6" class="bulleted-list"><li style="list-style-type:disc">덜 빠름 → dest의 남은 요소를 0으로 채우기 때문</li></ul><ul id="a0f52898-13be-4166-a561-1860bcffd54d" class="bulleted-list"><li style="list-style-type:disc">여전히 위험한 경우가 있음<p id="b4bd1ea6-be59-4b10-9b98-eb4e847e4737" class="">count보다 src가 긴 경우 : 다 복사하고 널 문자가 없음 → 프로그래머가 널 문자를 넣어주는 한줄 코드가 필요함</p></li></ul></li></ol><h2 id="3990ffb7-80da-4767-a44f-f88ecfb251f5" class="">문자열 합치기</h2><h3 id="632359b1-b1bf-4b0f-8de4-fcec79329660" class="">문자열 합치기 함수 1 : strcat()</h3><pre id="6dd79348-96a5-44b2-9315-9d525a8fc5f8" class="code"><code>char* strcat(char* dest, const char* scrc);</code></pre><ul id="1edfd70e-2171-42aa-8dc6-ea1ce266144d" class="bulleted-list"><li style="list-style-type:disc"><code>&lt;string.h&gt;</code>안에 있음</li></ul><ul id="653f2c4b-29be-45e3-87bc-7b80ca0e3d7a" class="bulleted-list"><li style="list-style-type:disc"><code>src</code>의 문자열을 <code>dest</code> 뒤에 덧붙이는 함수 (<code>dest</code>의 널 문자 위치부터 <code>src</code>의 문자열 추가)<p id="f828651f-8da1-4aa7-9d16-90e9a55f2670" class="">⇒ <code>dest</code>의 널 문자가 <code>src[0]</code>로 교체</p></li></ul><ul id="578c196e-93e3-4559-b6bf-70e16de3a05e" class="bulleted-list"><li style="list-style-type:disc"><code>dest</code>의 길이가 충분해야함<p id="0d7a1534-3e20-4d47-99eb-d8ef71b11673" class="">⇒ 이 길이를 넘어 쓸 경우 정의되지 않은 결과 발생</p></li></ul><h3 id="c437c446-6add-497a-8375-720b8ddfbcd0" class="">문자열 합치기 함수 2 : strncat()</h3><pre id="161a491f-de8c-466f-b5c5-12af91774622" class="code"><code>char* strncat(char* dest, const char* src, size_t count);</code></pre><ul id="a200ed8a-4212-4024-95ae-62b214bdfd33" class="bulleted-list"><li style="list-style-type:disc"><code>strcat()</code>보다 조금 더 안전한 함수</li></ul><ul id="c50fc9bb-14ca-4279-ad34-22cfe4692c09" class="bulleted-list"><li style="list-style-type:disc"><code>&lt;string.h&gt;</code>안에 있음</li></ul><ul id="f61851bb-c140-451b-b800-2ba72ca596ae" class="bulleted-list"><li style="list-style-type:disc"><strong>최대 count의 수만큼 </strong><code>src</code><strong>문자열</strong>을 <code>dest</code> 뒤에 덧붙이는 함수</li></ul><ul id="c5f4e508-87a3-4e65-bcc2-b8da7f0e1132" class="bulleted-list"><li style="list-style-type:disc">count개의 문자를 복사한 뒤, 널 문자를 가장 마지막에 붙여줌<p id="71d65e96-f15f-46ca-b971-90e9f63680d8" class="">⇒ 따라서 <strong>최대 count +1 개</strong>의 문자를 덮어씀</p></li></ul><pre id="3d8fbcec-6271-495a-92a6-c22ef24f1087" class="code"><code>#define DEST_COUNT (20)
+
+const char* src = &quot;HONG&quot;;
+char dest[DEST_COUNT] = &quot;HI &quot;;
+
+strncat(dest, src, DEST_COUNT - strlen(dest) - 1);</code></pre><ul id="4ea0151e-dfea-4a74-8b26-08ed4fb1cc7d" class="bulleted-list"><li style="list-style-type:disc"><code>dest</code>의 길이보다 길게 쓰면 마찬가지로 정의되지 않은 결과 발생<ul id="f52c6013-0b6f-4cee-9e6c-97afd1ec3bca" class="bulleted-list"><li style="list-style-type:circle">그러나 count로 이러한 경우가 발생하지 않도록 프로그래머가 제어 가능</li></ul><ul id="0c53a3a1-d7e4-4f66-bc2d-348b3b657546" class="bulleted-list"><li style="list-style-type:circle">따라서 <code>strcat()</code>보다는 조금 더 안전</li></ul></li></ul><h3 id="8b8b8ac3-521a-45d4-9cbe-ff1e33e6779e" class="">정리 : strcat()와 strncat()</h3><ol type="1" id="afa05b91-e225-4de9-a161-fb7e7b0ed226" class="numbered-list" start="1"><li><code>strcat()</code><ul id="86b5e242-f5d5-48df-a7d5-099e2dac33ed" class="bulleted-list"><li style="list-style-type:disc">위험할 수 있는 함수</li></ul><ul id="26635e9e-97fc-4009-9708-ea461299c90c" class="bulleted-list"><li style="list-style-type:disc"><code>dest</code>의 남아있는 공간 &lt; <code>src</code>의 크기 → 정의되지 않은 결과 발생</li></ul><ul id="38735dad-dc59-4817-a3d6-07c13a41373b" class="bulleted-list"><li style="list-style-type:disc">두 크기를 확실히 통제할 수 있다면 안전</li></ul></li></ol><ol type="1" id="f36a990d-c126-459e-bf6b-a189c2a25553" class="numbered-list" start="2"><li><code>strncat()</code><ul id="0be62402-aa9c-477d-9389-f1df9ce6ab05" class="bulleted-list"><li style="list-style-type:disc"><code>strcat()</code>보다 안전 → count로 얼만큼 붙일지 제어 가능</li></ul><ul id="68fdabc5-3632-4e6f-b08d-a1a07a69375a" class="bulleted-list"><li style="list-style-type:disc"><code>dest</code>의 남아있는 공간 &lt; count의 크기 → 정의되지 않은 결과 발생</li></ul></li></ol><p id="9ee37b61-5b89-4fb1-98c4-ca8adf040d66" class="">⇒ C11에서 이보다 안전한 <code>strcat_s()</code>, <code>strncat_s()</code> 함수가 있음</p><h3 id="54185057-1766-4b2b-9fa6-0193a43e5e33" class="">문자열 버퍼를 이용한 출력</h3><pre id="1ce6990e-37d2-448f-a037-b1b287ad19af" class="code"><code>#include &lt;stdio.h&gt;
+#include &lt;string.h&gt;
+
+#include &quot;buffered_print.h&quot;
+
+#define BUFFER_LENGTH (32)
+
+static size_t s_buffer_index = 0u;
+static char s_buffer[BUFFER_LENGTH];
+
+void buffered_print(const char* src)
+{
+    size_t num_left;
+    const char* p = src;
+
+    num_left = strlen(src);
+
+    while (num_left &gt; 0) {
+        size_t copy_count = BUFFER_LENGTH -1 - s_buffer_index;
+        
+        const int buffer_emthy = s_buffer_indes == 0;
+
+        if (num_left &lt; copy_count) {
+            copy_count = num_left;
+        }
+        
+        s_buffer_index += copy_count;
+        num_left -= copy_count;
+
+        if (buffer_emthy) {
+            strncpy(s_buffer, p, copy_count);
+            s_buffer[s_buffer_index] = &#x27;\0&#x27;;
+        } else {
+            strncat(s_buffer, p, copy_count);
+        }
+        
+        p += copy_count;
+
+        if (s_buffer_indes == BUFFER_LENGTH -1 ) {
+            printf(&quot;%s\n&quot;, s_buffer);
+            s_buffer_index = 0;
+        }
+    }
+}</code></pre><h2 id="bab66206-6d73-4aa4-ab86-293367110f54" class="">문자열 찾기</h2><h3 id="0656c332-d4c7-40fa-ab9d-c283db4d4b78" class="">없는 문자열을 찾는 경우</h3><pre id="d7e17275-041d-4d39-a91b-749f2b29349c" class="code"><code>#include &lt;string.h&gt;
+
+int main(void)
+{
+    char msg[] = &quot;I love string! I love C! I love programming!&quot;;
+    
+    char* result = strstr(msg, &quot;int&quot;);
+    printf(&quot;result: %s\n&quot;, result);
+
+    return 0;
+}</code></pre><pre id="99d3ca5d-e793-4912-8b23-51eb2cca766e" class="code"><code>#include &lt;string.h&gt;
+
+int main(void)
+{
+    char msg[] = &quot;I love string! I love C! I love programming!&quot;;
+    
+    char* result = strstr(msg, &quot;int&quot;);
+    printf(&quot;result: %s\n&quot;, result == NULL ? &quot;(null)&quot; : result);
+
+    return 0;
+}</code></pre><h3 id="b30349cc-0a45-421b-9e16-52a46d6b0f20" class="">존재하는 문자열을 찾는 경우</h3><pre id="46d21e74-568b-4471-bc0c-46c0e4ae0909" class="code"><code>#include &lt;string.h&gt;
+
+int main(void)
+{
+    char msg[] = &quot;I love string! I love C! I love programming!&quot;;
+
+    char* result = strstr(msg, &quot;string&quot;);
+    print(&quot;result: %s\n&quot;, result == NULL ? &quot;(null)&quot; : result);
+
+    return 0;
+}</code></pre><h3 id="86f64c87-3493-47e2-9a51-e7d7ab7c9043" class="">문자열 속에서 문자열 찾기</h3><pre id="654c220f-567b-415d-ac4e-f8b9f57b326b" class="code"><code>char* strstr(const char* str, const char* substr);</code></pre><ul id="9a82e87b-f058-4383-bdeb-1bf723a2fa03" class="bulleted-list"><li style="list-style-type:disc"><code>&lt;string.h&gt;</code>안에 있음</li></ul><ul id="73a86852-f4cc-4007-a276-66a20ad2394f" class="bulleted-list"><li style="list-style-type:disc">반환값 : <code>char</code> 포인터<ul id="85427fbe-cad3-43f5-9d0e-ef8578c2b9de" class="bulleted-list"><li style="list-style-type:circle"><code>substr</code>이 <code>str</code>에 있다면 : 해당 <code>substr</code>이 시작하는 주소</li></ul><ul id="eabdd7f4-c5ea-4e2b-b881-fe91c940d9df" class="bulleted-list"><li style="list-style-type:circle">substr이 str에 없다면 : 널 포인터(NULL)</li></ul></li></ul><h3 id="8cd97bb5-d6e8-49b3-a721-0c0a39c3094c" class="">문자열 찾기의 주소반환</h3><ul id="806fc980-8356-4691-9633-043326b945da" class="bulleted-list"><li style="list-style-type:disc">C#의 <code>string.IndexOf()</code>처럼 문자열의 색인을 반환하지 않고, 그렇다고 찾은 위치부터 문자열을 새로 만들어 주는것도 아닌 찾은 위치의 주소를 알려줌<p id="2ffe8dd6-6be9-41de-a4bc-515b223daf8e" class="">⇒ Why? <strong>새로운 문자열을 만들러 반환할 경우 메모리 관리 측면에서 효율적이지 못하고 실수할 수 있음</strong></p></li></ul><ul id="040fcca0-85d5-43e3-8772-167b17e4e985" class="bulleted-list"><li style="list-style-type:disc">새 문자열을 반환하려면 메모리 어딘가에 그 문자열을 복사해야함<ul id="2771c1f3-3340-4566-8e96-90ef20fed801" class="bulleted-list"><li style="list-style-type:circle">복사하는 위치가 <strong>스택</strong>이면 <pre id="bbaf360d-14c6-4379-8bc7-df63a8cc0f5b" class="code"><code>char* strstr(const char* str, const char* substr)
+{
+    /* 코드 생략 */
+    char result[] = str에서_찾은_substr_부터_나머지; /* &quot;string! I love C!&quot; */
+
+    return result;   /* 함수가 끝나는 순간 유효하지 않음 */
+}
+
+char msg[] = &quot;I love string! I love C!&quot;;
+char* result = strstr(msg, &quot;string&quot;);  /* 유효하지 않은 주소를 받음 */</code></pre><p id="7308e940-6e83-4abf-82f7-cce7c6bf0b88" class="">⇒ 함수가 끝나면 사라짐 </p><p id="bb771282-e38e-42ec-bf0d-2447ea5d30d4" class="">⇒ 반환값이 더이상 유효하지 않은 메모리 주소</p></li></ul><ul id="d4da0b7e-d626-4af1-bb85-71ba36ed5e70" class="bulleted-list"><li style="list-style-type:circle">복사하는 위치가 <strong>힙</strong>이면 (동적메모리 할당) <pre id="c0cd60e8-37b8-4b15-a4b3-d9c58a06d115" class="code"><code>char* strstr(const char* str, const char* substr)
+{
+    /* 코드 생략 */
+    char* result = malloc();   /* OS에게 메모리 할당 요청. 매우 단순화시킨 예 */
+    /* result에 &quot;string! I love C!&quot; 복사 */
+    return result;   
+}
+
+char msg[] = &quot;I love string! I love C!&quot;;
+char* result = strstr(msg, &quot;string&quot;);   /* 유효한 주소를 받음 */
+free(result);                           /* 더이상 사용 안하면 반드시 호출해야 함 */</code></pre><p id="81ef844c-2bcb-4bca-b548-d3aebcbcbba8" class="">⇒ 메모리 할당을 운영체제에게 부탁해야하므로 느림</p><p id="02b17e6b-1020-499d-91bb-5b32960a52bf" class="">⇒ 더이상 사용하지 안 할 경우 프로그래머가 직접 메모리 해제 함수를 호출해야하는데 깜빡 잊고 하지 않을 수도 있음</p></li></ul></li></ul><ul id="7f72af3a-ef23-4c5e-b9a9-fccc02fb690e" class="bulleted-list"><li style="list-style-type:disc">그냥 원본에서 찾고자 하는 문자열이 시작하는 주소를 반환하는 것로 간단하게 해결</li></ul><ul id="8c783ff3-f968-4acc-bb6b-6c0eec93186c" class="bulleted-list"><li style="list-style-type:disc">추가적으로 메모리를 쓰지도 않고, 사람이 저지를 수 있는 실수도 줄일 수 있음</li></ul><h2 id="74d485bd-c269-46f2-b169-f6e4a923f035" class="">문자열 토큰화</h2><pre id="4447c364-dfe7-4a4f-9ec7-0266abbe62a8" class="code"><code>char* strtok(char* str, const char* delims);</code></pre><ul id="0361ad22-7dcc-4133-82bb-7e9e69e26c14" class="bulleted-list"><li style="list-style-type:disc">C의 토큰화 함수는 지금까지 본 문자열 함수처럼 <strong>새로운 메모리에 할당 안함</strong></li></ul><pre id="4322c045-1b5a-48d5-87b8-cb6d238f44e0" class="code"><code>char msg[] = &quot;Hi, there. Hello. Bye&quot;;
+const char delims[] = &quot;,. &quot;
+
+char* token = strtok(msg, delims);
+while (token != NULL) {
+    printf(&quot;%s\n&quot;, token);
+    token = strtok(NULL, delims);
+}
+
+/*
+Hi
+there
+Hello
+Bye
+*/</code></pre><ul id="f903e4fe-382a-4fe4-9473-c38ff142e446" class="bulleted-list"><li style="list-style-type:disc">토큰화를 시작하려면 문자열(msg)를 <code>strtok()</code>에 넣음</li></ul><ul id="cb87808a-5974-40c8-b48e-d7c9df4a9d08" class="bulleted-list"><li style="list-style-type:disc">그 msg의 다음 토큰을 구하려면 대신 <code>NULL</code></li></ul><ul id="76f2ebc7-2077-40a7-9364-c453d4d8112a" class="bulleted-list"><li style="list-style-type:disc">더 이상 토큰이 없다면 <code>strtok()</code>은 <code>NULL</code>을 반환</li></ul><ul id="7ff1d4eb-a205-46b3-8a73-39de01252032" class="bulleted-list"><li style="list-style-type:disc">두 가지 포인트<p id="57a4978d-605f-4e4a-af4f-fb6daf6e5fb7" class="">1) 토큰화 하는 문자열은 <code>const</code>가 아님! → <strong>원본이 바뀜</strong></p><p id="db3305bc-d065-479d-85d4-385eb8ef3358" class="">2) 함수 매개변수로 <code>NULL</code>이 들어올 때 그 전에 받았던 msg를 사용하니 이건 어딘가에 저장되어 있어야 함</p></li></ul><ul id="3bef4769-26cd-453f-a67a-4795eec0e755" class="bulleted-list"><li style="list-style-type:disc">C11에 안전한 버전의 함수가 들어옴 → strtok_s( )</li></ul><h2 id="217f1970-9d61-4652-a78b-547ec3d834fb" class="">&lt;string.h&gt;에 있는 문자열 함수들</h2><ul id="aae8c54d-984c-46e4-ba70-9c5a86c7ae9f" class="bulleted-list"><li style="list-style-type:disc"><code>strlen()</code></li></ul><ul id="b4b6ea86-e152-4410-9ae0-55b59da52a3d" class="bulleted-list"><li style="list-style-type:disc"><code>strcmp()</code> / <code>strncmp()</code></li></ul><ul id="62c599c3-a124-4c39-b0bf-95f657dc86c0" class="bulleted-list"><li style="list-style-type:disc"><code>strcpy()</code> / <code>strncpy()</code></li></ul><ul id="1397d7cc-07ee-430b-9a57-07f6d0756130" class="bulleted-list"><li style="list-style-type:disc"><code>strstr()</code></li></ul><ul id="5b0bdc85-4471-446b-8f9d-8acd5c551759" class="bulleted-list"><li style="list-style-type:disc"><code>strcat()</code> / <code>strncat()</code></li></ul><ul id="6068a7ec-a253-4168-b662-11c45f396ccb" class="bulleted-list"><li style="list-style-type:disc"><code>strtok()</code></li></ul><ul id="bee0e0b5-ed4a-4651-8f82-7debdf19dd6e" class="bulleted-list"><li style="list-style-type:disc">그 외 다수</li></ul><h2 id="7774d0db-7034-48d9-94df-dd51b2d65e66" class="">C 문자열 함수들의 특징</h2><ul id="ea70d31f-8294-4c76-bd8b-36bb5626ca2a" class="bulleted-list"><li style="list-style-type:disc">꽤 많은 함수들이 문자열을 절대 변경하지 않음!<p id="cb6dcd7a-1dff-4e52-84a2-2864da9cedf1" class="">⇒ <code>const char*</code> 표시 필요</p></li></ul><ul id="cbfeaff6-9dfb-4df0-b057-7e9d193bb5b7" class="bulleted-list"><li style="list-style-type:disc">문자열을 변경하더라도 원본은 변경하지 않으려 함 → 사본만 변경<p id="e4d7b02a-839e-48fa-98bb-180c9225ea29" class="">⇒ 예외 : <code>strtok()</code> → 원본을 지키려면 호출하는 함수에서 사본을 만든 뒤 <code>strtok()</code> 호출해야함</p></li></ul><ul id="e6662c42-c456-46f3-b5ac-91f4f1955600" class="bulleted-list"><li style="list-style-type:disc">절대 새로운 문자열(즉, 연속된 <code>char</code>)을 만들어주지 않음</li></ul><h2 id="08524943-2766-44f0-a969-d946dc1064b0" class="">문자열을 대문자 또는 소문자로 바꾸기</h2><pre id="913cb521-453c-4a84-b873-8174ba4447bb" class="code"><code>#include &quot;string_utils.h&quot;
+
+int is_alpha(int c)
+{
+    return (c &gt;= &#x27;A&#x27; &amp;&amp; c &lt;= &#x27;Z&#x27;) || (c &gt;= &#x27;a&#x27; &amp;&amp; c &lt;= &#x27;z&#x27;);
+}
+
+int to_upper(int c)
+{
+    if (is_alpha(c)) {
+        return c &amp; ~0x20;
+    }
+    
+    return c;
+}
+
+int to_lower(int c)
+{
+    if (is_alpha(c)) {
+        return c | 0x20;
+    }
+    
+    return c;
+}
+
+void string_toupper(char* str)
+{
+    while (*str != &#x27;\0&#x27;) {
+        *str = to_upper(*str);
+        ++str;
+    }
+}
+
+void string_tolower(char* str)
+{
+    while (*str != &#x27;\0&#x27;) {
+        *str = to_lower(*str);
+        ++str;
+    }
+}</code></pre><pre id="46823028-c270-4ccf-a426-e04ccd155261" class="code"><code>return c &amp; ~0x20;</code></pre><ul id="b1ae6a4a-3784-461a-a2cb-8b1dacee4b93" class="bulleted-list"><li style="list-style-type:disc">비트마스킹 코드</li></ul><ul id="d9f2db7a-9962-4fcf-97d3-b19e8d7f676b" class="bulleted-list"><li style="list-style-type:disc">0x20은 십진수 32 → 이것은 아스키 값으로 동일한 대문자와 소문자 간 차이 (예 : A와 a)</li></ul><ul id="fe2ee6f1-64c1-4b1f-b319-6ae320e96ae4" class="bulleted-list"><li style="list-style-type:disc">c &amp; ~0x20은 c로부터 32를 빼는 것을 의미함<p id="2a4913a2-88ad-4f5f-b3d9-b3bf404d0c9b" class="">1) a의 비트패턴 (<code>110 0001</code>) / z의 비트패턴 (<code>111 1010</code>)</p><p id="e46a8460-97fb-43c7-a969-0f2a79d1e65c" class="">2) a와 z 사이에 있는 모든 알파벳은 <code>110 0001</code>와 <code>111 1010</code> 사이의 값</p><p id="d604d028-013b-4b90-b1a9-c9914753d6c2" class="">3) 32의 비트패턴 (<code>10 0000</code>)</p><p id="2d470469-e21a-42e0-b2c4-c2bd8d909d70" class="">4) 따라서 이 숫자를 빼버리면 오른쪽으로부터 6번째ㅉ 비트를 지우는 것과 마찬가지</p><p id="41f7cd4d-5436-419c-bb37-23d7681ea7d7" class="">5) <code>10 0000</code>을 뒤집으면 <code>01 1111</code>이 되고 이것을 c와 비트연산 <code>&amp;</code>를 하면 6번째 비트가 지워짐</p></li></ul><h2 id="b6721d7e-6072-40a3-9ace-9b537321e8c1" class="">출력(Output)</h2><ul id="ece0875a-59c1-4185-8953-8e621784685d" class="bulleted-list"><li style="list-style-type:disc">프로그램에서 프로그램 외부로 데이터를 보여주는 행위</li></ul><ul id="8689147f-da82-418f-9b18-f779a3ea3cd4" class="bulleted-list"><li style="list-style-type:disc">프로그램이 어떤 데이터를 출력할지 아니까 괴상한 데이터들이 없음<p id="66d79e3e-400a-4569-8b19-d7f6af2ed020" class="">⇒ 입력보다 쉬움</p></li></ul><h2 id="8227fc71-9421-4ada-a035-e6123a9ca77d" class="">서식 지정(formatted) 출력</h2><ul id="02393cce-2224-45dd-8e87-ca224894699c" class="bulleted-list"><li style="list-style-type:disc">C에서 출력을 논할때 가장 기본이 되는 함수</li></ul><ul id="ac1dbb35-8f73-4535-8be2-33d969c752fe" class="bulleted-list"><li style="list-style-type:disc">세 가지 종류<p id="db6da0fa-8d7a-44ce-8d54-fa01736469b2" class="">1) <code>printf()</code> : 콘솔창(stdout)에 출력</p><p id="c9ad64b9-65a5-48ab-9bb9-180a12bbcb8e" class="">2) <code>fprintf()</code> : 스트림에 출력 (f; file)</p><p id="c3e69875-98cb-4b50-991b-0d12634a2f68" class="">3) <code>sprintf()</code> : 문자열에 출력 (s; stream)</p></li></ul><ul id="7120e820-bfcb-4929-b188-d6264a2f3b49" class="bulleted-list"><li style="list-style-type:disc"><code>fprintf()</code>와 <code>sprintf()</code>는 <code>printf()</code>와 작동법 동일<p id="c9cd2365-0840-4142-b402-69965868edbd" class="">⇒ 첫 번째 매개변수로 &#x27;출력할 곳&#x27;을 넣어주는 것이 유일한 차이점</p></li></ul><pre id="d295ab5f-afce-455c-ab86-2d22147c5d0a" class="code"><code>const char* msg = &quot;Hello HONG&quot;;
+
+/* 동일한 결과 */
+fprintf(stdout, &quot;%s\n&quot;, msg);
+printf(&quot;%s\n&quot;, msg);</code></pre><h3 id="3d7c777d-603b-4b04-a54b-263693749915" class="">printf()의 첫 번째 매개변수는 문자열</h3><pre id="37b4c07c-bdbc-4134-96fe-e7bc632f0ccf" class="code"><code>int score = 0;
+char ch = &#x27;j&#x27;;
+float pi = 3.14f;
+const char* name = &quot;Caty&quot;;
+
+printf(&quot;Hello POCU&quot;);         /* 컴파일 */
+printf(score);                /* 컴파일 오류 */
+printf(ch);                   /* 컴파일 오류 */
+printf(pi);                   /* 컴파일 오류 */
+printf(name);                 /* 컴파일 */</code></pre><ul id="5955a4cb-f5ef-4541-aff7-dcb020e8ae5f" class="bulleted-list"><li style="list-style-type:disc"><code>printf()</code>는 그냥 <code>int</code>형 변수를 넣는다고 <code>int</code>를 출력해주지 않음<p id="7b4c4f51-3614-42b3-8805-63aa4d7b267c" class="">⇒ 함수 오버로딩 없음</p></li></ul><ul id="fc6e4969-410a-4d1f-897c-3d20c74b379a" class="bulleted-list"><li style="list-style-type:disc">따라서 <code>printf()</code>는 무조건 첫 번째 인자로 문자열을 받아야함</li></ul><h2 id="398f037b-5cbb-4d6d-b580-a3e0d643d753" class="">서식 문자열(format string)</h2><pre id="4f389bef-c2c9-4692-8147-58a68da6a7bd" class="code"><code>printf(&quot;Hello POCU&quot;);                                /* 일반 문자열 */
+printf(&quot;%d&quot;, score);                                 /* 서식 문자열: 정수 출력 */
+printf(&quot;%c&quot;, ch);                                    /* 서식 문자열: 문자 출력 */
+printf(&quot;%f&quot;, pi);                                    /* 서식 문자열: 부동소수점 출력 */  
+printf(&quot;%s&quot;, name);                                  /* 서식 문자열: 문자열 출력 */
+printf(&quot;Hi, %s\nYour score is %d\n&quot;, name, score);   /* 서식 문자열: 혼합 출력 */</code></pre><ul id="39c3574b-db37-4348-bb50-9d0faa20b863" class="bulleted-list"><li style="list-style-type:disc"><code>printf()</code>는 일반 문자열 혹은 서식 문자열을 매개변수로 받음</li></ul><ul id="27642c13-4580-4f85-9e6e-3f252ce4c18e" class="bulleted-list"><li style="list-style-type:disc">서식 문자열<ul id="d0800343-1676-479c-aeda-4981bf4f83cb" class="bulleted-list"><li style="list-style-type:circle"><code>%</code>로 시작하는 문자열</li></ul><ul id="cb3328c3-f9c7-4302-91ae-d900dea490b5" class="bulleted-list"><li style="list-style-type:circle">소수점 이하 자리수, 자릿수 정렬, 어떤 데이터(숫자, 문자)를 출력할지 등을 알려주는 문자열</li></ul><ul id="ef8258ed-aa2f-4992-b8a0-88d94421bcd0" class="bulleted-list"><li style="list-style-type:circle">하나 이상의 데이터가 들어갈 수 있음</li></ul><ul id="d9173aff-f291-40d6-80c6-52a2c50b2aea" class="bulleted-list"><li style="list-style-type:circle">이 때, 서식 지정자의 순서와 동일한 순서로 데이터들을 <code>printf()</code>의 추가 매개변수로 전달</li></ul></li></ul><h3 id="0dc5a0c0-095e-4fec-b67e-80c62fb6e279" class="">일반적인 서식 문자열 형식</h3><figure class="block-color-gray_background callout" style="white-space:pre-wrap;display:flex" id="c85b172a-cf27-4e6d-9090-5a74cb657b2a"><div style="font-size:1.5em"><span class="icon">💡</span></div><div style="width:100%"><strong>% [ 플래그 ] [ 너비 ] [ .숫자 정밀도 | .문자열 최소/최대 출력 개수 ] [ 길이 ] 서식 지정자</strong></div></figure><ul id="1390ecba-197e-4638-b26c-e9643994ec5e" class="bulleted-list"><li style="list-style-type:disc">일반적으로 &#x27;<code>%</code>&#x27; 뒤에 최대 4개의 지정자를 가질 수 있음<p id="33618100-320b-4377-919f-6973decc6228" class="">1) 플래그 (선택)</p><p id="ce7389e3-2f03-42ff-935f-f821524c98fa" class="">2) 너비 (선택)</p><p id="8e2af4b4-ddfb-416f-b36b-7199bc458147" class="">3) 정밀도 (선택)</p><ul id="7f61d07c-1afc-4167-9332-17376d835b15" class="bulleted-list"><li style="list-style-type:circle">숫자 정밀도</li></ul><ul id="68863293-a19f-4491-8a89-9844546a0698" class="bulleted-list"><li style="list-style-type:circle">문자열 최소/최대 출력 개수</li></ul><p id="cef03e1e-0fa5-451f-b98b-d96704c147c8" class="">4) 길이 (선택)</p><p id="35dbcf04-3c60-4a70-9ab6-443f0c3e168b" class="">5) 서식 지정자 <strong>(필수)</strong><div class="indented"><p id="bc3357f5-6e0d-4833-937a-fd983befa6d7" class="">⇒ 반드시 순서를 지켜 작성해야 함</p></div></p></li></ul><h3 id="e1d33b44-437d-4386-a168-9672a0b69465" class="">서식 지정자</h3><div id="27d05722-3e0a-4cfe-9cca-ad1c8e5e348a" class="collection-content"><h4 class="collection-title"></h4><table class="collection-content"><thead><tr><th><span class="icon property-icon"><svg viewBox="0 0 14 14" style="width:14px;height:14px;display:block;fill:rgba(55, 53, 47, 0.4);flex-shrink:0;-webkit-backface-visibility:hidden" class="typesTitle"><path d="M7.73943662,8.6971831 C7.77640845,8.7834507 7.81338028,8.8943662 7.81338028,9.00528169 C7.81338028,9.49823944 7.40669014,9.89260563 6.91373239,9.89260563 C6.53169014,9.89260563 6.19894366,9.64612676 6.08802817,9.30105634 L5.75528169,8.33978873 L2.05809859,8.33978873 L1.72535211,9.30105634 C1.61443662,9.64612676 1.2693662,9.89260563 0.887323944,9.89260563 C0.394366197,9.89260563 0,9.49823944 0,9.00528169 C0,8.8943662 0.0246478873,8.7834507 0.0616197183,8.6971831 L2.46478873,2.48591549 C2.68661972,1.90669014 3.24119718,1.5 3.90669014,1.5 C4.55985915,1.5 5.12676056,1.90669014 5.34859155,2.48591549 L7.73943662,8.6971831 Z M2.60035211,6.82394366 L5.21302817,6.82394366 L3.90669014,3.10211268 L2.60035211,6.82394366 Z M11.3996479,3.70598592 C12.7552817,3.70598592 14,4.24823944 14,5.96126761 L14,9.07922535 C14,9.52288732 13.6549296,9.89260563 13.2112676,9.89260563 C12.8169014,9.89260563 12.471831,9.59683099 12.4225352,9.19014085 C12.028169,9.6584507 11.3257042,9.95422535 10.5492958,9.95422535 C9.60035211,9.95422535 8.47887324,9.31338028 8.47887324,7.98239437 C8.47887324,6.58978873 9.60035211,6.08450704 10.5492958,6.08450704 C11.3380282,6.08450704 12.040493,6.33098592 12.4348592,6.81161972 L12.4348592,5.98591549 C12.4348592,5.38204225 11.9172535,4.98767606 11.1285211,4.98767606 C10.6602113,4.98767606 10.2411972,5.11091549 9.80985915,5.38204225 C9.72359155,5.43133803 9.61267606,5.46830986 9.50176056,5.46830986 C9.18133803,5.46830986 8.91021127,5.1971831 8.91021127,4.86443662 C8.91021127,4.64260563 9.0334507,4.44542254 9.19366197,4.34683099 C9.87147887,3.90316901 10.6232394,3.70598592 11.3996479,3.70598592 Z M11.1778169,8.8943662 C11.6830986,8.8943662 12.1760563,8.72183099 12.4348592,8.37676056 L12.4348592,7.63732394 C12.1760563,7.29225352 11.6830986,7.11971831 11.1778169,7.11971831 C10.5616197,7.11971831 10.056338,7.45246479 10.056338,8.0193662 C10.056338,8.57394366 10.5616197,8.8943662 11.1778169,8.8943662 Z M0.65625,11.125 L13.34375,11.125 C13.7061869,11.125 14,11.4188131 14,11.78125 C14,12.1436869 13.7061869,12.4375 13.34375,12.4375 L0.65625,12.4375 C0.293813133,12.4375 4.43857149e-17,12.1436869 0,11.78125 C-4.43857149e-17,11.4188131 0.293813133,11.125 0.65625,11.125 Z"></path></svg></span>서식 지정자</th><th><span class="icon property-icon"><svg viewBox="0 0 14 14" style="width:14px;height:14px;display:block;fill:rgba(55, 53, 47, 0.4);flex-shrink:0;-webkit-backface-visibility:hidden" class="typesMultipleSelect"><path d="M4,3 C4,2.447715 4.447715,2 5,2 L12,2 C12.5523,2 13,2.447716 13,3 C13,3.55228 12.5523,4 12,4 L5,4 C4.447715,4 4,3.55228 4,3 Z M4,7 C4,6.447715 4.447715,6 5,6 L12,6 C12.5523,6 13,6.447716 13,7 C13,7.55228 12.5523,8 12,8 L5,8 C4.447715,8 4,7.55228 4,7 Z M4,11 C4,10.447715 4.447715,10 5,10 L12,10 C12.5523,10 13,10.447716 13,11 C13,11.55228 12.5523,12 12,12 L5,12 C4.447715,12 4,11.55228 4,11 Z M2,4 C1.44771525,4 1,3.55228475 1,3 C1,2.44771525 1.44771525,2 2,2 C2.55228475,2 3,2.44771525 3,3 C3,3.55228475 2.55228475,4 2,4 Z M2,8 C1.44771525,8 1,7.55228475 1,7 C1,6.44771525 1.44771525,6 2,6 C2.55228475,6 3,6.44771525 3,7 C3,7.55228475 2.55228475,8 2,8 Z M2,12 C1.44771525,12 1,11.5522847 1,11 C1,10.4477153 1.44771525,10 2,10 C2.55228475,10 3,10.4477153 3,11 C3,11.5522847 2.55228475,12 2,12 Z"></path></svg></span>태그</th><th><span class="icon property-icon"><svg viewBox="0 0 14 14" style="width:14px;height:14px;display:block;fill:rgba(55, 53, 47, 0.4);flex-shrink:0;-webkit-backface-visibility:hidden" class="typesText"><path d="M7,4.56818 C7,4.29204 6.77614,4.06818 6.5,4.06818 L0.5,4.06818 C0.223858,4.06818 0,4.29204 0,4.56818 L0,5.61364 C0,5.88978 0.223858,6.11364 0.5,6.11364 L6.5,6.11364 C6.77614,6.11364 7,5.88978 7,5.61364 L7,4.56818 Z M0.5,1 C0.223858,1 0,1.223858 0,1.5 L0,2.54545 C0,2.8216 0.223858,3.04545 0.5,3.04545 L12.5,3.04545 C12.7761,3.04545 13,2.8216 13,2.54545 L13,1.5 C13,1.223858 12.7761,1 12.5,1 L0.5,1 Z M0,8.68182 C0,8.95796 0.223858,9.18182 0.5,9.18182 L11.5,9.18182 C11.7761,9.18182 12,8.95796 12,8.68182 L12,7.63636 C12,7.36022 11.7761,7.13636 11.5,7.13636 L0.5,7.13636 C0.223858,7.13636 0,7.36022 0,7.63636 L0,8.68182 Z M0,11.75 C0,12.0261 0.223858,12.25 0.5,12.25 L9.5,12.25 C9.77614,12.25 10,12.0261 10,11.75 L10,10.70455 C10,10.4284 9.77614,10.20455 9.5,10.20455 L0.5,10.20455 C0.223858,10.20455 0,10.4284 0,10.70455 L0,11.75 Z"></path></svg></span>설명</th><th><span class="icon property-icon"><svg viewBox="0 0 14 14" style="width:14px;height:14px;display:block;fill:rgba(55, 53, 47, 0.4);flex-shrink:0;-webkit-backface-visibility:hidden" class="typesText"><path d="M7,4.56818 C7,4.29204 6.77614,4.06818 6.5,4.06818 L0.5,4.06818 C0.223858,4.06818 0,4.29204 0,4.56818 L0,5.61364 C0,5.88978 0.223858,6.11364 0.5,6.11364 L6.5,6.11364 C6.77614,6.11364 7,5.88978 7,5.61364 L7,4.56818 Z M0.5,1 C0.223858,1 0,1.223858 0,1.5 L0,2.54545 C0,2.8216 0.223858,3.04545 0.5,3.04545 L12.5,3.04545 C12.7761,3.04545 13,2.8216 13,2.54545 L13,1.5 C13,1.223858 12.7761,1 12.5,1 L0.5,1 Z M0,8.68182 C0,8.95796 0.223858,9.18182 0.5,9.18182 L11.5,9.18182 C11.7761,9.18182 12,8.95796 12,8.68182 L12,7.63636 C12,7.36022 11.7761,7.13636 11.5,7.13636 L0.5,7.13636 C0.223858,7.13636 0,7.36022 0,7.63636 L0,8.68182 Z M0,11.75 C0,12.0261 0.223858,12.25 0.5,12.25 L9.5,12.25 C9.77614,12.25 10,12.0261 10,11.75 L10,10.70455 C10,10.4284 9.77614,10.20455 9.5,10.20455 L0.5,10.20455 C0.223858,10.20455 0,10.4284 0,10.70455 L0,11.75 Z"></path></svg></span>코드</th></tr></thead><tbody><tr id="039b2128-f016-4545-8193-dd817fec9c7e"><td class="cell-title"><a href="https://www.notion.so/039b2128f01645458193dd817fec9c7e">%</a></td><td class="cell-g~LV"></td><td class="cell-{E`M">&#x27;%&#x27;를 출력</td><td class="cell-`A:|">printf(&quot;%%/n&quot;);</td></tr><tr id="f2ae51de-a478-4b9e-b74a-6b1ec339c921"><td class="cell-title"><a href="https://www.notion.so/c-f2ae51dea4784b9eb74a6b1ec339c921">c</a></td><td class="cell-g~LV"></td><td class="cell-{E`M">문자(char)를 출력</td><td class="cell-`A:|">printf(&quot;%c\n&quot;, &#x27;D&#x27;);</td></tr><tr id="0ec81189-51a5-48b7-a655-58aa7aaa2d0b"><td class="cell-title"><a href="https://www.notion.so/s-0ec8118951a548b7a65558aa7aaa2d0b">s</a></td><td class="cell-g~LV"></td><td class="cell-{E`M">문자열(char[])를 출력</td><td class="cell-`A:|">printf(&quot;%s/n&quot;, &quot;Hong&quot;);</td></tr><tr id="c12f6cb5-7841-42d8-b878-48ca33ebf8c8"><td class="cell-title"><a href="https://www.notion.so/d-c12f6cb5784142d8b87848ca33ebf8c8">d</a></td><td class="cell-g~LV"></td><td class="cell-{E`M">부호있는 정수 출력</td><td class="cell-`A:|">printf(&quot;%d/n&quot;, -10);</td></tr><tr id="e710790d-3b85-4ebd-9a23-0e70c15f6965"><td class="cell-title"><a href="https://www.notion.so/u-e710790d3b854ebd9a230e70c15f6965">u</a></td><td class="cell-g~LV"></td><td class="cell-{E`M">부호없는 정수 출력</td><td class="cell-`A:|">printf(&quot;%u/n&quot;, 10);</td></tr><tr id="cec56bf9-1625-484b-ad69-876ce9f6bf8c"><td class="cell-title"><a href="https://www.notion.so/o-cec56bf91625484bad69876ce9f6bf8c">o</a></td><td class="cell-g~LV"></td><td class="cell-{E`M">부호없는 정수를 8진수로 출력, 숫자 앞에 0을 <strong>안 붙여줌</strong></td><td class="cell-`A:|">printf(&quot;%o/n&quot;, 10);</td></tr><tr id="7100ee3d-d94c-4470-808d-59be259b7f40"><td class="cell-title"><a href="https://www.notion.so/x-7100ee3dd94c4470808d59be259b7f40">x</a></td><td class="cell-g~LV"></td><td class="cell-{E`M">부호없는 정수를 8진수(소문자)로 출력, 숫자 앞에 0x을 <strong>안 붙여줌</strong></td><td class="cell-`A:|">printf(&quot;%x/n&quot;, 10);</td></tr><tr id="c6bb178b-a402-4faa-8a97-5652b7dc4449"><td class="cell-title"><a href="https://www.notion.so/X-c6bb178ba4024faa8a975652b7dc4449">X</a></td><td class="cell-g~LV"></td><td class="cell-{E`M">부호없는 정수를 8진수(대문자)로 출력, 숫자 앞에 0X을 <strong>안 붙여줌</strong></td><td class="cell-`A:|">printf(&quot;%X/n&quot;, 10);</td></tr><tr id="4a890610-c190-4294-95ae-5513bcc974b2"><td class="cell-title"><a href="https://www.notion.so/f-4a890610c190429495ae5513bcc974b2">f</a></td><td class="cell-g~LV"></td><td class="cell-{E`M">부동소수점 출력</td><td class="cell-`A:|">printf(&quot;%f/n&quot;, 3.14);</td></tr><tr id="bae64850-327f-435f-b310-89a330336528"><td class="cell-title"><a href="https://www.notion.so/e-E-bae64850327f435fb31089a330336528">e/E</a></td><td class="cell-g~LV"></td><td class="cell-{E`M">부동소수점을 지수표기법으로 출력</td><td class="cell-`A:|">printf(&quot;%e/n&quot;, 10); / printf(&quot;%E/n&quot;, 10);</td></tr><tr id="888ada90-72b6-4e44-adc5-f983ab535f68"><td class="cell-title"><a href="https://www.notion.so/p-888ada9072b64e44adc5f983ab535f68">p</a></td><td class="cell-g~LV"></td><td class="cell-{E`M">포인터값을 출력</td><td class="cell-`A:|">printf(&quot;%p/n&quot;, (void*)name);</td></tr></tbody></table></div><ul id="c7386a6b-71b1-4ecb-95ad-2ae55bdd62d4" class="bulleted-list"><li style="list-style-type:disc">서식 문자라고도 함</li></ul><ul id="0c263ed7-2f05-4cf5-8d47-a15cb0eea836" class="bulleted-list"><li style="list-style-type:disc">&#x27;<code>%</code>&#x27;가 서식 문자열에서 사용 중이므로 출력하려면 어쩔 수 없이 반복</li></ul><ul id="9dc0b95f-12b7-4388-ab00-8f1996ef69ca" class="bulleted-list"><li style="list-style-type:disc">&quot;<code>%s</code>&quot; 쓸바엔 그냥 문자열로 곧바로 <code>printf()</code>해도 됨<p id="80d1a717-d1a9-41b8-a8dd-5aa903a63478" class="">⇒ 단 문자열 두 개 합치거나 문자열 + 숫자 합쳐서 출력할 땐 유용함</p><pre id="9277f468-7a63-43d3-a228-3deddd756bcb" class="code"><code>printf(name); /* const char* name = &quot;HONG&quot;; */
+printf(&quot;%s&quot;, name);
+printf(&quot;Hello, %s\nYour score is %d\n&quot;, name, score);</code></pre></li></ul><ul id="75791478-0d5b-44c1-bb78-94e52c70346c" class="bulleted-list"><li style="list-style-type:disc">&quot;<code>%u</code>&quot;에 부호있는 수를 넣을 경우, 해당 수의 비트패턴에 해당하는 부호없는 수가 출력<pre id="27790bb0-5d6f-466e-ab00-d6f5e2a76f5b" class="code"><code>printf(&quot;%u\n&quot;, 10}; /* 429*4967286 출력 */</code></pre></li></ul><ul id="9aceb2f4-c509-4a1d-b60e-d154d688dc89" class="bulleted-list"><li style="list-style-type:disc">&quot;<code>%X</code>&quot;는 있는데 &quot;<code>%O</code>&quot;가 없는 이유<p id="129a6491-4d42-4920-8fdc-66e7432868ee" class="">⇒ 8진수는 숫자로만 이루어져 있기 때문</p></li></ul><ul id="0cca00fe-fcde-42e5-ba3d-e1fb1fc626de" class="bulleted-list"><li style="list-style-type:disc">&quot;<code>%p</code>&quot;는 주소를 출력하는데 <code>void*</code>만 받음<p id="afc0997e-d2f2-4405-9bcf-913d82498006" class="">⇒ 모든 주소는 어차피 길이가 같다고 했으니 어떤 포인터를 <code>void*</code>로 캐스팅해도 안전</p></li></ul><h3 id="6a7ee757-86fb-4357-b7e7-84f3f5edd294" class="">플래그</h3><div id="fdbc3cb7-fc28-46f9-a6b1-a123f9289757" class="collection-content"><h4 class="collection-title"></h4><table class="collection-content"><thead><tr><th><span class="icon property-icon"><svg viewBox="0 0 14 14" style="width:14px;height:14px;display:block;fill:rgba(55, 53, 47, 0.4);flex-shrink:0;-webkit-backface-visibility:hidden" class="typesTitle"><path d="M7.73943662,8.6971831 C7.77640845,8.7834507 7.81338028,8.8943662 7.81338028,9.00528169 C7.81338028,9.49823944 7.40669014,9.89260563 6.91373239,9.89260563 C6.53169014,9.89260563 6.19894366,9.64612676 6.08802817,9.30105634 L5.75528169,8.33978873 L2.05809859,8.33978873 L1.72535211,9.30105634 C1.61443662,9.64612676 1.2693662,9.89260563 0.887323944,9.89260563 C0.394366197,9.89260563 0,9.49823944 0,9.00528169 C0,8.8943662 0.0246478873,8.7834507 0.0616197183,8.6971831 L2.46478873,2.48591549 C2.68661972,1.90669014 3.24119718,1.5 3.90669014,1.5 C4.55985915,1.5 5.12676056,1.90669014 5.34859155,2.48591549 L7.73943662,8.6971831 Z M2.60035211,6.82394366 L5.21302817,6.82394366 L3.90669014,3.10211268 L2.60035211,6.82394366 Z M11.3996479,3.70598592 C12.7552817,3.70598592 14,4.24823944 14,5.96126761 L14,9.07922535 C14,9.52288732 13.6549296,9.89260563 13.2112676,9.89260563 C12.8169014,9.89260563 12.471831,9.59683099 12.4225352,9.19014085 C12.028169,9.6584507 11.3257042,9.95422535 10.5492958,9.95422535 C9.60035211,9.95422535 8.47887324,9.31338028 8.47887324,7.98239437 C8.47887324,6.58978873 9.60035211,6.08450704 10.5492958,6.08450704 C11.3380282,6.08450704 12.040493,6.33098592 12.4348592,6.81161972 L12.4348592,5.98591549 C12.4348592,5.38204225 11.9172535,4.98767606 11.1285211,4.98767606 C10.6602113,4.98767606 10.2411972,5.11091549 9.80985915,5.38204225 C9.72359155,5.43133803 9.61267606,5.46830986 9.50176056,5.46830986 C9.18133803,5.46830986 8.91021127,5.1971831 8.91021127,4.86443662 C8.91021127,4.64260563 9.0334507,4.44542254 9.19366197,4.34683099 C9.87147887,3.90316901 10.6232394,3.70598592 11.3996479,3.70598592 Z M11.1778169,8.8943662 C11.6830986,8.8943662 12.1760563,8.72183099 12.4348592,8.37676056 L12.4348592,7.63732394 C12.1760563,7.29225352 11.6830986,7.11971831 11.1778169,7.11971831 C10.5616197,7.11971831 10.056338,7.45246479 10.056338,8.0193662 C10.056338,8.57394366 10.5616197,8.8943662 11.1778169,8.8943662 Z M0.65625,11.125 L13.34375,11.125 C13.7061869,11.125 14,11.4188131 14,11.78125 C14,12.1436869 13.7061869,12.4375 13.34375,12.4375 L0.65625,12.4375 C0.293813133,12.4375 4.43857149e-17,12.1436869 0,11.78125 C-4.43857149e-17,11.4188131 0.293813133,11.125 0.65625,11.125 Z"></path></svg></span>플래그</th><th><span class="icon property-icon"><svg viewBox="0 0 14 14" style="width:14px;height:14px;display:block;fill:rgba(55, 53, 47, 0.4);flex-shrink:0;-webkit-backface-visibility:hidden" class="typesText"><path d="M7,4.56818 C7,4.29204 6.77614,4.06818 6.5,4.06818 L0.5,4.06818 C0.223858,4.06818 0,4.29204 0,4.56818 L0,5.61364 C0,5.88978 0.223858,6.11364 0.5,6.11364 L6.5,6.11364 C6.77614,6.11364 7,5.88978 7,5.61364 L7,4.56818 Z M0.5,1 C0.223858,1 0,1.223858 0,1.5 L0,2.54545 C0,2.8216 0.223858,3.04545 0.5,3.04545 L12.5,3.04545 C12.7761,3.04545 13,2.8216 13,2.54545 L13,1.5 C13,1.223858 12.7761,1 12.5,1 L0.5,1 Z M0,8.68182 C0,8.95796 0.223858,9.18182 0.5,9.18182 L11.5,9.18182 C11.7761,9.18182 12,8.95796 12,8.68182 L12,7.63636 C12,7.36022 11.7761,7.13636 11.5,7.13636 L0.5,7.13636 C0.223858,7.13636 0,7.36022 0,7.63636 L0,8.68182 Z M0,11.75 C0,12.0261 0.223858,12.25 0.5,12.25 L9.5,12.25 C9.77614,12.25 10,12.0261 10,11.75 L10,10.70455 C10,10.4284 9.77614,10.20455 9.5,10.20455 L0.5,10.20455 C0.223858,10.20455 0,10.4284 0,10.70455 L0,11.75 Z"></path></svg></span>설명</th><th><span class="icon property-icon"><svg viewBox="0 0 14 14" style="width:14px;height:14px;display:block;fill:rgba(55, 53, 47, 0.4);flex-shrink:0;-webkit-backface-visibility:hidden" class="typesText"><path d="M7,4.56818 C7,4.29204 6.77614,4.06818 6.5,4.06818 L0.5,4.06818 C0.223858,4.06818 0,4.29204 0,4.56818 L0,5.61364 C0,5.88978 0.223858,6.11364 0.5,6.11364 L6.5,6.11364 C6.77614,6.11364 7,5.88978 7,5.61364 L7,4.56818 Z M0.5,1 C0.223858,1 0,1.223858 0,1.5 L0,2.54545 C0,2.8216 0.223858,3.04545 0.5,3.04545 L12.5,3.04545 C12.7761,3.04545 13,2.8216 13,2.54545 L13,1.5 C13,1.223858 12.7761,1 12.5,1 L0.5,1 Z M0,8.68182 C0,8.95796 0.223858,9.18182 0.5,9.18182 L11.5,9.18182 C11.7761,9.18182 12,8.95796 12,8.68182 L12,7.63636 C12,7.36022 11.7761,7.13636 11.5,7.13636 L0.5,7.13636 C0.223858,7.13636 0,7.36022 0,7.63636 L0,8.68182 Z M0,11.75 C0,12.0261 0.223858,12.25 0.5,12.25 L9.5,12.25 C9.77614,12.25 10,12.0261 10,11.75 L10,10.70455 C10,10.4284 9.77614,10.20455 9.5,10.20455 L0.5,10.20455 C0.223858,10.20455 0,10.4284 0,10.70455 L0,11.75 Z"></path></svg></span>코드</th></tr></thead><tbody><tr id="55a5d936-22be-43df-96dd-3a27fe92591c"><td class="cell-title"><a href="https://www.notion.so/55a5d93622be43df96dd3a27fe92591c">-</a></td><td class="cell-r[|C">왼쪽 정렬</td><td class="cell-aWM@">printf(&quot;%-5d/n&quot;, number);</td></tr><tr id="7a391649-444e-45e9-9e20-05c8b789f0c9"><td class="cell-title"><a href="https://www.notion.so/0-7a391649444e45e99e2005c8b789f0c9">0</a></td><td class="cell-r[|C">빈 공백을 0으로 채워줌</td><td class="cell-aWM@">printf(&quot;%05d/n&quot;, number);</td></tr><tr id="57108072-dbcd-4834-bfb2-c1a89771f572"><td class="cell-title"><a href="https://www.notion.so/57108072dbcd4834bfb2c1a89771f572">+</a></td><td class="cell-r[|C">항상 부호(+/-)를 표시</td><td class="cell-aWM@">printf(&quot;%+5d/n&quot;, number);</td></tr><tr id="0c2b3576-5072-4164-8363-c6161fa430ad"><td class="cell-title"><a href="https://www.notion.so/0c2b3576507241648363c6161fa430ad">공백</a></td><td class="cell-r[|C">양수인 경우에도 부호칸을 비워둠</td><td class="cell-aWM@">printf(&quot;% d/n&quot;, number);</td></tr><tr id="57cf1ddb-90b7-42ca-afd2-c8c9bd7bebc5"><td class="cell-title"><a href="https://www.notion.so/o-57cf1ddb90b742caafd2c8c9bd7bebc5">#o</a></td><td class="cell-r[|C">부호없는 정수를 8진수로 출력, 숫자 앞에 항상 &#x27;0&#x27;이 붙음</td><td class="cell-aWM@">printf(&quot;%#o/n&quot;, number);</td></tr><tr id="c8b9c6d4-fc73-4b08-aecc-c29649b199e3"><td class="cell-title"><a href="https://www.notion.so/x-c8b9c6d4fc734b08aeccc29649b199e3">#x</a></td><td class="cell-r[|C">부호없는 정수를 16진수(소문자)로 출력, 숫자 앞에 항상 &#x27;0x&#x27;이 붙음</td><td class="cell-aWM@">printf(&quot;%#x/n&quot;, number);</td></tr><tr id="e1648b8b-95b9-4ffb-a45d-05e3c9bfd58d"><td class="cell-title"><a href="https://www.notion.so/X-e1648b8b95b94ffba45d05e3c9bfd58d">#X</a></td><td class="cell-r[|C">부호없는 정수를 16진수(대문자)로 출력, 숫자 앞에 항상 &#x27;0x&#x27;이 붙음</td><td class="cell-aWM@">printf(&quot;%#X/n&quot;, number);</td></tr></tbody></table></div><ul id="6166f59c-6db2-459e-a79d-1b6f61d700d2" class="bulleted-list"><li style="list-style-type:disc">&#x27;<code>-</code>&#x27; : 기본은 오른쪽 정렬</li></ul><ul id="a7d91ac7-b645-42ac-b121-b0e17dca94fe" class="bulleted-list"><li style="list-style-type:disc">&#x27;<code> </code>&#x27; : &#x27;<code>+</code>&#x27;가 있을 경우 무시됨</li></ul><ul id="7e179377-816c-4997-b8be-125858658961" class="bulleted-list"><li style="list-style-type:disc">&#x27;<code>+</code>&#x27; : 기본은 음수 기호만 출력</li></ul><ul id="f86c60cb-7c8f-4dd9-9ade-8852b7858915" class="bulleted-list"><li style="list-style-type:disc">&#x27;<code>0</code>&#x27; : &#x27;-&#x27;가 있을 경우 무시됨</li></ul><ul id="f53d4d18-0148-42ec-a202-7bf7d85cd111" class="bulleted-list"><li style="list-style-type:disc">&#x27;<code>#</code>&#x27;<ul id="6a691ddf-800a-4a72-8720-2e9d15d84a43" class="bulleted-list"><li style="list-style-type:circle">어디에 붙이냐에 따라 의미가 달라지며, 그나마 유용한 곳은 <code>x</code>나 <code>X</code>에 붙일 때</li></ul><ul id="a57c869d-d977-4ea6-b92e-5d90f56c770d" class="bulleted-list"><li style="list-style-type:circle">&quot;<code>#x/X/o</code>&quot;를 쓸때는 다른 플래그나 서식 지정자 &#x27;d&#x27;를 붙이지 않음<p id="ec77167a-3437-45f4-8055-4e72a35e4321" class="">⇒ &#x27;<code>-</code>&#x27;는 붙일 수 있으나 의미 없음</p></li></ul></li></ul><h3 id="94a1ed05-5976-45c6-8034-286d2b60e49f" class="">정밀도</h3><ul id="4be4e7fd-f081-43e1-8294-254ca16afac8" class="bulleted-list"><li style="list-style-type:disc">서식 지정자 &#x27;<code>f</code>&#x27;와 함꼐 사용<ul id="cd481c3e-d6d5-4ac1-8fd6-980e7c4622ba" class="bulleted-list"><li style="list-style-type:circle">최소 너비. 소수점 아랫자리 수</li></ul><ul id="57562d03-ce01-47a5-81ad-7dfd366e319a" class="bulleted-list"><li style="list-style-type:circle">(소수점 포함) 원래 숫자의 너비보다 최소 너비가 크면 공백으로 채움</li></ul><ul id="0bd60828-0975-40e7-9880-c06537655534" class="bulleted-list"><li style="list-style-type:circle">(소수점 포함하지 않음) 원래 숫자의 소수점 아랫자리 수보다 소수점 아랫자리수가 크면 0으로 채움</li></ul><ul id="a2d56752-0939-4d46-8f78-377577c350a1" class="bulleted-list"><li style="list-style-type:circle">기본 수수점 아랫자리 수 : 6</li></ul></li></ul><ul id="52cd0760-2876-456a-92ae-13e349ec95b8" class="bulleted-list"><li style="list-style-type:disc">서식 지정자 &#x27;s&#x27;도 함께 사용<ul id="5d9ced7e-fb35-464a-8395-e37236e60c38" class="bulleted-list"><li style="list-style-type:circle">최소너비.최대너비</li></ul><ul id="aec944e3-f55d-4b15-a223-0753aa585164" class="bulleted-list"><li style="list-style-type:circle">출력할 문자열의 길이가 최소 너비보다 작으면 왼쪽을 공백으로 채움</li></ul><ul id="8214e133-48d4-4690-8560-fc0a8d8c8fe8" class="bulleted-list"><li style="list-style-type:circle">출력할 문자열의 길이가 최대 너비보다 크면 자름</li></ul></li></ul><h3 id="8f47f7c2-c3c7-4ba4-9a33-69abfb7ed683" class="">길이 수정자(length modifier)</h3><div id="1a297652-6c53-4705-a572-827349e178b9" class="collection-content"><h4 class="collection-title"></h4><table class="collection-content"><thead><tr><th><span class="icon property-icon"><svg viewBox="0 0 14 14" style="width:14px;height:14px;display:block;fill:rgba(55, 53, 47, 0.4);flex-shrink:0;-webkit-backface-visibility:hidden" class="typesTitle"><path d="M7.73943662,8.6971831 C7.77640845,8.7834507 7.81338028,8.8943662 7.81338028,9.00528169 C7.81338028,9.49823944 7.40669014,9.89260563 6.91373239,9.89260563 C6.53169014,9.89260563 6.19894366,9.64612676 6.08802817,9.30105634 L5.75528169,8.33978873 L2.05809859,8.33978873 L1.72535211,9.30105634 C1.61443662,9.64612676 1.2693662,9.89260563 0.887323944,9.89260563 C0.394366197,9.89260563 0,9.49823944 0,9.00528169 C0,8.8943662 0.0246478873,8.7834507 0.0616197183,8.6971831 L2.46478873,2.48591549 C2.68661972,1.90669014 3.24119718,1.5 3.90669014,1.5 C4.55985915,1.5 5.12676056,1.90669014 5.34859155,2.48591549 L7.73943662,8.6971831 Z M2.60035211,6.82394366 L5.21302817,6.82394366 L3.90669014,3.10211268 L2.60035211,6.82394366 Z M11.3996479,3.70598592 C12.7552817,3.70598592 14,4.24823944 14,5.96126761 L14,9.07922535 C14,9.52288732 13.6549296,9.89260563 13.2112676,9.89260563 C12.8169014,9.89260563 12.471831,9.59683099 12.4225352,9.19014085 C12.028169,9.6584507 11.3257042,9.95422535 10.5492958,9.95422535 C9.60035211,9.95422535 8.47887324,9.31338028 8.47887324,7.98239437 C8.47887324,6.58978873 9.60035211,6.08450704 10.5492958,6.08450704 C11.3380282,6.08450704 12.040493,6.33098592 12.4348592,6.81161972 L12.4348592,5.98591549 C12.4348592,5.38204225 11.9172535,4.98767606 11.1285211,4.98767606 C10.6602113,4.98767606 10.2411972,5.11091549 9.80985915,5.38204225 C9.72359155,5.43133803 9.61267606,5.46830986 9.50176056,5.46830986 C9.18133803,5.46830986 8.91021127,5.1971831 8.91021127,4.86443662 C8.91021127,4.64260563 9.0334507,4.44542254 9.19366197,4.34683099 C9.87147887,3.90316901 10.6232394,3.70598592 11.3996479,3.70598592 Z M11.1778169,8.8943662 C11.6830986,8.8943662 12.1760563,8.72183099 12.4348592,8.37676056 L12.4348592,7.63732394 C12.1760563,7.29225352 11.6830986,7.11971831 11.1778169,7.11971831 C10.5616197,7.11971831 10.056338,7.45246479 10.056338,8.0193662 C10.056338,8.57394366 10.5616197,8.8943662 11.1778169,8.8943662 Z M0.65625,11.125 L13.34375,11.125 C13.7061869,11.125 14,11.4188131 14,11.78125 C14,12.1436869 13.7061869,12.4375 13.34375,12.4375 L0.65625,12.4375 C0.293813133,12.4375 4.43857149e-17,12.1436869 0,11.78125 C-4.43857149e-17,11.4188131 0.293813133,11.125 0.65625,11.125 Z"></path></svg></span>길이 수정자</th><th><span class="icon property-icon"><svg viewBox="0 0 14 14" style="width:14px;height:14px;display:block;fill:rgba(55, 53, 47, 0.4);flex-shrink:0;-webkit-backface-visibility:hidden" class="typesText"><path d="M7,4.56818 C7,4.29204 6.77614,4.06818 6.5,4.06818 L0.5,4.06818 C0.223858,4.06818 0,4.29204 0,4.56818 L0,5.61364 C0,5.88978 0.223858,6.11364 0.5,6.11364 L6.5,6.11364 C6.77614,6.11364 7,5.88978 7,5.61364 L7,4.56818 Z M0.5,1 C0.223858,1 0,1.223858 0,1.5 L0,2.54545 C0,2.8216 0.223858,3.04545 0.5,3.04545 L12.5,3.04545 C12.7761,3.04545 13,2.8216 13,2.54545 L13,1.5 C13,1.223858 12.7761,1 12.5,1 L0.5,1 Z M0,8.68182 C0,8.95796 0.223858,9.18182 0.5,9.18182 L11.5,9.18182 C11.7761,9.18182 12,8.95796 12,8.68182 L12,7.63636 C12,7.36022 11.7761,7.13636 11.5,7.13636 L0.5,7.13636 C0.223858,7.13636 0,7.36022 0,7.63636 L0,8.68182 Z M0,11.75 C0,12.0261 0.223858,12.25 0.5,12.25 L9.5,12.25 C9.77614,12.25 10,12.0261 10,11.75 L10,10.70455 C10,10.4284 9.77614,10.20455 9.5,10.20455 L0.5,10.20455 C0.223858,10.20455 0,10.4284 0,10.70455 L0,11.75 Z"></path></svg></span>서식 지정자</th><th><span class="icon property-icon"><svg viewBox="0 0 14 14" style="width:14px;height:14px;display:block;fill:rgba(55, 53, 47, 0.4);flex-shrink:0;-webkit-backface-visibility:hidden" class="typesText"><path d="M7,4.56818 C7,4.29204 6.77614,4.06818 6.5,4.06818 L0.5,4.06818 C0.223858,4.06818 0,4.29204 0,4.56818 L0,5.61364 C0,5.88978 0.223858,6.11364 0.5,6.11364 L6.5,6.11364 C6.77614,6.11364 7,5.88978 7,5.61364 L7,4.56818 Z M0.5,1 C0.223858,1 0,1.223858 0,1.5 L0,2.54545 C0,2.8216 0.223858,3.04545 0.5,3.04545 L12.5,3.04545 C12.7761,3.04545 13,2.8216 13,2.54545 L13,1.5 C13,1.223858 12.7761,1 12.5,1 L0.5,1 Z M0,8.68182 C0,8.95796 0.223858,9.18182 0.5,9.18182 L11.5,9.18182 C11.7761,9.18182 12,8.95796 12,8.68182 L12,7.63636 C12,7.36022 11.7761,7.13636 11.5,7.13636 L0.5,7.13636 C0.223858,7.13636 0,7.36022 0,7.63636 L0,8.68182 Z M0,11.75 C0,12.0261 0.223858,12.25 0.5,12.25 L9.5,12.25 C9.77614,12.25 10,12.0261 10,11.75 L10,10.70455 C10,10.4284 9.77614,10.20455 9.5,10.20455 L0.5,10.20455 C0.223858,10.20455 0,10.4284 0,10.70455 L0,11.75 Z"></path></svg></span>자료형</th><th><span class="icon property-icon"><svg viewBox="0 0 14 14" style="width:14px;height:14px;display:block;fill:rgba(55, 53, 47, 0.4);flex-shrink:0;-webkit-backface-visibility:hidden" class="typesText"><path d="M7,4.56818 C7,4.29204 6.77614,4.06818 6.5,4.06818 L0.5,4.06818 C0.223858,4.06818 0,4.29204 0,4.56818 L0,5.61364 C0,5.88978 0.223858,6.11364 0.5,6.11364 L6.5,6.11364 C6.77614,6.11364 7,5.88978 7,5.61364 L7,4.56818 Z M0.5,1 C0.223858,1 0,1.223858 0,1.5 L0,2.54545 C0,2.8216 0.223858,3.04545 0.5,3.04545 L12.5,3.04545 C12.7761,3.04545 13,2.8216 13,2.54545 L13,1.5 C13,1.223858 12.7761,1 12.5,1 L0.5,1 Z M0,8.68182 C0,8.95796 0.223858,9.18182 0.5,9.18182 L11.5,9.18182 C11.7761,9.18182 12,8.95796 12,8.68182 L12,7.63636 C12,7.36022 11.7761,7.13636 11.5,7.13636 L0.5,7.13636 C0.223858,7.13636 0,7.36022 0,7.63636 L0,8.68182 Z M0,11.75 C0,12.0261 0.223858,12.25 0.5,12.25 L9.5,12.25 C9.77614,12.25 10,12.0261 10,11.75 L10,10.70455 C10,10.4284 9.77614,10.20455 9.5,10.20455 L0.5,10.20455 C0.223858,10.20455 0,10.4284 0,10.70455 L0,11.75 Z"></path></svg></span>코드</th></tr></thead><tbody><tr id="4975f1a2-15c0-442d-9b7d-5710ee233a6a"><td class="cell-title"><a href="https://www.notion.so/4975f1a215c0442d9b7d5710ee233a6a">제목 없음</a></td><td class="cell-TrS@">d</td><td class="cell-bMI&gt;">int</td><td class="cell-Xcx&gt;">printf(&quot;%d/n&quot;, number);</td></tr><tr id="e3b2df0e-0f72-40c5-a90a-9f1dee21fd0c"><td class="cell-title"><a href="https://www.notion.so/l-e3b2df0e0f7240c5a90a9f1dee21fd0c">l</a></td><td class="cell-TrS@">d</td><td class="cell-bMI&gt;">long int</td><td class="cell-Xcx&gt;">printf(&quot;%ld/n&quot;, number);</td></tr><tr id="8e59c535-8dfe-4dd7-b856-bdf357e9095e"><td class="cell-title"><a href="https://www.notion.so/8e59c5358dfe4dd7b856bdf357e9095e">제목 없음</a></td><td class="cell-TrS@">f</td><td class="cell-bMI&gt;">double</td><td class="cell-Xcx&gt;">printf(&quot;%f/n&quot;, number);</td></tr><tr id="7431cd3e-f269-4768-b346-6b180409697d"><td class="cell-title"><a href="https://www.notion.so/L-7431cd3ef2694768b3466b180409697d">L</a></td><td class="cell-TrS@">f</td><td class="cell-bMI&gt;">long double</td><td class="cell-Xcx&gt;">printf(&quot;%lf/n&quot;, number);</td></tr></tbody></table></div><ul id="a68f5422-f832-4a67-aa91-2e59bad255ae" class="bulleted-list"><li style="list-style-type:disc">인자의 바이트 크기를 지정해줌</li></ul><ul id="11d34914-157e-4066-aff0-e2f12ed05dc6" class="bulleted-list"><li style="list-style-type:disc">몇 가지가 있지만 &#x27;<code>l</code>&#x27;(소문자 L)과 &#x27;<code>L</code>&#x27;이 그나마 유용함<ul id="56158a41-9dc3-4afd-91bd-75c6338ce508" class="bulleted-list"><li style="list-style-type:circle">하지만 최근 플랫폼에선 별 의미가 없음</li></ul><ul id="bcf22b6f-61a1-4636-990c-c0f494d7d7d2" class="bulleted-list"><li style="list-style-type:circle"><code>int</code> == <code>long int</code>, <code>double</code> == <code>long double</code>인 경우가 보통</li></ul><ul id="9a69af3f-30d2-41d5-a456-aa8fb7ff971c" class="bulleted-list"><li style="list-style-type:circle">설사 위의 경우가 아니더라도 <code>long doubl</code>e은 잘 사용하지 않음</li></ul><pre id="78434999-15ad-416d-83d6-976c96dbc93a" class="code"><code>int num1 = 100;
+long int num2 = 100;
+double num3 = 10.12345678;
+long double num4 = 10.12345678;
+
+printf(&quot;int: %d, size: %d\n, num1, sizeof(num1));
+printf(&quot;long int: %ld, size: %d\n, num2, sizeof(num2));
+printf(&quot;double: %f, size: %d\n, num3, sizeof(num3));
+printf(&quot;long double: %Lf, size: %d\n, num4, sizeof(num4));
+
+/* int : 100, size : 4 */
+/* long int : 100, size : 4 */
+/* double : 10.12345678, size : 8 */
+/* long double : 10.12345678, size : 8 */</code></pre></li></ul><h3 id="3e674815-4cc6-4122-8d8b-49ae50f627d9" class="">퀴즈</h3><pre id="0bf525f7-445b-4941-baa8-1982cdaa6092" class="code"><code>int num1 = 250;
+float num2 = 250.123456f;
+
+printf(&quot;%8X\n&quot;, num1);
+printf(&quot;%8o\n&quot;, num1);
+printf(&quot;%+8.2f\n&quot;, num2);
+
+/*
+- : 공백
+------FA
+-----372
+-+250.12
+*/</code></pre><h3 id="bb7cae5a-c349-4d97-afa7-75932ee1deb9" class="">ASCII 표 그리기</h3><pre id="52fcce41-bfb5-4db5-98cf-67d9452da204" class="code"><code>#include &lt;stdio.h&gt;
+
+#include &quot;print_ascii_table.h&quot;
+
+void print_ascii_table(void)
+{
+    const int MIN_ASCII = 32&#x27;
+    const int MAX_ASCII = 126;
+    const int NUM_CHARS = MAS_ASCII - MIN_ASCII + 1;
+    const int NUM_COLS = 3;
+    const int NUM_ROWS = (NUM_CHARS + NUM_COLS - 1) / NUM_COLS;
+    
+    int r;
+    int ch;
+
+    printf(&quot;Dec Hex Char\tDec Hex Char\tDec Hex Char\n);
+
+    for (r = 0; r &lt; NUM_ROWS - 1; ++r) {
+        ch = MIN_ASCII + r;
+        printf(&quot;03d %#X %c\t&quot;, ch, ch, ch);
+
+        ch += NUM_ROWS;
+        printf(&quot;03d %#X %c\t&quot;, ch, ch, ch);
+
+        ch += NUM_ROWS;
+        printf(&quot;03d %#X %c\t&quot;, ch, ch, ch);
+    }
+
+    /* last row doesn&#x27;t have all columns */
+    for (ch = MIN_ASCII + r; ch &lt;= MAX_ASCII; ch += NUM_ROWS) {
+        printf(&quot;03d %#X %c\t&quot;, ch, ch, ch);
+    }
+}</code></pre><h3 id="9bc08350-cd91-4203-a574-02ff7619726f" class="">바이트 단위 변환 표</h3><pre id="9be7adee-8b3f-4cb5-a3d6-6a16414738bd" class="code"><code>#include &lt;stdio.h&gt;
+
+#include &quot;byte_conversion_chart.h&quot;
+
+#define SCALE (1024.0f)
+
+#define BYTE (1.0f)
+#define KB (SCALE = BYTE)
+#define MB (SCALE = KB)
+#define GB (SCALE = MB)
+#define TB (SCALE = GB)
+#define PB (SCALE = TB)
+
+#define LENGTH (6)
+
+static const char* const DATA_STORAGE_NAMES[LENGTH] = 
+    (&quot;Byte&quot;, &quot;Kilobytle&quot;, &quot;Megabyte&quot;, &quot;Gigabyte&quot;, &quot;Terabyte&quot;, &quot;Petabyte&quot;);
+
+void print_byte_conversion_chart(void)
+{
+    double divisor = 1.0;
+    size_t i;
+
+    printf(&quot;%9s&quot;, &quot;&quot;);
+
+    for (i = 0; i &lt; LENGTH; ++i) {
+        printf(&quot;%17s &quot;, DATA_STORAGE_NAMES[i]);
+    }
+
+    printf(&quot;\n%4s&quot;, &quot;&quot;);
+
+    for (i = 0; i &lt; LENGTH; ++i) {
+        printf(&quot;%s %17.15f %17.12f %17.9f %17.6f %17.3f %17.0f\n&quot;,
+            DATA_STORAGE_NAMES[i], BYTE / divisor, KB / divisor, 
+            MB / divisor, , GB / divisor, TB / divisor, PB / divisor);
+        
+        divisor *= SCALE;
+    }
+}
+
+void print_byte_conversion_chart_scientific(void)   /* 지수표기법 */
+{
+    double divisor = 1.0;
+    size_t i;
+
+    printf(&quot;%9s&quot;, &quot;&quot;);
+
+    for (i = 0; i &lt; LENGTH; ++i) {
+        printf(&quot;%17s &quot;, DATA_STORAGE_NAMES[i]);
+    }
+
+    printf(&quot;\n%4s&quot;, &quot;&quot;);
+
+    for (i = 0; i &lt; LENGTH; ++i) {
+        printf(&quot;%s %17.2e %17.2e %17.2e %17.2e %17.2e %17.2e\n&quot;,
+            DATA_STORAGE_NAMES[i], BYTE / divisor, KB / divisor, 
+            MB / divisor, , GB / divisor, TB / divisor, PB / divisor);
+        
+        divisor *= SCALE;
+    }
+}</code></pre><h3 id="581725fe-cf5c-49f4-8a1c-c667de57300a" class="">서식 문자열이 필요한 이유</h3><ul id="7c852bb9-572d-4770-8ca9-29c1006531ec" class="bulleted-list"><li style="list-style-type:disc">일단 오버로딩 없음 ⇒ <code>printf(int)</code>, <code>printf(char)</code> 불가능</li></ul><ul id="755bb947-342c-493a-b1cd-66f910c297df" class="bulleted-list"><li style="list-style-type:disc">임시 문자열 등을 자동으로 생성 안 해줌<pre id="4f594b2f-490d-40a7-a993-bb3d32327b8f" class="code"><code>printf(&quot;Hello, &quot; + name + &quot;\nYour score is &quot; + score); /* 컴파일 오류 */</code></pre></li></ul><ul id="3fb7ff9b-3c07-48e5-b8c1-f18c2419a233" class="bulleted-list"><li style="list-style-type:disc">물론 <code>strcat()</code>을 이용해서 프로그래머가 직접 임시 문자열을 관리할 수 있음</li></ul><ul id="eae92f26-c625-41e3-bff2-7e4a8d0caa33" class="bulleted-list"><li style="list-style-type:disc">서식 문자열은 추가 메모리 할당 없이 있는 자료형을 출력스트림에 문자들로 출력해줌</li></ul><h2 id="04d54cf1-3711-4b5a-8feb-289541d34392" class="">fprintf()</h2><pre id="5a514999-aefe-48a0-bfd2-dc1a5552bf54" class="code"><code>const char* name = &quot;HONG&quot;;
+fprintf(stdout, &quot;Hello, %s\n&quot;, name);</code></pre><ul id="17c5de9b-c38e-4939-979d-5c808786473c" class="bulleted-list"><li style="list-style-type:disc">스트림을 사용</li></ul><ul id="4798061e-950c-498d-8b2f-1caa4d321a13" class="bulleted-list"><li style="list-style-type:disc">보통 프로그램이 실행할 때 기본적으로 3개의 스트림을 줌<p id="c7630de2-49e5-4c1f-ab4e-fd4885867a25" class="">1) stdout (콘솔 출력)</p><ul id="9232a55c-c852-4118-a8fa-415300ed9dbb" class="bulleted-list"><li style="list-style-type:circle">이제까지 계속 봐왔던 콘솔 스트림</li></ul><ul id="c598ca1d-9016-44ae-9ecf-78ace27ae01b" class="bulleted-list"><li style="list-style-type:circle">라인 버퍼링(line buffering) 사용</li></ul><p id="f8fcd863-7228-4a02-87c1-a0e2d11fc06b" class="">2) stdin (콘솔 입력)</p><p id="002f866b-d012-4183-a75d-6d259f31e696" class="">3) stderr (콘솔 출력; 오류 메세지를 출력하는 스트림)<div class="indented"><p id="77054099-5cff-4412-8028-14e25308aa36" class="">⇒ 이 3개의 스트림을 표준 스트림(standard stream)이라 함</p></div></p></li></ul><ul id="36658b7a-f592-4848-8d07-469a879e5350" class="bulleted-list"><li style="list-style-type:disc">모든 출력 스트림에 사용 가능<p id="190d49aa-2f93-4024-8091-e0ee4bbd91d4" class="">⇒ 첫 인자로 들어가는 스트림만 달라지고, 나머지는 매개변수 그대로</p></li></ul><hr id="ee6f84bc-2779-4162-a5ef-b503a3a49e89"/><p id="0792bd73-1424-4c33-a8c5-b691cdc1cc89" class=""><strong>&lt;버퍼링&gt;</strong></p><ul id="9ac258a8-1b46-4533-8fc1-3121906e6753" class="bulleted-list"><li style="list-style-type:disc">출력할 내용이 있어도 곧바로 출력하지 않고 쌓아둠</li></ul><ul id="8af6aca6-499d-48ac-8f4c-0726fd688385" class="bulleted-list"><li style="list-style-type:disc">어느정도 버퍼가 차면 그제서야 출력</li></ul><p id="419df6b0-5f2a-4125-ae25-29e509652a60" class="">&lt;<strong>버퍼링의 종류&gt;</strong></p><ul id="f9de0bc2-4dd6-49c5-9087-c4a4dc7c9cfa" class="bulleted-list"><li style="list-style-type:disc"><strong>풀 버퍼링(full buffering)</strong><p id="74a86cbf-3d70-4ffc-bd3e-8ac1d065c723" class="">⇒ 버퍼가 가득 차면 비움</p><p id="a1d6cd01-544e-47e3-a701-af997dd5c141" class="">⇒ 강제로 버퍼를 비우고 싶다면 fflush(stdout);을 호출하면 됨</p></li></ul><ul id="cfd819ce-d701-4a4a-8424-056683a1e4b6" class="bulleted-list"><li style="list-style-type:disc"><strong>라인 버퍼링(line buffering)</strong><p id="3dbaba44-1c34-41fb-ba59-e8ae5bcf8db3" class="">⇒ 1) 버퍼가 꽉 차거나 2) 버퍼에 &#x27;/n&#x27;가 들어오면 버퍼를 비움</p><p id="6c62d765-a08c-4990-bb65-ec287252758a" class="">⇒ 강제로 버퍼를 비우고 싶다면 fflush(stdout);을 호출하면 됨</p></li></ul><ul id="98d5485f-5467-42b9-b10f-38142b4bc729" class="bulleted-list"><li style="list-style-type:disc"><strong>버퍼링 없음(no buffering)</strong><p id="2748c611-bdea-420f-b1ba-0c439b5081ee" class="">⇒ 버퍼를 사용하지 않음</p></li></ul><ul id="860bf963-13f4-4a22-a308-52f9d35a83b4" class="bulleted-list"><li style="list-style-type:disc">표준에서 stdout, stderr, stdin의 버퍼링 종류를 지정하지 않음 (구현에 따라 다를 수 있음)</li></ul><hr id="daab43e6-2f4a-4fe3-bf1d-786d54e0744f"/><h2 id="911c146b-580d-40f7-ad5e-d6977916a317" class="">sprintf()</h2><pre id="7e78c2b9-12bc-41db-8e41-275a7fe20c81" class="code"><code>int sprintf(char* buffer, const char* format, ...);</code></pre><ul id="f1d9526c-2c35-4b8d-b5cf-71879cc87fbd" class="bulleted-list"><li style="list-style-type:disc">C에 문자열 스트림은 없지만 그 대신 <code>sprintf()</code>가 있음</li></ul><ul id="bcd99ff1-383c-409e-84bd-408955068578" class="bulleted-list"><li style="list-style-type:disc">그냥 <code>char</code> 배열에 출력</li></ul><ul id="4e8a3929-93ae-4367-ab04-e552719a6ec3" class="bulleted-list"><li style="list-style-type:disc">굉장히 많이 쓰임 → 심지어 C++에서 string 클래스가 있는데도 이걸 대신 많이 씀<p id="97bd84a8-354b-4041-b3ea-b40855f3219d" class="">Why? 속도 때문 (가장 빨리 문장려을 조작하는 함수는 C 함수)</p></li></ul><ul id="7dd03abc-07ea-4152-8b98-dafa4bc5de28" class="bulleted-list"><li style="list-style-type:disc">다만 프로그래머가 충분히 큰 버퍼를 잡아주지 않으면 위험함</li></ul><pre id="8d419b7a-8402-447b-8ccd-d9278be8ef6e" class="code"><code>char buffer[100];
+int score = 100;
+const char* name = &quot;Rachel&quot;;
+
+sprintf(buffer, &quot;%s: %d&quot;, name, score);
+
+printf(%s\n&quot;, buffer);
+
+/* Rachel: 100 */</code></pre><ul id="0234a0ca-ec84-4756-bd3d-93d29eb8fe56" class="bulleted-list"><li style="list-style-type:disc">안전하지 않음 ⇒ <code>strcpy()</code>, <code>strcat()</code>와 같은 이유</li></ul><ul id="fb03de6d-aae6-4cac-adf7-80ef7a1db76b" class="bulleted-list"><li style="list-style-type:disc">안전하게 돌아가게 하기 위한 n이 들어가는 함수<ol type="a" id="31ccea04-e9e6-4a72-abbb-1d783646c17b" class="numbered-list" start="1"><li>C89에는 없음</li></ol><ol type="a" id="45d76c10-8150-454f-a838-bfebc5630a81" class="numbered-list" start="2"><li>C99에 들어옴 → <code>snprintf()</code></li></ol></li></ul><ul id="385c9a5d-544d-4abe-97ee-00edb7d6d423" class="bulleted-list"><li style="list-style-type:disc">대신 표준은 아니지만 컴파일러마다 다르게 제공하는 함수가 있음<ol type="a" id="8cdbea0f-91e3-4de7-932c-97b776847d37" class="numbered-list" start="1"><li>예 :  마이크로소프트 비주얼 C의 <code>_snprintf()</code></li></ol><ol type="a" id="2006a56d-4bae-4a99-bcdc-d9af98fd034d" class="numbered-list" start="2"><li>그러나 표준이 아니라서 작동하는 방법이 다름</li></ol></li></ul><h2 id="366e9dc3-7b90-47af-a1cb-fbd91a66ad83" class="">기타 출력 함수</h2><h3 id="d93b1124-17c0-4a6b-a301-5a74a51a08cf" class="">puts()</h3><pre id="ab1c7b92-252d-4248-8083-b0ce92f8a5d3" class="code"><code>int puts(const char* str);
+int fputs(const char* str, FILE* stream);</code></pre><ul id="157933f6-d340-4a28-85b7-ebf59d9f8e14" class="bulleted-list"><li style="list-style-type:disc">문자열을 stdout에 출력</li></ul><ul id="db7acc2a-b81a-4bef-a2ce-bac63b10f8dc" class="bulleted-list"><li style="list-style-type:disc"><code>fputs(str, stdout)</code>와 매우 비슷</li></ul><h3 id="1c894fb8-7059-473b-9a54-b35f1a5fc316" class="">putchar()</h3><pre id="d7229907-b8b0-4f9f-911e-79f8be873fc3" class="code"><code>int putchar(int ch);
+int fputc(int ch, FILE* stream);</code></pre><ul id="645ae2e1-b50a-4246-a4dc-3561415a5a13" class="bulleted-list"><li style="list-style-type:disc">문자를 stdout에 출력</li></ul><ul id="ffbdd255-4a81-4a9e-b640-4d56d310d908" class="bulleted-list"><li style="list-style-type:disc"><code>fputc(ch, stdout)</code>과 같음</li></ul><p id="0ec7aca9-db97-4eb8-b122-3e7935ed446c" class="">
+</p><p id="d352f4cf-fddc-4043-a501-fe65b6270adc" class="">
+</p></div></article></body>
+
 {% endblock post_content %}
