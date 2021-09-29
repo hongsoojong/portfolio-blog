@@ -16,6 +16,7 @@ urlpatterns = [
     path("post/10", views.post10, name="post10"),
     path("post/11", views.post11, name="post11"),
     path("post/12", views.post12, name="post12"),
+    path("post/13", views.post13, name="post13"),
     path("post/<int:blog_pk>", views.detail, name="detail"),
     path("", views.all_posts, name="all-posts"),
 ]

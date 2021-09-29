@@ -1,0 +1,608 @@
+{% extends 'blog/all_posts/base_post.html' %}
+
+{% load static %}
+
+{% block post_title %}
+    <a href="{% url 'blog:all-posts' %}" class="font_kor">(10) 레지스터, 스택 & 힙, 동적 메모리. 다중 포인터</a>
+{% endblock post_title %}
+
+{% block post_content %}
+
+{% block post_date %}
+    <div class="container w-1/2 mx-auto mb-10 post_date">[ Sept 29, 2021 ]</div>    
+{% endblock post_date %}
+
+<main class="container w-1/2 mx-auto font_kor">
+
+{% include "blog/all_posts/css_post.html" %}
+  
+<!-- notion html -->
+<body><article id="28dec742-b4ff-43d1-aeac-26f232ce633f" class="page sans"><div class="page-body"><ul id="225f45c5-af0e-48e3-8ed2-1f05bafce5ba" class="bulleted-list"><li style="list-style-type:disc">컴퓨터는 한 덩어리의 완전체가 아니라 다양한 부품으로 구성</li></ul><ul id="a6a73c8e-27ed-400a-8165-5440aeecb7e2" class="bulleted-list"><li style="list-style-type:disc">CPU, 메모리, 하드 디스크, SSD 등</li></ul><h3 id="9f32bcb9-3e15-43c2-b703-537892dad470" class="">프로그램에서 주로 사용하는 부품</h3><p id="1e108c84-c79a-42d4-bda1-4f8b65097822" class="">⇒ 이 중 프로그램에서 주로 사용하는 부품은 2개</p><p id="46d6a44a-f226-41d8-acae-2fd6ab66dc03" class="">1) CPU</p><ul id="a48c4586-cec2-4b87-a325-b31274fd5b11" class="bulleted-list"><li style="list-style-type:disc">모든 코드의 로직(연산)을 실행하는 제어 장치</li></ul><ul id="084ba17d-8dfb-4b0d-969c-9f68ead58288" class="bulleted-list"><li style="list-style-type:disc">컴퓨터에서 가장 핵심적인 <strong>두뇌</strong>라고 할 수 있음</li></ul><p id="eedf3ebc-a5da-43fc-95b2-99c478711f11" class="">2_ 메모리</p><ul id="42822fdc-26d0-4d1a-9e0f-fb26b951c954" class="bulleted-list"><li style="list-style-type:disc">실행 중인 코드 및 연산의 중간 결과 등을 저장하는 공간</li></ul><ul id="9e177914-edfb-48db-b240-a86b2f89e4ca" class="bulleted-list"><li style="list-style-type:disc">변수나 배열 등에 대입되는 데어터가 저장됨</li></ul><ul id="2215c10e-2c1f-4b9b-8e6c-07c30760e3e8" class="bulleted-list"><li style="list-style-type:disc">무언가를 &#x27;적어둔다&#x27;는 점에서 <strong>공책 또는 메모장</strong> 같다고 할 수 있음</li></ul><h2 id="aedb7c46-e638-4951-b55a-5f489338b8b5" class="">메모리</h2><ul id="a6925b97-ab70-4d10-9100-0e763ccd9303" class="bulleted-list"><li style="list-style-type:disc">프로그램 실행 중에 여러 데이터가 공유하는 메모리는 둘로 나눔<p id="6eac8a33-cca5-44a8-977f-7c3f67a33771" class="">1) 스택(stack) 메모리</p><p id="a6fabd55-b8d2-4bb8-95d4-fe6ef6aec4d2" class="">2) 힙(heap) 메모리</p></li></ul><ul id="b3b21978-dc84-4a84-acce-f5a9ac428676" class="bulleted-list"><li style="list-style-type:disc">사실상 이 둘은 물리적으로 같은 메모리</li></ul><ul id="9da7d64d-3ef1-4a44-bf5b-63e9c5968f13" class="bulleted-list"><li style="list-style-type:disc">이 외에 데이터 섹션, 코드 섹션 등도 있으나 그건 특정 코드 및 데이터용으로 고정</li></ul><hr id="b6c462f7-3c9d-4567-8011-2db3e025665e"/><p id="f5ac491d-2ac9-462a-a668-09ecc77b0bf9" class=""><strong>기본은 힙 메모리</strong></p><ul id="072e730f-4884-4f4f-9798-3f50747082fe" class="bulleted-list"><li style="list-style-type:disc">힙 메모리가 범용적인 기본 형태</li></ul><p id="2e62a63b-f987-4231-a886-d1898459e6a2" class=""><strong>스택 메모리는 특별한 용도를 가진 메모리</strong></p><ul id="72893838-bb34-46d7-96fd-f76bdec700b8" class="bulleted-list"><li style="list-style-type:disc">프로그램마다 특별한 용도에서 사용하라고 별도로 뗴어놔 준 것<ul id="96d158dc-440e-4eda-9380-84711c80a231" class="bulleted-list"><li style="list-style-type:circle">엄밀히 말하면 프로그램마다가 아니라 그 프로그램의 thread마다</li></ul></li></ul><p id="3088903e-3023-40e6-88cd-0720a6305468" class=""><strong>CPU 안에도 저장 공간이 있음</strong></p><ul id="c7d87a72-21aa-4d6e-815c-41af9d8da0f0" class="bulleted-list"><li style="list-style-type:disc">레지스터 : CPU에서만 사용할 수 있는 <strong>고속</strong> 저장 공간</li></ul><ul id="72de69fc-441e-4f0c-ae7f-ba066de8d92c" class="bulleted-list"><li style="list-style-type:disc">엄밀한 의미의 메모리는 아님</li></ul><hr id="b8c114eb-8295-4491-a96f-54f80b2d53b7"/><h2 id="a9783786-407f-4736-ab5e-eb4ac588a3bc" class="">스택 메모리</h2><ul id="6134dc1f-3ac1-4254-9d31-00f6b77fc8d5" class="bulleted-list"><li style="list-style-type:disc">스택이 채워지는 방향 : 높은 주소 → 낮은 주소</li></ul><ul id="c613a611-d150-4113-a248-a447c559fcc4" class="bulleted-list"><li style="list-style-type:disc">함수를 호출할 떄 스택에 정확히 어떤 게 어떤 순서로 들어가는지는 함수 호출 규약(calling convention)에 따라 달라짐</li></ul><h2 id="26432eed-8f64-47d3-a95a-6a8bdc910694" class="">레지스터</h2><ul id="5d9056a4-1140-40c7-ae17-ed21d3ef2c2e" class="bulleted-list"><li style="list-style-type:disc">휘발성 데이터 저장공간 (컴퓨터를 껐다가 켜면 사라짐)</li></ul><ul id="57ffa078-6746-4474-bb56-87886de67bd0" class="bulleted-list"><li style="list-style-type:disc">메모리는 아님!</li></ul><ul id="23bc338f-2648-49ab-85f8-e9c7ea9ba365" class="bulleted-list"><li style="list-style-type:disc">레지스터가 있는 이유<p id="7312cb16-c888-4df3-afc1-5cbd8b28747a" class="">⇒ 앞에서 CPU는 뇌, 메모리는 공책이라고 했음. 머릿속에서 생각한 것을 공책에 옮겨적으려면 시간이 걸리듯이 CPU가 생각한 것을 메모리에 적거나 그로부터 읽을 때도 시간이 걸림</p></li></ul><h3 id="b835a27d-f6d2-4f6e-a42b-c2b653734547" class=""><strong>메모리를 읽고 쓰는게 느린 이유</strong></h3><p id="34c2acdd-e087-429a-b806-c137cd29b465" class="">1) CPU가 메모리에 접근할 때마다 버스에 타야함</p><ul id="4a611ede-7cda-4d8e-858e-3c03506dce3e" class="bulleted-list"><li style="list-style-type:disc">즉, CPU가 연살할 떄마다 메모리에 접근하는 시간이 발생함<ul id="c1e1c0f1-8a3a-4bdd-885f-f571fc8c41f7" class="bulleted-list"><li style="list-style-type:circle">버스가 크면 한번에 많이 읽어오겠지만, 메모리가 낭비가 생기고</li></ul><ul id="f4a3e0b5-9373-424d-8112-da36afddd28c" class="bulleted-list"><li style="list-style-type:circle">버스가 작으면 메모리 낭비는 적을 수 있겠지만, 여러 번 왔다갔다 할 수 있음</li></ul></li></ul><p id="a08cb0f7-8653-4be7-a63a-868e94f531a1" class="">2) 대부분 컴퓨터에 장착하는 메모리는 DRAM(Dynamic Random Access Memory)임</p><ul id="cac679f5-6df8-4565-ac44-8abfaf6b5838" class="bulleted-list"><li style="list-style-type:disc">DRAM은 가격이 저렴한 대신 한가지 큰 단점이 있음<ul id="e252dc56-e872-40a1-834b-4bb8e9eafd6f" class="bulleted-list"><li style="list-style-type:circle">기록된 내용을 유지하기 위해서 주기적으로 정보를 다시 써줘야함</li></ul><ul id="b5d3a229-0f24-4726-a651-22140b5f9b53" class="bulleted-list"><li style="list-style-type:circle">다시 쓰는 동안 또 시간을 소모</li></ul></li></ul><ul id="fc8e201f-0fc2-45b1-8f10-5460e2adcdd4" class="bulleted-list"><li style="list-style-type:disc">이러한 단점이 없는 메모리로 SRAM(Static RAM)이 있지만, 비용이 매우 비싸며, 이걸 몇 기가나 달기에는 좀 부담스러움 </li></ul><h3 id="e4933e17-896e-44b6-8200-fc25dd751992" class="">비용은 저렴하지만 속도가 빠른 컴퓨터</h3><ul id="9f50fa49-ef6d-4900-912a-228086fe275e" class="bulleted-list"><li style="list-style-type:disc">SRAM을 CPU와 메모리 사이에 두는 방법을 고안함<ul id="3050e91c-c8de-48e8-b08a-5dcda381300b" class="bulleted-list"><li style="list-style-type:circle">단, 너무 비싸니 매우 적은 용량만</li></ul><ul id="caf579b7-6a5f-4400-a9bb-2c7d7ed1d446" class="bulleted-list"><li style="list-style-type:circle">일반적인 SRAM하고는 조금 다름</li></ul></li></ul><ul id="4706155d-02d1-438e-8538-277de4a28c37" class="bulleted-list"><li style="list-style-type:disc">CPU랑 가까이 두고 싶어서 아예 <strong>CPU 안에</strong> 넣어버림</li></ul><ul id="7b2dcc4c-b075-4146-9452-5a67f70d837f" class="bulleted-list"><li style="list-style-type:disc">그것이 바로 <strong>레지스터</strong></li></ul><h3 id="70a9d6ca-b216-4921-a73d-3ca79e684033" class="">레지스터</h3><ul id="fbca096f-29f7-48d8-81ad-da19f320a37c" class="bulleted-list"><li style="list-style-type:disc">레지스터는 CPU가 사용하는 저장 공간 중에 가장 빠른 저장 공간</li></ul><ul id="ee683554-6bb9-4302-8a57-b67d0fde98a0" class="bulleted-list"><li style="list-style-type:disc">CPU가 연산을 할 때 보통 레지스터에 저장되어 있는 데이터를 사용</li></ul><ul id="4cb736eb-e866-4d92-9f0d-a848a326d105" class="bulleted-list"><li style="list-style-type:disc">그 연산결과도 레지스터에 다시 저장하는게 보통임</li></ul><ul id="6535cbde-9a09-4075-bb47-196641314c62" class="bulleted-list"><li style="list-style-type:disc">다시 한번 강조하자면, 레지스터는 흔히 말하는 &#x27;메모리&#x27;가 아님<p id="cd78bb67-f869-4417-992c-1ffe18a2aadf" class="">⇒ CPU가 레지스터에 접근하는 방법과 메모리 접근하는 방법은 다른게 보통임</p></li></ul><h3 id="0e3608e9-74eb-4c61-930e-012df7c560aa" class="">어셈블리어로 보는 레지스터</h3><ul id="cca8ea20-be66-4c13-bce8-af42d00c4f80" class="bulleted-list"><li style="list-style-type:disc"><code>ebp</code>, <code>esp</code>, <code>eax</code>, <code>ecx</code> : 모두 다 레지스터</li></ul><p id="2b986557-077a-4eef-8117-8e8e815f79a4" class=""><strong>&lt;x86 아키텍쳐에서 사용하는 레지스터&gt;</strong></p><ul id="6aa3d118-8fd6-4a03-9d21-48507d4602a8" class="bulleted-list"><li style="list-style-type:disc">8개의 범용 레지스터(general-purpose register)<ul id="9e9984b3-b1e0-415f-b12e-6d053621e454" class="bulleted-list"><li style="list-style-type:circle">ESP, EBP, EAX, EBX, ECX, EDX 등등</li></ul></li></ul><ul id="09906146-0363-4ccc-bde6-438869ce7215" class="bulleted-list"><li style="list-style-type:disc">6개의 세그먼터 레지스터(segment register)</li></ul><ul id="3b5ab875-30a5-467f-b2dd-fc1268be59a9" class="bulleted-list"><li style="list-style-type:disc">1개의 플래그 레지스터(flags register)</li></ul><ul id="cece0c31-85b4-4d33-9344-6f2a318f195e" class="bulleted-list"><li style="list-style-type:disc">1개의 명령어 포인터(instruction pointer)</li></ul><ul id="16fd5623-0f53-438e-91cb-f1d1efec2c17" class="bulleted-list"><li style="list-style-type:disc">등등</li></ul><p id="b5319767-4301-4fc3-8434-c577a7797f90" class=""><strong>&lt;C코드의 어셈블리어 패턴&gt;</strong></p><p id="9eedad18-bbd2-4126-bc11-e1fa248f2204" class="">1) 변수의 값을 메모리 어딘가에 저장</p><p id="57d947e0-c70c-49cd-bc19-a9e5eb481d8e" class="">2) 그 변수의 값을 읽어와 레지스터에 저장</p><p id="1cf1acdf-b9ed-4059-9ec1-114a3d4d88ad" class="">3) 레지스터에 저장된 값을 가지고 계산한 뒤, 계산 결과도 레지스터에 저장</p><p id="c7bd965c-43a5-41a0-a1c1-279547373ffb" class="">4) 그 결과를 다시 메모리에 저장</p><p id="ba105b05-066a-43d4-8737-955f0fc375af" class="">5) 그리고 다시 그 결과를 사용해서 계산하면 레지스터에 또 복사</p><h3 id="d6d2f593-10af-47a9-92f7-5f6fb729183c" class="">register 키워드</h3><p id="f9c5a613-7297-45c1-ae41-e36c9ba17981" class=""><strong>&lt;메모리를 거치지 않고 레지스터만 쓰면 빠를 것 같은데?&gt;</strong></p><p id="a644b9b7-17f7-46df-9cf0-d57bc52c4b2e" class="">⇒ 어셈블리어로 코드를 작성하면 언제든지 사용가능<div class="indented"><p id="a05486ea-8aec-4632-ab37-61e1f890124f" class="">단, CPU에 탑재된 레지스터 수가 몇 개 없기 때문에 모든 것을 레지스터에 저장하는 것은 불가능</p></div></p><p id="7af5487d-5b3d-4dbf-adf8-34f69ee001c9" class=""><strong>&lt;C 코드에서 레지스터를 사용하는 방법&gt;</strong></p><ul id="52f5bf0e-328a-4ee5-be3d-100dba523abc" class="bulleted-list"><li style="list-style-type:disc">레지스터를 사용해달라고 부탁할 수는 있음<p id="09924722-0071-43da-a0c6-b26bec0b73ff" class="">⇒ 들어줄지 말지는 컴파일러는 마음</p></li></ul><ul id="e02b64f3-0848-417d-8786-16d696bc5ef9" class="bulleted-list"><li style="list-style-type:disc">따라서 가능하면 레지스터를 사용해 달라는 &#x27;힌트&#x27;정도만 줄 수 있음<p id="828f24ca-6276-4b1e-bfd5-ca9b362f928b" class="">⇒ 하지만 현재 크게 의미없음</p></li></ul><p id="f9fdff72-41d8-4c18-bd75-ecc0348f0efc" class=""><strong>&lt;레지스터 사용을 &#x27;요청&#x27;하는 예&gt;</strong></p><ul id="49e84a30-2e08-4e9f-897d-68719a046af1" class="bulleted-list"><li style="list-style-type:disc">스택이 아니라면 가능한 레지스터 넣어달라고 요청</li></ul><p id="a12d7711-d6f5-4882-9617-775df65bc09b" class="">⇒ 반드시 레지스터를 사용해주는 것은 아님!!</p><pre id="1053fcf2-7d08-423f-9ec8-803351d64bef" class="code"><code>int num;
+register size_t i;
+
+num = 0;
+
+for (i=0; i &lt; 1000; ++i) {
+	num += i;
+}
+
+printf(&quot;num: %d\n&quot;, num);</code></pre><p id="491c5423-8bd1-4f3d-b75b-2450af401560" class=""><strong>&lt;register 키워드&gt;</strong></p><figure class="block-color-gray_background callout" style="white-space:pre-wrap;display:flex" id="0d05bb49-66f1-4f40-b5f3-cf4f59d4645a"><div style="font-size:1.5em"><span class="icon">💡</span></div><div style="width:100%"><strong>register &lt;자료형&gt; &lt;변수명&gt;;</strong></div></figure><ul id="3dab4c73-cd99-4a57-a942-8a585d694fd7" class="bulleted-list"><li style="list-style-type:disc">저장 유형 지정자(storage-class specifier)</li></ul><ul id="62d9aa8e-9678-4389-8f38-ac7205e06f64" class="bulleted-list"><li style="list-style-type:disc">가능하다면 해당 변수를 레지스터에 저장할 것을 요청</li></ul><ul id="bece6605-9774-493d-8311-42693a60b531" class="bulleted-list"><li style="list-style-type:disc">실제로 레지스터를 사용할지 말지는 컴파일러가 결정</li></ul><ul id="aba459d8-fff6-4b07-9404-85aad350aa09" class="bulleted-list"><li style="list-style-type:disc"><strong>레지스터는 메모리가 아님</strong></li></ul><ul id="1fba23b9-279b-405a-9baf-19651ec872d9" class="bulleted-list"><li style="list-style-type:disc">따라서, 레지스터 변수들은 몇 가지 제약을 받음</li></ul><hr id="5689ccf3-e0e8-4d19-b8df-6e9e59bfd249"/><p id="6ff1d16b-cc23-4e77-b365-4fa591297029" class=""><strong>제약 1 : 변수의 주소를 구할 수 없음</strong></p><pre id="6ea11afc-01ed-40f3-8b3a-301c7741a3eb" class="code"><code>register int num = 10;
+int*p;
+
+p = &amp;num; /* 컴파일 오류 */ </code></pre><p id="dbf203a6-7883-4b23-a52c-d8d27713bf49" class=""><strong>제약 2 : 레지스터 배열을 포인터로 사용 불가</strong></p><pre id="8e07f2d7-1c2f-4c14-b1ec-3fe36e521bfc" class="code"><code>register int nums[10];
+int*p;
+
+p = &amp;nums;       /* 컴파일 오류 */ 
+p = &amp;nums[0];    /* 컴파일 오류 */ </code></pre><p id="0d4f115f-3746-4ada-b5af-d2690563d74e" class=""><strong>제약 3 : 블록 범위에서만 사용 가능</strong></p><pre id="675ccf8a-a8c3-438b-b52a-b61c081329e3" class="code"><code>#include &lt;stdio.h&gt;
+
+register int g_num;   /* 컴파일 오류 */
+
+int main(void)
+{
+	return 0;
+}</code></pre><ul id="a97a97bc-3005-455e-8d97-75647b057228" class="bulleted-list"><li style="list-style-type:disc">전역 변수에는 사용할 수 없음<p id="b754be38-d03d-40bb-aa2a-93c4cc9a38b0" class="">⇒ 전역 변수를 사용하는 순간 데이터 섹션에 들어가야함</p></li></ul><hr id="f2e0f4ea-f7ff-4f42-b48c-f6efb70361b2"/><p id="16aa0cd9-841c-4293-9a21-c6d08f9ea384" class=""><strong>&lt;더이상 거의 사용하지 않는 register 키워드&gt;</strong></p><ul id="25f3cdf2-6b6c-4802-8729-62096f7c8235" class="bulleted-list"><li style="list-style-type:disc">크게 의미가 없음 → 데스크탑 컴파일러들은 register 키워드를 넣어준다고 해서 특별하게 해주는 것이 없으며 대부분 무시함</li></ul><ul id="89899138-fee9-4aba-95f4-d743f9241510" class="bulleted-list"><li style="list-style-type:disc">예전 임베디드 시스템에서는 의미가 있었음<p id="8dcb3449-1b0d-4a0a-9ebd-8d74cfb4f2c9" class="">⇒ CPU도 매우 느렸고, 메모리 용량도 적었고, 최적화를 잘 해주지 않는 컴파일러 때문에 프로그래머가 레지스터 사용까지 직접 지시했어야 했음</p></li></ul><ul id="46de9e3f-edff-4df6-a4f1-c8a6b22e96bb" class="bulleted-list"><li style="list-style-type:disc">이제는 보통 컴파일러가 배포(release) 모드에서 알아서 최적화<ul id="ff0504d4-121a-4f79-8a2d-0443e94475a6" class="bulleted-list"><li style="list-style-type:circle">불필요한 스택 메모리의 접근을 없애고</li></ul><ul id="bf2926dd-a1a5-4722-8802-dfa6e4758700" class="bulleted-list"><li style="list-style-type:circle">레지스터에만 있으면 빠를 거 같은 변수도 그렇게 해주고</li></ul><p id="308ef568-a2ec-4cc8-89d4-d123fdb5c3e3" class="">⇒ 더이상 프로그래머가 수동으로 사용하지 않는 키워드</p></li></ul><h2 id="9e5f9236-c300-4fe0-9b0d-21afb8cc5a07" class="">힙 메모리</h2><h3 id="6111e8b7-fcde-4627-973a-29fa4b4661e6" class="">스택 메모리의 단점</h3><p id="28bbc68f-cf7a-43a6-954c-0342271b421b" class=""><strong>&lt;수명&gt;</strong></p><ul id="d862f48e-edc6-4cec-ad25-a2252ad28e80" class="bulleted-list"><li style="list-style-type:disc">함수가 반환하면 그 안에 있던 데이터가 다 날아감<ul id="cbee5178-0636-44e0-b647-2c9ae591c632" class="bulleted-list"><li style="list-style-type:circle">즉, 함수 안에 있는 변수와 수명은 함수가 끝날 때까지</li></ul></li></ul><ul id="4c644d72-58fc-4999-abda-a2e0be96f9ee" class="bulleted-list"><li style="list-style-type:disc">그러지 않고 데이터를 오래 보존하려면 전역변수, 또는 <code>static</code>키워드를 사용해야 했음<ul id="c8a1b55d-17fa-4fe9-95ea-800124ff3e68" class="bulleted-list"><li style="list-style-type:circle">이런 변수의 수명은 프로그램 실행 내내</li></ul></li></ul><ul id="0c7dfc49-ace4-4a7f-ada3-c190236b62b3" class="bulleted-list"><li style="list-style-type:disc">그 중간 어딘가 내가 원할 때 만들거나 지울 수 있는 저장공간은?</li></ul><p id="86a532db-b3ad-4df4-9e35-bdf1c75cb9a2" class=""><strong>&lt;크기&gt;</strong></p><ul id="e46f08f9-c2fe-4991-bc54-3de27c313b3e" class="bulleted-list"><li style="list-style-type:disc">특정 용도에 쓰라고 별도로 뗴어 놓은 메모리</li></ul><ul id="00746d27-343b-4ad7-99a3-2acb739014c2" class="bulleted-list"><li style="list-style-type:disc">그 크기는 컴파일 시에 결정하므로 너무 크게 못 잡음</li></ul><ul id="4312927f-918e-4f86-9f03-f017f63e660b" class="bulleted-list"><li style="list-style-type:disc">프로그램을 실행할 시스템의 메모리가 1MB일 수도 있고 4GB일 수도<p id="58e67751-3e1a-4c62-a491-e0cf34242bb7" class="">⇒ 최소한에 맞출 수 밖에 없음</p></li></ul><ul id="963fa972-a5bf-4beb-97d4-0b4e14387208" class="bulleted-list"><li style="list-style-type:disc">그래서 엄청 큰 데이터를 처리해야 할 경우 스택 메모리에 넣지 못함<p id="961d8f5b-bce9-4297-9295-bc3ead84ac59" class="">⇒ 예 : 4K로 녹화해서 파일의 크기가 2GB인 동영상 파일</p></li></ul><h3 id="3b8ebc83-3f89-414c-8046-92984a71e2d4" class="">힙 메모리</h3><ul id="f7b04103-e8b5-4f76-b71d-2bedb49b394c" class="bulleted-list"><li style="list-style-type:disc">컴퓨터에 존재하는 범용적 메모리</li></ul><ul id="89e1ce1c-7cd1-4b45-9745-b99818a7a9dc" class="bulleted-list"><li style="list-style-type:disc">스택 메모리처럼 특정 용도로 뗴어 놓은 게 아님</li></ul><ul id="418e552d-ea8c-4626-b217-31ca5d171670" class="bulleted-list"><li style="list-style-type:disc">스택과 달리 컴파일러 및 CPU가 자동적으로 메모리 관리를 안 해줌</li></ul><ul id="5284caf5-4014-41cb-8a37-7780840f5f43" class="bulleted-list"><li style="list-style-type:disc">따라서 프로그래머가 원하는 때 원하는 만큼 메모리를 할당받아와 사용하고 원할 때 반납(해제)할 수 있음</li></ul><h3 id="f2000b3a-a184-4c7e-a439-0c9b68cd4332" class="">힙 메모리의 장점</h3><ul id="6187684b-a1e5-49aa-888f-c16b7c816ca5" class="bulleted-list"><li style="list-style-type:disc">용량 제한 없음<ul id="5b677dd2-0fd3-494b-b4c0-ed4e7eb5dd3e" class="bulleted-list"><li style="list-style-type:circle">컴퓨터에 남아있는 메모리만큼 사용 가능</li></ul></li></ul><ul id="15691c8f-4f3a-44b1-a94d-f2519c10cb4b" class="bulleted-list"><li style="list-style-type:disc">프로그래머가 데이터의 수명을 직접 제어<ul id="9a194df7-6070-494c-958a-65e9a249507d" class="bulleted-list"><li style="list-style-type:circle">스택에 저장되는 변수처럼 함수 호출이 끝나면 사라지지 않음</li></ul><ul id="19c2baa1-804f-41dc-bb45-9859b07c56b5" class="bulleted-list"><li style="list-style-type:circle">전역변수처럼 프로그램이 실행되는 동안 계속 살아있는 것도 아님</li></ul></li></ul><h3 id="bf2853f0-d3a8-40f2-a6b4-04684fd16bc5" class="">힙 메모리의 단점</h3><p id="ad9b378d-aa06-4775-ad65-ac3c3036ebc0" class="">1) 빌려온 메모리를 직접 해제 안 하면 누구도 그 메모리를 쓸 수 없음</p><ul id="32666168-ca7c-4313-ba31-d3e70e0de029" class="bulleted-list"><li style="list-style-type:disc">그 메모리는 계속 누군가에게 빌려준 상태</li></ul><ul id="63327df4-1a5d-48f5-acdb-dce6e5f2a572" class="bulleted-list"><li style="list-style-type:disc">만약, 빌려간 쪽에서 그 메모리 주소를 잃어버리면 메모리 누수 발생<hr id="cb483b8a-9f1a-4e51-b7db-66a1db9d8ccb"/><p id="af754727-064e-4dd9-97bc-db3f9b0b3bd8" class=""><strong>C는 언매니지드 언어다!</strong></p><ul id="16db9903-c38a-4bea-8e69-736bdb4b9438" class="bulleted-list"><li style="list-style-type:circle">매니지드 언어(예: C3, Java 등)는 메모리 해제를 알아서 해주는 언어</li></ul><ul id="6ec69b45-9e30-4832-9fc9-799d8be6043c" class="bulleted-list"><li style="list-style-type:circle">이를 메모리 관리(manage) 해준다고 하여 매니지드 언어라고 함</li></ul><ul id="fdcde23b-c5b2-4d43-9d48-d0a18c56222f" class="bulleted-list"><li style="list-style-type:circle">이 메모리 관리 기능은 다른 훌륭한 프로그래머들이 구현한 것<ul id="305f090b-2bb7-4f4c-ac27-b56593619e3f" class="bulleted-list"><li style="list-style-type:square">메모리 누수가 날 가능성이 적음</li></ul><ul id="ad9c05ea-add4-45c5-8643-3cb7925135f4" class="bulleted-list"><li style="list-style-type:square">당연히 범용적으로 만든거라 속도 등이 느릴 수 있음</li></ul></li></ul><ul id="05450117-f473-42a5-8660-1578bc2669a3" class="bulleted-list"><li style="list-style-type:circle">C는 그런 언어가 아니기에 프로그래머가 직접 해줘야함<ul id="12c08f93-0e97-4696-a851-509daec000e4" class="bulleted-list"><li style="list-style-type:square">최대한 효율성을 선택하는 대신</li></ul><ul id="20539f6d-23c3-47c3-bf64-116d487be141" class="bulleted-list"><li style="list-style-type:square">실수를 막기 위해 여러 가지 원칙들을 습관화</li></ul></li></ul><hr id="b998136a-63a0-40c6-a1f6-d8236d6d8636"/></li></ul><p id="bb98bd2f-0b74-4840-9ac1-7cdbd3ecd297" class="">2) 스택에 비해 할당/해제 속도가 느림</p><ul id="399e1cc8-80a0-4621-83e0-a875cabbc2a5" class="bulleted-list"><li style="list-style-type:disc">스택은 오프셋 개념 vs 힙은 사용/비사용 중인 메모리 관리 개념</li></ul><ul id="0cee1711-8708-4334-9808-4774c16e60e0" class="bulleted-list"><li style="list-style-type:disc">메모리 공간에 구멍이 생겨 효율적으로 메모리 관리가 어렵기도 함<p id="d10ce71f-8122-4796-b935-abc0e302c69d" class="">⇒ 메모리의 파편화(fragment)</p></li></ul><h3 id="e2216c37-cdc8-4704-b05e-92aaaadd55ee" class="">정적 메모리와 동적 메모리</h3><ul id="2017dde7-f5ae-4c0a-8edb-a30defd64af4" class="bulleted-list"><li style="list-style-type:disc">스택은 정적 메모리<ul id="4d1b896c-14b3-49d2-935c-76895e2a926f" class="bulleted-list"><li style="list-style-type:circle">이미 공간이 따로 잡혀 있음</li></ul><ul id="6cebcf81-a61d-4b41-8d2a-3aed78e10da0" class="bulleted-list"><li style="list-style-type:circle">할당/해제가 자동으로 관리되게 코드가 컴파일됨</li></ul><ul id="7c2d9e4d-4165-455f-b0b4-b4b709c5b4ee" class="bulleted-list"><li style="list-style-type:circle">오프셋 개념으로 정확히 몇 바이트씩 사용해야하는지 컴파일시 결정</li></ul></li></ul><ul id="a9ad1a81-db82-4182-b5f2-7ef4290e10ac" class="bulleted-list"><li style="list-style-type:disc">힙은 동적 메모리<ul id="465d290b-8a83-4717-8888-66cc46a79b9f" class="bulleted-list"><li style="list-style-type:circle">실행 중에 크기와 할당/해제 시기가 결정됨</li></ul></li></ul><h2 id="13fe4b38-cf54-47f1-84c4-baba6f5c3324" class="">동적 메모리</h2><p id="e231d666-7926-4560-9c4a-c5038761da9f" class="">프로그램이 동적 메모리를 가져다 사용할 때는 총 3가지 단계를 거침</p><p id="045c5bbd-4bc5-4f54-a9da-f01befb2e33a" class="">1) 메모리 할당</p><p id="a375dbbe-cddd-4b41-9998-3b3e0caf225e" class="">2) 메모리 사용</p><p id="41eb682f-6bec-46ed-8c3a-4567ec2de664" class="">3) 메모리 해제</p><h3 id="3533e753-0165-4cd3-b302-4c75d8222342" class="">동적 메모리 사용 단계 1 : 메모리 할당</h3><ul id="39c95ad4-731a-4245-9ae4-4c33c485a86b" class="bulleted-list"><li style="list-style-type:disc">힙 관리자에게 메모리를 xxx 바이트만큼 달라고 요창<ul id="41f98480-ae1d-4d72-984b-8d5e9b07e17d" class="bulleted-list"><li style="list-style-type:circle">관리자는 연속되는 그만큼의 메모리를 찾아서 반환</li></ul><ul id="00615108-54d7-452a-8766-badf8a880f3b" class="bulleted-list"><li style="list-style-type:circle">반환된 메모리는 <strong>메모리 주소</strong>니 당연히 <strong>포인터 </strong>자료형에 저장 가능<p id="22315c69-071d-4a51-afc9-6a3539baf7d6" class="">⇒ 주소 반환!</p></li></ul></li></ul><h3 id="d941f120-9501-4b20-84d3-57c489e4e728" class="">동적 메모리 사용 단계 2 : 메모리 사용</h3><ul id="8cea6412-8ee7-4a1a-95b1-72463f88db84" class="bulleted-list"><li style="list-style-type:disc">그 메모리를 원하는 대로 사용</li></ul><h3 id="fc39fa76-6504-4736-86cb-406f38245892" class="">동적 메모리 사용 단계 3 : 메모리 반납</h3><ul id="0a919e49-8a15-4d1c-abac-72de54bd8665" class="bulleted-list"><li style="list-style-type:disc">힙 관리자에게 그 메모리 주소를 돌려주면서 다 썼다고 알려줌</li></ul><h2 id="d5d7b70e-c2a0-4b84-8c9c-97a5a1476de2" class="">메모리 할당 및 해제 함수</h2><h3 id="1267bb0e-964d-4c84-bd6b-0e7228d80f20" class="">메모리 할당 및 해제 함수</h3><p id="df05275f-e517-4361-8065-05660dac6c2e" class="">⇒ <code>&lt;stdlib.h&gt;</code></p><ul id="ec1a1e33-1781-4718-9a95-3726c5e0d307" class="bulleted-list"><li style="list-style-type:disc">할당 : <code>malloc()</code>, <code>calloc()</code></li></ul><ul id="b9498b69-2584-4ae1-bc8c-524b0ce9532f" class="bulleted-list"><li style="list-style-type:disc">해제 : <code>free()</code></li></ul><ul id="089b2869-4c6d-4d19-86fd-fbaae30d6dc5" class="bulleted-list"><li style="list-style-type:disc">재할당 : <code>realloc()</code></li></ul><h3 id="3daaf6ef-65a5-4d4e-917b-806d2a62faa8" class="">기타 메모리 관련 함수</h3><p id="bd5f1b81-7ed6-433f-aff4-fb6f28b46de7" class="">⇒ <code>&lt;string.h&gt;</code></p><ul id="9bbcc527-07eb-4023-8bf9-6f4c38ce2ae7" class="bulleted-list"><li style="list-style-type:disc"><code>memset()</code>, <code>memcpy()</code>, <code>memcmp()</code></li></ul><h3 id="bfa91a96-fd64-4d7a-8214-db7598236fda" class="">malloc()</h3><pre id="63c32c00-7497-40bf-a86e-09d3bcfe2799" class="code"><code>______ malloc(size_t size);</code></pre><ul id="d6b8d6ad-6e15-44bf-90d6-aa90875f433d" class="bulleted-list"><li style="list-style-type:disc">메모리 할당(memory allocation)의 약자</li></ul><ul id="4a8f27bb-5a23-4377-91c9-aa6eab839b2f" class="bulleted-list"><li style="list-style-type:disc">size바이트 만큼 메모리를 반환해줌 (<code>size_t</code> : 음수는 안됨!)</li></ul><ul id="5f651052-d19a-4e4f-bdbf-f0afb88ee57a" class="bulleted-list"><li style="list-style-type:disc"><code>void*</code>로 반환<p id="2754b26f-a23d-4b5c-b6b5-5fd9ff2d6824" class="">⇒ 범용적이고 프로그래머가 알아서 사용할 수 있도록</p></li></ul><ul id="c97597cf-71d9-422d-9f52-1a59963e1de8" class="bulleted-list"><li style="list-style-type:disc">포인터 외에 다른 자료형으로 반환될 수 없음</li></ul><pre id="bf93234a-4cda-4d1e-afcb-687a4fc15112" class="code"><code>void* malloc(size_t size);</code></pre><ul id="642e3eda-335b-4305-8c77-650bed77a4e1" class="bulleted-list"><li style="list-style-type:disc">반환된 메모리에 들어있는 값은 쓰레기 값<p id="6c487e34-9749-45ed-b1c0-b2af7bdab64f" class="">⇒ 이전에 남아있던 데이터가 그대로 나옴</p></li></ul><ul id="49ba6b1a-4a12-4578-abb8-5979575b453f" class="bulleted-list"><li style="list-style-type:disc">즉, 초기화 해주지 않음<p id="7c7dca23-8dff-427a-a8b8-60f29f38b1cb" class="">⇒ 사용하기 위해 프로그래머가 직접 초기화</p></li></ul><ul id="850174dd-3fad-4e10-b791-1f6bff2cc1ef" class="bulleted-list"><li style="list-style-type:disc">메모리가 더이상 없다거나 해서 실패하면 NULL 반환</li></ul><h3 id="4ba90277-0ae0-48b9-9ccf-1211493a846b" class="">free() : malloc()의 짝꿍 함수!</h3><ul id="5b840713-7bee-4e94-a85f-2fd1c4b22ecb" class="bulleted-list"><li style="list-style-type:disc">동적 메모리는 프로그래머가 직접 빌리고 직접 반납까지 해줘야함!</li></ul><ul id="38902ad1-da51-45b3-b767-f9205491c4a3" class="bulleted-list"><li style="list-style-type:disc"><strong>그러므로 </strong><strong><code>malloc()</code></strong><strong> 코드를 작성하면 곧바로 </strong><strong><code>free()</code></strong><strong> 코드도 추가하는 습관을 들이는 것이 좋음</strong></li></ul><h3 id="28cb34bc-cd13-4e46-b820-fa1502d10a2b" class="">malloc()을 쓰는 예</h3><p id="79f4b21d-b550-4f85-9d1b-7641aae02689" class=""><strong>&lt;예시 1&gt;</strong></p><pre id="9ce29854-b071-48ba-90f9-9a8e3750feed" class="code"><code>#include &lt;stdlib.h&gt;
+
+#define LENGTH (10)</code></pre><pre id="a8c93c5a-f59a-4e0c-8603-cbf2f21ff29b" class="code"><code>size_t i;
+int* nums = malloc(LENGTH * sizeof(int)); 
+/* 데이터의 크기 : 요소수 * 데이터 크기  */
+/* 동적 배열을 저장하기 위한 40바이트 할당 요청 */
+
+for (i = 0; i &lt; LENGTH; ++i) {
+	nums[i] = i * LENGTH;
+}
+
+for (i = 0; i &lt; LENGTH; ++i) {
+	printf(&quot;%d&quot;, nums[i]);
+}
+
+free(nums);
+
+/*
+0 10 20 30 40 50 60 70 80 90
+_
+*/</code></pre><p id="18f71921-faa5-4032-8732-fa3a728a5c15" class=""><strong>&lt;예시 2 : 여러 줄의 입력을 받아 출력&gt;</strong></p><pre id="fc0841ca-85a8-4d7d-8a7e-a5201dfb879d" class="code"><code>#include &lt;stdlib.h&gt;
+#include &lt;stdio.h&gt;
+#include &lt;string.h&gt;
+
+#define NUM_LINES (5)
+#define LINE_LENGTH (2048)</code></pre><pre id="3f9686b5-5ad5-48a2-8b6b-24d39d065e10" class="code"><code>char* lines[NUM_LINES];
+char* line[LINE_LENGTH];
+size_t i;
+size_t i;
+
+for (i = 0; i &lt; NUM_LINES; ++i) {
+	if (!fgets(line, LINE_LENGTH, stdin)) {
+		clearerr(stdin);
+		break;
+	}
+
+	lines[i] = malloc(strlen(line) + 1); /* NULL 문자 넣기 위해 + 1 */
+	if (lines[i] == NULL) {
+		fprintf(stderr, &quot;%s\n&quot;, &quot;out of mem&quot;);
+		break;
+	}
+
+	strcpy(lines[i], line);
+}
+
+for (j = 0; j &lt; i, ++j) {
+	printf(&quot;%s&quot;, lines[j]);
+}
+
+for (j = 0; j &lt; i, ++j) {
+	free(lines[j]);
+}</code></pre><p id="0e5a92db-e5dc-4078-b082-945e64b84ef5" class="">⇒ 한계 : <code>char* lines[NUM_LINES];</code> 줄수가 NUM_LINES로 고정</p><p id="29e53582-0fad-4735-8c19-0f0c2ba55462" class=""><strong>&lt;예시 3 : 학생 정보 입력 받기&gt;</strong></p><pre id="319a539f-dd49-4fee-9ddc-5ca997d2ad96" class="code"><code>#define INCREMENT (2)</code></pre><pre id="7337570b-6126-46ac-bcb2-9212853cbf66" class="code"><code>typedef struct {
+	char firstname[NAME_LEN];
+	char lastname[NAME_LEN];
+	unsigned int id;
+	float gpa;
+} student_t;</code></pre><pre id="5447247d-80df-4b1f-acaf-7130f81073f8" class="code"><code>student_t read_student()
+{
+	student_t s;
+
+	/* 오류 처리 코드 생략 */
+
+	printf(&quot;Enter firstname: &quot;);
+	scanf(&quot;%s&quot;, s.firstname);
+
+	printf(&quot;Enter lastname: &quot;);
+	scanf(&quot;%s&quot;, s.lastname);
+
+	printf(&quot;Enter id: &quot;);
+	scanf(&quot;%d&quot;, s.id);
+
+	printf(&quot;Enter gpa: &quot;);
+	scanf(&quot;%f&quot;, s.gpa);
+
+	return s;
+}</code></pre><pre id="7b7e51a6-d0ee-4c77-8cbd-250796d549b5" class="code"><code>while (TRUE) {
+	student = read_student();
+
+	if (current_index == max_students) {
+		max_students += INCREMENT;
+		tmp = malloc(max_students * sizeof(students_t));
+		memcpy(tmp, students, current_index * sizeof(student_t));
+		free(students);
+		students = tmp;
+	}
+
+	students[current_index++] = student;
+}
+
+free(students);
+students = NULL</code></pre><p id="5725a681-adce-4c66-bff4-0f05945ea916" class=""><strong>&lt;예시 3 : 파일에서 학생 정보 읽기&gt;</strong></p><pre id="fc931fe7-4878-4295-9139-2274c2d90920" class="code"><code>/* test.dat */
+총학생수...이름...성...아이디...gpa...이름...성...아이디...gpa...</code></pre><pre id="80cd0ca5-5216-4909-a393-4a8bba7570c3" class="code"><code>FILE* file;
+size_t num_students;
+size_t num_read;
+student_t* students;
+
+file - fopen(&quot;text.dat&quot;, &quot;rb&quot;);
+/* 파일 오류 처리 코드 생략 */
+
+num_read = fread(&amp;num_students, sizeof(size_t), 1, file);
+
+students = malloc(num_students * sizeof(student_t);
+
+num_read = fread(students, sizeof(students_t), num_students, file);
+
+fclose(file);
+
+/* 다 끝나고 free() 해줘야함 */</code></pre><h3 id="269f19a3-dcd9-4ba6-a938-f4079f1ce05f" class="">제대로 된 free() 설명</h3><pre id="644b2bf7-83bb-40a2-aa9e-cc1ed9c521de" class="code"><code>void free(void* ptr);</code></pre><ul id="1ea7f49e-3d2b-418c-b418-88a84956f704" class="bulleted-list"><li style="list-style-type:disc">할당받은 메모리를 해제하는 함수</li></ul><ul id="cfede8a8-eaf0-4263-ba42-b119ba7986b2" class="bulleted-list"><li style="list-style-type:disc">즉, 메모리 할당 함수들을 통해서얻은 메모리만 해제 가능</li></ul><ul id="cd4e3d2a-a9e1-405a-8f70-4972d7634f9c" class="bulleted-list"><li style="list-style-type:disc">그 외의 주소를 매개변수로 전달할 경우 결과가 정의되지 않음</li></ul><pre id="b200493b-1cff-4f0d-b4fd-75217f89f36f" class="code"><code>int* num;
+
+nums = malloc(LENGTH * sizeof(int));
+
+/* 뭔가 num로 이것저것 함 */
+
+free(nums); /* 위에 어떤 코드가 있냐에 따라 문제가 될 수도 있음 */</code></pre><h3 id="6a97eac9-9a21-412d-996c-c99c02e0237d" class="">동적 메모리 할당 시 문제 1</h3><ul id="5ed538bc-4d02-465b-92e8-e96e5b22c544" class="bulleted-list"><li style="list-style-type:disc">메모리 할당 함수가 반환한 주소가 저장된 변수를 그대로 포인터 연산에 사용하면 메모리 해제할 떄 문제가 발생할 수 있음</li></ul><ul id="a61de40d-2c45-42d5-b0fa-831174e82231" class="bulleted-list"><li style="list-style-type:disc">최초로 받아온 주소가 아니라 다른 위치를 가리킴 → 그 주소로 메모리 해제 요청 → 결과가 정의되지 않음</li></ul><pre id="1cdcfa4e-76f1-484e-8624-8b46ea2ae2f7" class="code"><code>int* nums;
+
+nums = malloc(LENGTH * sizeof(int));
+
+for (i = 0; i &lt; LENGTH; ++i) {
+	*num++ = 10 * (i + 1);
+}
+
+free(nums); /* 엉뚱한 주소를 해제 (0x100 / 0x110) */</code></pre><h3 id="509ff608-ee78-4607-8bb7-fa92c58da279" class="">코딩 표준 : 할당받은 포인터로 연산 금지</h3><ul id="90a51a50-4b51-4557-80c2-20f1beb014d3" class="bulleted-list"><li style="list-style-type:disc">메모리 할당 함수에서 받아온 포인터와 포인터 여산에 사용하는 포인터는 분리하자</li></ul><pre id="63580b2a-9d10-4188-be80-4dc03b39551b" class="code"><code>void* nums;
+int* p;
+size_t i;
+
+nums = malloc(LENGTH * sizeof(int));
+p = nums;
+
+for (i = 0; i &lt; LENGTH; ++i) {
+	*p++ = 10 * (i + 1);
+}
+
+free(nums);</code></pre><h3 id="5f98b1df-b7c4-46e5-a03c-3e8d4d77d41d" class="">동적 메모리 할당 시 문제 2</h3><pre id="bba62183-66d5-4b75-98ef-8fa3026f57c8" class="code"><code>void* nums;
+int* p;
+size_t i;
+
+nums = malloc(LENGTH * sizeof(int));
+p = nums;
+
+for (i = 0; i &lt; LENGTH; ++i) {
+	*p++ = 10 * (i + 1);
+}
+
+free(nums);
+
+/* 코드 100줄 */
+
+free(nums); /* 결과가 정의되지 않음 */</code></pre><ul id="9a437ec2-d1e1-4ee4-8a52-2d3838f30dba" class="bulleted-list"><li style="list-style-type:disc">해제한 메모리를 또 해제하려고 할 때도 결과가 정의되지 않음<p id="0023997e-aeca-4a86-93db-ad4f4faf8a41" class="">⇒ 잘못하면 크래쉬가 날 수도 있음</p></li></ul><pre id="a784530b-43f6-4ecf-8483-c7efd8a011c6" class="code"><code>void* nums;
+int* p;
+size_t i;
+
+nums = malloc(LENGTH * sizeof(int));
+p = nums;
+
+for (i = 0; i &lt; LENGTH; ++i) {
+	*p++ = 10 * (i + 1);
+}
+
+free(nums);
+
+for (i = 0; i &lt; LENGTH; ++i) {
+	*p++ += 5;  /* 결과가 정의되지 않음 */
+}</code></pre><ul id="13181c17-b9e1-42c1-a823-14bb922b9f96" class="bulleted-list"><li style="list-style-type:disc">해제한 메모리를 또 사용하려고 할 때도 결과가 정의되지 않음 (memory stomp)<p id="62b32080-a40f-48b7-8835-b4852b097dfd" class="">⇒ 잘못하면 크래쉬가 날 수도 있음</p></li></ul><h3 id="a4101734-6042-4d56-a24d-7beece247c8f" class="">코딩 표준 : 해제 후 널 포인터를 대입</h3><ul id="4433ab30-2da6-47ab-a4b3-6e35cd6c02ee" class="bulleted-list"><li style="list-style-type:disc"><code>free()</code>한 뒤에 변수에 <code>NULL</code>을 대입해서 초기화<ul id="8e6024e9-5395-4789-8134-de31d3a2be05" class="bulleted-list"><li style="list-style-type:circle">안 그러면 해제된 놈인지 나중에 모름</li></ul><ul id="d3b565df-f9ec-43b6-b4b1-4fb1ea7d21e0" class="bulleted-list"><li style="list-style-type:circle">널 포인터를 <code>free()</code>의 매개변수로 전달해도 안전</li></ul></li></ul><pre id="f3cb58d9-5baf-4512-bbba-48fa1b5b1606" class="code"><code>void* nums;
+int* p;
+size_t i;
+
+nums = malloc(LENGTH * sizeof(int));
+p = nums;
+
+/* 코드 생략 */
+
+free(nums);
+nums = NULL;</code></pre><h3 id="2c5f7860-75ee-4b3f-89a1-7908e0833597" class="">정리</h3><ul id="0ed078ff-eb92-4b4f-bce1-cb141c9609dc" class="bulleted-list"><li style="list-style-type:disc"><code>malloc()</code>한 뒤 <strong><code>free()</code></strong><strong>를 까먹으면</strong> <mark class="highlight-red"><strong>메모리 누수</strong></mark></li></ul><ul id="2042a55a-8530-4502-be5b-4da21fb5ed1a" class="bulleted-list"><li style="list-style-type:disc"><code>malloc()</code>으로 받아온 주소를 지역변수에서 저장해놨는데 <strong>해제 안하고 함수에서 나가면</strong> 주소가 사라져 <mark class="highlight-red"><strong>지울 방법이 아예 없어짐</strong></mark></li></ul><h3 id="a25e3408-4d35-4220-b79a-f79b5fe867aa" class="">베스트 프렉티스 : malloc()과 free()는 한 몸</h3><ul id="2d368797-7cd1-4335-807b-2fe895482f45" class="bulleted-list"><li style="list-style-type:disc"><code>malloc()</code>을 코드에 추가하자마자 다른 일 하기 전에 곧바로 <code>free()</code>도 추가할 것</li></ul><h3 id="3f2c81e3-ec58-4ad3-8938-61ae1685f557" class="">free()는 몇 바이트를 해제할지 어떻게 알까</h3><p id="6e0e892f-85d0-47c7-9fc9-f7d90127f8e7" class="">1) 구현마다 다르지만 보통 <code>malloc(32)</code>하면 그것보다 조금 더 큰 메모리를 할당한 뒤, 제일 앞부분에 어떤 데이터들을 채워 넣음 ⇒ <code>malloc()</code>과 <code>free()</code>가 보는 &#x27;어떤 데이터&#x27;를 넣어줌</p><p id="cad39794-3f52-473b-9378-9aae72256365" class="">2) 그리고 그만큼 오프셋을 더한 값을 주소로 돌려줌<div class="indented"><ul id="382cf77c-aec5-44c7-b557-02ee2d13b2b3" class="bulleted-list"><li style="list-style-type:disc">우린 돌려받은 주소로부터 원래 요청했던 32바이트를 사용</li></ul></div></p><p id="a824eefb-4750-4510-a921-748118d491db" class="">3) 나중에 그 주소 해제를 요청하면 <code>free()</code>가 다시 오프셋만큼 빼서 그 앞 주소를 본 뒤, 실제 볓 바이가 할당됬었는지 확인 후 해제</p><h3 id="deea5905-7db1-4413-b6be-6af364550ec3" class="">calloc()</h3><pre id="ccdd3afc-1410-4f70-9800-a87ec1739c16" class="code"><code>void* calloc(size_T num, size_t size);</code></pre><ul id="44ec2860-0e39-47c2-bbdb-4d066345002a" class="bulleted-list"><li style="list-style-type:disc">의미는 아무도 모름 → 의견 분분<ul id="36991f38-b597-4af7-a950-8cb9bce3efb0" class="bulleted-list"><li style="list-style-type:circle">counted alloc</li></ul><ul id="00f6a90e-e6bf-43ab-8537-a3da742cc0a1" class="bulleted-list"><li style="list-style-type:circle">clear alloc</li></ul><ul id="e3456c9b-d5db-40a7-908c-4ba051227687" class="bulleted-list"><li style="list-style-type:circle">C alloc ...</li></ul></li></ul><ul id="b9dc3066-b884-47f2-9e3e-e642d407b06f" class="bulleted-list"><li style="list-style-type:disc">메모리를 할당할 때 자료형의 크기(size)와 수(num)를 따로 지정</li></ul><ul id="e75104a8-f6cc-4a87-a53e-c566bebe80d3" class="bulleted-list"><li style="list-style-type:disc">모든 바이트를 0으로 초기화해줌</li></ul><ul id="aaf08a64-b609-4ab7-b9a7-2bf9003e03a3" class="bulleted-list"><li style="list-style-type:disc">잘 안씀!</li></ul><ul id="d58c83cd-bd87-4c87-8b73-a863fb876a12" class="bulleted-list"><li style="list-style-type:disc">보통 <code>calloc()</code> 대신 <code>malloc()</code>와 <code>memset()</code>을 조합해서 씀<ul id="b047794f-4daa-4d0c-8b7e-c8003377d26d" class="bulleted-list"><li style="list-style-type:circle"><code>memset()</code>을 쓰면 0 외에의 값으로 초기화 가능</li></ul><pre id="a79648af-8b60-4621-b4b3-c09877a48929" class="code"><code>void* nums;
+
+nums = calloc(LENGTH, sizeof(int));
+
+free(nums);
+nums = NULL</code></pre><pre id="a580b597-f759-4a6b-8749-dcda4da4802b" class="code"><code>void* nums;
+
+nums = malloc(LENGTH * sizeof(int));
+memset(nums, 0, LENGTH * sizeof(int)); 
+
+free(nums);
+nums = NULL</code></pre><p id="18313cce-7418-4e42-b276-65d8dfd81854" class="">⇒ 두 방식은 거의 비슷함</p></li></ul><h3 id="bd43caaa-fe31-46e7-9266-3f8ad171f957" class="">memset()</h3><pre id="d03da656-b379-4723-a76e-1d601f6e3fca" class="code"><code>void* memset(void* dest, int ch, size_t count);</code></pre><ul id="21526112-cfd8-4d8e-b7e0-286ce09113c6" class="bulleted-list"><li style="list-style-type:disc"><code>&lt;string.h&gt;</code>에 있음</li></ul><ul id="fe6b2ffd-576e-42ef-8c93-294081d98bd2" class="bulleted-list"><li style="list-style-type:disc"><code>char</code>로 초기화(1바이트씩) 됨</li></ul><ul id="f5fe0614-6b66-4a70-8f55-d9f95b308d2f" class="bulleted-list"><li style="list-style-type:disc">그 외의 자료형으로 초기화하려면 직접 for문을 써야함</li></ul><ul id="fce318d3-9793-4c20-93e6-aee02301ddbb" class="bulleted-list"><li style="list-style-type:disc">다음과 같은 경우 결과가 정의되지 않음<ul id="3fc0e460-6246-458f-a098-b18b64670207" class="bulleted-list"><li style="list-style-type:circle"><code>count</code>가 <code>dest</code>의 영역을 넘어설 경우 (소유하지 않은 메모리에 쓰기)</li></ul><ul id="4c7cf682-0de4-4720-a230-caf048c1c51d" class="bulleted-list"><li style="list-style-type:circle"><code>dest</code>가 널 포인터일 경우 (널 포인터 역참조)</li></ul></li></ul><h3 id="3610f131-b5c6-42c0-ba81-4f1f7a9f3e96" class="">char로만 초기화해주는 memset()</h3><pre id="bc237bf4-81a0-46b8-bbc1-3cbca197bfa6" class="code"><code>void* nums;
+
+nums = malloc(LENGTH * sizeof(int));      /* LENGTH: 4 */
+memset(nums, 1000, LENGTH * sizeof(int)); /* 1000은 16진수로 0X3E8 */
+
+free(nums);
+nums = NULL
+</code></pre><h3 id="b3ddebc0-49de-4cd3-ab8a-1fbb38eebe7b" class="">int로 초기화</h3><pre id="d40b313c-d0f0-499b-872b-5c57408de2e7" class="code"><code>void* nums;
+int* p;
+size_t i;
+
+nums = malloc(LENGTH * sizeof(int)); 
+p = nums;
+
+for (i = 0; i &lt; LENGTH; ++i) {
+	*p++ = 1000;
+}
+
+free(nums);
+nums = NULL</code></pre><h3 id="ae820b77-cdf5-4a81-96a1-ac4d983cf0d6" class="">memcpy()</h3><pre id="87ffccb1-0f8a-4ba2-9f03-3a3f27f58a79" class="code"><code>void* memcpy(void* dest, const void* src, size_t count);</code></pre><ul id="5ee1bd12-026c-4b64-bf54-7e794663b9ed" class="bulleted-list"><li style="list-style-type:disc"><code>&lt;string.h&gt;</code>에 있음</li></ul><ul id="a5280328-3fdc-49c2-ab4b-db47dd674107" class="bulleted-list"><li style="list-style-type:disc"><code>src</code>의 데이터를 <code>count</code>바이트 만큼 <code>dest</code>에 복사</li></ul><ul id="8786836f-5fa7-450d-971f-78cb8dae7069" class="bulleted-list"><li style="list-style-type:disc">다음과 같은 경우 결과가 정의되지 않음<ul id="318a95c9-e010-4d3f-bbcf-c2d32e8bad06" class="bulleted-list"><li style="list-style-type:circle"><code>dest</code>의 영역 뒤에 데이터를 복사할 경우 (소유하지 않은 메모리에 쓰기)</li></ul><ul id="288aca83-36fd-4a7c-978f-275dd71f567e" class="bulleted-list"><li style="list-style-type:circle"><code>src</code>나 <code>dest</code>가 널 포인터일 경우 (널 포인터 역참조)</li></ul></li></ul><h3 id="987a2569-5b15-4156-a7ad-af7afe462e7f" class="">realloc()</h3><pre id="61773f80-71c0-45c2-bf55-c25669d44521" class="code"><code>void* realloc(void* ptr, size_t new size);</code></pre><ul id="3419031f-5e3b-434e-a558-070e39b59bcf" class="bulleted-list"><li style="list-style-type:disc">이미 존재하는 메모리(ptr)의 크기를 new_size 바이트로 변경</li></ul><ul id="6cbabade-4aa9-4b44-88a4-11a3aa1b2a59" class="bulleted-list"><li style="list-style-type:disc">새로운 크기가 허용하는 한 기존 데이터를 그대로 유지</li></ul><ul id="0d0fd9e4-8a4c-4dfe-b770-c517f7c526e1" class="bulleted-list"><li style="list-style-type:disc">아까 봤던 학생 정보 입력 받기 예에서 동적 배열 크기를 늘리던 코드를 이 함수로 대체 가능</li></ul><ul id="6542a0ba-5460-4403-ab63-c7ff70bfe9af" class="bulleted-list"><li style="list-style-type:disc">컴퓨터는 한 덩어리의 완전체가 아니라 다양한 부품으로 구성</li></ul><ul id="a9a1875e-5c6e-4eb3-8628-978527e60573" class="bulleted-list"><li style="list-style-type:disc">CPU, 메모리, 하드 디스크, SSD 등</li></ul><h3 id="b56c4ee9-92c2-4ece-9e42-63dc8c96fc49" class="">크기가 커져야할 때의 두 가지 경우</h3><p id="d8bbee2e-40f3-4b5e-9443-0234e0b0c3fd" class="">1) 지금 갖고 있는 메모리 뒤에 충분한 공간이 없으면 새로운 메모리를 할당한 뒤, 기존 내용을 복사하고 새 주소 반환</p><pre id="72b19a2a-14f5-46ab-8e0b-302ae9982d37" class="code"><code>str = malloc(LENGTH * sizeof(char));    /* LENGTH: 4 */
+str = realloc(str, 2 * LENGTH * sizeof(char));</code></pre><p id="9d0c8cdf-ec20-43be-a790-0eb04eaaf32e" class="">2) 지금 갖고 있는 메모리 뒤에 공간이 충분하다면 그냥 기존 주소를 반환(보장은 없음). 그리고 추가된 공간을 쓸 수 있게 됨</p><pre id="58ea00d3-965f-4ef5-a1a9-61002d27c9d8" class="code"><code>str = malloc(LENGTH * sizeof(char));    /* LENGTH: 4 */
+str = realloc(str, 2 * LENGTH * sizeof(char));</code></pre><h3 id="bd6d3591-72be-42f5-aa71-2e0bb9964b79" class="">크기가 작아져야할 경우</h3><ul id="2d0541b8-5ca9-455b-8cd8-c026943fa9db" class="bulleted-list"><li style="list-style-type:disc">기존 주소가 그대로 반환되거나</li></ul><ul id="bd4aa7d0-715d-4283-ad16-1e646ad081d9" class="bulleted-list"><li style="list-style-type:disc">다른 곳에 메모리를 새로 할당 후, 새로운 주소를 반환해줄 수도 이음</li></ul><h3 id="cdcbd976-a098-4479-9538-ad6b862c4d61" class="">realloc()의 메모리 누수</h3><pre id="7e8b17c6-418e-4064-851e-44777028f311" class="code"><code>void* realloc(void* ptr, size_t new_size);
+</code></pre><ul id="f896ba2a-a3f1-489f-b817-75089af7290e" class="bulleted-list"><li style="list-style-type:disc">반환값<ul id="ab468434-187a-4509-8a7a-f0aabb1e9ded" class="bulleted-list"><li style="list-style-type:circle">성공 시,  새롭게 할당된 메모리의 시작 주소를 반환하여 기존 메모리는 해제됨</li></ul><ul id="47624446-8a50-4108-8883-895bdb7622ca" class="bulleted-list"><li style="list-style-type:circle">실패 시,  <code>NULL</code>을 반환하지만 기존 메모리는 해제되지 않음</li></ul></li></ul><ul id="a19e2c57-f87e-4162-82e9-47ca6fcfaab9" class="bulleted-list"><li style="list-style-type:disc"><strong>실패 시 메모리 누수가 발생할 수 있음!!</strong></li></ul><pre id="85b34bd8-ac1c-4fb3-aa4f-f9801e42f956" class="code"><code>void* nums;
+nums = malloc(SIZE);
+
+nums = realloc(nums, 2 * SIZE);  /* NULL 반환 */</code></pre><ul id="a327f196-2c44-4463-b489-f71f4602ee8f" class="bulleted-list"><li style="list-style-type:disc">원래 nums에 저장되어있던 주소가 사라짐</li></ul><ul id="594453ef-e2da-40b8-a744-7d3212ab3712" class="bulleted-list"><li style="list-style-type:disc">NULL이 반환됬다는 이야기는 재할당에 실패했다는 의미</li></ul><ul id="bed68c5a-beee-4598-819e-d70207e8caa0" class="bulleted-list"><li style="list-style-type:disc">따라서 기존 메모리는 해제되지 않음</li></ul><ul id="e6d81773-b54f-431a-9fef-2c572d1a6626" class="bulleted-list"><li style="list-style-type:disc">그러나 그 주소를 잃어버려서 해제할 수 없다! 메모리 누수 발생!!</li></ul><h3 id="b5b5a19a-b9d1-4f02-b00d-17066d9aa996" class="">올바른 재할당 방법</h3><pre id="45b5caff-2d33-41cd-ae90-7b38f181928c" class="code"><code>void* nums;
+void* tmp;
+
+num = malloc(SIZE);
+
+tmp = realloc(nums, 2 * SIZE);
+if (tmp !=- 0) {
+	nums = tmp;
+}</code></pre><ul id="b87c1916-7195-4db1-bf1b-aeee98fe9633" class="bulleted-list"><li style="list-style-type:disc"><code>realloc()</code>은 <code>malloc()</code> + <code>memcpy()</code> + <code>free()</code>와 유사함<pre id="0f841a54-36b8-4d57-95f1-0875e1b0b116" class="code"><code>void* nums;
+void* tmp;
+
+/* LENGTH: 4, nums: 10 */
+num = malloc(SIZE);
+
+tmp = realloc(nums, 2 * SIZE);
+if (tmp !=- 0) {
+	nums = tmp;
+}
+
+free(nums);</code></pre><pre id="5d31148d-f88c-48e6-9459-375e819aa822" class="code"><code>void* nums;
+void* tmp;
+
+/* LENGTH: 4, nums: 10 */
+num = malloc(SIZE);
+
+tmp = malloc(2 * SIZE);
+if (tmp !=- 0) {
+	memcpy(tmp, nums, LENGTH);
+	free(nums);
+	nums = tmp;
+}
+
+free(nums);</code></pre></li></ul><h3 id="01026225-0d3d-4c56-9917-c98994401d7a" class="">메모리 누수 안나게 코드를 작성할 것</h3><ul id="d53e583c-c9ec-4661-a28d-6da6adb64098" class="bulleted-list"><li style="list-style-type:disc"><code>realloc()</code>을 쓸 때는 정말 조심해야함</li></ul><ul id="770633c5-dea7-493e-afe0-ea8267082827" class="bulleted-list"><li style="list-style-type:disc">그래서 차라리 <code>malloc()</code> + <code>memcpy()</code> + <code>free()</code>로 좀 더 명시적으로 드러나게 코딩하는게 더 좋을수도 있음</li></ul><ul id="6fb17df8-43b6-4762-9f7a-3059838e46ce" class="bulleted-list"><li style="list-style-type:disc">그냥 신경 안쓰고 <code>realloc()</code>을 쓰는 경우도 많음<ul id="1b6a2d3c-0166-4564-adde-8e0f32c689c0" class="bulleted-list"><li style="list-style-type:circle">메모리 시작 주소가 변하지 않을 경우 데이터를 복사를 하지 않아 성능상 이득</li></ul><ul id="8f789d6e-d131-4d3f-beec-fc10e8ceb05d" class="bulleted-list"><li style="list-style-type:circle">그리고 메모리가 없어서 널 포인터를 반환하는 상황 대처를 위해</li></ul><ul id="3cbd4b76-c63f-4e1c-a6a7-452fa9aa39c5" class="bulleted-list"><li style="list-style-type:circle"><code>malloc()</code>에서 실패하는 일이 없다고 가정하고 코딩을 하는 경우도 많음</li></ul></li></ul><h3 id="bc9d0841-ef76-4ae3-8089-0fb083038f11" class="">realloc()의 특수한 경우</h3><ul id="243165fc-23d3-4e18-bca8-14afb63f189b" class="bulleted-list"><li style="list-style-type:disc"><code>nums = realloc(NULL, LENGTH);</code><ul id="da3a9548-e70b-434c-b3e9-3e51b085b46f" class="bulleted-list"><li style="list-style-type:circle">새로운 메모리 할당</li></ul><ul id="dfee4699-1bb6-47e8-a0e4-b480f0dc41ea" class="bulleted-list"><li style="list-style-type:circle"><code>malloc(LENGTH)</code>와 동일함</li></ul></li></ul><h3 id="90cddefb-3d75-4e83-8f16-f6007cef29c7" class="">memcmp()</h3><pre id="e0c1ff83-6849-49b3-aea9-eec59e76a79f" class="code"><code>int memcmp(const void* lhs, const void* rhs, size_t count);</code></pre><ul id="68d3c491-2846-429d-a836-d13614d8be99" class="bulleted-list"><li style="list-style-type:disc">첫 <code>count</code> 바이트 만큼의 메모리를 비교하는 함수</li></ul><ul id="59ddcdc4-57d1-41db-9147-47e6007ff045" class="bulleted-list"><li style="list-style-type:disc"><code>strcmp()</code>와 매우 비슷</li></ul><ul id="9ddf3934-492d-4863-9ff9-3b7311bd7bb3" class="bulleted-list"><li style="list-style-type:disc">단, 널 문자를 만나도 계속 진행</li></ul><ul id="999ea4cf-27a3-49f9-b45a-734e4a56be8f" class="bulleted-list"><li style="list-style-type:disc">다음의 경우 결과가 정의되지 않음<ul id="472fb77e-15c0-4dd9-90b4-17ce6b9fd768" class="bulleted-list"><li style="list-style-type:circle"><code>lhs</code>와 <code>rhs</code>의 크기를 넘어서서 비교할 경우 (소유하지 않은 메모리에 쓰기)</li></ul><ul id="f4a50651-c332-4d2f-8afd-b9f7ac3d68f1" class="bulleted-list"><li style="list-style-type:circle"><code>lhs</code>와 <code>rhs</code>이 널 포인터일 경우 (널 포인터 역참조)</li></ul></li></ul><h3 id="b77f9a83-0598-4c0f-bc84-d8ddb2a341d9" class="">두 구조체를 비교할 때 유용</h3><pre id="bc33de26-e7f6-4a2f-b0ff-e0eb4d7ed3ac" class="code"><code>typedef struct {
+	char firstname[64];
+	char lastname[64];
+	unsigned int id;
+} student_t;</code></pre><pre id="a2ee39a9-efca-46e7-8d66-05316ec2ff2e" class="code"><code>student_t s1 = {&quot;Lulu&quot;, &quot;Kim&quot;, 12345};
+student_t s2 = {&quot;Teemo&quot;, &quot;Park&quot;, 12349};
+student_t s3 = {&quot;Lulu&quot;, &quot;Choi&quot;, 12350};
+student_t s4 = {&quot;Teemo&quot;, &quot;Park&quot;, 12340};
+
+int result;
+
+result = memcmp(&amp;s1, &amp;s2, sizeof(student_t));  /* -1 */
+result = memcmp(&amp;s1, &amp;s3, sizeof(student_t));  /* 1 */
+result = memcmp(&amp;s2, &amp;s4, sizeof(student_t));  /* 1 */
+
+/*
+&quot;Lulu&quot; &lt; &quot;Teemoe&quot;이므로 -1
+&quot;Kim&quot; &gt; &quot;Choi&quot;이므로 1
+12349 &gt; 12340이므로 1
+*/ </code></pre><h3 id="b666e8b2-d511-414e-bde8-99f7431c78f3" class="">구조체가 포인터 변수를 가질 경우</h3><ul id="7037f22f-a364-4953-8c8e-c11d21380c0a" class="bulleted-list"><li style="list-style-type:disc">주소를 가진 구조체면 같아도 주소가 달라 다를 수 있음</li></ul><pre id="d449068a-f5b0-4181-8e36-5792f52656bd" class="code"><code>typedef struct {
+	char* firstname;
+	char* lastname;
+} name_t;</code></pre><pre id="58dd7260-3166-419d-adb9-51f038adf132" class="code"><code>name_t s1;
+name_t s2;
+int reulst;
+
+/* 동적 메모리 할당을 이용하여 이름 복사 */
+
+result = memcmp(&amp;s1, &amp;s2, sizeof(student_t));  /* -1 */</code></pre><h3 id="2a238d7a-7956-4c3a-a7a2-c95fc84bfa0d" class="">동적 메모리 할당을 이용한 깊은 복사</h3><pre id="c1b9bbf7-6774-407e-83ed-a1e0b64170d3" class="code"><code>typedef struct {
+	char* firstname;
+	char* lastname;
+} name_dynamic_t;</code></pre><pre id="9b473e1d-0b50-4a62-8403-b499552f9485" class="code"><code>name_dynamic_t s1; 
+name_dynamic_t s2;
+size_t size;
+
+size = strlen(s1.firstname_ + 1;
+s2.firstname = malloic(size);
+/* s2.firstname 널 포인터 체크 코드 생략 */
+memcpy(s2.fristname, s1.firstname, size);
+
+size = strlen(s1.lastname + 1;
+s2.lastname = malloic(size);
+/* s2.firstname 널 포인터 체크 코드 생략 */
+memcpy(s2.lastname, s1.lastname, size);
+
+/* free() 호출 생략 */
+</code></pre><h3 id="6f2f23c9-aed2-4cd5-a341-9e61e72b56c4" class="">구조체 멤버 변수 - 배열 vs 포인터</h3><p id="20e9488f-f94e-44c7-871a-09ac3b297699" class=""><strong>&lt;고정된 길이인 배열&gt;</strong></p><pre id="c54122e6-93c1-4aef-a1c8-b94986b69bb2" class="code"><code>typedef struct {
+	char firstname[NAME_LEN];
+	char lastname[NAME_LEN];
+} name_fixed_t</code></pre><ul id="174f1327-f35d-4339-a68d-acc1265230d8" class="bulleted-list"><li style="list-style-type:disc">그대로 대입 가능</li></ul><ul id="1279427e-743b-47ea-86e7-94a7e96f24c9" class="bulleted-list"><li style="list-style-type:disc">파일에 곧바로 저장 가능</li></ul><ul id="d46fc8cd-6fa7-4fb1-b9cc-8049b963e272" class="bulleted-list"><li style="list-style-type:disc"><code>memcpy()</code>를 곧바로 사용 가능</li></ul><ul id="cdf895c0-0b3e-4289-b388-fbf5fd0f4cd8" class="bulleted-list"><li style="list-style-type:disc">낭비하는 용량이 있음</li></ul><ul id="115e13e4-fc83-4e96-8c2f-7bdc387bc38a" class="bulleted-list"><li style="list-style-type:disc">메모리 할당/해제 속도 빠름</li></ul><p id="63ab5fc7-64a1-4fa8-988b-be66ee611202" class=""><strong>&lt;동적 메모리를 사용하는 포인터&gt;</strong></p><pre id="a1c44bc9-3a3a-4b89-95ef-7842af26428c" class="code"><code>typedef struct {
+	char* firstname;
+	char* lastname;
+} name_dynamic_t</code></pre><ul id="b9143e6f-c9eb-4c8a-837c-baa0cabb27ad" class="bulleted-list"><li style="list-style-type:disc">그래도 대입 불가<ul id="5c0b9432-2bbb-4eec-ac11-af9e9009c17c" class="bulleted-list"><li style="list-style-type:circle">이 경우 앝은 복사가 되어버림</li></ul></li></ul><ul id="446b1713-4f94-47ef-829f-80b787e88f9e" class="bulleted-list"><li style="list-style-type:disc">파일에 곧바로 저장 불가능</li></ul><ul id="7549e2d8-0031-4802-82b8-aee8c72ffe1f" class="bulleted-list"><li style="list-style-type:disc"><code>memcpy()</code> 곧바로 사용 불가능</li></ul><ul id="6e1cfeda-501c-40b6-b093-21386d6f8a50" class="bulleted-list"><li style="list-style-type:disc">낭비하는 용량 없음 → 정확히 필요한 만큼만 사용</li></ul><ul id="c20f301a-6718-4f74-8ce5-92ddf219a76b" class="bulleted-list"><li style="list-style-type:disc">메모리 할당/해제 속도 느림</li></ul><h2 id="fca054fe-4c1a-4559-8b71-0d6bb6169f67" class="">베스트 프렉티스 : 정직 vs 동적 메모리</h2><ul id="0dd4cd3a-06e8-44cc-9b5b-45e6afee7aa2" class="bulleted-list"><li style="list-style-type:disc">정적 메모리를 우선적으로 사용할 것<ul id="d32eba0e-4dbc-44e5-9526-592f2a44da4c" class="bulleted-list"><li style="list-style-type:circle">훌륭한 C 프로그래머들은 최대한 정적 메모리를 쓰려고 함</li></ul></li></ul><ul id="a9ffd274-9022-4708-b9b6-160ba8c14745" class="bulleted-list"><li style="list-style-type:disc">안될 떄만 동적 메모리</li></ul><h2 id="2bbb9e1a-1353-487f-b765-734bf56728a2" class="">동적 메모리의 소유권 문제</h2><h3 id="fb1d9200-9d0b-4144-9173-b3521f86e0eb" class="">동적으로 할당한 메모리의 큰 문제</h3><ul id="8520837f-6ccb-4208-8fa0-11b432e30210" class="bulleted-list"><li style="list-style-type:disc">동적으로 할당한 소유주 → 메모리를 생성한 함수</li></ul><ul id="35becef7-040f-495f-b221-fc77c6be8dc7" class="bulleted-list"><li style="list-style-type:disc">소유주란?<p id="77ca8783-26ff-42ab-8c8a-2301ef928555" class=""><strong>그 메모리를 반드시 책임지고 해제해야 하는 주체</strong></p></li></ul><ul id="cc802329-0fab-4489-9455-941ed0f6cc5b" class="bulleted-list"><li style="list-style-type:disc">소유주가 아닐 때는 그냥 빌려 사용할 뿐 해제하면 안됨<ul id="29c29dc8-eb74-45c7-add6-676e5038a459" class="bulleted-list"><li style="list-style-type:circle">소유주와 비소유주 모두 해제하면 문제가 됨</li></ul><ul id="8f7d52dc-df03-4620-a98a-7124bc6eb437" class="bulleted-list"><li style="list-style-type:circle">하지만 한 명도 해제 안해도 문제가 됨</li></ul></li></ul><h3 id="ccaca023-b53e-4ed1-8355-0583ef4c522a" class="">문제의 예시</h3><ul id="c2e4091e-e4d6-446b-9708-544273a048e8" class="bulleted-list"><li style="list-style-type:disc">호출자가 이 함수를 호출하는 순간 내부에서 새 메모리가 할당해서 반환하다는 사실을 어떻게 알 수 있는가<pre id="275d2360-3f1e-418e-a6ab-2086648e4fa5" class="code"><code>const char* combine_string(const char* a, const char* b)
+{
+	void* str;
+	char* p;
+	/* a와 b의 길이 및 두 길이를 더한 값을 보관한 변수 생략 */
+
+	str = malloc(size);
+
+	/* a와 b를 str에 복사하는 코드 생략 */
+
+	return strl
+}</code></pre><pre id="9a8d1e03-27c6-43ec-b6bd-c70415257e9b" class="code"><code>result = combine_string(&quot;Hello&quot;, &quot;World&quot;);</code></pre></li></ul><p id="9b306515-c2b2-475e-9374-dcbf288da38a" class=""><strong>&lt;C++에서는 RAII로 해결&gt;</strong></p><ul id="76b155bc-4db4-411a-bc0b-fa37a0ed6712" class="bulleted-list"><li style="list-style-type:disc">자원 획득은 초기화(RAII, Resource Acquisition Is Initialization)<ul id="adcfe1de-f729-4e73-8ecf-6c28cee4aa59" class="bulleted-list"><li style="list-style-type:circle">여기서 자원은 메모리를 말함</li></ul></li></ul><ul id="3d782961-2944-48c0-ac09-cf8a6c8b3629" class="bulleted-list"><li style="list-style-type:disc">C++은 개체지향을 지원하는 언매니지드 언어</li></ul><ul id="ba0171a2-ffd5-43ba-b722-cffa7793885a" class="bulleted-list"><li style="list-style-type:disc">한 개체가 생성될 때 필요한 메모리를 할당 (생성자란 특별한 함수)</li></ul><ul id="aafadc75-f6d1-4939-9888-1be46c649099" class="bulleted-list"><li style="list-style-type:disc">그 개체의 수명이 다할 때 그 메모리를 해제 (소멸자란 특별한 함수)</li></ul><ul id="7b5e0eae-c535-481a-953e-1c3363f02746" class="bulleted-list"><li style="list-style-type:disc">즉, 개체의 수명이라는 범위에 메모리의 수명을 종속시킴</li></ul><ul id="4f76fa69-9079-4559-8133-4c0cd9afda8f" class="bulleted-list"><li style="list-style-type:disc">이 원칙을 잘 따르면 실수할 여지가 적음</li></ul><p id="4bc0ca93-0f10-4c80-bebb-4bb7c33cc99d" class=""><strong>&lt;하지만 C는 개체가 없음!&gt;</strong></p><ul id="9803d244-e318-4823-bc81-98b57c775b34" class="bulleted-list"><li style="list-style-type:disc">그래도 RAII를 최대한 흉내내면 좋음</li></ul><ul id="24aca288-0ff7-4d87-86d7-902d219669b0" class="bulleted-list"><li style="list-style-type:disc">C에서 RAII를 할 수 있는 부분<ul id="9ecc7dd0-5377-4c0c-8f2f-d75d676abfb9" class="bulleted-list"><li style="list-style-type:circle">한 함수 안에서 <code>malloc()</code>, <code>free()</code>를 다 호출할 수 있는 경우</li></ul></li></ul><ul id="86372652-ff94-47b3-83d4-5b7e1b83155f" class="bulleted-list"><li style="list-style-type:disc">이런 이유 때문에 항상 <code>malloc()</code>을 추가하면 곧바로 <code>free()</code>를 추가할는 것임</li></ul><pre id="90c351b9-e121-4264-8a05-78acee16e68d" class="code"><code>void do_something(void)
+{
+	void* nums;
+	
+	nums = malloc(10 * sizeof(int));
+	free(nums); /* 일단 넣고 함수를 구현할 것 */
+}</code></pre><p id="cf37fed1-2c40-4293-adf8-40a986a84c00" class=""><strong>&lt;하지만 중간에 함수를 탈출할 경우?&gt;</strong></p><ul id="3fc11aff-943e-4e0b-914c-d983e6a22b94" class="bulleted-list"><li style="list-style-type:disc">코드 중간에 <code>return</code>하면 아무 의미가 없음!!</li></ul><pre id="8c3bfb6d-6146-4299-a089-8228235f8df7" class="code"><code>void do_something(void)
+{
+	void* nums;
+	
+	nums = malloc(10 * sizeof(int));
+
+	/* 코드 생략 */
+
+	if (조건) {
+		return;   /* free(nums)를 못 함!!! */
+	}
+
+	free(nums); 
+}</code></pre><p id="9f1a9b26-75d0-4aac-a545-dd417d98e491" class=""><strong>&lt;해결법 : goto문 사용&gt;</strong></p><pre id="8b184721-0795-40af-bc69-f2d714096ca6" class="code"><code>void do_something(void)
+{
+	void* nums;
+	
+	nums = malloc(10 * sizeof(int));
+
+	/* 코드 생략 */
+
+	if (조건) {
+		goto free_and_exit;
+	}
+	
+	/* 코드 생략 */
+
+free_and_Exit:
+	free(nums); 
+}</code></pre><p id="a0f7024f-fd59-442d-8f97-8df13ac2aeb0" class=""><strong>&lt;원래의 문제는 어떻게 해결하는가?&gt;</strong></p><p id="ff5157f8-9d95-4af4-8b66-38f63f5712c9" class=""><strong>⇒ 호출자가 이 함수를 호출하는 순간 내부에서 새 메모리가 할당해서 반환하다는 사실을 어떻게 알 수 있는가</strong></p><ul id="42ac654d-3fba-4689-80ed-d525ce025c03" class="bulleted-list"><li style="list-style-type:disc">C에서 굉장히 해결하기 어려운 문제</li></ul><ul id="bea06c31-824c-470b-b581-47a493b1f133" class="bulleted-list"><li style="list-style-type:disc">최선의 방법은 이런 함수를 최대한 없도록 하는 것</li></ul><ul id="09b7db89-ef9e-4c62-b119-0b1c546a2043" class="bulleted-list"><li style="list-style-type:disc"><code>combine_string()</code> 예의 경우, 함수 안에서 할당하는 대신 함수 밖에서 할당 후 매개변수로 전달<pre id="8d3f107f-94d2-4b5e-8def-9153be196b40" class="code"><code>size_t calculate_combined_length(const char* a, const char* b);
+void combine_string(const char* a, const char* b, char* out_str);</code></pre><pre id="505b9482-4490-457c-9b16-79f462adda9b" class="code"><code>void combine_string(const char* a, const char* b, char* out_str)
+{
+	/* out_str에 a와 b 복사 */
+}</code></pre><pre id="4db6df81-f22c-40b3-9e34-35bad708326e" class="code"><code>const char8 str_combined;
+size_t size;
+
+size = calculate_combined_length(str1, str2); /* 두 문자열을 합친 길이 반환 */
+str_combined = malloc(size + 1);
+combine_string(str1, str2, str_combined);
+
+free(str_combined);</code></pre></li></ul><p id="199b5973-e83c-4b9d-a5a6-9597744efc9b" class=""><strong>&lt;동적으로 할당 후 반환을 피할 수 없다면?&gt;</strong></p><ul id="d9c36d78-8a1c-4147-9dce-d2228bc2c0fc" class="bulleted-list"><li style="list-style-type:disc">딱히 모두가 동의하는 표준은 없음</li></ul><ul id="7ae455cf-37dd-4be6-95c5-63cdc29643e6" class="bulleted-list"><li style="list-style-type:disc">어떤 함수가 메모리 할당을 한다면 함수에 그 사실을 표기<ul id="1580f565-fd6f-4912-95c3-4dcc29c87b9a" class="bulleted-list"><li style="list-style-type:circle">주석으로 표기하는 방법도 있음 → 그러나 사람들은 주석을 잘 안 읽음</li></ul></li></ul><ul id="ebfb4b8a-c21a-47e3-8537-7c0722a359bc" class="bulleted-list"><li style="list-style-type:disc">동적 메모리를 할당하는 변수라면 변수명에 표기하는 방법도 있음</li></ul><h3 id="eb89c7da-7850-4ebd-b6cf-407199939d04" class="">코딩 표준 : 동적 메모리 할당을 하는 함수명</h3><ul id="6ccdda63-2ef7-4e8c-a03a-cc8e7c322524" class="bulleted-list"><li style="list-style-type:disc">어떤 함수의 내부에서 동적 메모리 할당을 한다면 이름에 확실히 알려주는 것이 좋음</li></ul><pre id="ada71a6c-8274-4c40-bf7c-a164c6f6d19e" class="code"><code>const char* combine_string_malloc(const char* str1, const char* str2)
+{
+	void* pa_str;
+	char* p;
+
+	pa_str = malloc(strlen(str1) + strlen(str2) + 1);
+	p = pa_str;
+
+	/* 문자열 합치는 코드 생략 */
+
+	return pa_str;
+}</code></pre><ul id="f440442b-cd11-4090-bf9f-a75de393be05" class="bulleted-list"><li style="list-style-type:disc">동적 할당된 메모리를 저장하는 변수라면, 이름에 그 사실을 명시<ul id="92b07bda-cacb-463d-9ff8-3627618829a2" class="bulleted-list"><li style="list-style-type:circle"><code>pa</code> : pointer allocated</li></ul></li></ul><h2 id="7f76226b-509c-4daf-b9be-31114c9912ee" class="">베스트 프렉티스 정리</h2><ul id="93cc1309-f25b-46dd-a971-075c367c0110" class="bulleted-list"><li style="list-style-type:disc"><code>malloc()</code>을 작성한 뒤에 곧바로 <code>free()</code>도 추가하자<ul id="a89a3a0e-d61f-4cdb-82b8-5ae66483751d" class="bulleted-list"><li style="list-style-type:circle"><code>free()</code>를 절대 까먹으면 안됨!!</li></ul></li></ul><ul id="37e07d33-dd19-46ca-b445-ab6de5132c13" class="bulleted-list"><li style="list-style-type:disc">동적 할당을 한 메모리 주소를 저장하는 포인터 변수와 포인터 연산에 사용하는 포인터 변수를 분리해 사용하자<ul id="bfdbd5d8-5658-44cf-9e17-0ce15e80d654" class="bulleted-list"><li style="list-style-type:circle">원래 포인터 변수를 사용할 경우, 주소를 잃어버려서 해제를 못할 수 있음</li></ul><pre id="cbe7e49c-7170-41dc-9cdb-7d30a448dfe6" class="code"><code>void* pa_nums;
+int* p;
+
+pa_nums = malloc(LENGTH * sizeof(int));
+p = pa_nums;
+
+/* pa_nums는 이제 사용 금지, p 로만 작업 */
+
+free(pa_nums)</code></pre></li></ul><ul id="64e5a734-6852-4b58-baef-5432d715300b" class="bulleted-list"><li style="list-style-type:disc">메모리 해제 후, 널 포인터를 대입하자<p id="e99b0537-ec80-4c75-9539-8673cc12f1d3" class="">1) <code>free()</code>를 두번 호출하는 것을 막기 위해</p><p id="37c75e5b-bb67-4101-b00b-de96814d33a2" class="">2) 또 다른 코드에서 NULL인 경우 쓰지 말아야 하므로 조건문에 쓰지 말아야하는 것을 알기 위해</p><pre id="e3a1dfbf-7315-46a4-bb9b-4dfcc9103bf9" class="code"><code>void* pa_nums;
+int* p;
+
+pa_nums = malloc(LENGTH * sizeof(int));
+
+/* ... */
+
+free(pa_nums)
+pa_nums = NULL;</code></pre></li></ul><ul id="1ef174a9-e7b1-4820-b2a6-b15f2f4a02cb" class="bulleted-list"><li style="list-style-type:disc">정적 메모리를 우선적으로 사용하고 어쩔 수 없을 때만 동적 메모리를 사용</li></ul><ul id="2d91ecfe-d93b-4fbf-b6bf-9798cff947b4" class="bulleted-list"><li style="list-style-type:disc">동적 메모리 할당을 할 경우, 변수와 함수 이름에 그 사실을 알리자<pre id="5883008f-a805-4873-8e63-74dae41b56f2" class="code"><code>const char* combine_string_malloc(const char* str1, const char* str2)
+{
+	void* pa_str;
+	char* p;
+
+	pa_str = malloc(strlen(str1) + strlen(str2) + 1);
+	p = pa_str;
+
+	/* 문자열 합치는 코드 생략 */
+
+	return pa_str;
+}</code></pre></li></ul><h2 id="00173a68-f400-4f3a-bdc1-2b46887034a7" class="">다중 포인터</h2><h3 id="4e64757b-58f9-4876-bf6c-eac1cb2c64f7" class="">포인터</h3><p id="1e09f458-8059-470d-8cef-758cb7552bb4" class="">⇒ 주소를 저장하는 변수</p><h3 id="d69daa17-5695-4923-b7d1-e8bbf3fe580b" class="">이중 포인터</h3><pre id="518c0661-6f88-41be-ad00-09c117246afe" class="code"><code>int num = 10;
+int* p = &amp;num;
+int** pp = &amp;p;</code></pre><ul id="384f9be3-2beb-4129-9295-fc1e17775c7b" class="bulleted-list"><li style="list-style-type:disc">포인터 변수의 주소를 저장하는 변수</li></ul><ul id="ebf4c254-154b-4557-bd49-f103d21c4615" class="bulleted-list"><li style="list-style-type:disc">주소의 주소 → 주소를 반복!</li></ul><hr id="07507bac-f6ed-4048-80b5-32114bae57a8"/><p id="e098e391-6027-49a4-9dfb-9866ce25d7df" class=""><strong>&lt;상황에 따라 주소의 주소의 주소의... 가능&gt;</strong></p><pre id="06a75b5b-4d49-4be4-9f5e-85b95e59bedf" class="code"><code>int*** r = &amp;q;
+int*********** z = &amp;y;
+</code></pre><p id="662ddd1a-5ccb-4b00-9f87-b987c5c5ff4c" class="">⇒ 그러나 3중 포인터도 매우 드물며, 4중 이상은 거의 안씀</p><hr id="57ea1cfd-1361-4838-a50f-d1f5e6ef4508"/><h3 id="cabc13aa-7d82-4388-b76d-4decf7df9915" class="">퀴즈</h3><pre id="1a678eaf-0bfe-4518-b396-c5642d050eed" class="code"><code>int num1; /* num1의 주소: 0x100 */
+int num2; /* num2의 주소: 0x104 */
+int* p;   /* p의 주소: 0x108 */
+int* q;   /* q의 주소: 0x10C */
+int* r;   /* r의 주소: 0x110 */
+int** pp; /* pp의 주소: 0x114 */
+
+num1 = 10;
+num2 = 20;
+
+p = &amp;num1;
+q = &amp;num2;
+r = &amp;num1;
+
+pp = &amp;p;
+*pp = q;
+**pp = 1024;
+pp = &amp;r;
+**pp = *p * 2;</code></pre><pre id="cadda36b-91c3-4c57-9721-a1eef679d44d" class="code"><code>/*
+num1: 2048
+num2: 1024
+p: 0x104
+q: 0x104
+r: 0x100
+pp: 0x110
+*/</code></pre><ul id="7e4a95f8-8ca7-4797-9399-e9d8c5b605c1" class="bulleted-list"><li style="list-style-type:disc">문제를 풀 때 아래를 기입해두고 하나하나 해결해나가는 것이 더 편함<pre id="6e24b514-9f15-4524-ae13-c6ca1a60ee18" class="code"><code>num1의 주소: 0x100
+num2의 주소: 0x104
+p의 주소: 0x108
+q의 주소: 0x10C
+r의 주소: 0x110
+pp의 주소: 0x114
+
+num1: 10
+num2: 20
+p: 0x100
+q: 0x104
+r: 0x100</code></pre></li></ul><h3 id="de8553dc-40bd-4943-a0e9-0b97addf7bcd" class="">이중 포인터의 사용</h3><ul id="976ce5ed-3a4a-4adc-8248-86517e3a827d" class="bulleted-list"><li style="list-style-type:disc">2차원 배열은 2중 포인터의 개념과 비슷<ul id="52c60fd7-e9a9-489a-881e-ec8c5ce7d84f" class="bulleted-list"><li style="list-style-type:circle">2차원 자료가 많아서 2D 배열을 많이 씀</li></ul><ul id="20199b7c-4bfc-4825-a90d-f0ab7b6a4ec2" class="bulleted-list"><li style="list-style-type:circle">예 : 구구단표, 이미지</li></ul><p id="46f83d36-86a4-4e73-a685-1aad21d984a9" class="">⇒ 3차원 배열 : 3중 포인터 사용</p></li></ul><ul id="8862658a-6545-4ba9-ab53-e26ce91637da" class="bulleted-list"><li style="list-style-type:disc">메인 함수의 매개변수인 <code>argv</code>도 엄밀히 말하면 이중 포인터<ul id="d1e99f0b-1740-4f5d-be3a-f5788ffaf39c" class="bulleted-list"><li style="list-style-type:circle">포인터의 배열 → 각 배열은 포인터</li></ul><pre id="8b7c9a28-e184-4387-a82e-6111d3f0b328" class="code"><code>int main(int argc, char* argv[]);
+int main(int argc, char** argv[]);</code></pre></li></ul><h3 id="c1316ab6-3c87-49c9-904f-a6374ed54d42" class="">포인터 변수를 교체하기</h3><pre id="9b2880c4-ea3a-4ace-baf6-74fc32af744c" class="code"><code>void swap(int** n1, int** n2)
+{
+	int* tmp = *n1;
+
+	*n1 = *n2;
+	*n2 = tmp;
+}</code></pre><pre id="4b687fdf-f1de-4c4c-b837-45a681ef796b" class="code"><code>int num1 = 10;
+int num2 = 20;
+
+int* p;
+int* q;
+
+p = &amp;num1;
+q = &amp;num2;
+
+swap(&amp;p, &amp;q);</code></pre><h3 id="6db45673-a96b-41c7-b093-d5a5286b039b" class="">단어 정렬</h3><pre id="b3ee6c2c-2dee-4046-af25-b5b851e4ecdd" class="code"><code>#include &lt;stdio.h&gt;
+#include &lt;stdlib.h&gt;
+
+#include &quot;string_comparer.h&quot;
+
+enum { NUM_WORDS = 6 };
+
+int main(void)
+{
+	size_t i;
+	const char* words[NUM_WORDS] = {
+		&quot;premium&quot;, &quot;level&quot;, &quot;cultured&quot;,
+		&quot;moaning&quot;, &quot;skinny&quot;, &quot;curve&quot;
+	};
+
+	puts(&quot;\n== sort ascending ==&quot;);
+
+	qsort(words, NUM_WORDS, sizeof(const char*), compare_string);
+	for (i = 0; i &lt; NUM_WORDS; ++i) {
+		printf(&quot;%s\n&quot;, word[i]);
+	}
+
+	puts(&quot;\n== sort descending ==&quot;);
+
+	qsort(words, NUM_WORDS, sizeof(const char*), compare_string_desc);
+	for (i = 0; i &lt; NUM_WORDS; ++i) {
+		printf(&quot;%s\n&quot;, word[i]);
+	}</code></pre><pre id="a53ee153-53d9-4c06-87af-a2deabdc6c58" class="code"><code>/* string_comparer.c */
+
+#include &lt;stdio.h&gt;
+#include &quot;string_comparer.h&quot;
+
+int compare_string(const void* a, const void* b)
+{
+	const char** w0 = (const char**)a;
+	const char** w1 = (const char**)b;
+
+	return strcmp(*w0, *w1);
+}
+
+int compare_string_desc(const void* a, const void* b)
+{
+	const char** w0 = (const char**)a;
+	const char** w1 = (const char**)b;
+
+	return strcmp(*w1, *w0);
+}
+	</code></pre><h3 id="b059e154-a064-43ed-8244-0f29d154828e" class="">퀴즈</h3><p id="4830e233-ecd4-4984-be1a-14a513311529" class=""><strong>&lt;퀴즈 1&gt;</strong></p><pre id="e54444f7-046a-4e43-a63b-30c2f1c98ca3" class="code"><code>int num1 = 10;
+int num2 = 13;
+int num3 = 19;
+
+int* p1 = &amp;num2;
+int* p2 = &amp;num1;
+int* p3 = &amp;num3;
+	
+int** pp1 = &amp;p2;
+int** pp2 = &amp;p3;
+int** pp3 = &amp;p1;
+
+*pp1 = *pp2;
+**pp2 *= 2;
+pp3 = pp2;
+
+printf(&quot;%d, %d, %d&quot;, **pp1, **pp2, **pp3);
+
+/* 38, 38, 38 */</code></pre><p id="a57252b6-72b0-4a70-8239-776a66af1483" class=""><strong>&lt;퀴즈 2&gt;</strong></p><pre id="38556cab-3c88-4ea7-a7cf-20800d9f2f36" class="code"><code>int num1 = 10;
+int num2 = 13;
+int num3 = 19;
+
+int* p1 = &amp;num2;
+int* p2 = &amp;num1;
+int* p3 = &amp;num3;
+
+int** pp1 = &amp;p2;
+int** pp2 = &amp;p3;
+int** pp3 = &amp;p1;
+
+int*** ppp1 = &amp;pp3;
+int*** ppp2 = &amp;pp1;
+int*** ppp3 = &amp;pp2;
+
+*ppp1 = *ppp3;
+**ppp2 = **ppp1;
+***ppp3 -= ***ppp1;
+
+printf(&quot;%d, %d, %d&quot;, ***ppp1, ***ppp2, ***ppp3);
+
+/* 0, 0, 0 */</code></pre><p id="091d76ae-c37a-4c34-883d-7c546a68c2fa" class=""><strong>&lt;퀴즈 3&gt;</strong></p><pre id="2eeda6c6-f72d-4db1-b6cd-5a39cfbf8ba8" class="code"><code>int num1 = 10;  /* num1의 주소값: 0x100 */
+int num2 = 13;  /* num2의 주소값: 0x104 */
+int num3 = 19;  /* num3의 주소값: 0x108 */
+
+int* p1 = &amp;num2;  /* p1의 주소값: 0x10C */
+int* p2 = &amp;num1;  /* p2의 주소값: 0x110 */
+int* p3 = &amp;num3;  /* p3의 주소값: 0x114 */
+
+int** pp1 = &amp;p2;  /* pp1의 주소값: 0x118 */
+int** pp2 = &amp;p3;  /* pp2의 주소값: 0x11C */
+int** pp3 = &amp;p1;  /* pp3의 주소값: 0x120 */
+
+int*** ppp1 = &amp;pp3;  
+int*** ppp2 = &amp;pp1;  
+int*** ppp3 = &amp;pp2; 
+
+pp1 = pp3;
+**pp2 += **pp3;
+pp3 = pp2;
+
+*ppp1 = *ppp2;
+ppp2 = ppp3;
+*ppp3 = *ppp2;
+
+/* pp1, pp2, pp3, ppp1, ppp2, ppp3의 값은? */
+
+/*
+pp1: 0x10C
+pp2: 0x114
+pp3: 0x10C
+ppp1: 0X120
+ppp2: 0x11C
+ppp3: 0x11C
+*/</code></pre></div></article></body>
+
+{% endblock post_content %}
