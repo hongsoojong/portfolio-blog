@@ -72,3 +72,15 @@ def post12(request):
 
 def post13(request):
     return render(request, "blog/all_posts/post13.html")
+
+
+def post14(request):
+    return render(request, "blog/all_posts/post14.html")
+
+
+def post15(request):
+    return render(request, "blog/all_posts/post15.html")
+
+
+def post16(request):
+    return render(request, "blog/all_posts/post16.html")

@@ -1,0 +1,831 @@
+{% extends 'blog/all_posts/base_post.html' %}
+
+{% load static %}
+
+{% block post_title %}
+    <a href="{% url 'blog:all-posts' %}" class="font_kor">(11) 자료구조</a>
+{% endblock post_title %}
+
+{% block post_content %}
+
+{% block post_date %}
+    <div class="container w-1/2 mx-auto mb-10 post_date">[ Sept 30, 2021 ]</div>    
+{% endblock post_date %}
+
+<main class="container w-1/2 mx-auto font_kor">
+
+{% include "blog/all_posts/css_post.html" %}
+  
+<!-- notion html -->
+<body><article id="1ebd860a-a11f-413e-b27e-2117d7be81b9" class="page sans"><div class="page-body"><h2 id="b364f4f4-86e1-453c-918f-92105b1c83f4" class="">자료구조 기초</h2><h3 id="1ee87fe9-de82-44ce-8822-14cfa9e6ea0f" class="">자료구조(data structure)</h3><ul id="b35cb1cb-b663-4e2c-8e1c-3184d39b405b" class="bulleted-list"><li style="list-style-type:disc">컴퓨터에서 여러 자료들을 조직적, 체계적으로 저장하는 방법</li></ul><ul id="2bebf977-e032-46d8-a17d-6426a386791c" class="bulleted-list"><li style="list-style-type:disc">보통 동일한 자료형을 여럿 저장하는 구조의 의미</li></ul><ul id="c45f0535-ea4d-48e8-9e6c-18e33cd60820" class="bulleted-list"><li style="list-style-type:disc">자료구조에 따라 요소들 사이의 관계를 정의하는 규칙이 있음</li></ul><ul id="491bfbc7-483b-4a4e-a8a6-1d52b1eb840d" class="bulleted-list"><li style="list-style-type:disc">다음 요인에 따라 상황마다 효율적인 자료구조가 존재<ul id="9726eea0-cf6e-467f-a643-5ad359587022" class="bulleted-list"><li style="list-style-type:circle">데이터에 접근하는 빈도</li></ul><ul id="e7169f5c-4122-4428-a014-d9508217a9cc" class="bulleted-list"><li style="list-style-type:circle">데이터에 접근하는 방법 (예 : 삽입, 검색, 읽기, 지우기 등)</li></ul></li></ul><h3 id="fc22b502-674d-45ce-8efe-6418ff2a2d3b" class="">자료구조의 효율성</h3><ul id="c5205a88-bbd1-401b-93dc-33a6af8a8a54" class="bulleted-list"><li style="list-style-type:disc">효율성은 주로 시간 복잡도(time complexity)를 말함</li></ul><ul id="771004a5-8a36-4089-b987-cb8430e9c30b" class="bulleted-list"><li style="list-style-type:disc">공간 복잡도(space complexity)를 포함하는 경우도 있음</li></ul><ul id="9eeeb9f5-52a1-485c-9a51-47a7f9975af1" class="bulleted-list"><li style="list-style-type:disc">따라서 주로 빅오(Big-O) 표기법을 사용</li></ul><ul id="1a1d013d-2ae7-4010-9eaf-3b1ab637e646" class="bulleted-list"><li style="list-style-type:disc">보통 효율성을 논할 때는 하드웨어 최적화를 고려 안 한 이론이 전부<ul id="479c3ef9-cad2-4974-a0b6-a21f80ea7f3a" class="bulleted-list"><li style="list-style-type:circle">대용량의 데이터를 사용할 때는 그래도 맞음</li></ul><ul id="70fdba53-db2e-44dc-9e07-e2daa3500d29" class="bulleted-list"><li style="list-style-type:circle">적은 용량의 데이터는 그렇지 않을 수 있음</li></ul></li></ul><h3 id="59f17b1e-dfe9-41e2-8dee-9952b215a6e9" class="">C에서 자료구조를 배우는 이유</h3><ul id="c4dc7508-2223-4bdc-a5f5-71689f117ceb" class="bulleted-list"><li style="list-style-type:disc">배열을 제외한 자료구조는 하드웨어 위에서 프로그래머가 만든 개념<ul id="197c7c53-6c01-4509-94f7-cbe1779f03bc" class="bulleted-list"><li style="list-style-type:circle">즉, 우리의 상위 호환형 사람들이 만들어준 것</li></ul><ul id="c5b8a821-8285-4fe3-96d6-bd76f737163d" class="bulleted-list"><li style="list-style-type:circle">우리도 만들줄 알아야함! → 우리도 프로그래머니까</li></ul></li></ul><ul id="98712082-5b56-46c1-9929-41bd4a2040ba" class="bulleted-list"><li style="list-style-type:disc">다른 언어에서는 이런 자료구조들을 라이브러리로 제공하기 때문에 프로그래머가 제대로 구현하며 배울 기회가 적음<ul id="fe3495f2-3708-44c1-be9a-afaa7122e780" class="bulleted-list"><li style="list-style-type:circle">추상적 이해를 넘어 제대로 이해할 수 있는 좋은 기회</li></ul></li></ul><ul id="88a8217d-bdbd-4969-9cc0-6e9ccc2e5f21" class="bulleted-list"><li style="list-style-type:disc">포인터를 연습하기에도 매우 좋은 기회</li></ul><h2 id="10b50883-48aa-41ab-9a7f-bd24ad02e36b" class="">배열(array)</h2><ul id="07e74a0f-df8b-4520-ac18-46c70974aaaa" class="bulleted-list"><li style="list-style-type:disc">메모리 한 덩어리로 표현 가능한 가장 간단한 자료구조</li></ul><ul id="3b1e25a7-7e7d-4530-87aa-2651a9738f6e" class="bulleted-list"><li style="list-style-type:disc">여러 자료들을 그 메모리 덩어리 안에 줄줄이 세워놓은 구조</li></ul><ul id="269b0c9c-69df-4dea-ac85-e8f08a7170a3" class="bulleted-list"><li style="list-style-type:disc">각 자료는 색인(index)으로 접근<ul id="cd03fb4a-fd68-477a-b162-df0f1aec6c04" class="bulleted-list"><li style="list-style-type:circle">연속된 메모리니 각 요소의 실제 메모리 상의 위치를 쉽게 찾을 수 있음</li></ul><pre id="20d5bd13-7c89-4f44-a057-f26b2ca862ff" class="code"><code>위치 = 시작_주소 + sizeof(자료형) * 색인;</code></pre></li></ul><h3 id="ac19051d-53db-4d2c-b5f8-030378686fd7" class="">배열 삽입의 예</h3><pre id="f7d034f5-c2d0-4d5f-abaa-a70a40a4d7a6" class="code"><code>enum { MAX_NUMS = 8 }
+enum { INVALID_INDES = =1 };
+
+int s_nums[MAX_NUMS};
+size_t s_num_count = 0;</code></pre><pre id="883b57bc-6f2e-45a0-83a9-2127d7362e0c" class="code"><code>void insert_at(size_t index, int n)
+{
+size_t i;
+
+assert(index &lt;= s_num_count);
+assert(s_num_count &lt; MAX_NIMS);
+
+for (i = s_num_count; i &gt; index; --i) {
+    s_nums[i] = s_nums[i - 1]; /* i-1에 있던 데이터를 i에 복사 */
+}
+/* i &gt; index : 넣으려고 하는 위치에 있는 요소로부터 마지막 요소까지 하나씩 뒤로 밀기 위함*/
+/* 새로운 데이터가 들어올 때마다 기존 요소들이 한 칸씩 밀림 */
+
+s_nums[index] = n;
+++s_num_count;
+}</code></pre><pre id="a9c958a8-7bb9-4709-8961-10efc71f81ab" class="code"><code>int main(void)
+{
+insert_at(0, 1);
+insert_at(0, 2); /* i = 1, index = 0 */
+insert_at(0, 3);
+insert_at(0, 4);
+insert_at(0, 5);
+insert_at(0, 6);
+insert_at(0, 7);
+insert_at(7, 8); /* 배열의 맨 끝에 삽입 */
+
+return 0;
+}</code></pre><h3 id="46330763-783e-4571-8eaa-454cb2c295a7" class="">배열의 삽입</h3><ul id="f108f8d1-64e0-47b9-98dc-52d9010a7f22" class="bulleted-list"><li style="list-style-type:disc">배열 제일 뒤에 넣으면 간단히 삽입하고 끝</li></ul><ul id="4e83c7b5-5f41-42f0-846a-82d50b1fc762" class="bulleted-list"><li style="list-style-type:disc">그 외의 경우 삽입하려는 위치의 요소로부터 마지막 요소를 모두 뒤로 한 칸씩 민 뒤에 삽입</li></ul><ul id="769d134b-7291-4a07-8743-8259ac99a035" class="bulleted-list"><li style="list-style-type:disc">시간 복잡도 : O(n)<p id="9b0436c5-4a3f-4fbd-bacf-439dad267031" class=""><strong>⇒ 요소수(n)만큼 미는 작업이 필요하므로 배열의 삽입은 O(n)</strong></p></li></ul><h3 id="a648a505-455f-4a75-a97b-d7c6648df013" class="">배열 삭제의 예</h3><pre id="b3c7eec4-0acc-41cb-a6c7-e746c87dbbeb" class="code"><code>enum { MAX_NUMS = 8 }
+enum { INVALID_INDES = =1 };
+
+int s_nums[MAX_NUMS};
+size_t s_num_count = 0;</code></pre><pre id="0d5b6a7a-ad22-4edd-befd-b71073fdb67d" class="code"><code>void remove_at(size_t index)
+{
+size_t i;
+
+assert(index &lt; s_num_count);
+
+--s_num_count;
+for (i = index; i &lt; s_num_count; ++i) {
+    s_num[i] = s_nums[i + 1];
+}
+}</code></pre><pre id="8411fdcb-56fd-4b81-bb3f-3ab19e370e16" class="code"><code>int main(void)
+{
+remove_at(7)
+remove_at(0)
+remove_at(0)
+return 0;
+}</code></pre><h3 id="0d3c5328-d368-4262-8d1d-69b7f0b1ea6c" class="">배열의 삭제</h3><ul id="856113bf-e7b7-42c0-9061-8f52b0cf0c6e" class="bulleted-list"><li style="list-style-type:disc">삭제하는 색인을 기준으로 그 뒤의 값들을 한 칸씩 아픙로 당김</li></ul><ul id="897bf76a-b264-485f-8646-0921de4872dc" class="bulleted-list"><li style="list-style-type:disc">시간 복잡도 : O(n)<p id="e3b955ee-5c7a-4e6f-bdbe-17c9de037be6" class="">⇒ 제일 뒤에서 지우면 O(1)이 되고, 중간에서 지우면 O(n)이 되는 거지만 시간 복잡도는 최악의 상황을 고려해야함</p></li></ul><h3 id="73b5c402-3643-4512-afce-476a3a70dec7" class="">배열 검색의 예</h3><pre id="cb988816-0a53-4b1e-a00b-c10708e3f272" class="code"><code>enum { MAX_NUMS = 8 }
+enum { INVALID_INDES = =1 };
+
+int s_nums[MAX_NUMS};
+size_t s_num_count = 0;</code></pre><pre id="ebecb91f-97fd-4acb-a1f5-bcdff1807b8b" class="code"><code>void find_index(int n)
+{
+size_t i;
+
+for (i = 0; i &lt; s_num_count; ++i) {
+    if (s_nums[i] == n) {
+        return i;
+    }
+}
+
+return INVALID_INDEX;
+}</code></pre><pre id="c33e598e-e39b-4117-99a7-c685598d738e" class="code"><code>int main(void)
+{
+size_t index;
+
+/* 삽입 코드 생략 { 7, 6, 5, 4, 3, 2, 8 } */
+remove_at(7)
+remove_at(0)
+remove_at(0)
+
+index = find_index(20); /* -1을 반환 */
+
+return 0;
+}</code></pre><h3 id="e84b4b44-06de-4858-903c-46924b7bdc00" class="">배열의 검색</h3><ul id="b25f63fb-4f0b-4bae-97ac-eea81990556a" class="bulleted-list"><li style="list-style-type:disc">배열 속 요소들을 처음부터 차례대로 방문하여 찾고자 하는 값이 있는지 확인<ul id="fcd8cb41-cc52-4459-803f-07bb6372d8d0" class="bulleted-list"><li style="list-style-type:circle">있으면, 해당 색인을 반환</li></ul><ul id="c1d712fa-33d7-4480-b28d-736a7ed18f92" class="bulleted-list"><li style="list-style-type:circle">없으면, -1을 반환</li></ul></li></ul><ul id="b346b76c-4bbc-4489-87a9-793e0ef585d5" class="bulleted-list"><li style="list-style-type:disc">시간 복잡도 : O(n)<p id="56d48327-eec3-4787-b099-0b717b7fb9f1" class="">⇒ 처음부터 끝까지 요소 수만큼 모두 방문하여 확인을 해야함</p></li></ul><h3 id="684956af-ae6f-4627-9715-f59722c65136" class="">배열 접근의 예</h3><pre id="2716bd57-9dab-4be3-a74d-f57c38c260f1" class="code"><code>enum { MAX_NUMS = 8 }
+enum { INVALID_INDES = =1 };
+
+int s_nums[MAX_NUMS};
+size_t s_num_count = 0;</code></pre><pre id="7f27c3c7-8aab-4733-a24f-d42b2cefc017" class="code"><code>void insert_at(size_t index, int n);
+void remove_at(size_t index);
+size_t find_index(int n);</code></pre><pre id="4d337055-66af-4d2c-b527-8f63ac42bc90" class="code"><code>int main(void)
+{
+/* s_num[] = { 7, 6, 5, 4, 3, 2, 8 } */
+
+s_num[2] = 14;
+
+/* s_num[] = { 7, 6, 14, 4, 3, 2, 8 } */
+
+return 0; 
+}</code></pre><h3 id="2a4e7c7a-cc34-4471-a582-7de01d1b3aff" class="">배열의 접근</h3><ul id="19fe543c-a2f3-4469-9e8c-adcf35821f64" class="bulleted-list"><li style="list-style-type:disc">이미 색인을 알고 있다면 곧바로 접근 가능</li></ul><ul id="63cf13e0-a4a5-42a9-ac80-034e541d31cc" class="bulleted-list"><li style="list-style-type:disc">시간 복잡도 : O(1)</li></ul><h3 id="98780ad6-173e-4e4b-90a4-3e4f2644a76b" class="">빠른 배열</h3><pre id="a9270b15-4d78-4908-8587-95363dfda7c0" class="code"><code>/* main.c */
+
+#include &lt;assert.h&gt;
+#include &lt;stdio.h&gt;
+
+enum { MAX_NUMS = 8 }
+enum { INVALID_INDES = =1 };
+
+int s_nums[MAX_NUMS};
+size_t s_num_count = 0;
+
+void print_array(void)
+{
+size_t i;
+
+for (i = 0; i &lt; s_num_count; ++i) {
+    printf(&quot;%d&quot;, s_nums[i]);
+}
+
+puts(&quot;&quot;);
+}
+
+
+void insert_at(size_t index, int n)
+{
+size_t i;
+
+assert(index &lt;= s_num_count);
+assert(s_num_count &lt; MAX_NIMS);
+
+for (i = s_num_count; i &gt; index; --i) {
+    s_nums[i] = s_nums[i - 1];
+}
+s_nums[index] = n;
+++s_num_count;
+}
+
+void find_index(int n)
+{
+size_t i;
+
+for (i = 0; i &lt; s_num_count; ++i) {
+    if (s_nums[i] == n) {
+        return i;
+    }
+}
+
+return INVALID_INDEX;
+}
+
+void remove_at(size_t index)
+{
+size_t i;
+
+assert(index &lt; s_num_count);
+
+--s_num_count;
+for (i = index; i &lt; s_num_count; ++i) {
+    s_num[i] = s_nums[i + 1];
+}
+}
+
+void remove_at_unordered(size_t index) /* 새로 만든 삭제 함수 */
+{
+assert(index &lt; s_num_count);
+
+s_nums[index] = s_nums[--s_num_count];
+}
+
+int main(void)
+{
+insert_at(0, 0);
+insert_at(1, 1);
+insert_at(2, 2);
+insert_at(3, 3);
+insert_at(4, 4);
+insert_at(5, 5);
+
+/* 0 1 2 3 4 5 */
+print_array();
+
+remove_at(1)
+/* 0 2 3 4 5 */
+print_array();
+
+remove_at_unordered(1);
+/* 0 5 3 4 */
+print_array();
+
+return 0;
+}</code></pre><ul id="1e88249a-abcd-465d-87b6-a7492404bdba" class="bulleted-list"><li style="list-style-type:disc">배열의 삽입 및 삭제는 O(n)이지만, <ul id="d4be7082-4430-40ea-bd41-7ffbcacc2808" class="bulleted-list"><li style="list-style-type:circle">언제나 배열 제일 뒤에 삽입하면 삽입 연산은 O(1)을고 줄일 수 있음</li></ul><ul id="f2576804-c7eb-4c4d-9349-0db3da8f9d4d" class="bulleted-list"><li style="list-style-type:circle">삭제 연산은  한 가지 제약만 포기하면 O(1)으로 줄일 수 있음 </li></ul></li></ul><hr id="3233e20e-89c2-4b14-84df-a0fb752fa361"/><p id="c394c5a7-28e4-4c13-a942-7032a3a4faf0" class=""><strong>&lt;삭제 후 남은 요소들의 순서가 유지되지 않는 조건&gt;</strong></p><ul id="c618e3a1-8b35-43e1-9a92-09aaee385097" class="bulleted-list"><li style="list-style-type:disc">요소 하나 삭제 후 그 뒤에 있는 모든 요소를 왼쪽으로 한 칸씩 이동(shift)하는 대신 요소를 삭제해서 빈 슬롯에 그냥 배열의 마지막 요소를 이동해옴</li></ul><ul id="7a18d899-db28-406f-98b5-d2658dadd773" class="bulleted-list"><li style="list-style-type:disc">배열 속에 저장된 데이터의 순서가 중요하지 않다면 이 꼼수를 이용하여 배열의 삭제 연산을 언제나 O(1)으로 만들 수 있음<p id="e6e91f5d-3b2b-448d-b16c-1dfb80e83fa9" class="">⇒ 실제로 순서가 중요하지 않는 경우는 빈번함</p></li></ul><ul id="a496ffe9-0a54-4175-a08d-4545e235c2d4" class="bulleted-list"><li style="list-style-type:disc">참고로 삭제 후에 배열이 비면 더 이상 코드를 실행하지 않는게 개념상으로 옳음 → 하지만 이대로 둬도 안전한 코드</li></ul><hr id="405d7650-26d7-4a8e-b3eb-a27e866c7583"/><h2 id="386269f2-cb0d-400a-98eb-2535c0c1673c" class="">스택(stack)</h2><ul id="2bbb02d3-f71b-4f7f-9da4-e803eb8418d6" class="bulleted-list"><li style="list-style-type:disc">자료의 삽입과 삭제에 대한 규칙이 있는 자료구조 중 하나</li></ul><ul id="3d901849-0c75-46c9-b34c-d2a116ca928b" class="bulleted-list"><li style="list-style-type:disc">가장 먼저 자료구조에 삽입(<code>push</code>)된 데이터가 제일 마지막에 삭제(<code>pop</code>)됨<p id="5bfc4ce1-79ba-4a3a-aefa-a8828a937a25" class=""> (1 2 3 4 삽입 → 4 3 2 1 삭제)</p><p id="dfc9a0ba-b72a-448b-a021-98c3127f132e" class="">⇒ 아래에서 위로 쌓인 스택은 제일 위에서부터 아래로 삭제해나감</p></li></ul><ul id="691b3f28-0511-42cd-ac4d-b2690b180328" class="bulleted-list"><li style="list-style-type:disc">선입후출(First in Last Out) / 후입선출(Last in First Out)</li></ul><ul id="6fac353b-acd1-415d-8652-55a66d06a5f5" class="bulleted-list"><li style="list-style-type:disc">스택은 중간에 있는 요소를 제거할 수 없음<p id="e6cdf999-3071-44a9-b85a-5231a18162d7" class="">⇒ 그럴바에야 배열을 쓰는 것이 맞음</p><ul id="67eb6d34-1257-4f3c-8304-edcfaaea2602" class="bulleted-list"><li style="list-style-type:circle">언제나 제일 위에 있는 자료만 제거 가능</li></ul><ul id="c89e4878-63fc-4567-b8fb-7116f8424193" class="bulleted-list"><li style="list-style-type:circle">즉, 중간 자료에 임의 접근 안됨</li></ul></li></ul><ul id="d1f5a4cd-54ce-43dc-876a-f4acdfd2bc1d" class="bulleted-list"><li style="list-style-type:disc">스택 메모리와 같은 개념으로 데이터가 쌓여감에 따라 주소가 감소하기 떄문에 반대로 그렸을 뿐</li></ul><h3 id="1ef203c6-f525-4088-a427-b921a528e02a" class="">스택의 구현</h3><ul id="05b1d0cf-3cd7-4b81-b122-ddbcec524a85" class="bulleted-list"><li style="list-style-type:disc">배열로 쉽게 가능</li></ul><ul id="6c34b468-f7c8-4635-bf41-9f993cfc9aa4" class="bulleted-list"><li style="list-style-type:disc">그냥 배열의 앞에서부터 데이터 추가</li></ul><ul id="c0f2039b-24ab-424f-a3e8-8db6ef8ecbcf" class="bulleted-list"><li style="list-style-type:disc">마지막 요소의 위치를 스택의 제일 위(top)라고 생각하면 됨</li></ul><h3 id="658b7e39-671c-423f-9a57-df6ac2280915" class="">스택 삽입의 예</h3><pre id="28c5fa75-2992-4c93-9e3e-e6a25cdb85c3" class="code"><code>enum { MAX_NUMS = 8 };
+
+int s_nums{MAX_NUMS];
+size_t s_num_count = 0;</code></pre><pre id="7769d18e-51cd-4bac-af4a-0d95f96bdaba" class="code"><code>void push(int n)
+{
+assert(s_num_count &lt; MAX_NUMS);
+s_nums[s_nums_count++] = n;
+}</code></pre><pre id="531c5f75-f4b4-4376-876c-7f078ba935cb" class="code"><code>int main(void)
+{
+push(88);
+push(44);
+push(22);
+
+return 0;
+}</code></pre><ul id="8f410022-5e14-4e94-a7c4-8808b929ed8e" class="bulleted-list"><li style="list-style-type:disc"><code>s_nums_count</code>에 n을 삽입</li></ul><ul id="66c38a28-c287-4104-b2c4-2f4eba017417" class="bulleted-list"><li style="list-style-type:disc"><code>s_nums_count++</code> : 다음에 삽입할 위치를 가리킴</li></ul><h3 id="671f07a6-5d3a-43e6-9974-024aa0bff566" class="">스택의 삽입</h3><ul id="7d1bd1c5-4681-4e79-bb4d-d6411ae11446" class="bulleted-list"><li style="list-style-type:disc">보통 푸시(<code>push</code>)라고 표현<p id="7790c18b-3c02-465b-93b3-0d0056330973" class="">⇒ 제일 위에 밀어 넣어 쌓는다는 개념</p></li></ul><ul id="75da1ca2-e692-4723-aec9-9d38336d5c20" class="bulleted-list"><li style="list-style-type:disc">시간 복잡도 : O(1)</li></ul><h3 id="a26d2b80-fa93-4e9e-a259-6f5b3ea84ad9" class="">스택 제거의 예</h3><pre id="3e780401-30a2-4ee5-82c8-0b410c3bc246" class="code"><code>enum { TRUE = 1, FALSE = 0 };
+enum ( MAX_NUMS = 8 };
+
+int s_nums{MAX_NUMS];
+size_t s_num_count = 0;</code></pre><pre id="d27326fa-87f7-4069-85c5-e90d874317e1" class="code"><code>int is_empty(void)
+{
+return (s_num_count == 0);
+}
+
+int pop(void)
+{
+assert(is_emthy() == FALSE);
+
+return s_nums[--s_num_count];
+}</code></pre><pre id="ef0e42a1-ff80-4b81-b642-b69cb5a351e1" class="code"><code>int num;
+
+num = pop();
+num = pop();</code></pre><h3 id="1d2010c9-15e4-414c-b773-25983aa78bd1" class="">스택의 제거</h3><ul id="6afbd8ec-1fd0-46b8-aca7-d66b3f4a08ed" class="bulleted-list"><li style="list-style-type:disc">스택에서 뽑아 낸다고 해서 팝(<code>pop</code>)이라고 함</li></ul><ul id="7491c846-faab-4429-8d1a-4f3185d9cf40" class="bulleted-list"><li style="list-style-type:disc">시간 복잡도 : O(1)</li></ul><h3 id="ad5fc1c2-9994-4bd7-83bf-138db984d315" class="">스택의 검색</h3><ul id="be44abe5-6fc1-4c14-8f8d-e3d14773b893" class="bulleted-list"><li style="list-style-type:disc">제일 위에서부터 찾을 때까지 뒤져야함</li></ul><ul id="cfee1524-aafe-4325-ac7b-5da7930746e7" class="bulleted-list"><li style="list-style-type:disc">보통 <code>push()</code>와 <code>pop()</code>만 허용하므로 임의로 요소에 접근할 방법이 없음<p id="4eac3bd3-1e6f-4751-b6c7-8a23df030363" class=""><strong>⇒ 모든 요소를 다 제거했다가 다시 원상복구해야 함</strong></p></li></ul><ul id="c3db2ad9-81ee-4a9e-9b26-d1b70ae44901" class="bulleted-list"><li style="list-style-type:disc">시간 복잡도 : O(n)<p id="6cc9a7de-9df1-452d-896f-b0aede392cc5" class="">⇒ 제거 O(n) + 복구 O(n)이 필요하여 O(2n)이지만 O(n)이라고 말함</p></li></ul><h3 id="84d29cbe-7250-4302-9d79-ebc5c6b92346" class="">스택의 용도</h3><ul id="a4d073b8-2c08-4d7d-9aa8-4922283929b9" class="bulleted-list"><li style="list-style-type:disc">일련의 자료들의 순서를 뒤집는데 유용<ul id="269e4711-b902-4956-9d89-8f650651fac9" class="bulleted-list"><li style="list-style-type:circle">현재 데이터 순서대로 연산하는 것이 컴퓨터에 적합하지 않은 경우</li></ul><hr id="dde90677-d6b2-43a5-bd82-84679146f355"/><p id="999e42d0-2284-4c85-ba35-71dcd33543c6" class=""><strong>&lt;컴퓨터 연산 순서에 맞게 자료 재정리&gt;</strong></p><figure class="block-color-gray_background callout" style="white-space:pre-wrap;display:flex" id="359f9a83-a8ab-4d3f-8170-3ac5b7933bb8"><div style="font-size:1.5em"><span class="icon">💡</span></div><div style="width:100%"><strong>2 * (4 + 5) - 15 / 3</strong></div></figure><ul id="6262f5ea-b353-4e26-a43f-d7ea2f0bdb1c" class="bulleted-list"><li style="list-style-type:circle">중위(infix) 표현법</li></ul><ul id="0ca00130-0f8d-4c6f-8769-e38bd19faa29" class="bulleted-list"><li style="list-style-type:circle">사람들에게 매우 익숙 → 컴퓨터는 그렇지 않음</li></ul><ul id="b75ec049-487d-4f90-a5ba-2857fb1aaeca" class="bulleted-list"><li style="list-style-type:circle">순서대로 한 글자씩 읽으면서 평가 불가능</li></ul><figure class="block-color-gray_background callout" style="white-space:pre-wrap;display:flex" id="5b7fd805-4a11-4923-b640-fcae1a96d568"><div style="font-size:1.5em"><span class="icon">💡</span></div><div style="width:100%"><strong>2 4 5 + * 15 3 / -</strong></div></figure><ul id="9f7c7107-fd43-4818-825d-e60de8714bdd" class="bulleted-list"><li style="list-style-type:circle">후위(postfix) 표기법으로 바꾸면 컴퓨터로 연산이 쉬움</li></ul><ul id="24050991-f8fc-482e-96f7-3d74dc4fa357" class="bulleted-list"><li style="list-style-type:circle">후위 표기법으로 적힌 식은 간단하게 스택을 이용해서 계산 가능</li></ul><p id="23bcb14f-8971-498a-adb8-443efc0e7aab" class=""><strong>&lt;계산 로직&gt;</strong><div class="indented"><p id="7af6452e-a8a0-461f-a729-96ffd98c5719" class="">1) 한 글자를 읽는다</p><p id="f2969648-dfe0-4e3c-8d03-85737fa984b5" class="">2) 글자를 읽는데 성공한 경우</p><ul id="f808de3d-1e04-4e99-994c-f70df331d10e" class="bulleted-list"><li style="list-style-type:disc">피연산자면, 스택에 넣음</li></ul><ul id="dda97e29-7641-4ea0-b3e0-7ad585677bcc" class="bulleted-list"><li style="list-style-type:disc">연산자면, 피연산자 둘을 스택에서 꺼내 연산자로 계산하고 그 결과를 다시 스택에 넣음</li></ul><ul id="ad1e8095-21c1-4ae7-8912-c4112ffe471a" class="bulleted-list"><li style="list-style-type:disc">1번으로 돌아감</li></ul><p id="b2bdacfa-8f4f-4d09-bc85-d54e2bb7d103" class="">3) 글자를 읽는데 실패한 경우(마지막)</p><ul id="d4edc85e-f161-42b8-b37f-4eccb5972faa" class="bulleted-list"><li style="list-style-type:disc">스택에서 꺼내면 그게 결과</li></ul></div></p><hr id="edf373a8-a5f7-42b7-a6d8-cc9b09771a3f"/></li></ul><ul id="8b47400e-7595-4a47-bcd0-8e703be7f2ca" class="bulleted-list"><li style="list-style-type:disc">재귀함수를 제거하는데도 유용함<ul id="26182898-3ac8-4e48-b1be-ad1fb7ab0037" class="bulleted-list"><li style="list-style-type:circle">재귀함수는 함수 호출 트리를 이용</li></ul><ul id="56d9312d-9b44-4790-bc45-85b572ceb6f2" class="bulleted-list"><li style="list-style-type:circle">함수는 각 호출마다 새로 스택 프레임을 만들어서 중간 결과를 저장</li></ul><ul id="bd49aeac-7ed1-4958-b2f2-96613cc4522e" class="bulleted-list"><li style="list-style-type:circle">따라서, 스택 자료구조를 이용하면 꽤 많은 재귀 함수를 재귀 없이 반복문으로 구현할 수 있음</li></ul></li></ul><ul id="5a12751f-4eda-4684-86eb-67b4e4f7e9d9" class="bulleted-list"><li style="list-style-type:disc">생각보다 스택이 유용한 곳이 정말 많음</li></ul><h2 id="b8732c8c-1886-43e2-b2df-c4a057b652ad" class="">큐(queue)</h2><ul id="853de221-940e-4028-b956-e57621bb8ff5" class="bulleted-list"><li style="list-style-type:disc">스택과 마찬가지로 자료의 삽입과 삭제에 대한 규칙이 있는 자료구조 중 하나</li></ul><ul id="a653fc65-3b70-4d23-9e44-48ae7064dd4d" class="bulleted-list"><li style="list-style-type:disc">가장 먼저 자료구조에 삽입(enqueue)된 데이터가 제일 처음에 삭제(dequeue)됨<p id="a8d35b6f-98b5-4cd3-8227-c72612943753" class="">⇒ 한 줄서기 개념</p></li></ul><ul id="1b769b3c-277f-417b-8c7b-ebb15c2494e5" class="bulleted-list"><li style="list-style-type:disc">선입선출(First In First Out) : 스택과는 삭제 방향이 다름에 주목해야함</li></ul><ul id="755b8a3e-eb25-43ae-8052-7b9771cc2e1e" class="bulleted-list"><li style="list-style-type:disc">큐 역시 임의 접근이 안됨<ul id="69b91774-7702-4d73-adc3-0c01cb677553" class="bulleted-list"><li style="list-style-type:circle">언제나 제일 처음에 있는 자료만 제거 가능</li></ul><ul id="1936f9fa-774d-4344-a76a-cc9a9c834c4e" class="bulleted-list"><li style="list-style-type:circle">중간 자료로 임의 접근 안 됨</li></ul></li></ul><h3 id="c5f5b943-f55f-4d74-b32c-b85368cb07d8" class="">큐의 비효율적인 구현</h3><ul id="d9be81a9-2a36-4731-a813-f7e628c7cec2" class="bulleted-list"><li style="list-style-type:disc">그냥 배열을 사용하면 큐를 구현할 수 있음</li></ul><ul id="237d9295-673f-446e-9b01-2f533d755dc4" class="bulleted-list"><li style="list-style-type:disc"><code>enqueue</code>하면 그냥 제일 뒤에 추가 O(1)</li></ul><ul id="1b5fcaf8-28a1-40a2-af04-47802f74edc2" class="bulleted-list"><li style="list-style-type:disc"><code>dequeue</code>하면 그냥 제일 앞에서 삭제 O(n) → <strong>비효율적인 구현</strong><p id="2ab4537c-8486-4658-8d7d-9f73b1b354ba" class="">⇒ 앞서 배운 시간 복잡도 표에서 큐의 삭제는 O(1)임 → How?</p></li></ul><p id="4aed9270-d7eb-4c90-9f04-0c9f706b1eea" class=""><strong>&lt;원형 버퍼(ring buffer)&gt;</strong></p><ul id="3d48beb6-7fdb-45ed-bf87-96837f5973cd" class="bulleted-list"><li style="list-style-type:disc">내부적으로 배열을 사용하되 원형 버퍼의 개념을 이용하면 큐의 삭제를 O(1)으로 만들 수 있음<p id="fc9a0dcd-60cd-429e-bb18-dbbcaa2e7be7" class="">⇒ 어느 위치든 시작과 끝이 될 수 있음</p></li></ul><h3 id="a84a2215-1c55-4432-9ff8-be38fc5593d4" class="">큐 삽입의 예</h3><pre id="aa5d9688-0217-426f-aaa7-2ea5438d33cb" class="code"><code>enum { MAX_NUMS = 8 };
+
+int s_nums[MAX_NUMS};
+size_t s_front = 0; /* font, back, count 모두 아무것도 없는 0 배열에서 시작이 됨 */
+size_t s_back = 0;
+size_t s_num_count = 0;</code></pre><pre id="db38217b-3601-468d-8992-fb74b1ad0196" class="code"><code>void enqueue(int n)
+{
+assert(s_num_count &lt; MAX_NUMS);
+
+s_nums[s_back] = n;
+
+s_back = (s_back + 1) % MAX-NUMS; /* % : 나눗셈의 나머지 계산, 링 버퍼를 만든 개념 */
+
+++s_num_count;
+}
+
+/*
+s_back이 0 ~6까지 항상 그렇듯이 들어가다가
+7이 되면 링 버퍼 식에 의해 0이 됨
+*/</code></pre><pre id="ee18e593-a013-4e89-bc4e-7da9793ac5f2" class="code"><code>int main(void)
+{
+enqueue(10);
+enqueue(20);
+enqueue(30);
+enqueue(40);
+enqueue(50);
+enqueue(60);
+enqueue(70);
+enqueue(80);
+
+return 0;
+}</code></pre><h3 id="f19e6dbe-ce5b-41c0-a635-56b7a3836a2b" class="">큐의 삽입</h3><ul id="df442086-7cc2-4c6c-9def-ee58445da78c" class="bulleted-list"><li style="list-style-type:disc">보통 <code>enqueue</code>라고 표현<ul id="d15bbba2-f22b-40e4-8826-d313a3f08fb2" class="bulleted-list"><li style="list-style-type:circle">줄 제일 뒤에 세운다는 의미</li></ul></li></ul><ul id="545ff5f9-e5e6-4446-81da-ebfd8fd627b5" class="bulleted-list"><li style="list-style-type:disc">시간 복잡도 : O(1)</li></ul><h3 id="bd1fb7c3-ef53-4055-9c4e-b3f6636dc910" class="">큐 삭제의 예</h3><pre id="15c37533-5b86-471d-8ba7-3a160ea977cf" class="code"><code>enum { TRUE = 1, FALSE = 0 };
+enum { MAX_NUMS = 8 };
+
+int s_nums[MAX_NUMS};
+size_t s_front = 0; /* font, back, count 모두 아무것도 없는 0 배열에서 시작이 됨 */
+size_t s_back = 0;
+size_t s_num_count = 0;</code></pre><pre id="f4769f13-ead3-4097-b613-308a36c058e0" class="code"><code>void is_emthy(void)
+{
+return (s_num_count == 0);
+}
+
+int dequeue(void)
+{
+int ret;
+
+asset(is_emthy() == FALSE);
+
+ret = s_num[s_front];
+
+--s_num_count;
+s_front = (s_front + 1) % MAX_NUMS;
+
+return ret;
+}</code></pre><pre id="213682e2-c2e3-4ea1-9723-e30972b2a88b" class="code"><code>/* 메인 함수 */
+
+/* s_nums = { 10, 20, 30, 40, 50 };
+int item = dequeue(); /* item: 10 */</code></pre><h3 id="6ed71f57-7658-47e1-82df-4d8b79135582" class="">큐의 제거</h3><ul id="f756e1c7-01b7-4bc0-85a9-18606103bb1f" class="bulleted-list"><li style="list-style-type:disc"><code>dequeue</code>라고 함<ul id="5e5aab12-7477-4615-925e-b4c3122f9be1" class="bulleted-list"><li style="list-style-type:circle">앞에서 하나 빼온다느 의미</li></ul></li></ul><ul id="c4b1fa71-ae6a-464c-942f-ae1088b197e5" class="bulleted-list"><li style="list-style-type:disc">시간 복잡도 : O(1)</li></ul><h3 id="39053cd0-7afd-4212-b1d5-24f2155cf78f" class="">큐의 검색</h3><ul id="7f152cb0-9e4c-4e54-804e-2af26a0a81f1" class="bulleted-list"><li style="list-style-type:disc">제일 처음부터 찾을 떄까지 뒤져야 함</li></ul><ul id="7c321f89-20cb-4ee1-83f2-24bf58302407" class="bulleted-list"><li style="list-style-type:disc">스택과 마찬가지고 보통 <code>enqueue()</code>와 <code>dequeue()</code>만 허용하므로 임의의 요소에 접근할 방법이 없음<p id="e7ee2267-ef1e-490a-bc4d-b35081e6ac2f" class="">⇒ 모든 요소를 다 제거했다가 다시 원상복구해야함 <strong>(중간까지 뺴는 것은 불가능)</strong></p></li></ul><ul id="4b4e24e7-e703-43e2-9e29-496fa49e93fa" class="bulleted-list"><li style="list-style-type:disc">시간 복잡도 : O(n) → 스택과 같음<p id="52c9ec99-660d-421c-bc01-8b8eb1539c96" class="">⇒ 제거 O(n) + 복구 O(n)이 필요하여 O(2n)이지만 O(n)이라고 말함</p></li></ul><h3 id="55352bb6-d66d-48cb-a310-539023b3753a" class="">큐의 용도</h3><ul id="479fc206-24a2-404d-bceb-18f06560ab8c" class="bulleted-list"><li style="list-style-type:disc">현실 세계에서 대기줄이 필요한 경우에 다 적용 가능</li></ul><ul id="891b0613-e195-4ea5-b1e1-f00552a59eb5" class="bulleted-list"><li style="list-style-type:disc">데이터 유입 속도가 데이터 소모 속도보다 빠른 경우</li></ul><ul id="774d38a4-9aae-4565-906a-116708100da3" class="bulleted-list"><li style="list-style-type:disc">데이터 제공자의 수가 데이터를 소비자의 수가 다른 경우<ul id="c2d272e0-bc5d-4281-958e-c0ae2543ba48" class="bulleted-list"><li style="list-style-type:circle">예 : 은행 창구는 여럿인데 줄은 한 줄로만 설 때</li></ul><ul id="2227acda-708e-4cc6-8b5b-fb8f1f64f10e" class="bulleted-list"><li style="list-style-type:circle">멀티 쓰레딩에서도 이런 일들을 함</li></ul></li></ul><ul id="466e5dc4-fa05-43c5-aa41-d6142443e684" class="bulleted-list"><li style="list-style-type:disc">입출력 스트림 버퍼링도 같은 개념</li></ul><h3 id="2bfc2d04-f578-4c6e-bf36-91a1403c5eb0" class="">퀴즈</h3><p id="a0fa4360-a0dc-4082-83da-e6f745e015d7" class=""><strong>&lt;퀴즈 1&gt;</strong></p><pre id="38f30804-3860-4108-9ed5-a01f9ab8facd" class="code"><code>enqueue(5); /* 비어있는 큐에 삽입 시작 */
+enqueue(31);
+enqueue(22);
+dequeue();
+enqueue(5);
+enqueue(22);
+dequeue();
+dequeue(); /* 큐의 요소들을 순서대로 나열하면? */
+
+/* 5, 22 */</code></pre><p id="68027499-6601-428e-b30e-12e4144166fe" class=""><strong>&lt;퀴즈 2&gt;</strong></p><p id="f37232dc-0844-4cba-892b-714601f79475" class="">위 코드를 실행 후, main() 함수를 반환하기 바로 전의  s_front와 s_back의 값은 무엇인지 답하세요.</p><pre id="649654dd-fef7-43cc-8f6a-be7a59e5c48d" class="code"><code>#include &lt;stddef.h&gt;
+
+#define QUEUE_SIZE (5)
+
+int s_nums[QUEUE_SIZE];
+size_t s_front = 0;
+size_t s_back = 0;
+size_t s_num_count = 0;
+
+void enqueue(int n);
+int dequeue(void);
+
+int main(void)
+{
+enqueue(3);
+enqueue(33);
+enqueue(94);
+dequeue();
+enqueue(10);
+dequeue();
+dequeue();
+enqueue(27);
+enqueue(54);
+enqueue(27);
+
+return 0;
+}
+
+void enqueue(int n)
+{
+s_nums[s_back] = n;
+
+s_back = (s_back + 1) % QUEUE_SIZE;
+
+++s_num_count;
+}
+
+int dequeue()
+{
+int ret;
+
+ret = s_nums[s_front];
+
+--s_num_count;
+s_front = (s_front + 1) % QUEUE_SIZE;
+
+return ret;
+}
+
+/* s_back: 2 / s_font: 3 */</code></pre><h2 id="a6571444-624b-4cf2-8b9b-51b1bb400390" class="">연결 리스트(linked list)</h2><p id="2fdb5637-7bb1-4b49-8e78-1ef21004c9f2" class="">⇒ 자료구조에 대한 면접 질문에서 가장 많이 나오는 질문 중 하나 (연결리스트, 해시, 맵)</p><ul id="1bd627dc-8ac6-4c1c-ab6c-f5361db026ce" class="bulleted-list"><li style="list-style-type:disc">여태까지 본 자료구조들은 메모리에서 연속된 저장 방법에 기초</li></ul><ul id="812cf1b5-75a0-4619-820e-f5362785e5e7" class="bulleted-list"><li style="list-style-type:disc">연결리스트는 그런 제약을 깸</li></ul><h3 id="3c515a00-d3c5-4e0f-bef1-68d30b1d1fa4" class="">연결 리스트</h3><ul id="481e93b7-7ffa-47f9-8a34-cf0cac6fe46f" class="bulleted-list"><li style="list-style-type:disc">자료들이 메모리에 아래와 같이 산재해 있음<ul id="6a884a63-b3b5-4462-937a-95f8f7227961" class="bulleted-list"><li style="list-style-type:circle">연결 리스트의 각 자료들을 노드(node)라고 부름</li></ul></li></ul><ul id="abba20b2-7918-4da9-afa2-081e5a966076" class="bulleted-list"><li style="list-style-type:disc">동적 메모리 할당으로 필요에 따라 각 노드를 할당</li></ul><ul id="c520fd27-9327-46fb-95b6-6a04c660c534" class="bulleted-list"><li style="list-style-type:disc"> 그 둘 사이의 선후 관계를 별도로 지정<ul id="212a66ec-19c3-4cb0-a717-ff1e82ac6817" class="bulleted-list"><li style="list-style-type:circle">어떻게? 다음에 오는 노드의 메모리 주소를 기억</li></ul><ul id="26f3f713-f41a-4eaf-8f25-a687cc68e071" class="bulleted-list"><li style="list-style-type:circle">어디에? 노드에 있는 포인터 변수를 활용</li></ul><ul id="9ff5888c-6ad4-4e3f-b201-d8e9af7769ea" class="bulleted-list"><li style="list-style-type:circle">제일 마지막 노드는 다음에 올 노드가 없으니 널 포인터</li></ul></li></ul><p id="a2af799b-92bd-46f1-8b93-a220ccdcc046" class=""><strong>&lt;연결리스트는 어려울 수 있는 자료구조&gt;</strong></p><ul id="09c195ac-b2eb-4c50-a24d-c83efda7592c" class="bulleted-list"><li style="list-style-type:disc">연결 리스트는 매우 훌륭한 면접 문제<ul id="73cfa6d6-64c9-41bc-82dd-b7599c0d5e76" class="bulleted-list"><li style="list-style-type:circle">메모리 관리 능력</li></ul><ul id="50ac0400-ef1a-4d8a-97d1-e2bb16ac5900" class="bulleted-list"><li style="list-style-type:circle">이중 포인터 사용 능력</li></ul></li></ul><h3 id="702b3b32-ecdc-4672-a766-efcc1c5892d7" class="">연결 리스트의 삽입과 삭제</h3><ul id="bcbcddc2-4214-4109-857c-784e3efc52df" class="bulleted-list"><li style="list-style-type:disc">이미 삽입할 위치를 알면 O(1)</li></ul><ul id="73b50feb-e75b-4aa2-9720-bef4749fddb1" class="bulleted-list"><li style="list-style-type:disc">이미 삭제할 위치를 알면 O(1)</li></ul><h3 id="529306d3-054c-4f71-aaf3-be74c7ed5cb1" class="">연결 리스트의 검색</h3><ul id="a887a6b5-0705-46d3-99d4-299a345b28c3" class="bulleted-list"><li style="list-style-type:disc">O(n)</li></ul><ul id="a336bd55-10bc-4660-bb67-c9aaf7112d17" class="bulleted-list"><li style="list-style-type:disc">제일 첫 노드를 찾을 때 까지 뒤져야 함<ul id="60b894ae-eae7-46ca-b20c-eed50442e5d4" class="bulleted-list"><li style="list-style-type:circle">보통 이 노드를 헤드(head)라고 부름</li></ul></li></ul><ul id="fe48ec60-809a-4bb6-b69b-135ef14790a7" class="bulleted-list"><li style="list-style-type:disc">색인으로 접근 불가능</li></ul><ul id="bc0baf47-2554-4084-9a7d-18959cf0706d" class="bulleted-list"><li style="list-style-type:disc">이렇게 찾은 뒤에 삽입을 하면 O(1)이 되는 것</li></ul><h3 id="76089c59-7cda-415a-b59f-7ba75ea98ba4" class="">연결리스트 전체를 출력하는 코드의 예</h3><pre id="3bf6d8cd-35cd-420b-bac1-bc7ed1ea984f" class="code"><code>typedef struct node {
+int value;
+node_t* next;
+} node_t;</code></pre><pre id="a19c2cb7-5322-4e8a-babf-b16978f8b779" class="code"><code>void print_nod(const node_t* head)
+{
+node_t p;
+
+p = head;
+while (p != NULL) {
+    /* 여기서 출력 */
+    P = P-&gt;next;
+}
+}</code></pre><h3 id="51e1dd8c-c26b-423a-a4a2-9d4b93df59f2" class="">헤드 노드</h3><ul id="5cd4ff57-ed37-46c4-bf59-94d09f004ede" class="bulleted-list"><li style="list-style-type:disc">연결 리스트의 첫 번째 노드를 가리키는 포인터</li></ul><ul id="6c5361d9-4265-4183-93be-3f68159fb1bc" class="bulleted-list"><li style="list-style-type:disc">처음 시작할 때 값은 <code>NULL</code><ul id="c3eb1217-5889-489a-951f-5309f24ef729" class="bulleted-list"><li style="list-style-type:circle">아직 노드가 하나도 없으니까!</li></ul><ul id="d0c88e06-9b06-42c1-8382-ff07820351de" class="bulleted-list"><li style="list-style-type:circle">여기다 새로운 노드를 동적 할당해서 대입해줄 것</li></ul><pre id="90d43037-3050-4a36-8af5-2dcc38acbd24" class="code"><code>node_t* haed = NULL;</code></pre></li></ul><figure class="block-color-gray_background callout" style="white-space:pre-wrap;display:flex" id="83353328-81bc-4eba-b7c5-cafb6e7638d3"><div style="font-size:1.5em"><span class="icon">💡</span></div><div style="width:100%">메모리 동적 할당을 한다면 반드시 <code>free()</code>를 추가해줘야 함!!</div></figure><h3 id="8e197e06-dabe-45c0-9c6d-d004c2eebf82" class="">노드 메모리 해제의 예</h3><pre id="426bc6dc-0a4b-4330-baf8-bc3ad0e3e15b" class="code"><code>void destroy(node_t* head)
+{
+node_t* p = haed;
+
+while (p != NULL) {
+    node_t* next = p-&gt;next;
+    free(p);
+    p = next;
+}
+}</code></pre><pre id="e8b6c0e6-9d46-4359-9627-1bba7aee8548" class="code"><code>node_t* head= NULL;
+
+/* 하고 싶은 코드 생략 */
+
+destroy(head);
+head = NULL;</code></pre><h3 id="5fbce803-7448-49bc-ae57-25c7a2be9f7f" class="">연결 리스트 : 삽입의 예</h3><pre id="98b22ef0-48be-4583-be96-31b094dca2d9" class="code"><code>void inset_front(node_t** phead, int n)
+{
+node_t* new_node;
+
+new_node = malloc(sizeof(node_t));
+new_node-&gt;value = n;
+
+new_node-&gt;next = *phead;
+*phead = new_node;
+}</code></pre><pre id="c57b0a5c-b183-4859-b7e4-ce059d386fdd" class="code"><code>node_t* head = NULL;
+
+insert_front(&amp;head, 3);  /* 3 */
+insert_front(&amp;head, 5);  /* 5 3 */
+insert_front(&amp;head, 2);  /* 2 5 3 */
+insert_front(&amp;head, 0);  /* 0 2 5 3 */
+
+destroy(head);
+head = NULL;</code></pre><ul id="18d32424-1128-4784-9cfb-2df644574108" class="bulleted-list"><li style="list-style-type:disc">헤드 삽입을 검색을 할 필요가 없어서 O(1) </li></ul><p id="38393059-75ac-49f2-9557-97220fa8a173" class=""><strong>&lt;왜 함수가 이중 포인터를 받는가&gt;</strong></p><ul id="9657be36-243d-4f32-8090-3dd2a6cc6067" class="bulleted-list"><li style="list-style-type:disc">그냥 포인터일 때는 메인 함수의 head와 새로운 노드를 연결 할 수 없음<ul id="dde5dd44-1bbc-46d3-95cc-9803b486bd20" class="bulleted-list"><li style="list-style-type:circle">함수 안에서만 사본 포인터에 새로운 노드가 연결 됨 → 값에 의한 절달</li></ul></li></ul><ul id="a7c38054-d22e-4e41-859c-621f9953d22b" class="bulleted-list"><li style="list-style-type:disc">이중 포인터일 떄는 매개변수 phead를 통해 메인 함수의 head와 연결 가능<ul id="c303f867-0ae8-48bb-a130-8a4c143f22ea" class="bulleted-list"><li style="list-style-type:circle">함수 밖에서 원본 포인터에 새로운 노드가 연결 → 참조에 의한 전달</li></ul></li></ul><h3 id="1a407ffe-b72d-4430-b2a5-b2bbd504bf60" class="">연결리스트 : 오름차순 삽입의 예</h3><pre id="f13452bc-ade1-4f0b-b275-4b197274144d" class="code"><code>void insert_sorted(node_t** phead, int n)
+{
+node_t** pp;
+node_t* new_node;
+
+new_node = malloc(sizeof(node_t));
+new_node-&gt;value = n;
+
+pp = phead;
+while (*pp != NULL) {
+    if ((*pp)-&gt;value &gt;= n) {
+        break;
+    }
+
+    pp = &amp;(*pp)-&gt;next;
+}
+
+new node-&gt;next = *pp;
+*pp = new_node;
+}</code></pre><pre id="fb3bab36-1af2-43b0-9fc0-6cc0c081f79c" class="code"><code>int main(void)
+{
+node_t* head = NULL;
+
+insert_sorted(&amp;head, 3);  
+insert_sorted(&amp;head, 5);  
+insert_sorted(&amp;head, 2);  
+insert_sorted(&amp;head, 0);  /* 0 2 3 5 */
+
+destroy(head);
+head = NULL;
+}</code></pre><h3 id="0aa142b5-6204-4610-b2d5-e064d3d7c32a" class="">연결리스트 : 노드 삭제</h3><pre id="f5c47559-347a-46c7-bfc8-2fd62899bdaa" class="code"><code>void remove(node_t** phead, int n)
+{
+node_t** pp;
+
+pp = phead;
+while (*pp != NULL) {
+    if ((*pp)-&gt;value == n) {
+        node_t* tmp = *pp;
+        *pp = (*pp)-&gt;next;
+        free(tmp);
+        break;
+    }
+
+    pp = &amp;(*pp)-&gt;next;
+}
+}</code></pre><pre id="c0ffc0b0-3560-41bd-b0c7-19ee6e5b97f9" class="code"><code>int main(void)
+{
+node_t* head = NULL;
+
+/* 리스트 순서: 2 3 5 */
+
+remove(&amp;head, 2);
+remove(&amp;head, 5);
+
+destroy(head);
+haed = NULL;
+}</code></pre><h3 id="eedd6511-147b-4c09-b502-832f391093b9" class="">연결리스트의 용도</h3><ul id="711bd15d-d3b8-4bac-926b-330b353ec807" class="bulleted-list"><li style="list-style-type:disc">스택/큐과 같은 특성(삽입/삭제 방향) 때문에 쓰는 자료구조는 아님</li></ul><ul id="5e3cd97d-7c03-4cd8-ba43-b32b2114f3da" class="bulleted-list"><li style="list-style-type:disc">오히려 길이를 자륭롭게 늘리거나 줄일 수 있기 때문에 <strong>배열의 한계를 넘으려고</strong> 사용하던 자료 구조</li></ul><ul id="2ac2490a-1a17-4c27-8585-367d03806bcc" class="bulleted-list"><li style="list-style-type:disc">즉, 최대 길이를 미리 특정할 수 없고 삽입/삭제가 빈번할 경우 사용</li></ul><ul id="912bafd1-fc32-45a0-8340-ca5bd7970912" class="bulleted-list"><li style="list-style-type:disc">오늘날 어플리케이션 프로그램에서 사용 빈도는 많이 줄음</li></ul><ul id="cb62155f-a4e9-4fb7-a361-7fed12aede7b" class="bulleted-list"><li style="list-style-type:disc">기본적으로 동적 할당 배열을 더 흔히 사용<ul id="7eb4289a-82c2-4c26-b495-c85180ca71e3" class="bulleted-list"><li style="list-style-type:circle">C#에서 List도 연결 리스트가 아니라 동적 할당 배열임</li></ul><ul id="a011bb6c-11ca-4465-b1c7-b94d2afd7cb8" class="bulleted-list"><li style="list-style-type:circle">최신 하드웨어의 특징 상 배열이 보장하는 훌륭한 메모리 지역성(인접한 메모리를 사용)이 성능에 유리한 경우가 많기 때문</li></ul></li></ul><ul id="47d1adc6-3e34-40ec-b10a-72c5422b0204" class="bulleted-list"><li style="list-style-type:disc">하지만 커널 모드 프로그래밍(예: 드라이버)에서는 여전히 많이 사용<ul id="c881679b-8ec2-4706-89fc-2f1a919740fb" class="bulleted-list"><li style="list-style-type:circle">메모리 지역성을 해치지 않으면서도 충분히 큰 메모리(예 4KB)를 미리 할당</li></ul><ul id="bcf56208-0734-403c-9383-08288d818f5a" class="bulleted-list"><li style="list-style-type:circle">필요에 따라 그 메모리를 쪼개 연결 리스트의 노드로 사용(예 메모리 풀)</li></ul></li></ul><ul id="5e2bd8ab-4caa-4edc-844a-552d4a1cadeb" class="bulleted-list"><li style="list-style-type:disc">참고로 배열 다음으로 많이 사용하는 자료형은 &#x27;해시 맵&#x27;</li></ul><h3 id="0a5bcae3-187d-401f-83c5-05528deb701f" class="">참고하면 좋은 것들</h3><ul id="5f6cf79d-9dac-4248-a5c1-8abf64988a74" class="bulleted-list"><li style="list-style-type:disc">단일 연결 리스트(singly-linked list_<ul id="cb16ce83-9131-43eb-94c2-6d052935b441" class="bulleted-list"><li style="list-style-type:circle">이제까지 살펴 본 연결 리스트의 형태</li></ul><ul id="09fcde98-1fc7-49c9-8101-5f141a104358" class="bulleted-list"><li style="list-style-type:circle">다음 노드를 가리키는 포인터만 저장</li></ul></li></ul><ul id="5f28ba5c-7216-4795-a8b1-fcb5420c2dee" class="bulleted-list"><li style="list-style-type:disc">그 전의 노드를 가리키는 포인터도 저장하는 이중 연결 리스트(double-linkded list)도 있음</li></ul><ul id="d340544d-8e72-4412-98b1-46025501876f" class="bulleted-list"><li style="list-style-type:disc">이중 연결 리스트는 보통 head 외에 tail 포인터 변수도 가지고 있음</li></ul><h3 id="04068015-9b1a-4354-8ef5-d1ca2e7ab7e6" class="">퀴즈</h3><p id="b74766e0-71aa-4c69-a4f1-a0082f3960ee" class=""><strong>&lt;퀴즈 1&gt;</strong></p><p id="b778fc74-db2a-410e-8d48-b5995a1be93c" class="">위 코드를 main() 함수에서 반환하기 직전까지 실행하면 출력되는 결과와 연결 리스트 안에 저장되어 있는 노드의 개수를 답하세요.</p><pre id="52551952-6ac4-4520-af45-ac60bf5b993e" class="code"><code>#include &lt;stdio.h&gt;
+#include &lt;stdlib.h&gt;
+
+typedef struct node node_t;
+
+typedef struct node {
+int value;
+node_t* next;
+} node_t;
+
+void print_node(const node_t* head);
+void insert_front(node_t** phead, int n);
+
+int main(void)
+{
+node_t* head = NULL;
+
+insert_front(&amp;head, 3);
+insert_front(&amp;head, 4);
+insert_front(&amp;head, 11);
+insert_front(&amp;head, 2);
+insert_front(&amp;head, 1);
+insert_front(&amp;head, 6);
+
+print_node(head);
+
+/* 동적 메모리 해제 코드 생략 */
+
+return 0;
+}
+
+void print_node(const node_t* head)
+{
+const node_t* p = head;
+
+while (p-&gt;next != NULL) {
+    printf(&quot;%d &quot;, p-&gt;value + p-&gt;next-&gt;value);
+    p = p-&gt;next;
+}
+}
+
+void insert_front(node_t** phead, int n)
+{
+node_t* newNode;
+node_t** pp = phead;
+
+newNode = malloc(sizeof(node_t));
+newNode-&gt;value = n;
+
+newNode-&gt;next = *phead;
+*phead = newNode;
+}
+
+/* 노드 개수 : 6개 / 출력 결과 : 7 3 13 15 7 */</code></pre><p id="713fa553-1ed9-4913-8e2b-8947f4191dcf" class=""><strong>&lt;퀴즈 2&gt;</strong></p><p id="aeafd20e-5f08-45cd-8a68-1c00ea35e5b6" class="">위 코드를 main() 함수에서 반환하기 직전까지 실행하면 출력되는 결과와 연결 리스트 안에 저장되어 있는 노드의 개수를 답하세요.</p><pre id="ae4dbb44-0eec-4a6c-aa28-779907db3642" class="code"><code>#include &lt;stdio.h&gt;
+#include &lt;stdlib.h&gt;
+
+typedef struct node node_t;
+
+typedef struct node {
+int value;
+node_t* next;
+} node_t;
+
+void print_node(const node_t* head);
+void insert_back(node_t** phead, int n);
+void remove_nodes(node_t** phead);
+
+int main(void)
+{
+node_t* head = NULL;
+
+insert_back(&amp;head, 3);
+insert_back(&amp;head, 4);
+insert_back(&amp;head, 11);
+insert_back(&amp;head, 2);
+insert_back(&amp;head, 1);
+insert_back(&amp;head, 6);
+
+remove_nodes(&amp;head);
+
+print_node(head);
+
+/* 동적 메모리 해제 코드 생략 */
+
+return 0;
+}
+
+void print_node(const node_t* head)
+{
+const node_t* p = head;
+
+while (p != NULL) {
+    printf(&quot;%d &quot;, p-&gt;value);
+    p = p-&gt;next;
+}
+}
+
+void insert_back(node_t** phead, int n)
+{
+node_t* newNode;
+node_t** pp;
+
+newNode = malloc(sizeof(node_t));
+newNode-&gt;next = NULL;
+newNode-&gt;value = n;
+
+pp = phead;
+
+if (*pp == NULL) {
+    *pp = newNode;
+    return;
+}
+
+while (*pp != NULL) {
+    if ((*pp)-&gt;next == NULL) {
+        (*pp)-&gt;next = newNode;
+        break;
+    }
+
+    pp = &amp;(*pp)-&gt;next;
+}
+}
+
+void remove_nodes(node_t** phead)
+{
+node_t** pp;
+
+pp = phead;
+
+if (*pp == NULL) {
+    return;
+}
+
+while (*pp != NULL) {
+    if ((*pp)-&gt;value % 2 != 0) {
+        node_t* tmp = *pp;
+        *pp = (*pp)-&gt;next;
+        free(tmp);
+    }
+
+    pp = &amp;(*pp)-&gt;next;
+}
+}
+
+/* 노드 개수 : 3개 / 출력 결과 : 4 2 6 */</code></pre><h2 id="e0c0b528-e771-4bc1-87c4-f8f7cdd03764" class="">해시 테이블</h2><ul id="de792cb1-79b0-4abd-8d60-2e5b0ad9ad77" class="bulleted-list"><li style="list-style-type:disc">해시테이블은 평균적으로 검색/삽입/삭제 모두 O(1)</li></ul><ul id="c5ff762e-963f-4f5c-95f0-d9c6e82b38ee" class="bulleted-list"><li style="list-style-type:disc">다른 자료구조들은 평균과 최악이 같지만, 해시테이블은 다름</li></ul><figure class="block-color-gray_background callout" style="white-space:pre-wrap;display:flex" id="8ca79a24-6ba1-4aaf-a7b9-589a3e8c5e5b"><div style="font-size:1.5em"><span class="icon">💡</span></div><div style="width:100%"><strong>O(1)이 가능하려면 어떤 메모리 주소에 어떤 데이터가 저장되어있는지 한 방에 알아야함</strong></div></figure><h3 id="f61cb4fd-c705-4bae-aa5c-38f4312a80ca" class="">무작위로 뽑은 수 저장</h3><ul id="fdaeb4ea-4a33-4158-b8ab-b502c91c3a4e" class="bulleted-list"><li style="list-style-type:disc">크기가 n인 배열에 차례로 저장하면 O(N)으로 검색 가능<pre id="01f3209d-6268-4693-92d5-ccee07d01569" class="code"><code>int has_number(int n)
+{
+int i = 0;
+for (i = 0; i &lt; LENGTH; ++i) {
+    if (s_numbers[i] == n) {
+        return TRUE;
+    }
+}
+
+return FALSE;
+}</code></pre></li></ul><h3 id="731e6698-e727-436b-bb93-c300256b6614" class="">O(1)으로 알 수 있는 방법</h3><p id="723ff5d5-bdc1-4f3d-a2f6-9e46800c5d40" class=""><strong>&lt;방법 1&gt;</strong></p><ul id="e2a9d01d-273d-4c56-8f15-fcced7ba9df2" class="bulleted-list"><li style="list-style-type:disc">가장 단순한 방법<p id="d589c045-4588-4ef4-af0a-3cb0df48768b" class="">1) 입력 값의 최댓값만큼  긴 배열을 만듬</p><p id="6a9790af-39cb-4105-9b46-d15d0b978092" class="">2) 배열[입력값]에 있으면 1, 없으면 0을 저장 (즉, 이 경우 입력값이 배열의 색인)</p><p id="a34a4e16-91f4-4e4d-943e-f2323366e94e" class="">⇒ 최대 입력값의 값이 엄청나게 크다면 배열의 크기가 늘어나 비효율의 극치</p></li></ul><p id="1d0d126c-a5cf-4b72-b7cf-33e4ac4d7fd1" class=""><strong>&lt;방법 2&gt;</strong></p><ul id="a6ef0a15-1e8b-447c-a88a-4a87188fd2c9" class="bulleted-list"><li style="list-style-type:disc">다음의 입력과 출력을 가지는 함수<ul id="d83ead50-d4c0-4b53-aeb9-7254c1699c31" class="bulleted-list"><li style="list-style-type:circle">입력 : n개의 중복이 없는 수</li></ul><ul id="0f8e4337-e7dd-40e7-a2d4-3f30b9d1525a" class="bulleted-list"><li style="list-style-type:circle">출력 : 범위가 [0 ~ n-1]인 배열의 색인</li></ul></li></ul><ul id="cec3ed11-fa7e-45ac-97ba-f933fda29831" class="bulleted-list"><li style="list-style-type:disc">즉, 자료(입력) → 색인(출력)으로 바꾸는 함수</li></ul><ul id="d4f8ea99-c01b-464f-a745-2587f1f305b7" class="bulleted-list"><li style="list-style-type:disc">단, 출력값을 찾을 때, 반복문 없이 O(1)이어야 함<ul id="48ac11ad-e6b4-495e-a591-9f49c5b6cf81" class="bulleted-list"><li style="list-style-type:circle">가장 간단한 방법 : <code>입력값 % n</code></li></ul></li></ul><ul id="240b6048-216f-45a4-8aaa-5d60024f2d40" class="bulleted-list"><li style="list-style-type:disc">이 경우 동일한 색인 위치에 들어가있는 요소들이 생김</li></ul><ul id="3ade2d3f-3103-4114-a45f-4762ba242428" class="bulleted-list"><li style="list-style-type:disc">배열의 크기를 2배 늘린다면?</li></ul><p id="ac75d9a6-e314-4ac5-a33c-9e409aff2e33" class=""><strong>&lt;방법3&gt;</strong></p><ul id="39357b8d-713d-45c9-9916-03f6984e78bf" class="bulleted-list"><li style="list-style-type:disc">가장 좋은 방법은 다음과 같음<ul id="230a8b69-02b2-4f89-976b-add32cfe08b1" class="bulleted-list"><li style="list-style-type:circle">배열의 크기는 최소 2배</li></ul><ul id="8a37d534-d64b-4954-85b9-b863975b80c7" class="bulleted-list"><li style="list-style-type:circle">크기에는 소수(prime number)를 사용</li></ul></li></ul><ul id="79d075e0-080f-44bc-be17-94f94eed1e28" class="bulleted-list"><li style="list-style-type:disc">소수로 나눠야 동일한 색인이 안 나올 가능성이 제일 높음</li></ul><ul id="c326a40e-0461-4b7d-8848-ecaeb52c7e8b" class="bulleted-list"><li style="list-style-type:disc">그래도 100% 중복이 없을 수는 없음</li></ul><h3 id="657588b7-7036-4da7-82b3-5106c2b2f515" class="">중복 색인 문제의 해결</h3><ul id="dcaf7208-1048-4810-87a4-0425d531a64b" class="bulleted-list"><li style="list-style-type:disc">나머지 연산으로 구한 색인 위치 이후에 빈 공간을 찾아 저장</li></ul><ul id="6bacdde2-ecd1-4fa9-9fb6-87d6d246d6fa" class="bulleted-list"><li style="list-style-type:disc">즉, 색인을 1씩 증가해가면서 빈 색인 위치를 찾아 거기에 저장</li></ul><ul id="2e073c12-8a0d-4a89-ba23-06cf61dec252" class="bulleted-list"><li style="list-style-type:disc">따라서, 더이상 불 값(1 또는 0)이 아니라 실제 값을 저장해야함</li></ul><ul id="32ab9c9b-5761-4948-adf1-349189847b50" class="bulleted-list"><li style="list-style-type:disc">그러기 위해서 배열에서 비어있는 위치를 알 수 있어야 함<ul id="468c4da6-6c3e-401f-a9a7-4acad8946304" class="bulleted-list"><li style="list-style-type:circle">방법 1 : 불(bool) 배열을 만들어서 사용 여부를 나타냄</li></ul><ul id="6b6d8051-e3a6-4012-8f20-2d7a77ffe442" class="bulleted-list"><li style="list-style-type:circle">방법 2 :  저장되어 있지 않은 비색인 위치에 INT_MIN 입력</li></ul></li></ul><h3 id="a8992528-0d55-45a9-b17b-078b03bbdfe1" class="">배열을 사용한 해시 테이블의 예시</h3><pre id="7efc58bb-7804-448d-adee-d5bc2c25fa22" class="code"><code>#include &lt;limits.h&gt;
+
+#define TRUE (1)
+#define FALSE (0)
+#define BUCKET_SIZE(23)
+int s_nums[BUCKET_SIZE];
+
+void init_hashtable(void)
+{
+size_t i;
+
+for (i = 0; i &lt; BUCKET_SIZE; ++i) {
+    s_numbers[i] = INT_MIN;
+}
+}
+
+int has_value(int value)
+{
+int i;
+int start_index;
+
+start_index = value % BUCKET_SIZE;
+if (start_index &lt; 0) {
+    start_index += BUCKET_SIZE;
+}
+
+i = start_index;
+
+do {
+    if (s_number[i] == value) {
+        return TRUE;
+    } else if (s_numbers[i] = INT_MIN) {
+        return FALSE;
+    }
+
+    i = (i + 1) % BUCKET_SIZE;
+} while (i != start_index);
+
+return FALSE;  /* 한 바퀴(start_index)를 돌았음에도 빈 칸이 없을 경우 FALSE */
+}
+
+int add(int value)
+{
+int i;
+int start_index;
+
+start_index = value % BUCKET_SIZE;
+if (start_index &lt; 0) {
+    start_index += BUCKET_SIZE;
+}
+
+i = start_index;
+
+do {
+    if (s_number[i] == value || s_number[i] == INT_MIN) {
+        s_number[i] = value;
+
+        return TRUE;
+        }
+        
+        i = (i + 1) % BUCKET_SIZE;
+    } while (i != start_index);
+
+    return FALSE;
+}</code></pre><ul id="39c0f8e6-7c05-46f0-8936-d9834bef23a0" class="bulleted-list"><li style="list-style-type:disc">색인 중복이 없으면, 읽는 것도 쓰는 것도 다 O(1)</li></ul><ul id="cb08fa88-55ff-4368-984b-9fc0ac781612" class="bulleted-list"><li style="list-style-type:disc">색인 중복이 있으면, 최악의 경우 O(n)</li></ul><h3 id="2f80708d-756d-41e7-a3f6-946cfe52cd6b" class="">또 다른 방법 : 연결 리스트 사용</h3><ul id="fb1e3069-3bb0-46af-b8d3-34b4cd67ac1b" class="bulleted-list"><li style="list-style-type:disc">배열 안의 각 요소에 연결 리스트를 저장</li></ul><ul id="d7479769-b841-4743-8fe7-811f9db419c3" class="bulleted-list"><li style="list-style-type:disc">여전히 색인이 겹치는 경우는 있음<ul id="8d7cd54a-f4cd-42a2-8a98-bb11fbeef80b" class="bulleted-list"><li style="list-style-type:circle">그래도 O(n)이 되는 경우가 앞으 방법보다 적음</li></ul><ul id="80c330c3-fb42-4ef2-9bc6-be77033a9ba2" class="bulleted-list"><li style="list-style-type:circle">O 표기상 여전히 O(n)</li></ul></li></ul><h3 id="72a950d3-f08b-4dff-8683-447fe8fe1232" class="">해시 값</h3><ul id="9b0c9efa-7e39-4224-83e1-82ff07391e5b" class="bulleted-list"><li style="list-style-type:disc">어떤 데이터를 해시 함수에 넣어서 나온 값</li></ul><h3 id="0aa78878-8467-43d1-8b5f-f375fd61bd44" class="">해시 함수</h3><ul id="145fd789-1188-4a35-a39c-25813230ce58" class="bulleted-list"><li style="list-style-type:disc">임의의 크기를 가진 데이터를 &#x27;고정 크기&#x27;의 값에 대응하게 하는 함수</li></ul><ul id="62f977ac-3ba2-4ac5-8dac-15761299c21d" class="bulleted-list"><li style="list-style-type:disc">함수니까 입력값이 같으면 출력값은 언제 같음</li></ul><ul id="ca83353c-9cfa-46c6-ac43-ed7ba2ecb23e" class="bulleted-list"><li style="list-style-type:disc">입력값이 달라도 출력값이 같은 수 있음 → 해시 충돌(이런 경우는 적을수록 좋음_</li></ul><h3 id="110e57fc-fb3f-427f-ae06-a9c83842fdf0" class="">좀 더 자세히 설명하는 해시 값</h3><ul id="14b58cac-6251-4c12-a708-2674a7794a3e" class="bulleted-list"><li style="list-style-type:disc">어떤 데이터를 데표하는 값 하나를 내놓으라고 함</li></ul><ul id="c56908a8-cfa5-4293-84cd-f86e11257f40" class="bulleted-list"><li style="list-style-type:disc">이렇게 해서 받은 값이 해시 값<ul id="aa1165c8-57c0-40a3-b259-201a55247a4e" class="bulleted-list"><li style="list-style-type:circle">마치 대한민국의 주민등록 번호 같은 존재</li></ul><ul id="9adc5414-0849-4710-8c91-a5bae8924dec" class="bulleted-list"><li style="list-style-type:circle">&#x27;사람&#x27;은 수가 아니지만 주민등록 번호가 그 사람을 대표하는 수</li></ul><ul id="7556a4bc-8493-48ae-8664-07b4298a1c1a" class="bulleted-list"><li style="list-style-type:circle">그래서 영어에서는 ID라고 함</li></ul></li></ul><ul id="09625100-53ae-4d21-9057-bfe92f119ab7" class="bulleted-list"><li style="list-style-type:disc">다음의 예의 경우 입력값 그 자체를 해시 값이라고 볼 수 있음<p id="0f71321b-7446-4ea1-ac86-bfbedd18d074" class="">⇒ 그 해시 값을 정해진 배열 안에 꾸겨 넣기 위해 <code>%</code>를 한 것이기 때문에 <code>% 23</code> 자체가 해시함수라고보기는 어려움</p></li></ul><h3 id="51a10ade-a1b6-46db-a68f-d891759d2d28" class="">해시 테이블에 문자열 저장하기</h3><ul id="59ab2972-9e24-4c62-b08c-673363a1880c" class="bulleted-list"><li style="list-style-type:disc">문자열을 배열 색인으로 변환</li></ul><ul id="950c47bb-e1c7-4e77-9ac7-8e55270763bb" class="bulleted-list"><li style="list-style-type:disc">이전에 사용한 연산자 %는 문자열에 사용 불가</li></ul><ul id="c12562a8-7914-465e-8e2f-0faa88eaab35" class="bulleted-list"><li style="list-style-type:disc">문자열을 정수로 변환하는 해시 함수가 있어야함</li></ul><p id="3725e759-4bf6-4a9d-83f1-e3a9a0f524e1" class=""><strong>&lt;잘 쓰이지 않는 해시 함수의 예&gt;</strong></p><ul id="f872cfd9-dd27-456c-a701-f8636729235f" class="bulleted-list"><li style="list-style-type:disc">문자열의 각 요소는 어차피 아스키 코드 = 정수값</li></ul><ul id="ec9e5f82-8bd4-4fd5-afec-6dceffe21b98" class="bulleted-list"><li style="list-style-type:disc">정수 값들이 줄줄이 서있는 걸 잘 합치면 될 것 같음</li></ul><ul id="a55ecc43-c56f-48b4-9453-0e66fe2d97be" class="bulleted-list"><li style="list-style-type:disc">해시 값을 찾았으니 색인을 구할 수 있음<ul id="66223cf5-d973-48e0-8462-a0dd770d1af6" class="bulleted-list"><li style="list-style-type:circle">나머지 연산 <code>%</code></li></ul></li></ul><ul id="ef613a0f-6546-49f7-8646-d426b9d385bf" class="bulleted-list"><li style="list-style-type:disc">색인을 구하면 테이블에 저장이 가능<ul id="a8e9a86f-3e1e-408b-bd55-154659402169" class="bulleted-list"><li style="list-style-type:circle">해당 색인 위치에 다른 값이 들어있다면 1씩 증가하면서 빈 곳을 찾으면 됨</li></ul></li></ul><ul id="7c61d9a2-8338-495f-bc57-555fffe345cb" class="bulleted-list"><li style="list-style-type:disc">해시 충돌이 빈번해서 잘 사용하지 않음</li></ul><pre id="1cf87ed9-56ad-45f0-a908-cb789d090f26" class="code"><code>static int hash_function(const char* str)
+{
+int code = 0;
+const char* c = str;
+while (*c != &#x27;\0&#x27;) {
+    code += *c++;
+}
+
+return code;
+}</code></pre><pre id="966202d2-bbc2-49d5-945f-2d20337bfc9d" class="code"><code>int add(const char* value, int (*hash_func)(const char*));
+
+add(&quot;Teemo&quot;, hash_function);
+add(&quot;Hana&quot;, hash_function);
+
+/* add() 함수 : 해시 값 계산(매개변수로 전달된 해시 함수 포인터를 사용) + 색인 구하기 + 테이블에 저장 */</code></pre><ul id="e20a9ef3-7051-484c-975e-2541dd40167f" class="bulleted-list"><li style="list-style-type:disc">하지만 이 경우 시간 복잡도는 O(1)이 아님</li></ul><ul id="850a800f-91be-47a6-919c-5d9cbdaf1097" class="bulleted-list"><li style="list-style-type:disc">문자열 길이만큼 반복문이 도니 O(문자열 길이)이 됨</li></ul><ul id="6b184f33-4aec-4cac-b3a9-21204e1cabac" class="bulleted-list"><li style="list-style-type:disc">정말 O(1)으로 만들고 싶다면?<ul id="1df1af5a-92d0-4573-8b3e-93290cbe73ed" class="bulleted-list"><li style="list-style-type:circle">해시 함수를 한 번만 호출하고 그 결과를 기억해두면 가능</li></ul><pre id="13b015e2-9a96-4087-bb09-3fcfd143cb81" class="code"><code>int hash_id = hash_function(문자열);</code></pre><ul id="c215195f-0a6f-46b1-8962-27d65223b4e5" class="bulleted-list"><li style="list-style-type:circle">필요할 때마다 이 변수를 해시 테이블 함수를 호출</li></ul><pre id="48bfa6d8-41bf-4283-939a-817359f7b05d" class="code"><code>add(hash_id, data);</code></pre><ul id="54f36354-fbc0-42a6-beb4-78264f885beb" class="bulleted-list"><li style="list-style-type:circle">이제 hash_id로부터 저정할 위치의 색인을 O(1)으로 구할 수 있음</li></ul><pre id="ed3d3865-f8ef-4e01-a559-76ed84f55bf9" class="code"><code>/* add() 함수 내부 */
+...
+int start_index = hash_id % 23;
+...</code></pre></li></ul><hr id="3d579385-04eb-4151-9a02-2444aefc5826"/><p id="deb8783d-928a-418b-945d-8511636b4e32" class=""><strong>지금까지 본 것은 엄밀히 말하면 해시 세트</strong></p><ul id="d3f74b2f-e5dd-4453-b719-2d06240e113f" class="bulleted-list"><li style="list-style-type:disc">즉, 집합 내 어떤 데이터를 중복 없이 저장한게 저눕</li></ul><ul id="a0fa42b3-f629-49ca-b3de-7685942fd031" class="bulleted-list"><li style="list-style-type:disc">저장할 위치를 찾으려고 해시 함수를 썼을 뿐</li></ul><hr id="20891665-1ece-425f-9194-bcb67562e63f"/><h3 id="a1c7e87c-8430-4ac4-9067-a15844275c4b" class="">일반적인 해시 테이블의 형태</h3><ul id="00489aa4-68a4-4c33-b720-7df8f12acfae" class="bulleted-list"><li style="list-style-type:disc">어떤 키에 대응하는 어떤 값을 같이 저장</li></ul><ul id="ff9e1f94-2625-42b8-ae50-f734110464eb" class="bulleted-list"><li style="list-style-type:disc">이런 형태를 보통 해시 테이블(엄밀히 말하면 해시 맵)이라 함<ul id="5a363f7e-0d00-4347-a0a6-fc908cc9e1f5" class="bulleted-list"><li style="list-style-type:circle">C# 등의 언어에서 Dictionary가 바로 이것</li></ul></li></ul><ul id="2b394cfb-155d-46d6-b719-e8b707033547" class="bulleted-list"><li style="list-style-type:disc">키(key) : 데이터의 위치를 의미하느 ㄴ데이터<ul id="32a431e5-5075-48c6-bf4f-011802a82978" class="bulleted-list"><li style="list-style-type:circle">꼭 정수가 아니어도 됨. 문자열도 가능. 구조체도 가능</li></ul></li></ul><ul id="916df8e1-461e-42a7-a210-f24f742fda1c" class="bulleted-list"><li style="list-style-type:disc">값(value) : 실제 저장하는 데이터</li></ul><ul id="166a239c-ba57-4081-9af8-075aa9296e23" class="bulleted-list"><li style="list-style-type:disc">키를 가지고 그 위치에 가서 자물쇠를 열면 데이터가 나온다는 의미</li></ul><h3 id="bbb47be8-b909-41ff-90b9-c181fdea4445" class="">해시 충돌</h3><p id="58e901b1-dc2b-4d33-83fc-c92d09e6bc47" class=""><strong>&lt;충돌&gt;</strong></p><p id="f97848a9-d0b2-4531-974a-7ad4ad201ebd" class="">1) 해시 충돌 : 키가 다른데 같은 해시 값이 나옴</p><p id="6af53d06-a931-41cb-8d38-8c238e509a27" class="">2) 색인 충돌 : 해시 값이 다른데 같은 색인이 나옴 → 이미 해결한 문제</p><p id="4fb9d81c-1d7d-4540-be6e-842c09a4da49" class=""><strong>&lt;해시 충돌&gt;</strong></p><ul id="dbb8b40b-1b43-4ae9-9fea-b8521c3d6dea" class="bulleted-list"><li style="list-style-type:disc">지금까지 사용한 해시 함수에 다음 두 문자열을 넣으면 해시 충돌<ul id="01527fc8-afa5-462f-b885-3db747fbf741" class="bulleted-list"><li style="list-style-type:circle">HARRISION = 614</li></ul><ul id="b80c583f-4eef-4cbf-b4c3-b34ada8cab72" class="bulleted-list"><li style="list-style-type:circle">Philip = 614</li></ul></li></ul><ul id="92c7e6a6-98e7-463c-bae0-5e97ab0ffcb1" class="bulleted-list"><li style="list-style-type:disc">사실상 색인과 같은 방법으로 다음에 입력을 해주는 방법으로 해결은 해줄 수 있으나 최대한 해결을 한다면 메모리적, 성능적 장점이 있음</li></ul><p id="3920e7e9-aba9-4601-97f8-1f6dfbe22713" class=""><strong>&lt;해시 충돌을 방지할 수 있다면?&gt;</strong></p><ul id="f756d98d-8ff5-46d0-bf42-71533f84c2e3" class="bulleted-list"><li style="list-style-type:disc">char*를 복사해서 키로 저장할 이유가 없음</li></ul><ul id="e6fcca27-b476-4078-85f8-dd4b9db16186" class="bulleted-list"><li style="list-style-type:disc">해시 값인 정수형(int)만 저장해도 됨</li></ul><ul id="a40ec098-e9dc-43a4-b8e5-fb08803d7e5a" class="bulleted-list"><li style="list-style-type:disc">즉, char* 저장하려고 동적 메모리를 할당하지 않아도 됨<ul id="3d297c00-9d63-446e-87c5-9b90c62e1fcf" class="bulleted-list"><li style="list-style-type:circle">동적 메모리 할당은 느림! 안 할 수 있다면 이득!</li></ul></li></ul><h3 id="f27625fb-ca85-4bb4-a98c-52b6e6ad0cbb" class="">해시 충돌 방지와 성능 향상 : <strong>훌륭한 해시 함수</strong></h3><p id="09eca6ce-9c1f-4c76-b62f-24ad8de24627" class=""><strong>&lt;훌륭한 해시 함수의 조건&gt;</strong></p><ul id="55af268a-43e9-42a1-a28e-6325ee78a0c7" class="bulleted-list"><li style="list-style-type:disc"><strong>[필수] </strong>어떤 경우에도 고정된 크기의 값으로 변환 가능<p id="cb51ef7f-ede5-4ea5-b555-efcead9061db" class="">1) 어떤 자료형이든</p><p id="852108b9-3a6f-4c5f-a296-e52fd723fb10" class="">2) 데이터의 길이에 상관없이</p></li></ul><ul id="9ccf5f41-b2b4-4fa2-9e2c-c2faea845f30" class="bulleted-list"><li style="list-style-type:disc">해시 충돌이 거의 없음 (이게 훌륭하냐 아니냐를 결정)</li></ul><ul id="e2970850-e320-40b0-851a-da9712fe30b6" class="bulleted-list"><li style="list-style-type:disc">따라서 충돌이 덜 아는 해시 함수가 좋음</li></ul><p id="adadcdaf-6748-449c-9bed-ab3c7aec2184" class=""><strong>&lt;충돌이 안나는 해시 함수&gt;</strong></p><ul id="1d8d3840-e972-435b-aefb-ddc614bb645c" class="bulleted-list"><li style="list-style-type:disc">아주 덜 나는 함수는 있음</li></ul><p id="d75d3efa-9f2f-48c1-98a4-67f9fd629bf4" class=""><strong>&lt;간단하고 나쁘지 않은 해시 함수 : 65599&gt;</strong></p><pre id="2b3e91d2-d6dd-4da7-9a87-8dab17820e19" class="code"><code>/* 65599를 곱해나가는 해시 함수*/
+
+size_t hash_65599(const char* string, size_t len)
+{
+size_t i;
+size_t hash;
+
+hash = 0;
+for (i = 0; i &lt; len; ++i) {
+    hash = 65599 * hash + string[i];
+}
+
+return hash ^ (hash &gt;&gt; 16);
+}</code></pre><p id="99bc1131-4ec0-450b-bc1b-e1a83197cddc" class=""><strong>&lt;완전히 충돌을 없앨 수 있을까?&gt;</strong></p><ul id="671feca1-c4c2-4ff6-8667-79f8e74faad6" class="bulleted-list"><li style="list-style-type:disc">기술적으로는 안됨</li></ul><ul id="a3762656-a806-4e32-a5ad-3c63cb78c46a" class="bulleted-list"><li style="list-style-type:disc"><strong>하지만 특정 조건 하에서 해시 충돌을 확실하게 방지 가능</strong></li></ul><ul id="7dc463ad-e3c1-464e-86a2-ba26147d9a19" class="bulleted-list"><li style="list-style-type:disc">그런 조건이 생각보다 많음</li></ul><ul id="1fb89821-1ff2-4e0f-afa2-1fcbc9913b6d" class="bulleted-list"><li style="list-style-type:disc">이게 가능하면 키 배열에 문자열 대신 정수만 저장해도 됨<ul id="4a8ef92a-9e0c-4f0f-b35a-922762692dc3" class="bulleted-list"><li style="list-style-type:circle">char&amp; 동적 메모리 할당이 사라짐</li></ul><ul id="800583de-be48-4dac-a7e2-53778f9e84d6" class="bulleted-list"><li style="list-style-type:circle">헤시테이블에 추가하는 함수를 호출할 때 키 대신 값만 바로 사용</li></ul><pre id="70467022-fe13-4f96-886b-8b9239fe2c84" class="code"><code>add(hash_key, value);</code></pre></li></ul><p id="8e86fe46-5626-4bd0-8ed7-07c002e64430" class=""><strong>&lt;완벽히 방지할 수 있는 조건&gt;</strong></p><p id="89845e32-a4ca-4c88-adc0-03e01b821773" class="">1) 실행 중에 해시 테이블에 저장될 수 있는 데이터를 모두 알고 있음</p><ul id="9600e13d-a344-49ed-97a3-40e746801ad3" class="bulleted-list"><li style="list-style-type:disc">예 : 미리 만들어 놓은 데이터 파일 읽고 (유저로부터 받는 입력이 아님)</li></ul><p id="e749ac14-27b0-475f-b560-dce9003f9706" class="">2) 개발 도중에 해시 충돌이 없다는 걸 확인하고 보장할 수 있음</p><p id="1e96372a-d986-4aff-8b27-a70ead7d0de5" class="">⇒ 고성능을 요하는 업계에서 많이 쓰는 방법 (예 : 게임 개발)</p><p id="282632ee-a088-415d-928a-05c7b37badba" class=""><strong>&lt;충돌까지 고려한 해시 맵의 예&gt;</strong></p><pre id="c9016229-7f0b-44c2-983f-52f23b03c978" class="code"><code>int add(const char* key, int value, size_t (*hash_func)(const char*, size_t))
+{
+size_t i;
+size_t start_index;
+size_t hash_id;
+
+hash_id = hash_func(key, strlen(key));
+start_index = hash_id % BUCKET_SIZE;
+i = start_index;
+
+do {
+    if (s_keys[i] == NULL) {
+        /* 새 키-값을 삽입 */
+        return TRUEl
+    }
+
+if (strcmp(s_keys[i], key) == 0) {
+    return TRUE;
+    }
+
+    i = (i + 1) % BUCKET_SIZE;
+
+} while (i != start_index);
+
+return FALSE;
+}</code></pre><pre id="0890a759-345a-4ced-9b55-9353c78cc647" class="code"><code>int add_fast(size_t hash_key, const char* value)
+{
+size_t i;
+size_t start_index;
+
+size_index = hash_key % BUCKET_SIZE;
+i = start_index;
+
+do {
+    if (s_key[i] == INT_MIN) {
+        /* 새 해시-값 삽입 */
+        return TRUE;
+    }
+
+    if (s_key[i] == hash_key) {
+        return TRUE;
+    } 
+
+    i = (i + 1) % BUCKET_SIZE;
+
+} while (i != start_index);
+
+return FALSE;
+}</code></pre><p id="af86b84a-1d20-47ed-8908-7bc9b64ffaf2" class=""><strong>&lt;다른 자료형은?&gt;</strong></p><ul id="ebceb976-5186-4efd-bc4c-db241cee4aba" class="bulleted-list"><li style="list-style-type:disc">문자열은 char*</li></ul><ul id="3acb4d04-9b9c-401f-bd93-4c889fbba820" class="bulleted-list"><li style="list-style-type:disc">어떤 데이터도 char 배열로 표현 가능<ul id="ed2e3ab6-24bb-41a1-90fd-9f297a5075fa" class="bulleted-list"><li style="list-style-type:circle">즉, 가장 범용적인 개념</li></ul></li></ul><ul id="6b5b3eb7-aa81-4bfa-bb99-acf7b209ee7d" class="bulleted-list"><li style="list-style-type:disc">아래와 같은 함수 하나만 있으면 끝<pre id="4e478200-892c-4aae-aa05-dab3d00e3f45" class="code"><code>size_t hash_function(const char* bytes, size_t length)</code></pre></li></ul><ul id="b9ca8949-5d51-4ab5-b922-bb8917266a58" class="bulleted-list"><li style="list-style-type:disc">단, 저장하려는 데이터에 걸맞는 해시 함수를 찾아 사용할 것</li></ul><h2 id="9ecb41f6-00aa-44cd-8d69-abafaeebf898" class="">베스트 프랙티스 : 언제 어떤 자료구조를 쓸까</h2><ul id="9622a7bc-42bb-4efe-9da3-7614edbe17c1" class="bulleted-list"><li style="list-style-type:disc">기본적으로 배열<ul id="d6acdf85-7a20-4099-8984-4621f41ed0db" class="bulleted-list"><li style="list-style-type:circle">가장 간단함</li></ul><ul id="a8580309-5f57-41bf-b945-85990dee64cc" class="bulleted-list"><li style="list-style-type:circle">캐시 메모리 덕분에 O 표기법에 상관없이 성능이 가장 빠른 경우가 많음</li></ul></li></ul><ul id="3b501e9d-acf8-4109-8aa8-ba30f1a1916a" class="bulleted-list"><li style="list-style-type:disc">빈번한 데이터 삽입 또는 삭제를 해야한다면<ul id="374a02e9-8256-4045-bac6-952028bce1e9" class="bulleted-list"><li style="list-style-type:circle">연결 리스트</li></ul></li></ul><ul id="b2ebf404-589c-468f-9bca-7351a52508c2" class="bulleted-list"><li style="list-style-type:disc">다음과 같은 경우는 해시 기반 자료 구조들<ul id="816663a8-2a77-4bd7-8943-5b81a7dff8ed" class="bulleted-list"><li style="list-style-type:circle">데이터 양이 많은데 검색을 자주 해야하는 경우</li></ul><ul id="db9cf34c-c576-4897-bbe5-93269e27fc2f" class="bulleted-list"><li style="list-style-type:circle">배열에 넣기 힘든 데이터 (예 : 연속적, 규칙적인 색인이 나올 수 없는 경우)</li></ul></li></ul><h3 id="c0adfdf2-f342-41d6-829e-f655ed71aa4d" class="">여러 데이터형과 해시 함수</h3><pre id="e0b7cca2-3f63-44c7-919c-f385e7cd593d" class="code"><code>/* hash_funciton.c */
+
+#include &lt;stddef.h&gt;
+
+#include &quot;hash_function.h&quot;
+
+size_t hash_int(int value)
+{
+return value; /* int는 이미 size_t와 같은 크기이므로 간단한 캐스팅만 해도 충분 */
+}
+
+
+size_t hash_float(float value)
+{
+return *((size_t*)&amp;value); /* float도 같은 크기를 가지지만 캐스팅하면 소수점 이하가 사라짐 &gt;&gt; 그 대신 이것의 이진 패턴을 size_t로 읽어버림 */
+}
+/* 이 방법은 부동소수점의 오차를 제대로 처리하지 못함. 부동소수점의 이진 포맷을 알고 있다면 가장 작은 3개의 비트를 제거하고 해시값을 구하는 법도 있음 */
+
+size_t hash_data(const void* data, size_t length)
+{
+const char* p;
+size_t i;
+size_t hash;
+
+p = data;
+hash = 0;
+for (i = 0; i &lt; len; ++i) {
+    hash = 65599 * hash + *p++;
+}
+
+return hash ^ (hash &gt;&gt; 16);
+}
+
+/* 위 3개만 있으면 다른 데이터형 모두에 사용을 할 수 있음 */
+
+</code></pre><pre id="d06420fa-d8c0-44b4-a950-6175be9ed6d8" class="code"><code>/* main.c */
+
+#define _CRT_SECURE_NO_WARNINGS
+
+#include &lt;stdio.h&gt;
+#include &lt;string.h&gt;
+
+#include &quot;hash_function.h&quot;
+
+typedef struct {
+unsigned char age;
+unsigned int id;
+char name[64];
+} employee_t;
+
+int main(void)
+{
+employee_t person;
+size_t hash;
+float fvalue;
+
+hash = hash_int(10);
+printf(&quot;int    %u\n&quot;, hash);  /* 10 */
+
+hash = hash_int(-10);
+printf(&quot;int    %u\n&quot;, hash);  /* 음의 정수 : size_t로 캐스팅했으니 좀 큰 정수 값이 출력될 것 */
+
+hash = hash_int(&#x27;A&#x27;);
+printf(&quot;char   %u\n&quot;, hash);  /* char도 정수형 중 하나로 어떤거라도 hash_int() 함수로 해시 값을 구할 수 있음 */
+
+hash = hash_float(3.2f);
+printf(&quot;float    %u\n&quot;, hash);  /* 좀 큰 값 출력 */
+
+hash = hash_data(&quot;Soojong Hong&quot;, strlen(&quot;Soojong Hong));
+printf(&quot;string    %u\n&quot;, hash);
+
+fvalue = 3.2f;
+hash = hash_data(&amp;fvalue, sizeof(float));
+printf(&quot;float    %u\n&quot;, hash);
+
+/* 어떤 구조체에도 이 함수를 사용할 수 있음 */
+memset(&amp;person, 0, sizeof(employee_t)); /* 구조체의 변수를 꺠끗이 지움 &gt;&gt; 쓰레기 데이터가 해시 값에 영향을 주게 하지 않기 위해서! 특시 char[] 멤버가 있을 떄 이런 경우 자주 발생 */
+person.age = 23;
+person.id = 182774192;
+strcpy(person.name, &quot;Soojong Hong&quot;);
+
+hash = hash_data(&amp;person, sizeof(employee_t));
+printf(&quot;struct   %u\n&quot;, hash);
+
+return 0;
+}</code></pre></div></article></body>
+
+{% endblock post_content %}

@@ -1,0 +1,141 @@
+{% extends 'blog/all_posts/base_post.html' %}
+
+{% load static %}
+
+{% block post_title %}
+    <a href="{% url 'blog:all-posts' %}" class="font_kor">2차원</a>
+{% endblock post_title %}
+
+{% block post_content %}
+
+{% block post_date %}
+    <div class="container w-1/2 mx-auto mb-10 post_date">[ Sept 29, 2021 ]</div>    
+{% endblock post_date %}
+
+<main class="container w-1/2 mx-auto font_kor">
+
+{% include "blog/all_posts/css_post.html" %}
+  
+<!-- notion html -->
+<body><article id="6445cb2a-85d5-425f-881d-2fde4f900207" class="page sans"><div class="page-body"><h3 id="33dd4577-6c3e-4aaf-a641-919363292da7" class="">float으로 좌표 표시</h3><pre id="e5759045-9784-4853-95ab-6e2d94fcbd23" class="code"><code>float x = 5.0f;   // x 좌표
+float y = 2.0f;   // y 좌표</code></pre><h3 id="45b42c89-d0a1-4d0d-8cd8-1f0c04611f82" class="">구조체로 좌표 표시</h3><pre id="0909bd49-e11a-4b11-827c-97daef5edf07" class="code"><code>// 좌표 정보 구조체
+struct point
+{
+    float x, y;  // x 좌표와 y 좌표
+};
+
+// 좌표에 정보 설정
+Point p;
+p.x = 5.0f;    // x 좌표
+p.y = 2.0f;    // y 좌표</code></pre><h3 id="e224ce27-6794-4306-be85-7f70a85488eb" class="">구조체로 벡터 표현</h3><pre id="727f61a3-3a5f-4767-b549-7e6dd408dc9e" class="code"><code>// 벡터 구조체
+struct Vector
+{
+    flaot x, y;    // x 성분과 y 성분
+};
+
+// 벡터에 정보 설정
+Vector v;
+v.x = 2.0f;      // x 성분
+v.y = 4.0f;      // y 성분</code></pre><h3 id="4ee90626-920b-4c22-a050-58a27848034c" class="">좌표와 벡터의 각종 계산</h3><pre id="d5cf6b42-afa3-49cf-8f15-bcf2b4ef1faf" class="code"><code>// 좌표 구조체
+struct Point
+{
+    float x, y;
+};
+
+// 벡터 구조체
+struct Vector
+{
+    flaot x, y;
+};
+
+// (좌표) + (벡터)
+Point Add_Point_Vector( Point p, Vector v )
+{
+    Point r;
+    r.x = p.x + v.x;
+    r.y = p.y + v.y;
+    return ( r );
+}
+
+// (좌표) - (벡터)
+Point Sub_Point_Vector( Point p, Vector v )
+{
+    Point r;
+    r.x = p.x - v.x;
+    r.y = p.y - v.y;
+    return ( r );
+}
+
+// (좌표) - (좌표)
+Point Sub_Point_Point( Point p0, Pointer p1 )
+{
+    Vector r;
+    r.x = p0.x - p1.x;
+    r.y = p0.y - p1.y;
+    return ( r );
+}
+
+// (벡터) + (벡터)
+Point Add_Vector_Vector( Vector v0, Vector v1 )
+{
+    Vector r;
+    r.x = v0.x + v1.x
+    r.y = v0.y + v1.y
+    return ( r );
+}
+
+// (벡터) - (벡터)
+Point Sub_Vector_Vector( Vector v0, Vector v1 )
+{
+    Vector r;
+    r.x = v0.x - v1.x
+    r.y = v0.y - v1.y
+    return ( r );
+}
+
+// (좌표) x (스칼라)
+Point Mul_Point_Scalar( Point p, float s )
+{
+    Point r;
+    r.x = p.x * s;
+    r.y = p.y * s;
+    return ( r );
+}
+
+// (벡터) x (스칼라)
+Point Mul_Vector_Scalar( Vector v, float s )
+{
+    Vector r;
+    r.x = v.x * s;
+    r.y = v.y * s;
+    return ( r );
+}
+
+// (벡터) / (스칼라)
+Point Div_Vector_Scalar( Vector v, float s )
+{
+    Vector r;
+    r.x = v.x / s;
+    r.y = v.y / s;
+    return ( r );
+}
+
+</code></pre><h3 id="e00b000a-5915-4bb4-8378-1f16c20627d8" class="">벡터의 길이와 정규화 함수</h3><pre id="6f2515da-9987-4be2-b25c-22bf12dbf8e0" class="code"><code>// 벡터 길이를 계산
+float Vector_Length( Vector v )
+{
+    float l = sqrt( v.x * v.x + v.y * v.y);
+    return ( l );
+}
+
+// 벡터 정규화
+Vector Vector_Normalize( Vector v )
+{
+    float l = Vector_Length( v );
+    Vector n;
+    n.x = v.x / l;
+    n.y = v.y / l;
+    return ( n );
+}</code></pre><p id="dde81c45-fb2c-4551-9b3c-d1ff11668bfe" class="">
+</p></div></article></body>
+
+{% endblock post_content %}
