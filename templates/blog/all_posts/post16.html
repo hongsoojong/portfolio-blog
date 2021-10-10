@@ -1,0 +1,228 @@
+{% extends 'blog/all_posts/base_post.html' %}
+
+{% load static %}
+
+{% block post_title %}
+    <a href="{% url 'blog:all-posts' %}" class="font_kor">(12) 전처리기</a>
+{% endblock post_title %}
+
+{% block post_content %}
+
+{% block post_date %}
+    <div class="container w-1/2 mx-auto mb-10 post_date">[ Oct 01, 2021 ]</div>    
+{% endblock post_date %}
+
+<main class="container w-1/2 mx-auto font_kor">
+
+{% include "blog/all_posts/css_post.html" %}
+  
+<!-- notion html -->
+<body><article id="c3f41598-2647-4d95-814e-c57ba4681cfb" class="page sans"><div class="page-body"><h2 id="e3378e18-43f7-4b7d-9565-7a4ea74721dc" class="">전처리기로 할 수 있는 일들</h2><ul id="e8abb242-8b73-46d3-82d6-8210977d3219" class="bulleted-list"><li style="list-style-type:disc">다른 파일 인클루드<ul id="9baaedbb-e206-4fdc-ab55-cdb460d02bdf" class="bulleted-list"><li style="list-style-type:circle">전처리기 지시문 <code>#include</code>를 사용</li></ul></li></ul><ul id="5343bbaf-e75b-4ce9-85fd-96e94043ef4c" class="bulleted-list"><li style="list-style-type:disc">매크로를 다른 텍스트로 대체<ul id="120f817e-7928-4887-95c7-9d7806521f6f" class="bulleted-list"><li style="list-style-type:circle">전처리기 지시문 <code>#define</code>, <code>#undef</code>와 전처리기 연산자 <code>#</code>, <code>##</code>를 사용</li></ul></li></ul><ul id="5102fc55-e698-4855-b87c-8b10a0334188" class="bulleted-list"><li style="list-style-type:disc">소스 파일의 일부를 조건부로 컴파일<ul id="4a563f99-ab8b-4f20-a7df-269b4b39c655" class="bulleted-list"><li style="list-style-type:circle">전처리기 지시문 <code>#if</code>, <code>#ifdef</code>, <code>#ifndef</code>, <code>#else</code>, <code>#elif</code>, <code>#endif</code>를 사용</li></ul></li></ul><ul id="d4206d50-eee3-49d9-ba19-3b3e2e55f7ff" class="bulleted-list"><li style="list-style-type:disc">일부로 오류를 발생시킴<ul id="20ba4f5d-1d3b-4ffe-b536-15eba29183fa" class="bulleted-list"><li style="list-style-type:circle">전처리기 지시문 <code>#error</code>를 사용</li></ul></li></ul><h2 id="46c1706b-4682-4580-aa23-c0a5f8ed0b7c" class="">매크로 대체와 조건부 컴파일</h2><h3 id="382f2b6e-b926-44fe-8ce4-a73bb327becd" class="">매크로 대체 : #define</h3><pre id="3ab64b63-2664-4a65-9776-ab6d4be21545" class="code"><code>#define 식별자 대체_목록(선택)</code></pre><ul id="7edb99e5-adff-405b-908e-e759b7baa3af" class="bulleted-list"><li style="list-style-type:disc"><code>#define A (10)</code><ul id="cac0dca3-210a-43b9-9855-ac1d1c364db5" class="bulleted-list"><li style="list-style-type:circle">전처리기가 소스 코드를 뒤지다가 A가 보이면 모두 (10)으로 바꿔줌</li></ul></li></ul><ul id="1e455cf0-8d5e-49d4-9b6b-be9f598706d3" class="bulleted-list"><li style="list-style-type:disc"><code>#define A</code><ul id="c206a99c-1e80-4e52-890f-6d785ebf9d35" class="bulleted-list"><li style="list-style-type:circle">이것도 가능</li></ul><ul id="11335d6c-0b7f-4da4-8624-580d3396395e" class="bulleted-list"><li style="list-style-type:circle">하지만 바꿔줄 내용이 없음</li></ul><ul id="02aceedb-b3cc-48d7-a3bb-f796418df629" class="bulleted-list"><li style="list-style-type:circle">그 대신 다른 전처리기 지시어로 A가 정의(define) 돼 있는지 판단 가능</li></ul><ul id="5c91ba5b-a54a-4b86-8ae5-d1dc73aa059b" class="bulleted-list"><li style="list-style-type:circle">조건부 컴파일에서 좀 더 자세히 볼 내용</li></ul></li></ul><pre id="af8b580b-3ef3-4de7-89e8-d0c11ddd13c9" class="code"><code>#define TRUE (1)
+#define FALSE (0)</code></pre><ul id="ad1cf16f-7b13-4989-a452-7e2e921b94b7" class="bulleted-list"><li style="list-style-type:disc">TRUE, FALSE로 사용 가능</li></ul><pre id="25175c30-4909-4a19-8110-3b29cdebbfa5" class="code"><code>#define 식별자(매개변수) 대체_목록</code></pre><ul id="18a078da-c565-40e7-8a76-39a6d140d3d6" class="bulleted-list"><li style="list-style-type:disc">심지어 함수처럼 쓰는 것도 가능<ul id="e7f3d1c6-583b-489b-b19d-ac8d3bae2aa2" class="bulleted-list"><li style="list-style-type:circle">이 경우 <strong>매크로 함수</strong>라고 함</li></ul></li></ul><pre id="62fdfa93-f1be-43ce-a866-87e50a14f9e7" class="code"><code>#undef 식별자</code></pre><ul id="d9e2d8e3-129e-4bd7-a98f-daab1d5c2bcd" class="bulleted-list"><li style="list-style-type:disc">이미 정의된 식별자를 없애는 것</li></ul><ul id="87f7f64d-f933-4f78-9b71-d997557d4d01" class="bulleted-list"><li style="list-style-type:disc">해당 식별자로 정의된 텍스트 매크로가 없다면 이 지시문은 무시됨<pre id="e1d03bf6-8add-4206-9cf5-1bccd155ca4e" class="code"><code>#define NUMBER (20)
+#undef NUMBER</code></pre><pre id="fd056a42-9ea9-41da-b88b-1154474dccbf" class="code"><code>/* 메인 함수 */
+printf(&quot;%d\n&quot;, NUMBER); /* 컴파일 오류 */</code></pre></li></ul><h3 id="8c433662-8551-47d9-9198-b1ca127d2249" class="">매크로 대체 :  미리 정의되어 있는 #define</h3><ul id="e981b99b-54ec-4c61-8c44-a4272de59581" class="bulleted-list"><li style="list-style-type:disc">모든 C 구현이 저의하는 것들<ul id="75af7c36-7d87-439a-819b-0591b8129912" class="bulleted-list"><li style="list-style-type:circle">__FILE__ : 현재 파일의 이름을 문자열로 표시</li></ul><ul id="f5d291d4-8a34-4d02-bbe8-7725ecba7554" class="bulleted-list"><li style="list-style-type:circle">__LINE__ : 현재 코드의 줄 번호를 정수형으로 표시</li></ul><ul id="8e8b6574-d9b8-46cf-92d5-f653526303f1" class="bulleted-list"><li style="list-style-type:circle">두 매크로 모두 오류 출력 시 자주 사용<pre id="e23bab00-9770-4b9b-b421-c1dca6166885" class="code"><code>fprintf(stderr, &quot;international error: %s, line %d.\n&quot;, __FILE__, __LINE__);</code></pre></li></ul><ul id="a1bac22c-972c-4509-b0d1-aca52f58485b" class="bulleted-list"><li style="list-style-type:circle">(C95부터 지원) __STED_VERSION__ : 현재 컴파일에 사용중인 C 표준</li></ul></li></ul><ul id="d2f3b4f9-a47b-4af7-af17-4ad70dba7901" class="bulleted-list"><li style="list-style-type:disc">당연히 각 컴파일러가 자기 마음대로 정의하는 것들도 있음</li></ul><h3 id="0ce1cf0b-48b8-4b1c-b4a8-9a6723f66924" class="">조건부 컴파일</h3><ul id="2e06cb54-9294-4532-a30c-be42ab496601" class="bulleted-list"><li style="list-style-type:disc">조건이다보니 if/else문과 유사한 지시문들이 대거 포진</li></ul><ul id="e0029ee9-b78b-467b-b532-89978fb143f3" class="bulleted-list"><li style="list-style-type:disc">조건에 따라 특정 부분의 코드를 컴파일에 포함 또는 배제</li></ul><pre id="1855e343-68c1-449a-8d1e-e21270758d7a" class="code"><code>#if 표현식
+	#ifdef 식별자 혹은 #if defined 식별자
+	#ifndef 식별자 혹은 #if !defined 식별자
+	#elif 표현식
+	#else
+#endif</code></pre><h3 id="4e881611-7382-4837-a2c7-4a1247263b39" class="">조건부 컴파일 : 인크룰드 가드</h3><ul id="c489e741-f2ab-4228-96b7-92d7f352dc2f" class="bulleted-list"><li style="list-style-type:disc">순환 헤더 인클루드</li></ul><ul id="ddeb7f4b-e217-47fe-82e0-eefca5848d42" class="bulleted-list"><li style="list-style-type:disc">즉, 헤더 꼬임을 방지하는 방법<p id="02a989b7-4ca6-43b0-bdd4-c9484540ca23" class="">1) 어떤 상수를 #define으로 정의함</p><p id="cf27dce9-b02d-4f51-8948-27702ff92e4e" class="">2) 그 후 컴파일러에게 조건적으로 코드를 컴파일하라고 지시</p></li></ul><pre id="39b5ea66-5752-43d9-ae65-32754fb59e67" class="code"><code>#ifndef FOO_H
+#define FOO_H
+/* 원래 헤더 내용 */
+#endif /* FOO_H */</code></pre><h3 id="51bda5d2-eec5-47cb-838d-6c7c01998714" class="">어떤 식별자가 #define 되어있는지 판단</h3><pre id="e3eaa39d-2fd7-43f0-b9fb-68403649d7d6" class="code"><code>#ifndef NULL
+#define NULL (0)
+#endif
+/* NULL이 정의 안 되어있다면 값이 0인 NULL을 정의 */
+
+#if !defined(NULL)
+#define NULL (0)
+#endif
+/* NULL이 정의 안 되어있다면 값이 0인 NULL을 정의 */
+
+
+#if defined(NULL)
+#undef NULL (0)
+#endif
+/* NULL이 정의 되어있다면 값이 그 정의를 해제시킴 */
+
+
+#define NULL (0)
+/* 값이 0인 NULL을 정의 */</code></pre><h3 id="e4527d55-5d5d-4a7c-b05e-5a68b1178298" class="">조건부 컴파일에서 주의할 점</h3><pre id="37b5a989-2b80-4c4f-a52b-a906468ed2ae" class="code"><code>#define A
+
+if defined(A)          /* 참 */
+#define LENGTH (10)
+#endif
+
+#if A                  /* 거짓 */
+#define LENGTH (10)
+#endif
+</code></pre><ul id="3710bc2d-b8d3-4cf9-80fd-5ee5a105ae5b" class="bulleted-list"><li style="list-style-type:disc"><code>#define A</code> : A는 정의 되었음</li></ul><ul id="e90fde25-89b1-48ca-8473-68ee1e34f3e4" class="bulleted-list"><li style="list-style-type:disc"><code>#if A</code> : 분리형 표현식(0이면 참, 0이 아니면 거짓) → A에 값이 대입되지 않았으므로 0을 대입하여 거짓이 됨</li></ul><ul id="e1000ec0-4da6-4aff-8c57-a077702d9e03" class="bulleted-list"><li style="list-style-type:disc">만약 <code>#define A (1)</code>이었다면 둘다 참</li></ul><h3 id="1c101aa0-8fb8-4e80-9710-9048d615ce00" class="">조건부 파일 : 버전 관리</h3><ul id="5315b07a-d56d-4f10-b941-c0546fd5b80f" class="bulleted-list"><li style="list-style-type:disc">새 기능을 추가 중일 때, 버전 관리용으로 사용할 수 있음</li></ul><ul id="10a614ca-244c-4873-9aba-8d50a83e6b6b" class="bulleted-list"><li style="list-style-type:disc">어딘가에 <code>#define FILE_VERSION_2</code>라는 코드가 없으면 컴파일에 포함 안됨<pre id="df54e4af-7cab-4fd9-9461-7f953175ad3d" class="code"><code>int spawn_monster(...)
+{
+	get_monster_skin();
+	get_monster_stat();
+
+#if defined(FILE_VERSION_2)
+	use_custom_skin(...);
+#endif
+	calculate_spawn_location();
+	return TRUE;
+}</code></pre></li></ul><ul id="1e866bdf-7191-4488-b801-7fa4b41edeb0" class="bulleted-list"><li style="list-style-type:disc"><code>#elif</code>와 <code>#else</code>를 사용해서 각 버전마다 필요한 작업을 할 수 있음<pre id="7e7b8289-6ff9-45ac-9451-62866bb96613" class="code"><code>...
+#if defined(FILE_VERSION_2)
+	use_custom_skin(...);
+#elif defined(FILE_VERSION_3);
+	use_custom_voice(...);
+#else
+	use_default_skin(...);
+	use_defalut_voice(...);
+#endif
+...</code></pre></li></ul><h3 id="0b2d877c-3550-4b98-a198-2d0285d4d1f1" class="">조건부 컴파일 : 주석 처리 편하게 가능</h3><ul id="363a928b-1282-4c4f-be94-72bfa9bc7c15" class="bulleted-list"><li style="list-style-type:disc">지금까지 사용해오던 주석 처리 방법<pre id="055fcb82-fb1d-4931-8300-d04a05238f9b" class="code"><code>/*
+&lt; 코드 생략 &gt;
+*/</code></pre></li></ul><ul id="0828d4ce-6db7-41f9-923f-4a5c58a571dc" class="bulleted-list"><li style="list-style-type:disc"><code>if 0</code>와 <code>#endif</code>를 사용하면 보다 편하게 주석 처리가 가능<pre id="e6caa06b-a310-41da-b712-e01ab01088fc" class="code"><code>#if 0
+&lt; 코드생략 &gt;
+#endif</code></pre><p id="e35a001b-6b22-4a94-9781-1a43c3d4a61f" class="">⇒ <code>#if 1</code>로 바꾸면 바로 주석 해제 가능</p></li></ul><h2 id="a2987605-dc7b-4ecb-bc6d-4f902d085811" class="">컴파일 오류 만들기</h2><pre id="e2140f90-2d39-4490-968e-f36547e4a7b1" class="code"><code>#error 메세지</code></pre><ul id="fc310b5a-d7e2-4342-a525-59cd601c3560" class="bulleted-list"><li style="list-style-type:disc">컴파일 도중에 강제로 오류를 발생시키는 매크로</li></ul><ul id="3cc5c85d-932f-4950-9b97-f232910232cf" class="bulleted-list"><li style="list-style-type:disc">메세지를 꼭 따옴표로 감쌀 필요는 없음</li></ul><h3 id="75416190-cbda-46b3-8700-ccce1f2221b4" class="">예시</h3><pre id="02b08199-eb9d-4fa1-9609-31047c8678b3" class="code"><code>/* version.h */
+#define VERSION 10</code></pre><pre id="2fdf48c7-3ba5-4db8-ba96-6c3234da2776" class="code"><code>/* builder.h */
+#if VERSION != 11
+#error &quot;unsupported version&quot;
+#endif</code></pre><pre id="0429f23d-bf00-42f7-afcf-6de15cee9d9f" class="code"><code>builder.h:8:2: error: &quot;unsupported version&quot;
+#error &quot;unsupported version&quot;
+^</code></pre><h3 id="e41d09f0-66d3-4c02-9c4c-ef9cea6d971a" class="">컴파일 중에 매크로 정의하기</h3><ul id="fb8ea299-e057-4759-b878-03073fe1fb0e" class="bulleted-list"><li style="list-style-type:disc">컴파일 도중이 <code>-D</code> 옵션으로 전달 가능<pre id="4483ce85-ba8f-4ea7-ad77-1ae921921c35" class="code"><code>&gt; clang -std=c89 -W -Wall -pedantiv-errors -DA*.c</code></pre><ul id="54978071-dc98-41bd-8883-9283dc550c08" class="bulleted-list"><li style="list-style-type:circle"><code>#define A (1)</code>과 똑같은 결과 (<code>#define A</code>가 아님)</li></ul></li></ul><ul id="a0f87102-3cb8-42f4-a4ea-2ae97af526df" class="bulleted-list"><li style="list-style-type:disc">직접 대체할 값 지정할 수 있음<pre id="72c95ba2-f302-4ec7-8c7f-e177a8e045e3" class="code"><code>&gt; clang -std=c89 -W -Wall -pedantiv-errors -DA=52*.c</code></pre><ul id="d55893f8-2efd-409b-b75b-77de85d3451d" class="bulleted-list"><li style="list-style-type:circle"><code>#define A (52)</code>와 똑같은 결과</li></ul></li></ul><h3 id="a0b06f77-e0ef-4e0d-9a69-1d890a2144a0" class="">배포용으로 컴파일하기 : -DNDEBUG</h3><pre id="c48b8df7-3ba6-429c-9dc8-ae68985f4d82" class="code"><code>&gt; clang -std=c89 -W -Wall -pedantiv-errors -DNDEBUG*.c</code></pre><ul id="65e452ac-f495-4431-9570-6812f1a48ebf" class="bulleted-list"><li style="list-style-type:disc">배포(release) 모드로 실행파일을 컴파일하라고 알려주는 매크로<ul id="f36a78bd-5c05-47d6-8109-10bafd9a551e" class="bulleted-list"><li style="list-style-type:circle">NDEBUG : &#x27;디버그가 아니다(not debug)&#x27;란 뜻</li></ul><ul id="0e6f55f3-d107-42ef-87f4-4746c4fe3239" class="bulleted-list"><li style="list-style-type:circle"><code>assert()</code>가 사라짐</li></ul><ul id="83a95499-a1fd-42dd-8dc5-5e93e6fb22d4" class="bulleted-list"><li style="list-style-type:circle">디버그 모드에서만 실행될 코드는 <code>#if !defined(NDEBUG)</code>속에 넣을 것</li></ul></li></ul><ul id="748c19e0-7521-4b9e-97b1-ca073c4cd2b5" class="bulleted-list"><li style="list-style-type:disc">이 대신 다음과 같은 매크로를 직접 정의해 사용하는 프로젝트 많음<ul id="6d3f477b-08af-4e0b-80f4-a63ef9c56281" class="bulleted-list"><li style="list-style-type:circle">DEUG : 디버그용 빌드</li></ul><ul id="72574837-cb53-4f5e-9df0-09942c569fa0" class="bulleted-list"><li style="list-style-type:circle">RELEASE : 배포용 빌드</li></ul><ul id="98c2eece-7033-4b8e-9733-80ded99d234a" class="bulleted-list"><li style="list-style-type:circle">기타 : 필요에 따라 다양한 빌드를 지정</li></ul></li></ul><h2 id="a1e52ea9-ef2d-4963-a830-30bcd9b58813" class="">매크로 함수</h2><ul id="b94f4a7d-d310-4d2c-9b50-0630e940b8e9" class="bulleted-list"><li style="list-style-type:disc"><code>#define</code>을 할 때 대체 가능한 매개변수 목록을 만듬</li></ul><pre id="39b908b7-518d-4df5-a3ee-223105f4d236" class="code"><code>#define SQUARE(a) a * a
+#define ADD(a,b) a + B</code></pre><pre id="aca615fa-90a5-4510-9d37-ad2bf9a6a69e" class="code"><code>/* 메인 함수 */
+int num1;
+int num2;
+int result;
+
+num1 = 10;
+num2 = 20;
+result = ADD(num1, num2);   /* 30 */
+result = SQUARE(num1)       /* 100 */</code></pre><h3 id="05770e37-c2eb-4640-87b2-b1414c2099f6" class="">매크로 함수에서 흔히 하는 실수</h3><pre id="e131a5a0-7135-41d3-8ca2-28dcb1197812" class="code"><code>#define SQUARE(a) a * a
+#define ADD(a,b) a + b</code></pre><pre id="6748a760-a7bd-4663-ba26-e2ba1eff40d7" class="code"><code>/* 메인 함수 */
+int num1;
+int num2;
+int result;
+
+num1 = 10;
+num2 = 20;
+result = 10 * ADD(num1, num2);   /* ? */</code></pre><ul id="2adbcfb2-c44f-4497-a704-cab1acff8580" class="bulleted-list"><li style="list-style-type:disc">일반적으로 생각하면 300</li></ul><ul id="3c79bdd9-27c2-4a20-86ce-d15a579f1653" class="bulleted-list"><li style="list-style-type:disc">실행하면 120이라는 값이 나옴<ul id="0ce6fc29-6d12-4f1a-9c83-d2a592f94ec8" class="bulleted-list"><li style="list-style-type:circle"><strong>매크로 함수는 복붙이 됨!!</strong></li></ul><pre id="c8e5d82d-ce0c-4f2a-b1ea-ee15db478637" class="code"><code>result = 10 * ADD(num1, num2);
+result = 10 * num1 + num2</code></pre></li></ul><ul id="53831e17-5e6e-4690-b4f6-3689304d52d4" class="bulleted-list"><li style="list-style-type:disc">이를 해결하기 위해서는 소괄호<code>()</code>를 감싸주면 됨<pre id="5e745f30-4b17-4369-ae07-a3101e02d920" class="code"><code>#define SQUARE(a) (a * a)
+#define ADD(a,b) (a + b)</code></pre><pre id="33fefdcc-7ea7-4629-be61-a1ac182db52c" class="code"><code>/* 메인 함수 */
+int num1;
+int num2;
+int result;
+
+num1 = 10;
+num2 = 20;
+result = 10 * ADD(num1, num2);   /* 300 */</code></pre></li></ul><h3 id="2ca8208d-2314-41db-a57d-0fe1b0b8e63e" class="">베스트 프랙티스 : 매크로에 소괄호를 쓰자</h3><pre id="fef182c2-131a-4c94-9981-c5e0c33e6975" class="code"><code>#define ADD(a,b) a + b     /* BAD */
+#define ADD(a,b) (a + b)   /* GOOD */</code></pre><h3 id="c252a878-da40-421f-a9cb-711d58ac4e6d" class="">매크로 함수의 활용</h3><p id="d33c7e42-73d3-41bf-a6d3-b9fad01ea47f" class=""><strong>&lt;매크로가 여러 줄이면?&gt;</strong></p><ul id="b43c6f9f-6e7e-4ca3-89ec-ad34d9ec53bd" class="bulleted-list"><li style="list-style-type:disc"><code>\</code>를 사용하면 매크로를 여러 줄로 나눌 수 있음<pre id="f11711ce-d93d-4c70-a148-70ccfa5429d1" class="code"><code>#define POW(n, p, i, r) r = 1;                    \
+												for (i = 0; i &lt; p; ++i) : \
+													r *= n;                 \
+												}</code></pre><pre id="bfb48de1-7ac7-4217-a3af-276429507598" class="code"><code>int num;
+int exp;
+int result;
+int i;
+
+num = 2;
+exp = 10;
+POW(num, exp, i, result);  /* result : 1024 */</code></pre></li></ul><p id="cdcd3d57-5262-4f76-8e9b-dca2f8da00c3" class=""><strong>&lt;어서트의 재정의&gt;</strong></p><ul id="4535a4ca-f9fd-49c7-a3a5-8b820d8694c3" class="bulleted-list"><li style="list-style-type:disc">어셈블리 코드를 이용한 나만의 어서트 매크로를 만들 수 있음</li></ul><pre id="a042d762-1dd8-4149-90f5-2010f0ccd5a4" class="code"><code>#define ASSERT(condition, msg)
+	if (!(condition)) {                                            \
+		fprint(stderr, &quot;%s(%s:%d)\n&quot;, msg, __FILE__, __LINE__);      \
+		__asm { int 3 }                                              \
+	}                                                              \</code></pre><pre id="f12f633f-8d3b-4b61-a365-c2940f250b80" class="code"><code>/* 메인 함수 */
+int month = 20;
+ASSET(month &lt; 12, &quot;invalid month number&quot;);</code></pre><pre id="ed229dd6-a4bd-420b-bd45-e8c47babfc07" class="code"><code>invalid month number!(main.c:29)</code></pre><ul id="5aadd35f-9812-401d-a1ed-2f92440e4b9f" class="bulleted-list"><li style="list-style-type:disc">왜 어서트 매크로를 대신 사용하는 것인가?<ul id="e62bd05b-7e8a-47b2-8b82-f1cca7170f36" class="bulleted-list"><li style="list-style-type:circle"><code>assert()</code>는 실패 시 호출 스택(call stack)의 현재 위치가 <code>asset()</code> 함수 속</li></ul><ul id="776609d1-de12-4861-8e6e-1b6be7a12a4d" class="bulleted-list"><li style="list-style-type:circle"><code>__asm { int 3}</code>는 실제로 어서트에 실패한 코드가 호출 스택의 현 위치</li></ul><ul id="ec39e46d-e82f-48ed-99bb-503eaffd3b44" class="bulleted-list"><li style="list-style-type:circle">또한 사람이 읽기 편한 설명도 눈에 딱 보임(stderr 출력은 필수 아님!)<p id="722b3bc5-7253-432f-bdd5-10b3f748a4ed" class=""><code>ASSERT(month &lt; 12, &quot;invalid month number&quot;);</code></p><p id="1153157a-f378-44aa-952c-18b62a418566" class=""><code>assert(month &lt;12);</code></p></li></ul></li></ul><ul id="d9188fc8-b52c-4b11-892a-913b0d6d0c90" class="bulleted-list"><li style="list-style-type:disc">단, <code>int 3</code>은 x86 어셈블리에서 프로그램 실행을 중지하라는 인터럽트<p id="4724527a-e54d-439e-b7e4-59593b8bfcf3" class="">⇒ integal의 <code>int</code>가 아님</p><ul id="f42166fd-6f1c-4d7d-ba03-496c20641ce5" class="bulleted-list"><li style="list-style-type:circle">플랫폼마다 사용하는 어셈블리 명령어가 달라짐</li></ul></li></ul><h3 id="b21d8fea-48c3-43e6-a49d-7d95ade5f230" class=""><strong>전처리기 명령어</strong></h3><p id="9047dcec-3924-427c-865e-ed0c5e9d3988" class=""><strong>&lt;# 명령어&gt;</strong></p><pre id="a67d8fbf-e922-48ba-ab2e-202a24c82135" class="code"><code>#define 식별자(매개변수) 대체_목록</code></pre><ul id="41732806-751e-4ed4-bdb3-5ce607e927d5" class="bulleted-list"><li style="list-style-type:disc">매개변수 자체를 문자열로 바꿔줌</li></ul><ul id="247466c6-e365-4eac-9160-5e012eb35970" class="bulleted-list"><li style="list-style-type:disc">매개변수를 쌍따옴표로 감싸는 것</li></ul><ul id="c9680060-8cef-4b2c-a2bc-224c1b0776af" class="bulleted-list"><li style="list-style-type:disc">예시<pre id="d20712cf-942c-4532-86e7-8a0a5cd2d50a" class="code"><code>#define str(s) #s</code></pre><pre id="c8c20ad5-1ef9-4ef8-b6c9-bfd02fd09329" class="code"><code>printf(&quot;%s\n&quot;, str(\n));
+printf(&quot;%s\n&quot;, str(&quot;\n&quot;));
+printf(&quot;%s\n&quot;, str(int main));
+printf(&quot;%s\n&quot;, str(&quot;Hello Pocu&quot;));
+printf(&quot;%s\n&quot;, str(num2));</code></pre><pre id="f2739f89-16e7-49d3-8493-c3d6d8b7d039" class="code"><code>&quot;\n&quot;
+int main
+&quot;Hello World&quot;
+num1
+_</code></pre></li></ul><p id="8574a8cd-b033-4af3-ab8f-4629c0b2eea3" class=""><strong>&lt;## 명령어&gt;</strong></p><pre id="e0effff6-1c89-4084-827a-93ee7b358fa9" class="code"><code>#define 식별자(매개변수) 대체_목록</code></pre><ul id="6fad0203-922a-46ff-a82a-7c935065178f" class="bulleted-list"><li style="list-style-type:disc">대체 목록 안에 있는 두 다어를 합쳐서 새로운 텍스트로 바꿈<ul id="f6a18c12-2c2c-409d-8825-07b506949859" class="bulleted-list"><li style="list-style-type:circle">단어는 매개변수일 수도 아닐 수도 있음</li></ul></li></ul><ul id="086ba7e3-7bb8-486a-97af-ee22cafdc032" class="bulleted-list"><li style="list-style-type:disc">#와 달리 문자열 데이터를 만들어 주는게 아님</li></ul><ul id="1abcd701-ef92-407f-adb9-c3af96ba7d11" class="bulleted-list"><li style="list-style-type:disc">예시<pre id="925c30f1-9bfa-4310-bb81-544c781bd9a4" class="code"><code>#define print(n) printf( &quot;%d\n&quot;, g_id_##n )</code></pre><pre id="ea1042f3-cd54-4339-940f-1b48d005a476" class="code"><code>int g_id_none = 0;
+int g_id_teacher = 1;
+int g_id_student = 2;</code></pre><pre id="6deed81e-3543-44ae-ab64-30af9d99a94c" class="code"><code>/* 메인 함수 */
+print(number);       /* 컴파일 오류: g_id_number라는 변수가 없음 */
+print(none);         /* 컴파일: g_id_none의 값인 0 출력 */
+print(student);      /* 컴파일: g_id_student의 값인 2 출력 */</code></pre></li></ul><p id="7393edfc-60d4-4100-a8e4-d36c8fdf628e" class=""><strong>&lt;# vs ##&gt;</strong></p><pre id="9da6e685-cba1-4094-a385-41b9d07a8e29" class="code"><code>#define combine1(a, b) (a#b)
+#define combine(a, b) (a##b)</code></pre><pre id="8afb4832-3fa8-4402-bb62-f5bd7042c64e" class="code"><code>/* 메인 함수 */
+int student_id = 987654;
+
+// 컴파일 오류: student_&quot;id&quot;
+printf(&quot;%d\n&quot;, combine1(student_, id);
+
+// 컴파일: student_id의 값인 987654를 출력
+printf(&quot;%d\n&quot;, combine2(student_, id);</code></pre><h3 id="e77130fe-b842-4715-9726-3bd3efeea03a" class="">매크로 함수의 장점과 단점</h3><ul id="082d7243-b9b2-4c57-9529-7e8418367b68" class="bulleted-list"><li style="list-style-type:disc">장점<ul id="516b678d-9a36-4b6f-a607-1015e397592d" class="bulleted-list"><li style="list-style-type:circle">함수 호출이 아닌 곧바로 코드를 복붙하는 개념</li></ul><ul id="bceaff4d-7c34-4661-b24b-e13ff10f8323" class="bulleted-list"><li style="list-style-type:circle">함수 호출에 따른 과부하가 없음</li></ul><ul id="0c903a2f-7181-421c-8ccc-044a3c02053a" class="bulleted-list"><li style="list-style-type:circle">C에서 불편한 것들 중 일부는 매크로 꼼수로 해결 가능</li></ul></li></ul><ul id="0447b785-a27e-4a1a-a263-c99d651c048d" class="bulleted-list"><li style="list-style-type:disc">단점<ul id="38ffa7ad-3375-45ee-b7e1-218ddadb3b18" class="bulleted-list"><li style="list-style-type:circle">디버깅이 아주아주아주 매우매우매우 어려움</li></ul><ul id="92c33c5d-ba8c-40ac-87a2-b3c644cbc38f" class="bulleted-list"><li style="list-style-type:circle"><code>\</code>를 사용해서 아무리 읽기 좋게 매크로 함수를 만들어도 중단점을 사용 불가</li></ul></li></ul><h2 id="3377c7ba-e0c5-4bfe-8187-8e7bbb9843a4" class="">전처리기를 이용한 튜플</h2><p id="bd1a3982-9a8e-44e6-894b-c395c8db759a" class="">⇒ 전처리기 꼼수를 써서 다양한 형의 데이터를 효율적으로 관리하는 방법</p><pre id="03a827ab-da4c-480f-93d3-8238152aeb1d" class="code"><code>#include &lt;stdio.h&gt;
+
+/* id(int), &quot;name&quot;(const char*), hp(int) */
+#define MONSTER_DATA \
+	MONSTER_ENTRY(0, &quot;pope&quot;, 100)       \
+	MONSTER_ENTRY(1, &quot;big rat&quot;, 30)     \
+	MONSTER_ENTRY(2, &quot;mama&quot;, 255)       \
+	MONSTER_ENTRY(3, &quot;dragon&quot;, 300000)  \
+
+int main(void)
+{
+	size_t i;
+	
+	int ids[] = {                               /* id 배열 선언 */
+#define MONSTER_ENTRY(id, name, hp) id,
+				MONSTER_DATA                          /* 0, 1, 2, 3 */
+#undef MONSTER_ENTRY                          /* 나중에 MONSTER_ENTRY를 다르게 #dfine하여 다른 속성을 뽑아낼 수 있도록 */
+	};
+
+	const char* names[] = {
+#define MONSTER_ENTRY(id, name, hp) name,
+				MONSTER_DATA
+#undef MONSTER_ENTRY
+	};
+
+	int healths[] = {
+#define MONSTER_ENTRY(id, name, hp) hp,
+				MONSTER_DATA
+#undef MONSTER_ENTRY
+	};
+
+	for (i = 0; i &lt; sizeof(ids) / sizeof(int); ++i) {
+		printf(&quot;%3d %6d %s\n&quot;, ids[i], healths[i], names[i]);
+	}
+
+	return 0;
+}</code></pre><h2 id="5664b64e-cc15-47ff-b81f-f634a54d737e" class="">getter 만들기</h2><pre id="50d0e7bc-0d1a-42b2-a432-6e5ddcaa74a5" class="code"><code>#include &lt;stdio.h&gt;
+
+
+/* (type, name) */
+#define MONSTER_STRUCT \
+	MONSTER_MEMBER(int,            id)      \
+	MONSTER_MEMBER(const char*,    name)    \
+	MONSTER_MEMBER(int,            hp)      \
+
+typedef struct {
+#define MONSTER_MEMBER(type, name) type name;
+	MONSTER_STRUCT
+#undef MONSTER_MEMBR
+} monster_t;
+
+#define MONSTER_MEMBER(type, name)          \
+type get_mob_##name(const monster_t** mob)  \
+{                                           \
+	return mob-&gt;name;                         \
+}                                           \
+
+MONSTER_STRUCT
+
+#undef MONSTER_MEMBER
+
+int main(void)
+{
+	monster_t mob;
+	mob.id = 0;
+	mob.name = &quot;Soojong Hong&quot;;
+	mob.hp = 10001;
+
+	printf(&quot;%3d %6d %s&quot;,
+		get_mob_id(&amp;mob),
+		get_mob_hp(&amp;mob),
+		get_mob_name(&amp;mob));
+
+	return 0;
+}</code></pre><p id="1e33e06a-432f-4d53-89f6-b0e618730169" class="">
+</p></div></article></body>
+
+{% endblock post_content %}

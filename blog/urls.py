@@ -20,6 +20,9 @@ urlpatterns = [
     path("post/14", views.post14, name="post14"),
     path("post/15", views.post15, name="post15"),
     path("post/16", views.post16, name="post16"),
+    path("post/17", views.post17, name="post17"),
+    path("post/18", views.post18, name="post18"),
+    path("post/19", views.post19, name="post19"),
     path("post/<int:blog_pk>", views.detail, name="detail"),
     path("", views.all_posts, name="all-posts"),
 ]
