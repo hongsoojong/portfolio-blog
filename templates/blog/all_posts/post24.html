@@ -1,0 +1,248 @@
+{% extends 'blog/all_posts/base_post.html' %}
+
+{% load static %}
+
+{% block post_title %}
+    <a href="{% url 'blog:all-posts' %}" class="font_kor">3차원</a>
+{% endblock post_title %}
+
+{% block post_content %}
+
+{% block post_date %}
+    <div class="container w-1/2 mx-auto mb-10 post_date">[ Oct 13, 2021 ]</div>    
+{% endblock post_date %}
+
+<main class="container w-1/2 mx-auto font_kor">
+
+{% include "blog/all_posts/css_post.html" %}
+  
+<!-- notion html -->
+<body><article id="0c3639ac-2586-4ce3-b8c7-85b14de574ef" class="page sans"><div class="page-body"><h2 id="76468432-dcd8-4adb-ae0d-81e18f086913" class="">3차원과 프로그램</h2><h3 id="ec730273-0fe9-4f42-b162-7a00b249c579" class="">Point3와 Vector3</h3><pre id="8b7f11a4-015c-4f75-81bf-33c5733672a6" class="code"><code>// 3차원 벡터 구조체
+    struct Vector3
+    {
+        float x, y, z;  // x, y, z 성분
+    };
+    
+    // 3차원 좌표 구조체
+    struct Point3
+    {
+      float x, y, z;  // x, y, z 좌표
+    };</code></pre><h3 id="d444aa7f-1a82-4fbb-a4cd-bd1059650ecc" class="">Point3, Vector3와 관련된 계산</h3><pre id="ffcde97a-44d1-4ffa-afd5-6b0c7c16f82a" class="code"><code>// (좌표) + (벡터)
+    Point3 Add_Point3_Vector3( Point3 p, Vector3 v )
+    {
+        Point3 r;
+        r.x = p.x + v.x;
+        r.y = p.y + v.y;
+        r.z = p.z + v.z;
+        
+        return r;
+    }
+    
+    // (좌표) - (벡터)
+    Point3 Sub_Point3_Vector3( Point3 p, Vector3 v )
+    {
+      Point3 r;
+      r.x = p.x - v.x;
+      r.y = p.y - v.y;
+      r.z = p.z - v.z;
+    
+      return r;
+    }
+    
+    // (좌표) - (좌표)
+    Vector3 Sub_Point3_Point3( Point3 p0, Point3 p1 )
+    {
+      Vector3 r;
+      r.x = p0.x - p1.x;
+      r.y = p0.y - p1.y;
+      r.z = p0.z - p1.z;
+    
+      return r;
+    }
+    
+    // (벡터) + (벡터)
+    Vector3 Add_Vector3_Vector3( Vector3 v0, Vector3 v1 )
+    {
+      Vector3 r;
+      r.x = v0.x + v1.x;
+      r.y = v0.y + v1.y;
+      r.z = v0.z + v1.z;
+    
+      return r;
+    }
+    
+    // (벡터) - (벡터)
+    Vector3 Sub_Vector3_Vector3( Vector3 v0, Vector3 v1 )
+    {
+      Vector3 r;
+      r.x = v0.x - v1.x;
+      r.y = v0.y - v1.y;
+      r.z = v0.z - v1.z;
+    
+      return r;
+    }
+    
+    // (좌표) * (스칼라)
+    Point3 Mul_Point3_Scalar( Point3 p, float s )
+    {
+      Point3 r;
+      r.x = p.x * s;
+      r.y = p.y * s;
+      r.z = p.z * s;
+    
+      return r;
+    }
+    
+    // (벡터) * (스칼라)
+    Vector3 Mul_Vector3_Scalar( Vector3 v, float s )
+    {
+      Vector3 r;
+      r.x = v.x * s;
+      r.y = v.y * s;
+      r.z = v.z * s;
+    
+      return r;
+    }
+    
+    // (벡터) / (스칼라)
+    Vector3 Div_Vector3_Scalar( Vector3 v, float s )
+    {
+      Vector3 r;
+      r.x = v.x / s;
+      r.y = v.y / s;
+      r.z = v.z / s;
+    
+      return r;
+    }
+    
+    // 벡터의 길이를 반환한다.
+    float Vector3_Length( Vector3 v )
+    {
+      float l = sqrt( v.x * v.x + v.y * v.y + v.z * v.z );
+      return l;
+    }
+    
+    // 벡터를 정규화한다.
+    Vector3 Vector3_Normalize( Vector3 v )
+    {
+        float l = Vector3_Length( v );
+        Vector3 n;
+        n.x = v.x / l;
+      n.y = v.y / l;
+      n.z = v.z / l;
+        return n;
+    }
+    
+    // 벡터끼리 내적
+    float Vector3_Dot( Vector3 v0, Vetor3 v1 )
+    {
+        float r;
+        r = ( v0.x * v1.x ) + ( v0.y * v1.y ) + ( v0.z * v1.z );
+        reutrn r;
+    }
+    
+    // 벡터끼리 외적
+    Vector3 Vector3_Cross( Vector3 v0, Vector3 v1 )
+    {
+        Vector3 r;
+        r.x = v0.y * v1.z - v0.z * v1.y;
+        r.y = v0.z * v1.x - v0.x * v1.z;
+        r.z = v0.x * v1.y - v0.y * v1.x;
+        return r;
+    }
+    
+    // 점 3개를 사용한 외적
+    Vector3 Vector3_Corss( Point3 p0, Point3 p1, Point3 p2)
+    {
+        // 벡터를 만든다.
+        Vector3 v0 = Sub_Point3_Point3(p1, p0);
+        Vector3 v1 = Sub_Point3_Point3(p2, p1);
+    
+        // 벡터로 외적을 계산한다.
+        return Vector3_Cross( v0, v1 );
+    }</code></pre><pre id="af79ae44-769f-4211-8481-4a09486bebec" class="code"><code>// 실제 C 구현
+    
+    #include &lt;stdio.h&gt;
+    
+    // 3차원 벡터 구조체
+    typedef struct {       
+        float x, y, z;  // x, y, z 성분
+    } Vector3;
+    
+    // 3차원 좌표 구조체
+    typedef struct {
+      float x, y, z;  // x, y, z 좌표
+    } Point3;
+    
+    // (좌표) + (벡터)
+    Point3 Add_Point3_Vector3( Point3 p, Vector3 v )
+    {
+      Point3 r;
+      r.x = p.x + v.x;
+      r.y = p.y + v.y;
+      r.z = p.z + v.z;
+    
+      printf(&quot;%f, %f, %f&quot;, r.x, r.y, r.z);
+      return r;
+    }
+    
+    int main(void) 
+    {
+      Point3 p1;
+      Vector3 v1;
+    
+      p1.x = 5.0f;
+      p1.y = 5.0f;
+      p1.z = 5.0f;
+      v1.x = 2.0f;
+      v1.y = 3.0f;
+      v1.z = 2.0f;
+    
+      Add_Point3_Vector3(p1, v1);
+    }</code></pre><h2 id="8bc3cb9f-3991-4298-925d-0c6e71724ecd" class="">평면(plane)의 프로그램 지원</h2><h3 id="6c755373-0cad-4483-be88-9b848ff4db4a" class="">plane 구조체</h3><pre id="86e4d766-1420-4882-907b-41fe89d84538" class="code"><code>// 평면 구조체
+    struct Plane
+    {
+        float a, b, c, d; // 평면의 구성요소
+    };</code></pre><h3 id="2443ae0c-1b1d-491d-ae72-020df6f18b2f" class="">plane 설정 함수</h3><pre id="60f348ed-36a9-43f3-b5eb-5ee707d34aa6" class="code"><code>// 평면 설정 (법선 벡터와 점 하나를 지정한다.)
+    Plane Plane_Set( Vector3 normal, Point p)
+    {
+        // 법선 벡터를 정규화한다.
+        Vector3 n = Vector3_Normalize( normal );
+        
+        // 평면 방정식 a, b, c를 설정한다.
+        Plane r;
+        r.a = n.x;
+        r.b = n.y;
+        r.c = n.z;
+    
+        // 평면 방정식의 d를 설정한다.
+        r.d = -( ( n.x * p.x ) + ( n.y * p.y ) + ( n.z * p.z ) );
+        return r;
+    }</code></pre><pre id="2ffdd5a4-8785-47f5-adf2-c860da97d32d" class="code"><code>// 평면 설정 ( 점 3개를 지정한다.)
+    Plane Plane_Set( Point3 p0, Point3 p1, Point3 p2 )
+    {
+        // 법선 벡터를 구한다.
+        Vector3 n = Vector3_Cross( p0, p1, p2 );
+    
+        // 다른 함수로 처리한다.
+        return plane_Set( n, p0 );
+    }</code></pre><h3 id="6929c37b-4a6d-4a15-92b1-bd89e4160ff4" class="">plane과 관련된 계산용 함수</h3><p id="ee8f6b15-1a95-4736-922f-019c1be11f55" class="">→ 이미 정규화된 법선 벡터를 통해 평면 방정식이 만들어져있음</p><pre id="d8836f0e-ece9-460a-aec4-8d93641a0227" class="code"><code>// 평면과 좌표의 거리
+    float Plane_Length( Plane plane, Point3 p )
+    {
+        float l;
+        l = plane.a * p.x + plane.b * p.y + plane.c * p.z + plane.d;
+        return l;
+    }
+    
+    // 좌표가 평면의 앞쪽인가
+    int Plane_Side ( Plane plane, Point3 p)
+    {
+        // 거리 값으로 판단한다.
+        if ( Plane_Length ( plane, p ) &lt; 0.0f ) {
+            return 0;
+        } else {
+            return 1;
+        }
+    }</code></pre></div></article></body>
+
+{% endblock post_content %}

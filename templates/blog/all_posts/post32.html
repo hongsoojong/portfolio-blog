@@ -1,0 +1,118 @@
+{% extends 'blog/all_posts/base_post.html' %}
+
+{% load static %}
+
+{% block post_title %}
+    <a href="{% url 'blog:all-posts' %}" class="font_kor">난수</a>
+{% endblock post_title %}
+
+{% block post_content %}
+
+{% block post_date %}
+    <div class="container w-1/2 mx-auto mb-10 post_date">[ Oct 22, 2021 ]</div>    
+{% endblock post_date %}
+
+<main class="container w-1/2 mx-auto font_kor">
+
+{% include "blog/all_posts/css_post.html" %}
+  
+<!-- notion html -->
+<body><article id="4d0df4f8-6dd0-4127-b693-68b24ba3b2ca" class="page sans"><div class="page-body"><h2 id="dcd8e2a8-0d06-4c85-9793-87052187646e" class="">랜덤</h2><ul id="d2f9682a-bc3a-4771-85f4-e5e8ab315113" class="bulleted-list"><li style="list-style-type:disc">컴퓨터와 겨루는 상황에서 컴퓨터의 정확성 때문에 정해진 행동만 한다면 사용자 입장에서 매우재미없는 게임이 될 수 있음</li></ul><ul id="f635c5c7-b2b2-423d-9460-32bc09dea41b" class="bulleted-list"><li style="list-style-type:disc">행동의 불확실성을 통해 게임의 개성을 넣을 수 있음 → 랜덤, 무작위</li></ul><h2 id="34fe3b0e-b9b1-415e-a707-10b86db969c4" class="">난수</h2><ul id="d79cb1f3-098c-48b7-8e27-682367f53a96" class="bulleted-list"><li style="list-style-type:disc">프로그램의 무작위성 → 난수의 사용</li></ul><ul id="3779d9e3-1ce8-4a14-a3b8-1227e9b6ec89" class="bulleted-list"><li style="list-style-type:disc"><strong>난수 : </strong>어떤 값이 나올지 예측할 수 없는 정해지지 않은 수</li></ul><ul id="5e833317-a698-4355-b5a8-2f94d5756eec" class="bulleted-list"><li style="list-style-type:disc">프로그램에서 난수를 호출하면 무작위로 추출된 값을 반환함</li></ul><hr id="f6542a0c-0fb3-42c7-8e9a-80f36753883c"/><p id="474f26d8-324b-4ebd-b709-910cebca21b7" class=""><strong>[게임에서 난수의 사용]</strong></p><ul id="bb69ef25-5d73-4065-a530-2e853e6f9538" class="bulleted-list"><li style="list-style-type:disc">난수로 1~100 중 임의의 수를 반환</li></ul><ul id="c3311800-d4fa-48c9-8b07-4c36e2c0c2de" class="bulleted-list"><li style="list-style-type:disc">1~30 점프, 31~100 공격</li></ul><hr id="1f3e6393-1210-4328-bd86-d1c909851eb2"/><h2 id="f6a3d731-5e60-41c4-8678-1ecc4521cdce" class="">난수를 사용한 게임성</h2><ul id="b56570e4-df8d-4806-a2e3-d0dc9d231423" class="bulleted-list"><li style="list-style-type:disc">어느 정도 양념처럼 무작위성을 넣으면 좋을 수 있음</li></ul><ul id="83123217-f332-4061-b30d-208876fa6b21" class="bulleted-list"><li style="list-style-type:disc">하지만 모든 행동을 난수로 정하면 결과가 운으로 결정되기 떄문에 게임성에서 큰 손해를 볼 수 있음</li></ul><ul id="672274e4-f37e-4fef-bae9-54facad5a717" class="bulleted-list"><li style="list-style-type:disc">필자의 주관적인 견해로 난수는 되도록 게임성과 관련된 부분에서는 사용하지 않는 것이 좋음</li></ul><h2 id="28264215-dafc-4b6a-b132-633d07668d72" class="">난수의 종류</h2><ul id="39683ae0-44e1-4220-91ca-995fe5f8b837" class="bulleted-list"><li style="list-style-type:disc">난수의 요청과 반환<p id="ee937324-6948-47a6-b5ab-7e537f59e404" class="">1) 프로그램은 난수(무작위)를 CPU에게 요청함</p><p id="4df61e31-66c4-4996-886b-ac9816dcfe86" class="">2) CPU는 적당한 수를 반환함</p></li></ul><ul id="53b8fd17-a8a2-463f-a43d-6be66e6eead6" class="bulleted-list"><li style="list-style-type:disc">프로그램에서 사용하는 난수는 무엇인가를 계산해서 랜덤한 것 &#x27;같은&#x27; 값임<p id="e1d99a73-ea71-4a98-ba79-449b27b882db" class="">⇒ 이 랜덤한 것 같은 난수를 &#x27;<strong>의사 난수</strong>&#x27;라고 함</p></li></ul><ul id="64baf957-19c7-466f-92e9-f58e1045022c" class="bulleted-list"><li style="list-style-type:disc">반대로 완전한 무작위 수는 &#x27;<strong>진짜 난수</strong>&#x27;라고 함</li></ul><h2 id="696f4452-22c3-42c3-8461-7342edc5421f" class="">프로그램과 난수</h2><ul id="4d221731-922c-48f6-b135-ec513f6121bc" class="bulleted-list"><li style="list-style-type:disc">의사 난수를 구하는 몇 가지 방법</li></ul><h3 id="38822e59-8d73-40ff-a6bc-e0ddb87cfa59" class="">rand() 함수</h3><pre id="2bb016dd-4690-4415-8282-f41f68e70f94" class="code"><code>#include &quot;stdlib.h&quot;
+
+for (int h = 0;h &lt; 5;++h) {
+  printf( &quot;%d\n&quot;, rand() )
+}
+
+/*
+41
+18467
+6334
+26500
+19169
+*/</code></pre><ul id="b718db64-5a52-4e96-bf8d-62f0f83d8765" class="bulleted-list"><li style="list-style-type:disc"><code>rand()</code> 함수를 사용하면 5개의 다른 난수를 얻을 수 있음</li></ul><ul id="334dc4a2-5d5e-4ec1-ad94-f53ae50e162b" class="bulleted-list"><li style="list-style-type:disc"><code>rand()</code> 함수로 만들어낸 난수는 의사 난수이므로 매번 계산하면 같은 값의 5개의 난수가 나옴</li></ul><ul id="ac546209-af1a-4e62-abe6-0fc4a8085da1" class="bulleted-list"><li style="list-style-type:disc">프로그램을 실행할 떄마다 계산이 재설정 됨</li></ul><ul id="f7a47f21-814b-4b4a-bfe3-15ac4fadb03b" class="bulleted-list"><li style="list-style-type:disc"><code>rand()</code> 함수는 개발 환경마다 다르지만 보통 0x7fff(32767)의 맥시멈 값을 반환함</li></ul><h3 id="e1aa0d77-98cf-4211-a537-804ad2fd94f7" class="">정수 난수를 사용하는 환경</h3><ul id="8c1a7d85-458d-42c1-95f8-67732197b695" class="bulleted-list"><li style="list-style-type:disc">주사위를 던지는 상황에서 1~6사이의 난수를 필요로 할 때 추가적인 설정이 필요함<pre id="d3bf5bd1-9664-42b5-8f51-8b32b7105eb9" class="code"><code>// 1~6 사이의 난수를 반환하는 산
+
+for ( int h = 0;h &lt; 3;++h) {
+  for (int i = 0;i &lt; 5;++i) {
+    int dice = ( rand() % 6 ) + 1;
+    printf( &quot;%d&quot;, dice );
+  }
+  printf( &quot;\n&quot; );
+}
+
+/*
+6 4 4 3 5
+1 3 5 3 5
+6 3 1 3 4
+*/</code></pre><ul id="a415b462-75cd-4ebe-ba12-f304aceb13bd" class="bulleted-list"><li style="list-style-type:circle"><code>rand() % 6</code>을 통해 0~5의 값을 얻고, <code>+1</code></li></ul></li></ul><ul id="702295ee-767d-4f93-b354-e24eae0f635d" class="bulleted-list"><li style="list-style-type:disc">값의 범위를 지정해서 난수를 얻을 수 있음<pre id="4828f1b3-f133-48c8-96b1-131d3ad3a03e" class="code"><code>// 난수의 범위 제한 함수
+int random_area( int min, int max )
+{
+  return ( ( rand() % ( max - min + 1 ) ) + min );
+}</code></pre><pre id="b35ee414-e6ff-4e9a-98d0-c402a598c679" class="code"><code>// 범위 난수 실행 예시
+
+int min, max;
+
+// 1 ~ 6 사이의 난수(주사위)
+min = 1;
+max = 6;
+printf( &quot;최솟값:%d ~ 최댇값:%d\n&quot;, min, max )
+for ( int h = 0;h &lt; 10;++h) {
+  printf( &quot;%d&quot;, random_area( min, max ) );
+}
+printf( &quot;\n\n&quot; )
+
+// -10 ~ 20 사이의 난수
+min = -10;
+max = 20;
+printf( &quot;최솟값:%d ~ 최댇값:%d\n&quot;, min, max )
+for ( int h = 0;h &lt; 10;++h) {
+  printf( &quot;%d&quot;, random_area( min, max ) );
+}
+
+// -40 ~ -20 사이의 난수
+min = -40;
+max = -20;
+printf( &quot;최솟값:%d ~ 최댇값:%d\n&quot;, min, max )
+for ( int h = 0;h &lt; 10;++h) {
+  printf( &quot;%d&quot;, random_area( min, max ) );
+}</code></pre><pre id="5bf21c8a-4a23-4e81-9377-3ec04f98de5a" class="code"><code>최솟값: 1 ~ 최댓값: 6
+6 6 5 5 6 5 1 1 5 3
+
+최솟값: -10  ~ 최댓값: 20
+-9 18 -10 15 0 16 9 -3 12 1
+
+최솟값: -40, 최댓값: -20
+-31 -31 -23 -34 -21 -27 -28 -20 -32</code></pre><ul id="32a214e1-df96-4dd0-a258-6f4ba4345271" class="bulleted-list"><li style="list-style-type:circle">음수도 얻을 수 있음</li></ul></li></ul><h3 id="8dbc7b92-9f7c-4ec4-9e86-b63a4cf16f38" class="">부동소수점수 난수를 사용하는 환경</h3><ul id="128e1e99-dae7-4705-8d4c-221c64946961" class="bulleted-list"><li style="list-style-type:disc"><code>rand()</code> 함수는 정수만 반환함</li></ul><ul id="89e35a08-711b-46f0-a123-f8e751ff5b2c" class="bulleted-list"><li style="list-style-type:disc">새로운 부동소수점수용 함수가 필요함</li></ul><ul id="1c9e3c46-6b15-4930-bb80-a5391e2e5501" class="bulleted-list"><li style="list-style-type:disc">반환값<ul id="d3735f80-99c7-49ee-8ae9-eaa9398f8277" class="bulleted-list"><li style="list-style-type:circle">정수와 마찬가지로 범위를 정하도록 해도 되나</li></ul><ul id="9e9688a7-8080-4aa3-96a2-76243ef8fa46" class="bulleted-list"><li style="list-style-type:circle">일반적으로 부동소수점수 난수는 0~1 사이 갑을 반환하는 것이 좋음<ul id="a3edc09b-1607-4993-ba78-aa389e03b2c4" class="bulleted-list"><li style="list-style-type:square">퍼센트(0~100%)를 표현하는데 0~1이 좋음</li></ul><ul id="12b275ef-8d16-41ce-aec6-7779549177c4" class="bulleted-list"><li style="list-style-type:square">0~N(임의의 수) 사이의 난수를 표현하려면 0~1 사이의 난수를 사용해 N을 곱하면 됨</li></ul></li></ul></li></ul><pre id="8f6a179b-3f2c-49d1-a218-ebc9e8f8c4c4" class="code"><code>#include &lt;stdio.h&gt;
+#include &lt;stdlib.h&gt;
+
+float random_float( void )
+{
+	int max = 0x7fff;
+	float value = (float)( rand() % ( max + 1 ) ) / (float)max;
+	return value;
+}
+
+int main(void) {
+	for ( int h = 0;h &lt; 10;++h ) {
+		printf(&quot;%f\n&quot;, random_float() );
+	}
+}</code></pre><pre id="0dc2caaf-1f1c-410e-aef9-2614a9677978" class="code"><code>0.001251
+0.563585
+0.193304
+0.808740
+0.585009
+0.479873
+0.350291
+0.895962
+0.822840
+0.746605</code></pre><h2 id="6fff85ee-f7ec-4947-ad5e-a6a649bc083a" class="">시드</h2><ul id="79c24765-f3ba-41a0-9371-790220a65746" class="bulleted-list"><li style="list-style-type:disc">프로그램을 실행할 때마다 난수 결과가 똑같이 나옴</li></ul><ul id="a5aaaa02-5d62-4d5e-adbc-e6677996de1f" class="bulleted-list"><li style="list-style-type:disc">의사 난수에는 &#x27;시드(seed)&#x27;라는 개념이 있음<p id="2d79b40d-85ba-4391-857a-92085ddd76b1" class="">⇒ 씨앗이라는 의미로, 의사 난수를 계산할 떄 사용하는 초기값을 말함</p></li></ul><ul id="9e4c7983-6109-4c5e-97b2-822218166363" class="bulleted-list"><li style="list-style-type:disc">시드를 결정하는 <code>srand()</code> 함수<pre id="c915107d-5a90-47b3-ae31-6e6c388209c3" class="code"><code>unsigned int seed = 1; // 1, 20, 1000.. 시드값 설정
+srand( seed ); // 시드를 결정
+
+printf( &quot;시드 : %d\n&quot;, seed );
+for ( int h = 0;h &lt; 5;++h ) {
+	printf( &quot;%d\n&quot;, rand() );
+}</code></pre><ul id="f63a2914-22a7-4604-b0c3-2b4f8fdf7aad" class="bulleted-list"><li style="list-style-type:circle">적당한 시드를 설정하면 시작할 떄마다 난수가 같아지는 결과를 피할 수 있음</li></ul><ul id="eb5841d5-3acc-49f9-a7a2-ed29a91fb081" class="bulleted-list"><li style="list-style-type:circle"><code>srand()</code>를 사용하지 않을 때 시드는 1임</li></ul><ul id="e33b9c3e-aa6a-4c11-ba39-b743e64b790e" class="bulleted-list"><li style="list-style-type:circle">애초에 진짜 난수를 얻을 수 없어서 의사 난수를 사용하는데 의사 난수의 시드로 적당한 값을 넣는다는 것은 모순임<p id="ae89fa98-4120-488b-8572-8471d2f9cc34" class="">⇒ 이를 해결할 <code>time()</code> 함수</p></li></ul></li></ul><ul id="262c6610-0d4b-489d-bdf7-8183ac8102ed" class="bulleted-list"><li style="list-style-type:disc"><code>srand()</code> 함수에 <code>time()</code> 함수 설정<pre id="95a8b713-24f8-45ad-a576-2f04e7b63b53" class="code"><code>#include &quot;time.h&quot;
+
+unsigned int seed = (unsigned int)time( NULL );
+srand( seed ); // 시드를 설정</code></pre><ul id="0f6ec9e9-419a-4d6a-a6c0-e1440f583ce9" class="bulleted-list"><li style="list-style-type:circle"><code>time()</code> 함수는 1970년 1월 1일 0시 0초부터 흐른 시각을 초로 나타내는 함수임</li></ul><ul id="57f77ed9-f94d-4c0f-8214-ab810550d676" class="bulleted-list"><li style="list-style-type:circle">시각은 매초 변하므로 <code>time()</code> 함수가 반환하는 값도 계속 바뀜</li></ul><ul id="4bd70218-8d12-4590-95fa-87b32d99fd6d" class="bulleted-list"><li style="list-style-type:circle">이러헥 변하는 함수의 반환값을 시도로 활용하면 난수의 결과를 매번 바꿀 수 있음</li></ul></li></ul></div></article></body>
+
+{% endblock post_content %}

@@ -1,0 +1,614 @@
+{% extends 'blog/all_posts/base_post.html' %}
+
+{% load static %}
+
+{% block post_title %}
+    <a href="{% url 'blog:all-posts' %}" class="font_kor">충돌</a>
+{% endblock post_title %}
+
+{% block post_content %}
+
+{% block post_date %}
+    <div class="container w-1/2 mx-auto mb-10 post_date">[ Oct 20, 2021 ]</div>    
+{% endblock post_date %}
+
+<main class="container w-1/2 mx-auto font_kor">
+
+{% include "blog/all_posts/css_post.html" %}
+  
+<!-- notion html -->
+<body><article id="4c2649a6-47e5-4aa2-98bd-dcbb4b9adbe7" class="page sans"><div class="page-body"><h3 id="39a7d3ac-84cf-4939-8df2-b7dd834ea962" class="">기본 단위인 프로그램 표현</h3><pre id="b6e311aa-eb47-4315-8047-25d4d1cd019c" class="code"><code>// 선분 구조체
+    struct Segment
+    {
+      Vector4 pos;    // 시작점
+      Vector4 vec;    // 벡터
+    };
+    
+    // 구 구조체
+    struct Sphere
+    {
+      Vector4 pos;    // 중심 좌표
+      float r;        // 반지름
+    };
+    
+    // 평면 구조체
+    struct Plane
+    {
+      float a, b, c, ,d;     // 평면의 성분
+    };
+    
+    // 삼각형 구조체
+    struct Triangle
+    {
+      Vector4 pos[3];    // 꼭짓점
+      Plane plane;       // 삼각형을 포함하는 평면
+    };</code></pre><h3 id="4ce2c72f-f293-42a8-9cd8-4ce32ab12954" class="">Segmnet, Sphere, Plane, Triangle 설정 함수</h3><pre id="70c8335c-ba29-4aec-a9b3-76691b0df5f2" class="code"><code>// Vector4 설정
+    Vector4 Vector4_Set( float x, float y, float z, float w)
+    {
+      Vector4 r;
+      r.x = x;
+      r.y = y;
+      r.z = z;
+      r.w = w;
+      return r;
+    }
+    
+    // Vector4를 벡터로 설정한다.
+    Vector4 Vector4_SetVector( float x, float y, float z)
+    {
+      // w = 0.0f로 설정한다.
+      return Vector4_Set( x, y, z, 0.0f );
+    }
+    
+    // Vector4를 좌표로 설정한다.
+    Vector4 Vector4_SetPoint( float x, float y, float z)
+    {
+      // w = 1.0f로 설정한다.
+      return Vector4_Set( x, y, z, 1.0f );
+    }
+    
+    // 선분을 설정한다.
+    Segment Segmnet_Set( float px, float py, float pz, float vx, float vy, float vz )
+    {
+      // 시작점과 벡터를 설정한다.
+      Segment r;
+      r.pos = Vector4_SetPoint( px, py, pz );
+      r.vec = Vector4_SetVector( vx, vy, vz );
+      return r;
+    }
+    
+    // 구를 설정한다.
+    Sphere Sphere_Set( float x, float y, float z, float r )
+    {
+      // 중심과 반지름을 설정한다.
+      Sphere s;
+      s.pos = Vector4_SetPoint( x, y, z );
+      s.r = r;
+      return s;
+    }
+    
+    // 평면을 설정한다(법선벡터와 점 하나를 지정한다).
+    Plane Plane_Set( Vector4 normal, Vector4 p )
+    {
+      // 법선 벡터를 정규화해 둔다.
+      Vector4 n = Vector4_Normalize( normal );
+    
+      // 평면의 a, b, c를 설정한다.
+      Plane r;
+      r.a = n.x;
+      r.b = n.y;
+      r.c = n.z
+    
+      // 평면의 d를 설정한다.
+      r.d = -( ( n.x * p.x ) + ( n.y * p.y ) + ( n.z * p.z ) );
+      return r;
+    }
+    
+    // 평면을 설정한다(세 점을 지정한다).
+    Plane Plane_Set( Vector4 p0, Vector4 p1, Vector4 p2 )
+    {
+      // 외적를 구한다.
+      Vector4 n = Vector4_Cross( p0, p1, p2 );
+    
+      // 다른 함수로 처리한다.
+      return ( Plane_Set( n, p0 ) );
+    }
+    
+    // 삼각형을 설정한다(세 점을 지정한다).
+    Triangle Triangle_Set( Vector4 p0, Vector4 p1, Vector4 p2 )
+    {
+      // 세 점을 가지고 평면을 구한다.
+      Plane plane = Plane_Set( p0, p1, p2 );
+    
+      // 삼각형의 각 성분을 설정한다.
+      Triangle r;
+      r.pos[0] = p0;
+      r.pos[1] = p1;
+      r.pos[2] = p2;
+      r.plane = plane;
+      return r;
+    }</code></pre><h2 id="f1c29b0b-56bc-49b7-ba23-152480747f53" class="">선분 x 선분</h2><h3 id="8c0c5320-dc2f-4af5-919e-ef28b2a3f74a" class="">2차원 선분의 충돌 판정</h3><pre id="5fd3463a-bd84-4bf4-8a59-f7372ac4aa62" class="code"><code>// 2차원 벡터 구조체
+    struct Vector2
+    {
+      float x, y;    // x, y 성분
+    }
+    
+    // 선분(2차원) 구조체
+    struct Segment2
+    {
+      Vector2 pos;    // 시작점
+      Vector vec;     // 벡터
+    }
+    
+    // 선분(2차원)의 충돌을 판정한다.
+    int HitCheck_Segment2_Segment2( Vector2* hit_pos, Segment2 s0, Segment2 s1 )
+    {
+      // x축 방향 벡터가 0인가
+      if ( ( s0.vec.x == 0.0f )  || ( s0.vec.y == 0.0f ) ) {
+        // x축 방향 벡터가 0일 떄는 기울기를 계산할 수 없어 특별한 상황이다. 평행하므로
+        if ( ( s0.vec.x == 0.0f ) &amp;&amp; ( s0.vec.y == 0.0f ) ) return 0;
+        Vector2 r;
+        float t0, t1;
+        if ( s0.vec.x == 0.0f ) {
+          r.x = s0.pos.x;
+          r.y = ( s1.vec.y / s1.vec.x ) * ( r.sx - s1.pos.x ) + s1.pos.y;
+    
+          // t = 0~1일 떄는 선분 s0의 안쪽
+          t0 = ( r.y - s0.pos.y ) / s0.vec.y;
+          // t = 0~1일 때는  선분 s1의 안쪽
+          t1 = ( r.x - s1.pos.x ) / s1.vec.x;
+        } else {
+          r.x = s1.pos.x;
+          r.y = ( s0.vec.y / s0.vec.x ) * ( r.x - s0.pos.x ) + s0.pos.y;
+          // t = 0~1일 때는 선분 s0의 안쪽
+          t0 - ( r.x - s0.pos.x ) / s0.vec.x;
+          // t = 0~1일 때는  선분 s1의 안쪽
+          t1 = ( r.y - s1.pos.y ) / s1.vec.y;
+        }
+        
+        if ( t0 &lt; 0.0f ) || ( t0 &gt; 1.0f ) || ( t1 &lt; 0.0f ) || ( t1 &gt; 1.0f ) ) return 0;
+        if ( hit_pos ) *hit_pos = r;
+    
+        return 1;
+      } else {
+        // 선분의 기울기를 계산한다.
+        float a0 = s0.vec.y / s0.vec.x;
+        float a1 = s1.vec.y / s1.vec.x;
+    
+        // 기울기가 같을 떄는 평행하므로 충돌하지 않는다.
+        if ( ( a0 == a1 ) || ( a0 == -a1 ) ) return 0;
+    
+        // 교점 x, y 좌표를 구한다.
+        Vector2 r;
+        r.x = ( a0 * s0.pos.x - a1 * s1.pos.x + s1.pos.y - s0.pos.y ) / ( a0 - a1 );
+        r.y = a0 * ( r.x - s0.pos.x ) + s0.pos.y;
+    
+        // 교점이 선분 안에 있는지 조사한다.
+        // t = 0~1일 때는 선분 s0의 안쪽
+        float t0 = ( r.x - s0.pos.x ) / s0.vec.x;
+        // t = 0~1일 때는 선분 s1의 안쪽
+        float t1 = ( r.x - s1.pos.x ) / s1.vec.x;
+        if ( ( t0 &lt; 0.0f ) || ( t0 &lt; 1.0f ) || ( t1 &lt; 0.0f ) || ( t1 &gt; 1.0f ) ) return 0;
+    
+        // 충돌한다는 것을 반환한다.
+        if ( hit_pos ) *hit_pos = r;
+    
+        return 1;
+      } 
+    }</code></pre><ul id="c5d2b484-6b89-458e-804a-f598a3e54627" class="bulleted-list"><li style="list-style-type:disc">&#x27;충돌했는지 아닌지&#x27;와&#x27;교점&#x27;을 반환함</li></ul><h2 id="9706bd97-793f-445c-a4d5-add333e2a98c" class="">선분 x 구</h2><h3 id="d1384872-0f17-443b-8058-faa8cf1a47c6" class="">선분 x 구의 충돌 판정</h3><pre id="08a45318-3590-4c90-9865-68c6f1a14eda" class="code"><code>// 구와 선분의 충돌을 판정한다.
+    int HitCheck_Sphere_Segment( Vector4* hit_pos, Sphere sph, Segment seg )
+    {
+      // 2차 방정식의 a, b, c를 계산한다.
+      float xa = seg.pos.x - sph.pos.x;
+      float ya = seg.pos.y - sph.pos.y;
+      float za = seg.pos.z - sph.pos.z;
+    
+      float a = ( seg.vec.x * seg.vec.x + seg.vec.y * seg.vec.y + seg.vec.z * seg.vec.z);
+      float b = 2.0f * ( seg.vec.x * xa + seg.vec.y * ya + seg.vec.z * za );
+      float c = xa * xa + ya * ya + za *  za - sph.r * sph.r
+    
+      // 2차 방정식을 풀 수 없으면 충돌하지 않았다고 판정한다.
+      float d = b * b - 4.0f * a * c;
+      if ( d &lt; 0.0f ) return 0;
+    
+      // 근의 공식을 사용한다.
+      d = sqrt( d );
+      float t0 = ( -b + d ) / ( 2.0f * a);
+      float t1 = ( -b - d ) / ( 2.0f * a);
+    
+      // 선분 안의 제일 작은 t를 탐색한다.
+      float t = 2.0f;
+      if ( ( t0 &gt;= 0 ) &amp;&amp; ( t0 &lt;= 1.0f ) &amp;&amp; ( t0 &lt; t )) t = t0;
+      if ( ( t1 &gt;= 0 ) &amp;&amp; ( t1 &lt;= 1.0f ) &amp;&amp; ( t1 &lt; t )) t = t1;
+      if ( t &gt; 1.0f ) return 0; // 선분 안에 없다.
+    
+      // 교점을 계산한다.
+      if (hit_pos) {
+        *hit_pos = AddVector4_Vector( seg.pos, Mul_Vector4_Scalar( seg.vec, t) );
+      }
+    
+      // 충돌했다는 것을 반환한다.
+      return 1;
+    }</code></pre><ul id="49bcc692-b9b3-424c-9f21-4968e5ab801b" class="bulleted-list"><li style="list-style-type:disc">&#x27;부딪쳤는지 아닌지&#x27;와 &#x27;교점&#x27;을 반환함</li></ul><h2 id="4401d1fe-ac46-4d9a-ac57-ec5b26934f7e" class="">선분 x 평면</h2><h3 id="3ab9c63d-8dfd-4575-911c-2feaa8564e37" class="">선분 x 평면(삼각형)의 충돌 판정</h3><pre id="5220b5f9-1c92-4013-8b05-23a7808e2abb" class="code"><code>// 평면과 성분의 충돌을 판정한다.
+    int HitCheck_Plane_Segment( Vector4* hit_pos, Plane pln, Segment seg )
+    {
+      // 선분의 시작점과 평면의 거리를 계산한다.
+      // float l = pln.a * seg.pos.x + pln.b * seg.pos.y + pln.c * seg.pos.z + pln.d;
+      float l = Plane_Length( pln, seg.pos );
+    
+    #if 0 // sqrt를 사용하면 무겁다.
+      // 선분의 베겉의 길이를 계산
+      // float vec_l = Vector4_Length( seg.vec )
+      float vec_l = sqrt( seg.vec.x * seg.vec.x + seg.vec.y * seg.vec.y + seg.vec.z * seg.vec.z );
+      // 거리를 비교해 평면에 절대로 닿지 않을 때는 계산하지 않는다.
+      if ( vec_l &lt; l ) return 0;
+    #else
+      // 선분 벡터 길이의 제곱곱을 계산한다.
+      float vec_l2 = ( seg.vec.x * seg.vec.x + seg.vec.y * seg.vec.y + seg.ver.z * seg.vec.z );
+      // 거리를 비교해 평면에 절대로 닿지 않을 때는 계산하지 않는다.
+      if ( vec_l2 &lt; ( l * l) ) return 0;
+      // 다음에 선분 벡터의 길이를 사용한다.
+      float vec_l = sqrt( vec_l2 );
+    #endif
+    
+      // cos를 내적을 사용해서 구한다.
+      Vector4 vec = Mul_Vector4_Scalar( seg.vec, 1.0f / vec_l );
+      // 선분 벡터를 정규화한다.
+      // (정규화된) 선분 벡터와 평면의 법선 벡터를 뒤집어 사용한다.
+      float dot = Vector4_Dot( vec, Vector4_SetVector( -pln.a, -pln.b, -pln.c) );
+    
+      // 선분이 평면에 닿을 때까지 거리를 계산해 평면에 닿는지 판단한다.
+      float pln_l = l / dot;
+      if ( pln_l &gt; vec_l ) return 0;
+    
+      // 평면과 교점을 계산한다.
+      if (hit_pos) {
+        // 정규화한 선분 벡터의 길이를 평면까지 길이로 만든다.
+        *hit_pos = Add_Vector4_Vector4( seg.pos, Mul_Vector4_Scalar( vec, pln_l ) );
+      }
+    
+      // 충돌한다는 것을 반환한다.
+      return 1;
+    }
+    
+    // 삼각형의 임의의 점이 삼각형 안에 있는가?
+    int Triangle_CheckInner( Triangle tri, Vector4 p )
+    {
+      // 임의의 점에서 각 꼭짓점으로의 벡터를 만든다.
+      Vector4 vt0 = Sub_Vector4_Vector4( tri.pos[0], p );
+      Vector4 vt1 = Sub_Vector4_Vector4( tri.pos[1], p );
+      Vector4 vt2 = Sub_Vector4_Vector4( tri.pos[2], p );
+    
+      // 삼각형의 변을 따라 벡터를 만든다.
+      Vector4 v0 = Sub_Vector4_Vector4( tri.pos[1], tri.pos[0] );
+      Vector4 v1 = Sub_Vector4_Vector4( tri.pos[2], tri.pos[1] );
+      Vector4 v2 = Sub_Vector4_Vector4( tri.pos[0], tri.pos[2] );
+    
+      // 각 외적을 계산한다.
+      Vector4 c0 = Vector4_Cross( vt0, v0);
+      Vector4 c1 = Vector4_Cross( vt1, v1);
+      Vector4 c2 = Vector4_Cross( vt2, v2);
+    
+      // 외적의 방향이 다 같은지 확인한다(내적 사용).
+      float dot0 = Vector4_Dot( c0, c1 );
+      float dot1 = Vector4_Dot( c1, c2 );
+      if ( (dot0 * dot1 ) &lt;= 0.0f ) {
+        return 0;
+      } else {
+        return 1;
+      }
+    }
+    
+    // 삼각형과 선분의 충돌을 판정한다.
+    int HitCheck_Triangle_Segment( Vector4* hit_pos, Triangle tri, Segment seg )
+    {
+      // 삼각형을 포함하는 평면과 선분으로 먼저 확인한다.
+      Vector4 hit_tmp;
+      if ( !HitCheck_Plane_Segment( &amp;hit_tmp, tri.plane, seg ) ) return 0;
+    
+      // 교점이 삼각형 밖에 있는지 확인한다.
+      if ( !Triangle_CheckInner( tri, hit_tmp ) ) {
+        // 내부에 없다.
+        return 0;
+      } else {
+        // 내부에 있다.
+        if ( hit_pos ) *hit_pos = hit_tmp;
+        return 1;
+      }
+    }</code></pre><ul id="60577369-8a82-49a5-aa4e-42b05dfe47ea" class="bulleted-list"><li style="list-style-type:disc">&#x27;충돌했는지 아닌지&#x27;와 &#x27;교점&#x27;을 반환함</li></ul><h2 id="1942eed1-4d51-4446-90f5-7a3a7a20ad0b" class="">구 x 구</h2><h3 id="00ec570d-e621-4b3b-b893-28d6911902e7" class="">구 x 구의 충돌 판정</h3><pre id="91d26227-e8c1-4a30-9ed1-40b21d4cd7bc" class="code"><code>// 두 구의 충돌을 판정한다.
+    int HitCheck_Sphere_Sphere( Vector4* hit_vec, Sphere sph0, Sphere sph1 )
+    {
+      // 중심 사이 거리의 제곱을 계산한다.
+      Vector4 vec = Sub_Vector4_Vector4( sph1.pos, sph0.pos );
+      float l2 = vec.x * vec.x + vec.y * vec.y + vec.z * vec.z;
+    
+      // 거리의 제곱을 비교해서 닿았는지 아닌지를 조사한다.
+      if ( l2 &gt; ( ( sph0.r + sph1.r ) * ( sp0.r + sph1.r ) ) ) return 0;
+    
+      // 충돌했으므로 서로 얼마나 파고들었는지 계산한다.
+      if (hit_vec) {
+        float l = ( sph0.r + sph1.r ) - sqrt( l2 ); // 파고든 정도
+        *hit_vec = Mul_Vector4_Scalar( Vector4_Normalize( vec ), l);
+      }
+    
+      // 충돌했다는 것을 반환한다.
+      return 1;
+    }</code></pre><ul id="2d89e0e8-9e54-403d-a983-a950f2d3fe13" class="bulleted-list"><li style="list-style-type:disc">&#x27;충돌했는지 아닌지&#x27;와 &#x27;교점&#x27;을 반환함</li></ul><h2 id="fdd4aad4-3b83-4baf-a556-339a0cf2cdcd" class="">구 x 평면(삼각형)</h2><h3 id="f0578d2c-7e77-4854-b2e8-88cf67717ab5" class="">구 x 평면의 충돌 판정</h3><pre id="7ec843d7-635b-4ff9-841c-1289c7cf1869" class="code"><code>// 평면과 구의 충돌을 판정한다.
+    int HitCheck_Plane_Sphere( Vector4* hit_vec, Plane pln, Sphere sph )
+    {
+      // 평면과 구 중심 사으의 거리를 판단한다.
+      float l = Plane_Length( pln, sph.pos );
+      if ( l &gt; sph.r ) return 0;
+    
+      // 얼마나 파고 들었는지 조사한다.
+      if ( hit_vec ) {
+        l = sph.r - l; // 파고 들어간 정도
+        // 평면의 법선 벡터를 사용한다.
+        *hit_vec = Vector4_SetVector( pln.a * l, pln.b *l, pln.c *l );
+      }
+    
+      // 충돌한다는 것을 반환한다.
+      return 1;
+    }</code></pre><ul id="7df9708d-34ad-4e85-a075-c9aa52fa743f" class="bulleted-list"><li style="list-style-type:disc">&#x27;충돌했는지 아닌지&#x27;와 &#x27;파고들어 간 정도와 방향&#x27;을 반환함</li></ul><h3 id="09b6dab1-67b3-47e3-8ba0-d39ee5dc5fd0" class="">구 x 삼각형의 충돌 판정</h3><pre id="865ab418-7fd2-41b3-bae8-b6d590863c05" class="code"><code>// 삼각형과 구의 충돌을 판정한다.
+    int HitCheck_Triangle_Sphere( Triangle tri, Sphere sph )
+    {
+      // 삼각형을 포함하는 평면과 구를 우선 확인한다.
+      if ( !HitCheck_Plane_Sphere( NULL, tri.plane, sph ) ) return 0;
+    
+      // 삼각형 변이 구를 관통하는가?
+      Vector4 vec;
+      vec = Sub_Vector4_Vector4( tri.pos[1], tri.pos[0] );
+      if ( HitCheck_Sphere_Segment( NULL, sph, Segment_Set( tri.pos[0].x, tri.pos[0].y, tri.pos[0].z, vec.x, vec.y, vec.z ) ) ) return 1;
+      vec = Sub_Vector4_Vector4( tri.pos[2], tri.pos[1] );
+      if ( HitCheck_Sphere_Segment( NULL, sph, Segment_Set( tri.pos[1].x, tri.pos[1].y, tri.pos[1].z, vec.x, vec.y, vec.z ) ) ) return 1;
+      vec = Sub_Vector4_Vector4( tri.pos[0], tri.pos[2] );
+      if ( HitCheck_Sphere_Segment( NULL, sph, Segment_Set( tri.pos[2].x, tri.pos[2].y, tri.pos[2].z, vec.x, vec.y, vec.z ) ) ) return 1;
+      
+      // 구가 삼각형 중앙을 파고 들었는가?
+      // 구 중심부터 평면으로 수선을 내리려고 평면의 법선 벡터를 사용한다.
+      vec = Vector4_SetVector( -tri.plane.a * sph.r, -tri.plane.b * sph.r, -tri.plane.c * sph.r );
+      if ( HitCheck_Triangle_Segment( NULL, tri, Segment_Set( sph.pos.x, sph.pos.y, sph.pos.z, vec.x, vec.y, vec.z ) ) ) return 1;
+    
+      // 충돌하지 않았다는 것을 반환한다.
+      return 0;
+    }</code></pre><ul id="93fe0585-d2b0-4b5d-a4e8-7cce7869a94e" class="bulleted-list"><li style="list-style-type:disc">&#x27;충돌했는지&#x27;만 반환함</li></ul><h2 id="5bb1f133-373d-458b-bc10-3114d0086be3" class="">평면 x 평면</h2><h3 id="a198b8eb-e9fc-4cb8-9067-6868973d142c" class="">평면 x 평면의 충돌 판정</h3><pre id="1e5de840-1042-483d-b69e-3b691e2c4870" class="code"><code>// 평면끼리 충돌을 판정한다.
+    int HitCheck_Plane_Plane( Segment* cross_seg, Plane pln0, Plane pln1 )
+    {
+      // 평면의 법선 벡터를 사용해서 평면이 평행인지 확인한다.
+      flot dot = ( pln0.a * pln1.a ) + ( pln0.b * pln1.b ) + ( pln0.c * pln1.c );
+      if ( ( dot &gt;= 1.0f ) || ( dot &lt;= -1.0f ) ) return 0;
+    
+      // 교차하는 선분이 필요하므로 만들어 둔다.
+      if ( corss_seg ) {
+        // 외적을 사용해서 교차하는 선분 벡터를 만든다.
+        Vector4 vec = Vector4_Cross( Vector4_SetVector( pln0.a, pln0.b, pln0. c), Vector4_SetVector( pln1.a, pln1.b, pln1.c ) );
+    
+        // 교차하는 선분의 시작점을 계산한다.
+        Vector4 pos;
+        if ( vec.z != 0.0f ) {
+          pos = Vector4_SetPoint(
+            ( pln0.b * pln1.d - pln1.b * pln0.d ) / vec.z,
+            ( pln1.a * pln0.d - pln0.a * pln1.d ) / vec.z,
+            0.0f
+          );
+        }
+        else if ( vec.y != 0.0f ) {
+          pos = Vector4_SetPoint(
+            ( pln1.c * pln0.d - pln0.c * pln1.d ) / vec.y,
+            0.0f,
+            ( pln0.a * pln1.d - pln1.a * pln0.d ) / vec.y
+          );
+        } else {
+          pos = Vector4_SetPoint(
+            0.0f,
+            ( pln0.c * pln1.d - pln1.c * plno.d ) / vec.x,
+            ( pln1.b * pln0.d - pln0.b * pln1.d ) / vec.x
+          );
+        }
+    
+        // 선분을 설정한다.
+        *cross_seg = Segment_Set( pos.x, pos.y, pox.z, vec.x, vec.y, vec.z );
+      }
+    
+      // 충돌한다는 것을 반환한다.
+      return 1;
+    }</code></pre><h3 id="b5e9837c-e520-4ec3-aaa0-93a6fbcedc0e" class="">삼각형 x 평면의 충돌 판정</h3><pre id="2558395b-3397-40c7-86c2-d3ae2871077f" class="code"><code>// 평면과 삼각형의 충돌을 판정한다.
+    int HitCheck_Plane_Triangle( Plane pln, Triangle tri )
+    {
+      // 삼각형의 첫 번째 점이 평면의 앞뒤 중 어디에 있는지 확인한다.
+      int side0 = Plane_Side( pln. tri.pos[0] );
+    
+      // 삼각형의 두 번째 점이 앞뒤 중 어디에 있는지 학인하고 충돌을 판정한다.
+      int side1 = Plane_Side( pln, tri.pos[1] );
+      // 점들이 앞뒤에 나뉘어 있으므로 충돌한다.
+      if ( ( side0 &amp;&amp; !side1 ) || ( !side0 &amp;&amp; side1 ) ) return 1;
+      // 삼각형의 세 번쨰 점이 평면의 앞뒤 중 어디에 있는지 확인하고 충돌을 판정한다.
+      int side2 = Plane_Side( pln, tri.pos[2] );
+      // 점들이 앞 뒤에 나뉘어 있으므로 충돌한다.
+      if ( ( side1 &amp;&amp; !side2 ) || ( !side1 &amp;&amp; side2 ) ) return 1;
+      // 충도하지 않음을 반환한다.
+      return 0;
+    }</code></pre><h3 id="636f6898-5ee9-4d16-8427-c2ade1de06f1" class="">삼각형 x 삼격형의 충돌 판정</h3><pre id="3f86a74d-6d03-45cd-ad9d-67d38bab0a4a" class="code"><code>// 삼각형끼리의 충돌을 판정한다.
+    int HitCheck_Triangle_Triangle( Triangle tri0, Triangle tri1 )
+    {
+      // 한쪽 삼각형의 두 변이 다른 삼각형을 통과하는가?
+      Vector4 vec0_0 = Sub_Vector4_Vector4( tri0.pos[1], tri0.pos[0] );
+      Vector4 vec0_1 = Sub_Vector4_Vector4( tri0.pos[2], tri0.pos[1] );
+      Vector4 vec0_2 = Sub_Vector4_Vector4( tri0.pos[0], tri0.pos[2] );
+      int hit0_0 = HitCheck_Triangle_Segment( NULL, tri1, Segment_Set( tri0.pos[0].x, tri0.pos[0].y, tri0.pos[0].z, vec0_0.x, vec0_0.y, vec0_0.z ) );
+      int hit0_1 = HitCheck_Triangle_Segment( NULL, tri1, Segment_Set( tri0.pos[1].x, tri0.pos[1].y, tri0.pos[1].z, vec0_1.x, vec0_1.y, vec0_1.z ) );
+      int hit0_0 = HitCheck_Triangle_Segment( NULL, tri1, Segment_Set( tri0.pos[2].x, tri0.pos[2].y, tri0.pos[2].z, vec0_2.x, vec0_2.y, vec0_2.z ) );
+      if ( ( hit0_0 &amp;&amp; hit0_1 ) || ( hit0_1 &amp;&amp; hit0_2 ) || ( hit0_2 &amp;&amp; hit0_0 ) ) return 1;
+    
+      // 삼각형을 바꿔서 두 변을 확인한다.
+      Vector4 vec1_0 = Sub_Vector4_Vector4( tri1.pos[1], tri1.pos[0] );
+      Vector4 vec1_1 = Sub_Vector4_Vector4( tri1.pos[2], tri1.pos[1] );
+      Vector4 vec1_2 = Sub_Vector4_Vector4( tri1.pos[0], tri1.pos[2] );
+      int hit1_0 = HitCheck_Triangle_Segment( NULL, tri0, Segment_Set( tri1.pos[0].x, tri1.pos[0].y, tri1.pos[0].z, vec1_0.x, vec1_0.y, vec1_0.z ) );
+      int hit1_1 = HitCheck_Triangle_Segment( NULL, tri0, Segment_Set( tri1.pos[1].x, tri1.pos[1].y, tri1.pos[1].z, vec1_1.x, vec1_1.y, vec1_1.z ) );
+      int hit1_0 = HitCheck_Triangle_Segment( NULL, tri0, Segment_Set( tri1.pos[2].x, tri1.pos[2].y, tri1.pos[2].z, vec1_2.x, vec1_2.y, vec1_2.z ) );
+      if ( ( hit1_0 &amp;&amp; hit1_1 ) || ( hit1_1 &amp;&amp; hit1_2 ) || ( hit1_2 &amp;&amp; hit1_0 ) ) return 1;
+    
+      // 서로 한 변씩 통과하고 있는지 조사한다.
+      if ( ( hit0_0 || hit0_1 || hit0_2 ) &amp;&amp; ( hit1_0 || hit1_1 || hit1_2 ) ) return 1;
+    
+      // 충돌하지 않음을 반환한다.
+      return 0;
+    }</code></pre><h2 id="8c3de8ac-7eb5-4d6b-a9e1-5b76032f63c2" class="">충돌 판정의 고속화</h2><ul id="49829d93-a1a3-4173-b6ce-8608989589cc" class="bulleted-list"><li style="list-style-type:disc">충돌 판정은 게임에서 중요한 부분이면서 많은 처리가 필요한 부분이므로 고속화가 매우 중요함. 조금이라도 계산을 가볍게 만들려는 노력을 하고 있음</li></ul><h3 id="5c56aeff-ff22-4cb7-85e1-fed43b69c43f" class="">선분 x 삼각형에 앞뒤 확인 추가</h3><pre id="9761c3a8-998e-4cd4-bb5f-99dbc8717fad" class="code"><code>// 평면과 선분의 충돌을 판정한다.
+    int HitCheck_Plane_Segment( Vector4* hit_pos, Plane pln, Segment seg )
+    {
+      // 앞뒤 확인
+      // 평면의 법선 벡터와 선분의 벡터 내적(0이상이면 뒷면에 진입)
+      float dot_check = ( pln.a * seg.vec + pln.b * seg.vec.y + pln.c * seg.vec.z );
+      if ( dot_check &gt;= 0.0f ) return 0;
+      ...
+      ...
+      ...
+    }</code></pre><ul id="520d78cb-8a98-4db1-b993-2a6cfe34b5ac" class="bulleted-list"><li style="list-style-type:disc">판정을 시작할 때 확인을 하고, 뒷면에서 충돌할 가능성이 있다고 판단되면 빨리 충돌하지 않았다는 결과를 반환함</li></ul><ul id="4801ee3c-af7e-4d6c-9b72-e3f6dc487bfb" class="bulleted-list"><li style="list-style-type:disc">이렇게 충돌을 앞면으로 한정시켜서 평면과 삼각형의 충돌 판정을 고속화할 수 있음</li></ul><h2 id="d47eede8-b2bb-4d47-a7f9-ad8072492a1b" class="">바운딩</h2><ul id="9bf00dfb-ce4b-41e9-a964-b195835aa42e" class="bulleted-list"><li style="list-style-type:disc">바운딩(감싸는 물체)를 통해 멀리 떨어진 물체는 충돌 판정을 무시하여 처리를 줄일 수 있음</li></ul><ul id="04b7aa0b-6b26-4297-a0e7-eea8cf3f960f" class="bulleted-list"><li style="list-style-type:disc">감싸는 물체를 바운딩 볼륨(bounding volume)이라고 하며, 기본적으로 구와 상자를 이용함</li></ul><h2 id="e662a0b5-aedb-437b-8a0b-0e84aa989d3a" class="">바운딩 스피어</h2><ul id="93edd5cb-8547-40b2-9a07-a4582ba5df21" class="bulleted-list"><li style="list-style-type:disc">구 형태의 바운딩 볼륨을 바운딩 스피어(bounding sphere)라고 함</li></ul><ul id="ed28f651-94ad-4e0a-ade7-c05ec675ba01" class="bulleted-list"><li style="list-style-type:disc">단순한 형태의 충돌을 판정할 떄 구는 다루기 쉬운 형태임. 바운딩 스피어도 마찬가지</li></ul><ul id="def6bae9-2230-4eac-8437-06ae2c55ac76" class="bulleted-list"><li style="list-style-type:disc">하지만 선분과 구의 충돌은 약간 복잡한 처리로, 바운딩 스피어를 다룰 때는 바운딩 스피어끼리 주로 판정을 진행함</li></ul><h3 id="d2675575-796d-4259-a15c-63edf38f0f26" class="">바운딩 스피어 구조체</h3><pre id="ad6b0b68-199e-4922-b5b0-8c786b3fd07a" class="code"><code>struct BoundingSphere
+    {
+      Vector4 pos;
+      float r;
+    }</code></pre><h3 id="d95671f3-c144-4cd6-920e-ad5c9e603dc7" class="">바운딩 스피어끼리 충돌 확인</h3><pre id="df69df63-5189-48d8-8653-8de17a163967" class="code"><code>// 바운딩 스피어끼리 충돌 확인
+    int BoundingCheck_BoungingSphere_BoundingSphere ( BoundingSphere bs0, BoundingSphere bs1)
+    {
+      // 중심 사이 거리의 제곱을 계산한다.
+      Vector4 vec = Sub_Vector4_Vector4( bs1.pos, bs0.pos );
+      float l2 = vec.x * vec.x + vec.y * vec.y + vec.z * vec.z;
+    
+      // 거리의 제곱을 비교해서 닿는지 조사한다.
+      if ( l2 &gt; ( ( bs0.r + bs1.r ) * ( bs0.r + bs1.r ) ) ) {
+        return 0;
+      } else {
+        return 1;
+      }
+    }</code></pre><ul id="9b8a0496-ab6b-4d9b-b95f-83f3ab39a1b7" class="bulleted-list"><li style="list-style-type:disc">연산이 간단해 메모리를 적게 사용이 가능한 반면에 물체를 감쌀때 빈 공간이 생기기 쉬움</li></ul><h2 id="b9bc9639-9ecf-4c4d-a0c5-322d27c4744d" class="">바운딩 박스</h2><ul id="d7692995-1f8d-4e37-b2ea-03f22e9aad05" class="bulleted-list"><li style="list-style-type:disc">상자 형태의 바운딩 볼륨을 바운딩 박스(bounding box)라고 함</li></ul><ul id="7ee84903-396d-4e83-a8b5-15bc78aaa724" class="bulleted-list"><li style="list-style-type:disc">구와 달리 빈틈없이 감싼다는 점에서 좋음</li></ul><ul id="51fd26be-57a3-4104-ae77-ac2bfac30d4d" class="bulleted-list"><li style="list-style-type:disc">두 가지 종류의 바운딩 박스<ul id="2a70a557-e080-4829-a90d-85cca4e444c7" class="bulleted-list"><li style="list-style-type:circle">AABB(Axis-Aligned Bounding Box) : x, y, z축에 평행한 박스</li></ul><ul id="c200553d-cfe5-4700-8956-f2760811b48a" class="bulleted-list"><li style="list-style-type:circle">OBB(Oriented Bounding Box) : 방향이 변하는 유연한 형태로, 처리가 다소 복잡함</li></ul></li></ul><h3 id="5561b62f-7734-4555-96f3-33c2df683ebb" class="">AABB 구조체</h3><pre id="fafb88ad-b7e1-4ea8-945e-da7796e3bec7" class="code"><code>// 바운딩 박스(AABB) 구조체
+    struct AABB {
+      Vector4 min;  // 좌표 최솟값
+      Vector4 max;  // 좌표 최댓값
+    }</code></pre><ul id="9d1ccd35-5909-4d88-bf75-2381ef01c26e" class="bulleted-list"><li style="list-style-type:disc">x, y, z축에 평행한 상자라는 특징을 통해 8개의 점 모두를 설정하는 것이 아닌 최솟값과 최댓값 좌표를 활용할 수 있음</li></ul><h3 id="d7bd341b-d32a-44a4-89ab-2da1e161d9d8" class="">AABB 프로그램</h3><pre id="4e9079c4-0e23-4cdf-af3b-b4a2ff22f0f8" class="code"><code>// AABB 선분의 바운딩을 확인한다.
+    int BountingCheck_AABB_Segment( AABB aabb, Segment seg )
+    {
+      // 결과 저장용
+      float t_min, t_max;
+    
+      // x축 영역을 확인한다.
+      float tx_min, tx_max;
+      if ( seg.vec.x == 0.0f ) {
+        // 선분 벡터가 0일 때는 특별한 상황
+        if ( ( seg.pos.x &lt; aabb.min.x ) || ( seg.pos.x &gt; aabb.max.x ) ) return 0;
+          tx_min = 0.0f;
+          tx_max = 1.0f;
+      } else {
+        // x축의 영역을 결정한다.
+        float t0 = ( aabb.min.x - seg.pos.x ) / seg.vec.x;
+        float t1 = ( aabb.max.x = seg.pos.x ) / seg.vec.x;
+        if ( t0 &lt; t1 ) {
+          tx_min = t0;
+          tx_min = t1;
+        } else {
+          tx_min = t1;
+          tx_min = t0;
+        }
+        if ( ( tx_max &lt; 0.0f ) || ( tx_min &gt; 1.0f ) ) return 0;
+        // x축 영역을 벗어났다.
+      }
+      t_min = tx_min;
+      t_max = tx_max;
+    
+      // y축 영역을 확인한다.
+      float ty_min, ty_max;
+      if ( seg.vec.y == 0.0f ) {
+        // 선분 벡터가 0일 때는 특별한 상황
+        if ( ( seg.pos.y &lt; aabb.min.y ) || ( seg.pos.y &gt; aabb.max.y ) ) return 0;
+          ty_min = 0.0f;
+          ty_max = 1.0f;
+      } else {
+        // y축의 영역을 결정한다.
+        float t0 = ( aabb.min.y - seg.pos.y ) / seg.vec.y;
+        float t1 = ( aabb.max.y = seg.pos.y ) / seg.vec.y;
+        if ( t0 &lt; t1 ) {
+          ty_min = t0;
+          ty_min = t1;
+        } else {
+          ty_min = t1;
+          ty_min = t0;
+        }
+        if ( ( ty_max &lt; 0.0f ) || ( ty_min &gt; 1.0f ) ) return 0;
+        // y축 영역을 벗어났다.
+      }
+      if ( ( t_max &lt; ty.min ) || ( t_min &gt; ty.max ) ) return 0;
+      // x축과 y축 영역이 겹치지 않는다.
+      if ( t_min &lt; ty_min ) t_min = ty_min;
+      if ( t_max &lt; ty_max ) t_max = ty_max;
+      
+      // z축 영역을 확인한다.
+      float tz_min, tz_max;
+      if ( seg.vec.z == 0.0f ) {
+        // 선분 벡터가 0일 때는 특별한 상황
+        if ( ( seg.pos.z &lt; aabb.min.z ) || ( seg.pos.z &gt; aabb.max.z ) ) return 0;
+          tz_min = 0.0f;
+          tz_max = 1.0f;
+      } else {
+        // z축의 영역을 결정한다.
+        float t0 = ( aabb.min.z - seg.pos.z ) / seg.vec.z;
+        float t1 = ( aabb.max.z = seg.pos.z ) / seg.vec.z;
+        if ( t0 &lt; t1 ) {
+          tz_min = t0;
+          tz_min = t1;
+        } else {
+          tz_min = t1;
+          tz_min = t0;
+        }
+        if ( ( tz_max &lt; 0.0f ) || ( tz_min &gt; 1.0f ) ) return 0;
+        // z축 영역을 벗어났다.
+      }
+      if ( ( t_max &lt; tz.min ) || ( t_min &gt; tz.max ) ) return 0;
+      // x축과 y축 영역이 겹치지 않는다.
+      if ( t_min &lt; tz_min ) t_min = tz_min;
+      if ( t_max &lt; tz_max ) t_max = tz_max;
+    
+      // 공통 영역을 확인한다.
+      if ( ( t_min &gt; 1.0f ) || ( t_max &lt; 0.0f ) ) {
+        return 0;
+      } else {
+        return 1;
+      }
+    }</code></pre><h3 id="ef10b9f7-eff3-439a-b528-5c1a80c122d5" class="">OBB 구조체</h3><pre id="335c569e-ca0a-46f7-9338-3ea52ce7f3e7" class="code"><code>// 바운딩 박스(OBB) 구조체
+    struct OBB {
+      Matrix4x4 m[2];  // 박스에 사용할 행렬
+    }</code></pre><ul id="f2831fc0-86b1-4e76-b0d4-c8637b0f38a8" class="bulleted-list"><li style="list-style-type:disc">OBB 또한 직육면체이므로, AABB를 임의의 방향으로 회전과 평행 이동하기 위해 행렬을 사용함</li></ul><ul id="a1d5548a-9b3f-4ede-81ce-9f7f9ea093af" class="bulleted-list"><li style="list-style-type:disc">전반적인 행렬 흐름<p id="4435bebc-7d4e-4132-8e45-0bafe9eec213" class="">⇒ 크기가 1인 정육면체를 확대/축소, 회전, 평행이동을 행렬로 표현</p></li></ul><h3 id="287e552e-d9ae-443d-a66a-6564637eff70" class="">OBB 작성 함수</h3><pre id="c9ccd296-895c-4042-9e88-43034510cce5" class="code"><code>// 바운딩박스(OBB)를 설정한다.
+    OBB OBB_Set( Vector4 pos, Vector4 rot, Vector4 scale )
+    {
+      // 행렬을 작성한다.
+      Matrix4x4 r;
+      r = Matrix4x4_Scale( scale.x, scale.y, scale.z ); // 확대 및 축소
+      // 회전 z축
+      r = Matrix4x4_Mul_Matrix4x4( Matrix4x4_RotateZ( rot.z ), r );
+      // 회전 y축
+      r = Matrix4x4_Mul_Matrix4x4( Matrix4x4_RotateY( rot.y ), r );
+      // 회전 x축
+      r = Matrix4x4_Mul_Matrix4x4( Matrix4x4_RotateX( rot.x ), r );
+      // 평행이동
+      r = Matrix4x4_Mul_Matrix4x4( Matrix4x4_Translate( pos.x, pos.y, pos.z ), r);
+    
+      // OBB를 행렬로 설정한다.
+      OBB obb;
+      obb.m[0] = r;
+      obb.m[1] = Matrix4x4_Inverse( r ); // 역행렬도 저장한다.
+      return obb;
+    }</code></pre><ul id="cc3de445-292e-4207-a26e-8f261158e27a" class="bulleted-list"><li style="list-style-type:disc">0BB를 만들기 전 원래 살태의 상자는 중심이 원점에 있는 크기가 1인 정육면제 → AABB</li></ul><ul id="d1fe51c1-3a2f-446d-8294-508661624450" class="bulleted-list"><li style="list-style-type:disc">역행렬을 이용하면 OBB에서 원래 AABB로 변환할 수 있음</li></ul><ul id="67e48b78-7dca-4bef-bcfb-a1de0f21bcea" class="bulleted-list"><li style="list-style-type:disc">확인 대상이 되는 선분도 똑같은 역행렬을 사용하면, AABB로 변환한 좌표계의 선분으로 바뀜</li></ul><ul id="fe307cf5-9891-4a8d-954d-62773715ae55" class="bulleted-list"><li style="list-style-type:disc">이상태에서 AABB 계산이 가능함</li></ul><ul id="93e8bad8-4f9b-433a-aef6-f6e952a501e5" class="bulleted-list"><li style="list-style-type:disc">역행렬을 사용하기 전에 역행렬을 구하는데 드는 계산량이 많아서 부하가 크게 걸리므로, OBB 구조체에 역행렬을 포함시켜 OBB 설정함수에서 역행렬도 함께 계산함<p id="d929fafb-eea9-4265-8937-cd81e17ddbff" class="">⇒ 계산할 때마다 역행렬을 계산하지 않아도 됨 (OBB 구조체에 행렬이 2개인 이유)</p></li></ul><h3 id="8cf9aeb7-c924-4526-bf49-74fe6ceeda8c" class="">OBB 충돌 판정 함수</h3><pre id="f994107f-dad8-4acf-9310-5863ae5e3166" class="code"><code>// OBB와 선분의 바운딩을 판정한다.
+    int BountingCheck_OBB_Segment( OBB obb, Segment seg )
+    {
+      // 선분에 OBB의 역행렬을 곱한다.
+      seg.pos = Matrix4x4_Mul_Vector4( obb.m[1], seg.pos );
+      seg.vec = Matrix4x4_Mul_Vector4( obb.m[1], seg.vec );
+    
+      // 원점에 있는 크기 1인 AABB와 충돌을 판정한다.
+      AABB aabb;
+      aabb.min = Vector4_SetPoint( -0.5f, -0.5f, -0.5f );
+      aabb.max = Vector4_SetPoint( 0.5f, 0.5f, 0.5f );
+      return BoundingCheck_AABB_Segment( aabb, seg );
+    }</code></pre><h2 id="d1034920-83de-420b-bb8b-d25d45d7cfe1" class="">영역 분할</h2><ul id="95f4980a-137d-49c0-8864-339757c28986" class="bulleted-list"><li style="list-style-type:disc">바운딩보다 조금 더 큰 단위에서 처리량을 줄이는 방법</li></ul><ul id="9e8e9f38-46fb-4a81-b476-35940c5b116e" class="bulleted-list"><li style="list-style-type:disc">움직이지 않는 영역에서 공간을 분할하여, 각 영역에 속하는 지형(장애물)을 분류</li></ul><ul id="351717c6-1a68-4e25-bfbf-3e9f3c2c44b3" class="bulleted-list"><li style="list-style-type:disc">충돌 판정을 할 때 속해 있는 영역을 판단하고, 그 영역에 속해있는 지형만을 판정함</li></ul><p id="5a72975a-287b-4f36-8825-9af53fc0f59d" class="">
+    </p></div></article></body>
+
+{% endblock post_content %}

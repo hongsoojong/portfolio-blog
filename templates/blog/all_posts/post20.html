@@ -1,0 +1,153 @@
+{% extends 'blog/all_posts/base_post.html' %}
+
+{% load static %}
+
+{% block post_title %}
+    <a href="{% url 'blog:all-posts' %}" class="font_kor">각도</a>
+{% endblock post_title %}
+
+{% block post_content %}
+
+{% block post_date %}
+    <div class="container w-1/2 mx-auto mb-10 post_date">[ Oct 09, 2021 ]</div>    
+{% endblock post_date %}
+
+<main class="container w-1/2 mx-auto font_kor">
+
+{% include "blog/all_posts/css_post.html" %}
+  
+<!-- notion html -->
+<body><article id="07851dd5-7082-4669-9436-812527b1d928" class="page sans"><div class="page-body"><h2 id="e1c19ad9-84ca-4304-a405-0bc6a56cd499" class="">삼각 함수</h2><h3 id="f9a1e8f8-b60d-432a-b774-5451c811830e" class="">sin, cos, tan의 프로그램 처리</h3><pre id="b42167fa-2c76-46f6-8817-10bc273ac0ca" class="code"><code>#include &lt;math.h&gt; /* sin, cos, tan 사용을 위해 include 해야함 */
+
+    // float로 삼각함수 계산
+    float sin_f = sinf( 45.0f );
+    float cos_f = cosf( 45.0f );
+    float tan_f = tanf( 45.0f );
+    
+    //double로 삼각함수 계산
+    double sin_d = sin( 45.0 );
+    double cos_d = cos( 45.0 );
+    double tan_d = tan( 45.0 );
+    
+    // 결과 표시
+    printf( &quot;sin 45 (float) : %f\n&quot;, sin_f );
+    printf( &quot;cos 45 (float) : %f\n&quot;, cos_f );
+    printf( &quot;tan 45 (float) : %f\n&quot;, tan_f );
+    printf( &quot;sin 45 (double) : %f\n&quot;, sin_d );
+    printf( &quot;cos 45 (double) : %f\n&quot;, cos_d );
+    printf( &quot;tan 45 (double) : %f\n&quot;, tan_d );</code></pre><pre id="65aecff5-0a18-4de0-9dec-a91d9613009b" class="code"><code>sin 45 (float) : 0.850904
+    cos 45 (float) : 0.525322
+    tan 45 (float) : 1.619775
+    sin 45 (double) : 0.850904
+    cos 45 (double) : 0.525322
+    tan 45 (double) : 1.619775</code></pre><ul id="700212ca-880e-49c9-beb7-cf81f5a2ac1b" class="bulleted-list"><li style="list-style-type:disc">실제 <code>sin45도</code>, <code>cos45</code>도는 약 0.707106이고, <code>tan45도</code>는 1인데 프로그램 결과는 전혀 다름</li></ul><h3 id="36733076-55f0-46ca-a70e-ebee15a5afd5" class="">호도법</h3><ul id="4e4b1036-899e-4684-941d-dd1db2b5553f" class="bulleted-list"><li style="list-style-type:disc">컴퓨터는 우리가 사용하는 &#x27;도&#x27;를 사용할 수 없음</li></ul><ul id="dd47a2b6-61dd-47c7-9745-69847b463200" class="bulleted-list"><li style="list-style-type:disc">호도법으로 표현된 각도값을 전달해야함</li></ul><ul id="af31629c-04e6-4d30-a727-20cfe10cf62d" class="bulleted-list"><li style="list-style-type:disc">호의 길이로 판단 → 360도 기준 2 X 원주율(π) X 반지름<p id="7733c541-babb-402d-9e91-d276dc809147" class="">⇒ 반지름  1일 때 180도 기준 : π</p></li></ul><ul id="9d7f2491-0328-4ec9-8c57-23f58268944e" class="bulleted-list"><li style="list-style-type:disc">즉, 호도법은 &#x27;파이&#x27;를 사용해 180도 각도를 표시하는 것!</li></ul><ul id="35842dbe-2ba8-4909-932c-fdf8822908c2" class="bulleted-list"><li style="list-style-type:disc">호도법 표기일 때 영문표기로 rad(radian; 라디안)을 사용</li></ul><figure class="block-color-gray_background callout" style="white-space:pre-wrap;display:flex" id="182fa899-a512-44a6-a1a9-a7e036e7348d"><div style="font-size:1.5em"><span class="icon">💡</span></div><div style="width:100%"><strong> 호도법 : 라디안 표기 / 도수법 : 각도 표기</strong></div></figure><h3 id="c10e2265-1879-4ecb-910c-def4dcd51391" class="">sin, cos, tan의 프로그램 처리 : 라디안 표기 사용</h3><pre id="16a2b073-4dfa-4b6b-901d-def0575daf5e" class="code"><code>#define _USE_MATH_DEFINES /* Visual C++에서는 사용하기 전에 필요함 */
+    #include &lt;math.h&gt; /* M_PI 사용을 위해 include 해야함 */
+    
+    // float로 삼각함수 계산
+    float rad_f = M_PI / 4.0f
+    float sin_f = sinf( rad_f );
+    float cos_f = cosf( rad_f );
+    float tan_f = tanf( rad_f );
+    
+    //double로 삼각함수 계산
+    double rad_d = M_PI / 4.0;
+    double sin_d = sin( rad_d );
+    double cos_d = cos( rad_d );
+    double tan_d = tan( rad_d );
+    
+    // 결과 표시
+    printf( &quot;sin 45 (float) : %f\n&quot;, sin_f );
+    printf( &quot;cos 45 (float) : %f\n&quot;, cos_f );
+    printf( &quot;tan 45 (float) : %f\n&quot;, tan_f );
+    printf( &quot;sin 45 (double) : %f\n&quot;, sin_d );
+    printf( &quot;cos 45 (double) : %f\n&quot;, cos_d );
+    printf( &quot;tan 45 (double) : %f\n&quot;, tan_d );</code></pre><pre id="1d741af9-7d1a-48f7-841c-d5a26fdb8be8" class="code"><code>sin 45 (float) : 0.707107
+    cos 45 (float) : 0.707107
+    tan 45 (float) : 1.000000
+    sin 45 (double) : 0.707107
+    cos 45 (double) : 0.707107
+    tan 45 (double) : 1.000000</code></pre><h3 id="ff7ac4f6-ab97-406b-9e03-b75d4088d727" class="">각도 표기로 변환하는 매크로</h3><pre id="5f24b09b-5ad7-4612-9d68-2d7023819dc2" class="code"><code>#define _USE_MATH_DEFINES
+    #include &lt;math.h&gt;
+    
+    // 각도 표기 &gt; 라디안 표기 변환용
+    #define DEGREE_RADIAN(_deg)    ( M_PI*(_deg)/180.0f )
+    
+        // float로 삼각 함수 계산
+        float rad_f = DEGREE_RADIAN( 45.0f );
+        float sin_f = sinf( rad_f );
+        float cos_f = cosf( rad_f );
+        float tan_f = tanf( rad_f );
+    
+        // double로 삼각 함수 계산
+        double rad_d = DEGREE_RADIAN( 45.0 );
+        double sin_d = sinf( rad_d );
+        double cos_d = cosf( rad_d );
+        double tan_d = tanf( rad_d );</code></pre><h3 id="88c48d39-4415-4bc2-9539-b408f27ae343" class="">각도의 정규화</h3><ul id="3d44bb42-88e4-41c9-b7bf-c6b6ea92d779" class="bulleted-list"><li style="list-style-type:disc">각도 값(프로그램이므로 라디안)을 0 ~ 2π(0 ~ 360도) 또는 -π ~ π(-180도 ~ 180도)로 만들어 360도 범위에서 각도를 제한 처리한다는 것을 의미함</li></ul><ul id="dbd6f795-d6d9-47ff-82c0-65f68690c488" class="bulleted-list"><li style="list-style-type:disc">예를 들어 0 ~ 2π일 때, 3π는 1π로 바뀌고, -π/2(-90도)는 3π/2(270도)로 바뀜</li></ul><pre id="0780b3d3-7a00-4877-a0c3-fb6c100cbacc" class="code"><code>// float rad = -0.5f * (float)M_PI;
+                    // rad에는 적당한 각도가 들어간다.
+    
+        rad = fmodf( rad, 2.0f * (float)M_PI );
+                    // 각도를 -2π ~ 2π 범위에 넣는다.
+        if ( rad &lt; 0.0f ) rad += 2.0f * (float)M_PI;
+                    // 각도를 0 ~ 2π 범위에 넣는다.</code></pre><ul id="13bcfe84-9a81-4519-9f16-d263e0af5988" class="bulleted-list"><li style="list-style-type:disc">물체를 회전시키는 프로그램 → 물체의 각도를 계속 정해주는(계속 더해주는) 처리<ul id="e54d45e3-d07c-4c27-95bc-32c28c7aef28" class="bulleted-list"><li style="list-style-type:circle">각도는 라디안으로 float 값으로 저장</li></ul><ul id="c97fc747-1202-4e0a-b610-def0dbebc64f" class="bulleted-list"><li style="list-style-type:circle">회전 물체의 초깃값은 0이고 float은 계속해서 각도가 더해짐</li></ul><ul id="0fe19d08-9ccd-4056-9d6d-0b13d9086242" class="bulleted-list"><li style="list-style-type:circle">당연히 float으로 관리하던 각도 값도 커짐</li></ul><ul id="b1c39e07-dac2-41d1-bf8c-17496c78520a" class="bulleted-list"><li style="list-style-type:circle">부동소수점의 경우 밑 값이 너무 크면 작은 값을 더해도 무시되는 상황이 발생함</li></ul><ul id="0c6e9e92-270b-40d9-8ff3-f4b553025718" class="bulleted-list"><li style="list-style-type:circle">이와 같은 버그 때문에 회전이 어느 시점에서 멈추게 됨 → 버그 발생</li></ul><ul id="a95888fd-9e6f-46a8-bafe-1619ceba1658" class="bulleted-list"><li style="list-style-type:circle">각도의 정규화를 사용해 물체가 계속 돌도록 처리하여 버그 해결 가능<p id="4c4aa730-8305-47ea-bd5a-1436f459c3a2" class="">⇒ 천천히 회전할 떄 float이 오버플로가 되기까지 시간이 걸리므로 생각보다 눈치채기가 어려움! 항상 각도의 정규화를 의식하도록 하는 것이 중요함!</p></li></ul></li></ul><h2 id="4acd4220-0ecb-4741-911f-4f5376d79bfe" class="">역삼각 함수</h2><figure class="block-color-gray_background callout" style="white-space:pre-wrap;display:flex" id="2ece09fa-982f-4209-b418-f245bdb397a9"><div style="font-size:1.5em"><span class="icon">💡</span></div><div style="width:100%">tan은 게임 프로그래밍에서는 별로 사용하지 않는다. 하지만 다른 형태로 바꾸면 자주 사용하게 된다. 바로 역삼각 함수!</div></figure><ul id="f83ee22e-e609-4eb6-b4fb-f2e89fc793aa" class="bulleted-list"><li style="list-style-type:disc">보통의 삼각함수는 각도를 넣어서 결과값을 계산하지만</li></ul><ul id="e7d77572-2b55-44b6-9a6a-fa3abc8d55af" class="bulleted-list"><li style="list-style-type:disc">역삼각 함수는 삼각 함수의 결과 값을 넣어서 각도를 계산함 (arcsin, arccos, arctan)</li></ul><h3 id="25c9839b-68bb-4fa3-a511-6b31f836608e" class="">asin, acos, atan의 프로그램 처리</h3><pre id="292ba96b-6059-4d90-a016-2374db10b34d" class="code"><code>#define _USE_MATH_DEFINES
+    #include &lt;math.h&gt;
+    
+    // 각도 표기 &gt; 라디안 표기 변환용
+    #define DEGREE_RADIAN(_deg)    ( M_PI*(_deg)/180.0f )
+    
+    // 라디안 표기 &gt; 각도 표기 변환용
+    #define RADIAN_DEGREE(_rad)    ( (_rad)*180.f/M_PI )
+    
+        //float로 역삼각 함수
+        float asin_f = asinf ( 0.5f );
+        float acos_f = acosf ( 0.5f );
+        float atan_f = atanf ( 0.5f );
+        
+        // double로 역삼각 함수
+        double asin_f = asin ( 0.5 );
+        double acos_f = acos ( 0.5 );
+        double atan_f = atan ( 0.5 );
+        
+        // 결과 표시
+        printf(&quot;asin 0.5 (float) : %f(radian) %f(degree)\n&quot;, asin_f, RADIAN_DEGREE( asin_f ) );
+        printf(&quot;acos 0.5 (float) : %f(radian) %f(degree)\n&quot;, acos_f, RADIAN_DEGREE( acos_f ) );
+        printf(&quot;atan 0.5 (float) : %f(radian) %f(degree)\n&quot;, atan_f, RADIAN_DEGREE( atan_f ) );
+        printf(&quot;asin 0.5 (double) : %f(radian) %f(degree)\n&quot;, asin_d, RADIAN_DEGREE( asin_d ) );
+        printf(&quot;acos 0.5 (double) : %f(radian) %f(degree)\n&quot;, acos_d, RADIAN_DEGREE( acos_d ) );
+        printf(&quot;atan 0.5 (double) : %f(radian) %f(degree)\n&quot;, atan_d, RADIAN_DEGREE( atan_d ) );</code></pre><pre id="75d9e0b1-f5c2-4662-b2b7-840ac9ef08e3" class="code"><code>asin 0.5 (float) : 0.523599(radian) 30.000000(degree)
+    acos 0.5 (float) : 1.047198(radian) 60.000000(degree)
+    atan 0.5 (float) : 0.463648(radian) 26.565050(degree)
+    asin 0.5 (double) : 0.523599(radian) 30.000000(degree)
+    acos 0.5 (double) : 1.047198(radian) 60.000000(degree)
+    atan 0.5 (double) : 0.463648(radian) 26.565050(degree)
+    
+    
+    </code></pre><h3 id="32b47e1c-0c25-4c00-9f9d-5f94c9dfe2c0" class="">atan2의 프로그램 처리</h3><ul id="06e6428a-e62e-4911-af76-84dc4b0d2f6c" class="bulleted-list"><li style="list-style-type:disc">arctan만 특별히 <code>atan2f</code> 함수와 <code>atan2</code> 함수가 있음</li></ul><pre id="bf1a3bf6-4662-4420-aca9-6c8913f6ec39" class="code"><code>//float로 역삼각 함수
+    float atan2_f = atan2f( 2.0f, 1.0f );
+    
+    //double로 역삼각 함수
+    double atan2_d = atan2( 2.0, 1.0 );
+    
+    // 결과 표시
+    printf(&quot;atan2 2.0, 1.0 (float) : %f(radian) %f(degree)\n&quot;, atan2_f, RADIAN_DEGREE( atan2_f ) );
+    printf(&quot;atan2 2.0, 1.0 (double) : %f(radian) %f(degree)\n&quot;, atan2_d, RADIAN_DEGREE( atan2_d ) );</code></pre><pre id="44a9f271-6135-4099-ac47-1f2a48d5cdd0" class="code"><code>atan2 2.0, 1.0 (float) : 1.107149(radian) 63.434950(degree)
+    atan2 2.0, 1.0 (double) : 1.107149(radian) 63.434950(degree)
+    </code></pre><ul id="bc76fc0e-6fcd-4ec3-9616-85a8444c85e4" class="bulleted-list"><li style="list-style-type:disc"><code>atan</code>은 인수로 각도 하나를 넣었으나, <code>atan2</code>는 인수 2개가 필요함</li></ul><ul id="38636a55-d1b4-4214-923d-2e50683705f1" class="bulleted-list"><li style="list-style-type:disc"><code>atan2</code>의 두 인수로는 각각 대변(y)과 밑변(x)이 들어감</li></ul><ul id="c6daddb2-f48a-41e0-b928-91a85b6a1562" class="bulleted-list"><li style="list-style-type:disc">원래 tan의 값이 y / x이므로 입력 형태가 변한 것 뿐</li></ul><h3 id="49e6726d-2dac-458e-8c41-d1229fb5ba0b" class="">atan2의 역할</h3><ul id="897b244c-470b-44a1-83a3-da7bad8eb09a" class="bulleted-list"><li style="list-style-type:disc">물체와 사이의 공간을 파악하는데 사용</li></ul><h2 id="e2b7e31b-911a-4d8b-ae5c-382253ede7b1" class="">내적</h2><ul id="05cec829-cb66-4ce1-a584-ae29266ee393" class="bulleted-list"><li style="list-style-type:disc">두 벡터 사이의 각도와 두 좌표 사이의 각도는 다름</li></ul><ul id="1f86ad62-7dfa-4086-a142-f2287b6bfc82" class="bulleted-list"><li style="list-style-type:disc">두 좌표 사이의 각도는 고정적이나, 벡터의 경우 내가 보고 있는 방향이 달라짐에 따라 상대방의 위치와 이루는 각도가 바뀔 수 있음</li></ul><ul id="c6ef95d6-3e7b-443f-bf97-ac5d27d514b5" class="bulleted-list"><li style="list-style-type:disc">이를 위해<strong> 두  벡터 사이의 각도를 구할 때 내적을 사용함</strong></li></ul><ul id="1ec814bb-759e-45e6-9a8f-f912a367c4cc" class="bulleted-list"><li style="list-style-type:disc"><strong>내적은 두 개의 벡터의 각 성분 값을 곱한 후 더하는 것 ( 스칼라 이자 cosθ가 결과 값으로 나옴)</strong></li></ul><h3 id="d7928436-a8f8-49cc-bde8-21bc725694f8" class=""><strong>정규화 된 벡터 끼리의 내적</strong></h3><ul id="fb1e8b55-890e-4740-9c0a-5846b03eb9b3" class="bulleted-list"><li style="list-style-type:disc">내적은 두 벡터의 길이가 1로 정규화 되어 있을 때  두 벡터의 곱은 cosθ가 됨</li></ul><ul id="2e065d12-9648-456a-a005-a7e7d245803c" class="bulleted-list"><li style="list-style-type:disc">그러므로 두 벡터의 곱을 Acos 하게 된다면 각도가 나옴</li></ul><h3 id="8c6b3512-c817-4207-b821-bff6dd2fa8b0" class=""><strong>정규화 되지 않은 벡터 끼리의 내적</strong></h3><ul id="87e29064-81ce-4eca-95c8-78ad3b6ed11b" class="bulleted-list"><li style="list-style-type:disc">정규화 되지 않은 상태로 내적을 구했을 때 결과는 cos 값으로 사용할 수 없음</li></ul><ul id="0c128289-d379-4a94-bb55-7116afa9e062" class="bulleted-list"><li style="list-style-type:disc">하지만 유의미하게 사용할 수 있는 방법도 있음<ul id="c6d275f9-2914-4a80-a126-aeab4bbf403c" class="bulleted-list"><li style="list-style-type:circle">정규화 되지 않은 내적은 각 벡터들의 길이의 값의 곱 * 정규화 된 벡터의 값임</li></ul><ul id="47054469-ba82-4a8b-94af-bbeb176abf0b" class="bulleted-list"><li style="list-style-type:circle">즉 길이의 곱 * cosθ 라는 뜻</li></ul></li></ul><ul id="106c4544-d84d-4972-92c8-ac8523bccaa3" class="bulleted-list"><li style="list-style-type:disc">cosθ가 0 인 경우, 길이의 곱 * cosθ 도 0이 되므로 각도는 90도</li></ul><ul id="d996a307-54f2-4aca-a486-f734a8e2f6b7" class="bulleted-list"><li style="list-style-type:disc"><mark class="highlight-red"><strong>그러므로, cosθ가 0보다 작으면 각도도 90도보다 작으며, cosθ가 0보다 크면 각도도 90도보다 큼</strong></mark></li></ul><h3 id="c5c3d154-aac7-4805-9d91-c43ff189e555" class="">프로그램에서 내적</h3><pre id="e2fce964-863b-4820-a283-d48c0aa4623f" class="code"><code>// 벡터끼리 내적
+    float Vector_Dot( Vector v0, Vector v1 )
+    {
+        float r;
+        r = ( v0.x * v1.x) + ( v0.y * v1.y);
+        return ( r );
+    }</code></pre><ul id="9b9cb691-9ffc-4ff6-baf3-47f2256fa0a4" class="bulleted-list"><li style="list-style-type:disc">함수 안에서 각 벡터의 길이를 고려하지 않았으므로, cos 값으로 사용하고 싶을 때는 미리 정규화 해야함</li></ul><h3 id="b5952732-08f5-4ec5-97c7-be42708f14af" class="">내적함수의 사용</h3><pre id="a6ee0e36-ec0c-4558-8c38-beac3c030404" class="code"><code>// 벡터를 준비한다.
+    Vector v0, v1;
+    v0.x = 1.0f;
+    v0.y = 2.0f;
+    v1.x = 0.5f;
+    v1.y = 0.25f;
+    
+    // 내적을 계산한다.
+    float d = Vector_Dot( Vector_Normalize( v0 ), Vector_Normalize ( v1 );
+    
+    // 결과를 표시한다.
+    printf(&quot;dot : %f %f(degree)\n&quot;, d, RADIAN_DEGREE(acosf( d ) ) );</code></pre><pre id="75630d44-bbfb-4ed2-9de8-0dc3b362a219" class="code"><code>dot : 0.800000 36.869900(degree)</code></pre></div></article></body>
+
+{% endblock post_content %}

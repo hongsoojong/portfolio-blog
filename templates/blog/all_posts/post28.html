@@ -1,0 +1,29 @@
+{% extends 'blog/all_posts/base_post.html' %}
+
+{% load static %}
+
+{% block post_title %}
+    <a href="{% url 'blog:all-posts' %}" class="font_kor">문자열 뒤집기1</a>
+{% endblock post_title %}
+
+{% block post_content %}
+
+{% block post_date %}
+    <div class="container w-1/2 mx-auto mb-10 post_date">[ Oct 17, 2021 ]</div>    
+{% endblock post_date %}
+
+<main class="container w-1/2 mx-auto font_kor">
+
+{% include "blog/all_posts/css_post.html" %}
+  
+<!-- notion html -->
+<body><article id="bb28da16-deeb-447d-9851-81706c9f1108" class="page sans"><div class="page-body"><h2 id="9e6a1c21-48bf-48c8-ac66-5b61afb6e095" class="">문자열 뒤집는 함수를 작성하라. 입력값은 문자 배열이며, 리턴 없이 리스트 내부를 조작하라</h2><h3 id="6727c7b5-705f-407f-b3fa-02b0cd5a31b2" class="">투 포인터를 이용한 스왑</h3><pre id="67e0784b-3f47-4764-b747-ed1fc0161cae" class="code"><code>def reverseString(s: list[str]) -&gt; None:
+    left, right = 0, len(s) -1
+    while left &lt; right:
+        s[left], s[right] = s[right], s[left]
+        left += 1
+        right -= 1</code></pre><ul id="668772aa-6fc6-46be-9628-c21b2e68336d" class="bulleted-list"><li style="list-style-type:disc">두 개의 포인터를 이용해 범위를 조정해가며 풀이하는 방식</li></ul><ul id="e63ab071-4acd-4c33-a4fd-edf6d9d7c6a1" class="bulleted-list"><li style="list-style-type:disc">&#x27;리턴없이 리스트 내부를 직접 조작하라&#x27;는 제약 사항이 있으므로 위와 같이 s 내부를 스왑하는 형태로 풀이하면 됨</li></ul><h3 id="bb64ac55-ff2d-4181-98e8-5a715279c09c" class="">파이썬다운 방식</h3><pre id="bd3fc932-8b6f-4fea-81a8-1a8a4a345e25" class="code"><code>def reverseString(s: list[str]) -&gt; None:
+	s.reverse()</code></pre><ul id="ae8effbd-3cba-4ebc-839f-f0a8a268544e" class="bulleted-list"><li style="list-style-type:disc">파이썬의 기본 기능 이용</li></ul><h3 id="993a9122-92d7-49af-b2e7-63571e3c1dad" class="">슬라이싱 이용</h3><pre id="503b067a-6418-4020-b560-a746483ea05b" class="code"><code>def reverseString(s: str) -&gt; str:
+    s = s[::-1]</code></pre><ul id="76d6a80f-95f8-4820-a6c7-a7a4a47c1d49" class="bulleted-list"><li style="list-style-type:disc">하지만 공간복잡도 O(1) 제약이 걸린 leetcode는 <code>[::-1]</code>이 먹히지 않으므로 <code>s[:]=s[::-1]</code>을 사용하면 됨<figure class="block-color-gray_background callout" style="white-space:pre-wrap;display:flex" id="e84ee138-bc19-4e0d-b52c-89597adac536"><div style="font-size:1.5em"><span class="icon">💡</span></div><div style="width:100%"><strong>파이썬은 a=b와 같은 형태로 할당하면 변수의 값이 할당되는 것이 아니라 a변수가 b변수를 참조하는 형태가 됨. 참조가 아닌 값을 복사하기 위해  </strong><strong><code>[:]</code></strong><strong>를 사용할 수 있으며, 이 방식은 문자열이나 리스트를 복사하는 파이썬다운 방식이기도 함</strong></div></figure></li></ul><ul id="52cdf9f4-3f76-4f13-97c4-108fffe34e84" class="bulleted-list"><li style="list-style-type:disc">코딩 테스트가 이루어지는 플랫폼별로 제한이 있으므로, 플랫폼 특징에 대한 충분한 숙지가 필요함</li></ul></div></article></body>
+
+{% endblock post_content %}

@@ -1,0 +1,110 @@
+{% extends 'blog/all_posts/base_post.html' %}
+
+{% load static %}
+
+{% block post_title %}
+    <a href="{% url 'blog:all-posts' %}" class="font_kor">시간</a>
+{% endblock post_title %}
+
+{% block post_content %}
+
+{% block post_date %}
+    <div class="container w-1/2 mx-auto mb-10 post_date">[ Oct 11, 2021 ]</div>    
+{% endblock post_date %}
+
+<main class="container w-1/2 mx-auto font_kor">
+
+{% include "blog/all_posts/css_post.html" %}
+  
+<!-- notion html -->
+<body><article id="93e5f284-67fe-4f37-b9ef-754414a34c4c" class="page sans"><div class="page-body"><h3 id="4d5a88b7-f5a1-4bef-94a9-4e898d3d202e" class="">프레임을 세는 변수(unsigned int)와 함수</h3><pre id="62c8f718-0740-410a-84a0-3dff430400ec" class="code"><code>// 프레임 카운트 (프레임 총수)
+    static unsigned int frame_counter = 0;
+    
+    // 동기화 타아밍에 호출한다.
+    void CallVSync( void )
+    {
+        // 프레임 수를 증가한다.
+        frame_counter++;
+    }</code></pre><p id="d1ce9811-12c3-45d2-95bc-9dd57e1250b7" class="">⇒ 동기화 타이밍마다 CallVSync를 호출하여 프레임 수 증가</p><h3 id="80d1005b-1e1e-41ba-a349-9cc690fb1d49" class="">define으로 프레임 → 초 변환</h3><pre id="35827b22-aa63-4ad0-9313-c382ba62dd5e" class="code"><code>// 초 &gt; 프레임
+    #define SECOND_TO_FRAME(_sec)    ((_sec)*60)
+    // 분 &gt; 프레임
+    #define MINUTE_TO_FRAME(_min)    (SECOND_TO_FRAME((_min)*60))
+    // 시 &gt; 프레임
+    #define HOUR_TO_FRAME(_hour)     (MINUTE_TO_TRAME((_hour)*60))
+    
+    // 프레임 &gt; 초
+    #define FRAME_TO_SECOND(_frame)  ((_frame)/SECOND_TO_FRAME(1))
+    // 프레임 &gt; 분
+    #define FRAME_TO_MINUTE(_frame)  ((_frame)/MINUTE_TO_FRAME(1))
+    // 프레임 &gt; 시
+    #define FRAME_TO_HOUR(_frame)    ((_frame)/HOUR_TO_FRAME(1))
+    
+    // 초 &gt; 프레임 &gt; 초
+    int sec = 20;
+    printf(&quot;%d초 &gt; %d프레임 &gt; %d초\n&quot;, sec, SECOND_TO_FRAME( sec ), FRAME_TO_SECOND( SECOND_TO_FRAME( sec ) ) );
+    
+    // 분 &gt; 프레임 &gt; 분
+    int min = 12;
+    printf(&quot;%d분 &gt; %d프레임 &gt; %d분\n&quot;, min, MINUTE_TO_FRAME( min ), FRAME_TO_MINUTE( MINUTE_TO_FRAME( min ) ) );
+    
+    // 시 &gt; 프레임 &gt; 시
+    int hour = 36;
+    printf(&quot;%d시 &gt; %d프레임 &gt; %d시\n&quot;, hour, HOUR_TO_FRAME( hour ), FRAME_TO_HOUR( HOUR_TO_FRAME( hour ) ) );
+    </code></pre><pre id="769e67b1-502d-4c5c-a966-972f8444cfa3" class="code"><code>20초 &gt; 1200프레임 &gt; 20초
+    12분 &gt; 43200프레임 &gt; 12분
+    36시 &gt; 7776000프레임 &gt; 36시</code></pre><h3 id="7be5f181-ebe4-4804-8ce2-94b2862398b8" class="">30fps일 때 변환 매크로</h3><pre id="92b607b3-89bb-436d-9322-252d57d29c1d" class="code"><code>// fps 수
+    #define FPS        (30)
+    
+    // 초 &gt; 프레임
+    #define SECOND_TO_FRAME(_sec)    ((_sec)*FPS)
+    // 분 &gt; 프레임
+    #define MINUTE_TO_FRAME(_min)    (SECOND_TO_FRAME((_min)*60))
+    // 시 &gt; 프레임
+    #define HOUR_TO_FRAME(_hour)     (MINUTE_TO_TRAME((_hour)*60))
+    
+    // 프레임 &gt; 초
+    #define FRAME_TO_SECOND(_frame)  ((_frame)/SECOND_TO_FRAME(1))
+    // 프레임 &gt; 분
+    #define FRAME_TO_MINUTE(_frame)  ((_frame)/MINUTE_TO_FRAME(1))
+    // 프레임 &gt; 시
+    #define FRAME_TO_HOUR(_frame)    ((_frame)/HOUR_TO_FRAME(1))
+    
+    // 초 &gt; 프레임 &gt; 초
+    int sec = 20;
+    printf(&quot;%d초 &gt; %d프레임 &gt; %d초\n&quot;, sec, SECOND_TO_FRAME( sec ), FRAME_TO_SECOND( SECOND_TO_FRAME( sec ) ) );
+    
+    // 분 &gt; 프레임 &gt; 분
+    int min = 12;
+    printf(&quot;%d분 &gt; %d프레임 &gt; %d분\n&quot;, min, MINUTE_TO_FRAME( min ), FRAME_TO_MINUTE( MINUTE_TO_FRAME( min ) ) );
+    
+    // 시 &gt; 프레임 &gt; 시
+    int hour = 36;
+    printf(&quot;%d시 &gt; %d프레임 &gt; %d시\n&quot;, hour, HOUR_TO_FRAME( hour ), FRAME_TO_HOUR( HOUR_TO_FRAME( hour ) ) );
+    </code></pre><pre id="8d288cf4-6674-4cf4-acd8-eae93c80b7d2" class="code"><code>20초 &gt; 600프레임 &gt; 20초
+    12분 &gt; 21600프레임 &gt; 12분
+    36시 &gt; 3888000프레임 &gt; 36시</code></pre><h3 id="395e93a9-422f-4a24-ba5f-15f6880d4e37" class="">적당한 프레임 수를 &#x27;시:분:초&#x27; 표기로 바꾸기 (프레임 수 → 시간)</h3><pre id="a634cfac-ef41-4eaa-b548-eda7a36877ee" class="code"><code>// 프레임 수
+    int frame = 1723956;
+    
+    // 시, 분, 초로 전개
+    int hour = FRAME_TO_HOUR     ( frame );
+    int min  = FRAME_TO_MINUTE   ( frame % HOUR_TO_FRAME ( 1 ) );
+    int sec  = FRAME_TO_SECOND   ( frame % MINUTE_TO_FRAME ( 1 ) );
+    printf(&quot;%d프레임 &gt; %d:%02d:%02d\n&quot;, frame, hour, min, sec);</code></pre><pre id="ddba3b53-753d-4cac-b7eb-908b909bf282" class="code"><code>1723956프레임 &gt; 7:58:52</code></pre><h3 id="95e543e0-1941-4fe6-bf2b-d5271b274f28" class="">적이 2초 기다렸다가 공격 (시간 → 프레임 수)</h3><pre id="375ca3ce-eb24-442a-bae4-ff13b5126ae0" class="code"><code>// 대기용 카운터
+    int wait_counter = SECOND_TO_FRAME ( 2 );
+    
+    // 적의 행동 처리 (매 프레임 호출된다.)
+    void CalcEnemy( void )
+    {
+        // 대기 중인가 아닌가
+        if ( wait_counter &gt; 0) {
+            // 대기용 카운터가 남아있으므로 카운터를 감소시킨다.
+            waiter_counter--;
+        } else {
+            // 대기가 끝났으므로 공격한다.
+            // ...
+            // (중략)
+            // ...
+        }
+    }</code></pre></div></article></body>
+
+{% endblock post_content %}s

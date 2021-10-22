@@ -19,5 +19,4 @@ class Blog(models.Model):
     category = models.ForeignKey(
         "Category", on_delete=models.CASCADE, blank=True, null=True
     )
-    contents = models.TextField(blank=True)
     pub_date = models.DateField(blank=True)

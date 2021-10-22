@@ -1,0 +1,352 @@
+{% extends 'blog/all_posts/base_post.html' %}
+
+{% load static %}
+
+{% block post_title %}
+    <a href="{% url 'blog:all-posts' %}" class="font_kor">행렬</a>
+{% endblock post_title %}
+
+{% block post_content %}
+
+{% block post_date %}
+    <div class="container w-1/2 mx-auto mb-10 post_date">[ Oct 18, 2021 ]</div>    
+{% endblock post_date %}
+
+<main class="container w-1/2 mx-auto font_kor">
+
+{% include "blog/all_posts/css_post.html" %}
+  
+<!-- notion html -->
+<body><article id="89238491-b5b1-4f80-8d09-ab8b05c4e3ba" class="page sans"><div class="page-body"><h3 id="e7babb1d-d150-4928-bf34-34f007f7b126" class="">Vector4 준비</h3><pre id="5eccd6d8-554a-4d07-a3a6-baa52b9dc8ad" class="code"><code>// 3차원 Vector4
+    struct Vector4
+    {
+        float x, y, z, w;    // x, y, z, w 성분
+    };</code></pre><ul id="a2ba1639-8d03-4fa2-a393-0c25af3cf613" class="bulleted-list"><li style="list-style-type:disc">Vector4만을 이용해 좌표와 벡터를 구분해서 사용<ul id="25672dc6-cbc8-44ec-b4af-2139413b21be" class="bulleted-list"><li style="list-style-type:circle">좌표일 때는 <code>w = 1.0</code>, 벡터일 때는 <code>w = 0.0</code></li></ul></li></ul><h3 id="a7a6c23c-261e-426f-a1c5-edc602444450" class="">성분이 4개인 벡터의 연산과 프로그램</h3><pre id="05bcc6ec-8360-4cbb-80f8-73c18735903c" class="code"><code>// (벡터) + (벡터)
+    Vector4 Add_Vector4_Vector4( Vector4 v0, Vector4 v1 )
+    {
+      Vector4 r;
+      r.x = v0.x + v1.x;
+      r.y = v0.y + v1.y;
+      r.z = v0.z + v1.z;
+        r.w = v0.w + v1.w;
+    
+      return r;
+    }
+    
+    // (벡터) - (벡터)
+    Vector4 Sub_Vector4_Vector4( Vector4 v0, Vector4 v1 )
+    {
+      Vector4 r;
+      r.x = v0.x - v1.x;
+      r.y = v0.y - v1.y;
+      r.z = v0.z - v1.z;
+        r.w = v0.w - v1.w;
+    
+      return r;
+    }
+    
+    // (벡터) * (스칼라)
+    Vector4 Mul_Vector4_Scalar( Vector4 v, float s )
+    {
+      Vector4 r;
+      r.x = v.x * s;
+      r.y = v.y * s;
+      r.z = v.z * s;
+        r.w = v.w;    // w는 계산하지 않는다.
+    
+      return r;
+    }
+    
+    // 벡터의 길이를 반환한다.
+    float Vector4_Length( Vector4 v )
+    {
+      float l = sqrt( v.x * v.x + v.y * v.y + v.z * v.z + v.w * v.w );
+      return l;
+    }
+    
+    // 벡터를 정규화한다.
+    Vector4 Vector4_Normalize( Vector4 v )
+    {
+        float l = Vector4_Length( v );
+        Vector4 n;
+        n.x = v.x / l;
+      n.y = v.y / l;
+      n.z = v.z / l;
+        n.w = v.w / l;
+        return n;
+    }
+    
+    // 벡터끼리 내적
+    float Vector4_Dot( Vector4 v0, Vetor4 v1 )
+    {
+        float r;
+        r = ( v0.x * v1.x ) + ( v0.y * v1.y ) + ( v0.z * v1.z ) + ( v0.w * v1.w );
+        reutrn r;
+    }
+    
+    // 벡터끼리 외적
+    Vector4 Vector4_Cross( Vector4 v0, Vector4 v1 )
+    {
+        Vector4 r;
+        r.x = v0.y * v1.z - v0.z * v1.y;
+        r.y = v0.z * v1.x - v0.x * v1.z;
+        r.z = v0.x * v1.y - v0.y * v1.x;
+        r.w = 0.0f;    // w = 0.0f로 고정한다.
+        return r;
+    }
+    
+    // 점 3개를 사용한 외적
+    Vector4 Vector4_Corss( Vector4 p0, Vector4 p1, Vector4 p2)
+    {
+        // 벡터를 만든다.
+        Vector4 v0 = Sub_Vector4_Vector4(p1, p0);
+        Vector4 v1 = Sub_Vector4_Vector4(p2, p1);
+    
+        // 벡터로 외적을 계산한다.
+        return Vector4_Cross( v0, v1 );
+    }</code></pre><ul id="6c44edd8-4dff-4e9c-b138-0fd1d66a1ecf" class="bulleted-list"><li style="list-style-type:disc">성분이 3개일 때 좌표는 Point3, 벡터는 Vector3로 구조체를 확실히 나누고, 여러 가지 연산도 인수를 한정하였음</li></ul><ul id="ffb741de-6bc5-4b32-8886-69ade98e5501" class="bulleted-list"><li style="list-style-type:disc">위의 함수는 모두 Vector4를 사용하며, 계산하려는 목적을 확실히 파악하고, w에 적절한 값(0 또는 1)을 넣은 후 사용해야함</li></ul><ul id="07475478-d824-4da2-b462-78ca53210211" class="bulleted-list"><li style="list-style-type:disc">예를 들어 더하기 함수는 좌표끼리 더한다면 w는 2가 되므로 주의해야함</li></ul><ul id="a748b611-5440-4e5a-bb3b-51c061a2cd3e" class="bulleted-list"><li style="list-style-type:disc">이런 단점도 있지만 구조체를 Vector4 하나로 합쳐서 함수 수가 줄어든다는 장점도 존재함. w에 무엇을 넣을지 확실히 파악하고 사용하는 것 만으로 이런 이점을 얻을 수 있음. 장점을 살려 제대로 계산하려면 좌표와 벡터를 나눠 생각하는 것이 중요함</li></ul><h2 id="691ac161-60b8-47e8-9114-a845681dfe42" class="">행렬과 프로그램</h2><h3 id="27ade3ed-49f1-485b-a413-f7f46b8b1e7c" class="">Matrix4x4 구조체</h3><pre id="bc0aafa9-ddc6-40b8-a9bf-8b47502aebbb" class="code"><code>struct Matrix4x4
+    {
+      float m00, m01, m02, m03;
+      float m10, m11, m12, m13;
+      float m20, m21, m22, m23;
+      float m30, m31, m32, m33;
+    };</code></pre><h3 id="74240ad9-4af6-4a45-b0b0-ae9aafdd8d79" class="">Matrix4x4 설정 함수</h3><pre id="7a702da0-7939-416e-95fc-f1d699c6fb21" class="code"><code>// 행렬 구조체
+    struct Matrix4x4
+    {
+      float m00, m01, m02, m03;
+      float m10, m11, m12, m13;
+      float m20, m21, m22, m23;
+      float m30, m31, m32, m33;
+    };
+    
+    // 단위 행렬
+    Matrix4x4 Matrix4x4_Identity()
+    {
+      Matrix4x4 m;
+      m.m00 = 1.0f; m.m01 = 0.0f; m.m02 = 0.0f; m.m03 = 0.0f;
+      m.m10 = 0.0f; m.m11 = 1.0f; m.m12 = 0.0f; m.m13 = 0.0f;
+      m.m20 = 0.0f; m.m21 = 0.0f; m.m22 = 1.0f; m.m23 = 0.0f;
+      m.m30 = 0.0f; m.m31 = 0.0f; m.m32 = 0.0f; m.m33 = 1.0f;
+      return m;
+    }
+    
+    // 확대/축소 행렬
+    Matrix4x4 Matrix4x4_Scale( float sx, float sy, float sz )
+    {
+      Matrix4x4 m;
+      m.m00 = sx; m.m01 = 0.0f; m.m02 = 0.0f; m.m03 = 0.0f;
+      m.m10 = 0.0f; m.m11 = sy; m.m12 = 0.0f; m.m13 = 0.0f;
+      m.m20 = 0.0f; m.m21 = 0.0f; m.m22 = sz; m.m23 = 0.0f;
+      m.m30 = 0.0f; m.m31 = 0.0f; m.m32 = 0.0f; m.m33 = 1.0f;
+      return m;
+    }
+    
+    // 회전(x축) 행렬
+    Matrix4x4 Matrix4x4_RotateX( float rx )
+    {
+      Matrix4x4 m;
+      m.m00 = 1.0f; m.m01 = 0.0f; m.m02 = 0.0f; m.m03 = 0.0f;
+      m.m10 = 0.0f; m.m11 = cosf( rx ); m.m12 = -sin( rx ); m.m13 = 0.0f;
+      m.m20 = 0.0f; m.m21 = sinf( rx ); m.m22 = cosf( rx ); m.m23 = 0.0f;
+      m.m30 = 0.0f; m.m31 = 0.0f; m.m32 = 0.0f; m.m33 = 1.0f;
+      return m;
+    }
+    
+    // 회전(y축) 행렬
+    Matrix4x4 Matrix4x4_RotateY( float ry )
+    {
+      Matrix4x4 m;
+      m.m00 = cosf( ry ); m.m01 = 0.0f; m.m02 = sinf( ry ); m.m03 = 0.0f;
+      m.m10 = 0.0f; m.m11 = 1.0f; m.m12 = 0.0f; m.m13 = 0.0f;
+      m.m20 = -sinf( ry ); m.m21 = 0.0f; m.m22 = cosf( ry ); m.m23 = 0.0f;
+      m.m30 = 0.0f; m.m31 = 0.0f; m.m32 = 0.0f; m.m33 = 1.0f;
+      return m;
+    }
+    
+    // 회전(z축) 행렬
+    Matrix4x4 Matrix4x4_RotateZ( float rz )
+    {
+      Matrix4x4 m;
+      m.m00 = cosf( rz ); m.m01 = -sinf( rz ); m.m02 = 0.0f; m.m03 = 0.0f;
+      m.m10 = sinf( rz ); m.m11 = cosf (rz ); m.m12 = 0.0f; m.m13 = 0.0f;
+      m.m20 = 0.0f; m.m21 = 0.0f; m.m22 = 1.0f; m.m23 = 0.0f;
+      m.m30 = 0.0f; m.m31 = 0.0f; m.m32 = 0.0f; m.m33 = 1.0f;
+      return m;
+    }
+    
+    // 평행 이동 행렬
+    Matrix4x4 Matrix4x4_Translate( float tx, float ty, float tz )
+    {
+      Matrix4x4 m;
+      m.m00 = 1.0f; m.m01 = 0.0f; m.m02 = 0.0f; m.m03 = tx;
+      m.m10 = 0.0f; m.m11 = 1.0f; m.m12 = 0.0f; m.m13 = ty;
+      m.m20 = 0.0f; m.m21 = 0.0f; m.m22 = 1.0f; m.m23 = tz;
+      m.m30 = 0.0f; m.m31 = 0.0f; m.m32 = 0.0f; m.m33 = 1.0f;
+      return m;
+    }</code></pre><h3 id="c3a0d7ae-af2b-4274-b470-1297548f54f2" class="">Matrix4x4 곱셈함수</h3><pre id="2eb9b126-fcf9-4a50-9d23-696b3bea067a" class="code"><code>// (행렬) x (벡터)
+    Vector3 Matrix4x4_Mul_Vector4( Matrix4x4 m, Vector4 v)
+    {
+      Vector4 r;
+      rx = m.m00 * vx + m.m01 * v.y + m.m02 * vz + m.m03 * vw;
+      ry = m.m10 * vx + m.m11 * v.y + m.m12 * vz + m.m13 * vw;
+      rs = m.m20 * vx + m.m21 * v.y + m.m22 * vz + m.m23 * vw;
+      rw = m.m30 * vx + m.m31 * v.y + m.m32 * vz + m.m33 * vw;
+      return r;
+    }
+    
+    // (행렬) x (행렬)
+    Matrix4x4 Matrix4x4_Mul_Matrix4x4( Matrix4x4 m0, Matrix4x4 m1 )
+    {
+      Matrix4x4 r;
+      r.m00 = m0.m00*m1.m00 + m0.m01*m1.m10 * m0.m02*m1.m20 + m0.m03*m1.m30;
+      r.m01 = m0.m00*m1.m01 + m0.m01*m1.m11 * m0.m02*m1.m21 + m0.m03*m1.m31;
+      r.m02 = m0.m00*m1.m02 + m0.m01*m1.m12 * m0.m02*m1.m22 + m0.m03*m1.m32;
+      r.m03 = m0.m00*m1.m03 + m0.m01*m1.m13 * m0.m02*m1.m23 + m0.m03*m1.m33;
+    
+      r.m10 = m0.m10*m1.m00 + m0.m11*m1.m10 * m0.m12*m1.m20 + m0.m13*m1.m30;
+      r.m11 = m0.m10*m1.m01 + m0.m11*m1.m11 * m0.m12*m1.m21 + m0.m13*m1.m31;
+      r.m12 = m0.m10*m1.m02 + m0.m11*m1.m12 * m0.m12*m1.m22 + m0.m13*m1.m32;
+      r.m13 = m0.m10*m1.m03 + m0.m11*m1.m13 * m0.m12*m1.m23 + m0.m13*m1.m33;
+    
+      r.m20 = m0.m20*m1.m00 + m0.m21*m1.m10 * m0.m22*m1.m20 + m0.m23*m1.m30;
+      r.m21 = m0.m20*m1.m01 + m0.m21*m1.m11 * m0.m22*m1.m21 + m0.m23*m1.m31;
+      r.m22 = m0.m20*m1.m02 + m0.m21*m1.m12 * m0.m22*m1.m22 + m0.m23*m1.m32;
+      r.m23 = m0.m20*m1.m03 + m0.m21*m1.m13 * m0.m22*m1.m23 + m0.m23*m1.m33;
+    
+      r.m30 = m0.m30*m1.m00 + m0.m31*m1.m10 * m0.m32*m1.m20 + m0.m33*m1.m30;
+      r.m31 = m0.m30*m1.m01 + m0.m31*m1.m11 * m0.m32*m1.m21 + m0.m33*m1.m31;
+      r.m32 = m0.m30*m1.m02 + m0.m31*m1.m12 * m0.m32*m1.m22 + m0.m33*m1.m32;
+      r.m33 = m0.m30*m1.m03 + m0.m31*m1.m13 * m0.m32*m1.m23 + m0.m33*m1.m33;
+      return r;
+    }</code></pre><h3 id="de511681-38ef-487a-b2b1-e0dda640c18a" class="">역행렬, 전치행렬 함수</h3><pre id="3834b318-7efc-45a0-ab3d-0ab439b4df5e" class="code"><code>// 역행렬 만들기
+    Matrix4x4 Matrix4x4_Inverse( Matrix4x4 m)
+    {
+      float det;
+      det = m.m00*m.m11*m.m22*m.m33 + m.m00*m.m12*m.m23*m.m31 + m.m00*m.m13*m.m21*m.m32
+          + m.m01*m.m10*m.m23*m.m32 + m.m01*m.m12*m.m20*m.m33 + m.m01*m.m13*m.m22*m.m30
+          + m.m02*m.m10*m.m21*m.m33 + m.m02*m.m11*m.m23*m.m30 + m.m02*m.m13*m.m20*m.m31
+          + m.m03*m.m10*m.m22*m.m31 + m.m03*m.m11*m.m20*m.m32 + m.m03*m.m12*m.m21*m.m30
+          - m.m00*m.m11*m.m23*m.m32 - m.m00*m.m12*m.m21*m.m33 - m.m00*m.m13*m.m22*m.m31
+          - m.m01*m.m10*m.m22*m.m33 - m.m01*m.m12*m.m23*m.m30 - m.m01*m.m13*m.m20*m.m32
+          - m.m02*m.m10*m.m23*m.m31 - m.m02*m.m11*m.m20*m.m33 - m.m02*m.m13*m.m21*m.m30
+          - m.m03*m.m10*m.m21*m.m32 - m.m03*m.m11*m.m22*m.m30 - m.m03*m.m12*m.m20*m.m31
+      
+      if ( det == 0.0f ) {
+              return m;    // det이 0일 때 처리할 수 없으므로 그대로 반환한다.
+      }
+      
+      det = 1.0f / det;    // 미리 역수로 만든다.
+    
+      Matrix4x4 r;
+      r.m00 = det * ( m.m11*m.m22*m.m33 + m.m12*m.m23*m.m31 + m.m13*m.m21*m.m32 
+                    - m.m11*m.m23*m.m32 - m.m12*m.m21*m.m33 - m.m13*m.m22*m.m31 );
+      r.m01 = det * ( m.m01*m.m23*m.m32 + m.m02*m.m21*m.m33 + m.m03*m.m22*m.m31 
+                    - m.m01*m.m22*m.m33 - m.m02*m.m23*m.m31 - m.m03*m.m21*m.m32 );
+      r.m02 = det * ( m.m01*m.m12*m.m33 + m.m02*m.m13*m.m31 + m.m03*m.m11*m.m32 
+                    - m.m01*m.m13*m.m32 - m.m02*m.m11*m.m33 - m.m03*m.m12*m.m31 );
+      r.m03 = det * ( m.m01*m.m13*m.m22 + m.m02*m.m11*m.m23 + m.m03*m.m12*m.m21 
+                    - m.m01*m.m12*m.m23 - m.m02*m.m13*m.m21 - m.m03*m.m11*m.m22 );
+    
+      r.m10 = det * ( m.m10*m.m23*m.m32 + m.m12*m.m20*m.m33 + m.m13*m.m22*m.m30 
+                    - m.m10*m.m22*m.m33 - m.m12*m.m23*m.m30 - m.m13*m.m20*m.m32 );
+      r.m11 = det * ( m.m00*m.m22*m.m33 + m.m02*m.m23*m.m30 + m.m03*m.m20*m.m32 
+                    - m.m00*m.m23*m.m32 - m.m02*m.m20*m.m33 - m.m03*m.m22*m.m30 );
+      r.m12 = det * ( m.m00*m.m13*m.m32 + m.m02*m.m10*m.m33 + m.m03*m.m12*m.m30 
+                    - m.m00*m.m12*m.m33 - m.m02*m.m13*m.m30 - m.m03*m.m10*m.m32 );
+      r.m13 = det * ( m.m00*m.m12*m.m23 + m.m02*m.m13*m.m20 + m.m03*m.m10*m.m22 
+                    - m.m00*m.m13*m.m22 - m.m02*m.m10*m.m23 - m.m03*m.m12*m.m20 );
+    
+      r.m20 = det * ( m.m10*m.m21*m.m33 + m.m11*m.m23*m.m30 + m.m13*m.m20*m.m31 
+                    - m.m10*m.m23*m.m31 - m.m11*m.m20*m.m33 - m.m13*m.m21*m.m30 );
+      r.m21 = det * ( m.m00*m.m23*m.m31 + m.m01*m.m20*m.m33 + m.m03*m.m21*m.m30 
+                    - m.m00*m.m21*m.m33 - m.m01*m.m23*m.m30 - m.m03*m.m20*m.m31 );
+      r.m22 = det * ( m.m00*m.m11*m.m33 + m.m01*m.m13*m.m30 + m.m03*m.m10*m.m31 
+                    - m.m00*m.m13*m.m31 - m.m01*m.m10*m.m33 - m.m03*m.m11*m.m30 );
+      r.m23 = det * ( m.m00*m.m13*m.m21 + m.m01*m.m10*m.m23 + m.m03*m.m11*m.m20 
+                    - m.m00*m.m11*m.m23 - m.m01*m.m13*m.m20 - m.m03*m.m21*m.m21 );
+    
+      r.m30 = det * ( m.m10*m.m22*m.m31 + m.m11*m.m20*m.m32 + m.m12*m.m21*m.m30 
+                    - m.m10*m.m21*m.m32 - m.m11*m.m22*m.m30 - m.m12*m.m20*m.m31 );
+      r.m31 = det * ( m.m00*m.m21*m.m32 + m.m01*m.m22*m.m30 + m.m02*m.m20*m.m31 
+                    - m.m00*m.m22*m.m31 - m.m01*m.m20*m.m32 - m.m02*m.m21*m.m30 );
+      r.m32 = det * ( m.m00*m.m12*m.m31 + m.m01*m.m10*m.m32 + m.m02*m.m11*m.m30 
+                    - m.m00*m.m11*m.m32 - m.m01*m.m12*m.m30 - m.m02*m.m10*m.m31 );
+      r.m33 = det * ( m.m00*m.m11*m.m22 + m.m01*m.m12*m.m20 + m.m02*m.m10*m.m21 
+                    - m.m00*m.m12*m.m21 - m.m01*m.m10*m.m22 - m.m02*m.m11*m.m20 );
+      return r;
+    }
+    
+    // 전치행렬 만들기
+    Matrix4x4 Matrix4x4_Transpose( Matrix4x4 m )
+    {
+      Matrix4x4 r;
+      r.m00 = m.m00; r.m01 = m.m10; r.m02 = m.m20; r.m03 = m.m30;
+      r.m10 = m.m01; r.m11 = m.m11; r.m12 = m.m21; r.m13 = m.m31;
+      r.m20 = m.m02; r.m21 = m.m12; r.m22 = m.m22; r.m23 = m.m32;
+      r.m30 = m.m03; r.m31 = m.m13; r.m32 = m.m23; r.m33 = m.m33;
+      return r;        
+    }</code></pre><h3 id="7826bfbb-5707-465a-96e5-e0cc9ce30553" class="">Matrix3x4 구조체</h3><pre id="9ee07c76-8fce-4aca-a02c-691bc13efee1" class="code"><code>struct Matrix3x4
+    {
+      float m00, m01, m02, m03;
+      float m10, m11, m12, m13;
+      float m20, m21, m22, m23;
+    };</code></pre><h3 id="2b1d4c47-9ded-47d8-b44f-61ea7acc2d41" class="">Matrix3x4 행렬 x 행렬</h3><pre id="22fb0396-92dd-4ee3-8126-bbd5c45185cd" class="code"><code>// (행렬) x (행렬)
+    Matrix3x4 Matrix3x4_Mul_Matrix3x4( Matrix3x4 m0, Matrix3x4 m1 )
+    {
+      Matrix4x4 r;
+      r.m00 = m0.m00*m1.m00 + m0.m01*m1.m10 * m0.m02*m1.m20;
+      r.m01 = m0.m00*m1.m01 + m0.m01*m1.m11 * m0.m02*m1.m21;
+      r.m02 = m0.m00*m1.m02 + m0.m01*m1.m12 * m0.m02*m1.m22;
+      r.m03 = m0.m00*m1.m03 + m0.m01*m1.m13 * m0.m02*m1.m23 + m0.m03;
+    
+      r.m10 = m0.m10*m1.m00 + m0.m11*m1.m10 * m0.m12*m1.m20;
+      r.m11 = m0.m10*m1.m01 + m0.m11*m1.m11 * m0.m12*m1.m21;
+      r.m12 = m0.m10*m1.m02 + m0.m11*m1.m12 * m0.m12*m1.m22;
+      r.m13 = m0.m10*m1.m03 + m0.m11*m1.m13 * m0.m12*m1.m23 + m0.m13;
+    
+      r.m20 = m0.m20*m1.m00 + m0.m21*m1.m10 * m0.m22*m1.m20;
+      r.m21 = m0.m20*m1.m01 + m0.m21*m1.m11 * m0.m22*m1.m21;
+      r.m22 = m0.m20*m1.m02 + m0.m21*m1.m12 * m0.m22*m1.m22;
+      r.m23 = m0.m20*m1.m03 + m0.m21*m1.m13 * m0.m22*m1.m23  + m0.m23;
+      return r;
+    }</code></pre><ul id="6629126f-849e-4791-9f23-6655c60d4f37" class="bulleted-list"><li style="list-style-type:disc">위와 같이 사용할 경우 4행을 계산하지 않아도 되므로 <code>float</code>의 개수가 16개에서 12개로 줄어 처리할 것이 줄어듬 → 조금이나마 더 빠르게 처리 가능</li></ul><ul id="6906fdd2-5070-4736-a18e-99803b45d4bb" class="bulleted-list"><li style="list-style-type:disc">하지만 이 경우 Matrix3x4까지 만들어 행렬 구조체가 두개가 되므로 용도에 따라 구조체르 선택하여 사용하기 어려움</li></ul><h3 id="85aed381-9002-4d61-984c-bf01cb103d9a" class="">역행렬 계산의 고속화</h3><ul id="98c72e8c-1a17-4ef1-a57f-f060c3681752" class="bulleted-list"><li style="list-style-type:disc">4행이 (0, 0, 0, 1)이라는 것을 전제로 진행하면 역행렬 계산도 좀 더 빠르게 가능</li></ul><pre id="32f17a57-d1db-4b15-888f-4ce3a489d59d" class="code"><code>// 빠르게 역행렬 구하기
+    Matrix4x4 Matrix4x4_InverseFast( Matrix4x4 m)
+    {
+      float det;
+      det = m.m00*m.m11*m.m22 + m.m01*m.m12*m.m20 + m.m02*m.m10*m.m21
+          - m.m00*m.m12*m.m21 - m.m01*m.m10*m.m22 - m.m02*m.m11*m.m20;
+      
+      if ( det == 0.0f ) {
+              return m;    // det이 0일 때 처리할 수 없으므로 그대로 반환한다.
+      }
+      
+      det = 1.0f / det;    // 미리 역수로 만든다.
+    
+      Matrix4x4 r;
+      r.m00 = det * ( m.m11*m.m22 - m.m12*m.m21 );
+      r.m01 = det * ( m.m02*m.m21 - m.m01*m.m22 );
+      r.m02 = det * ( m.m01*m.m12 - m.m02*m.m11 );
+      r.m03 = det * ( m.m01*m.m13*m.m22 + m.m02*m.m11*m.m23 + m.m03*m.m12*m.m21 
+                    - m.m01*m.m12*m.m23 - m.m02*m.m13*m.m21 - m.m03*m.m11*m.m22 );
+    
+      r.m10 = det * ( m.m12*m.m20 - m.m10*m.m22 );
+      r.m11 = det * ( m.m00*m.m22 - m.m02*m.m20 );
+      r.m12 = det * ( m.m12*m.m10 - m.m00*m.m12 );
+      r.m13 = det * ( m.m00*m.m12*m.m23 + m.m02*m.m13*m.m20 + m.m03*m.m10*m.m22 
+                    - m.m00*m.m13*m.m22 - m.m02*m.m10*m.m23 - m.m03*m.m12*m.m20 );
+    
+      r.m20 = det * ( m.m10*m.m21 - m.m11*m.m20 );
+      r.m21 = det * ( m.m01*m.m20 - m.m00*m.m21 );
+      r.m22 = det * ( m.m00*m.m11 - m.m01*m.m10 );
+      r.m23 = det * ( m.m00*m.m13*m.m21 + m.m01*m.m10*m.m23 + m.m03*m.m11*m.m20 
+                    - m.m00*m.m11*m.m23 - m.m01*m.m13*m.m20 - m.m03*m.m21*m.m21 );
+    
+      r.m30 = 0.0f;
+      r.m31 = 0.0f;
+      r.m32 = 0.0f;
+      r.m33 = 1.0f;
+      return r;
+    }</code></pre><p id="7314c802-720c-4e5b-be1b-1ffa408ac80b" class="">
+    </p></div></article></body>
+
+{% endblock post_content %}

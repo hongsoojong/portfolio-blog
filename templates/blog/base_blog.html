@@ -31,13 +31,31 @@
                         전체 게시글
                     </a>
                 </ul>
-                {% for category in categories.all %}
-                    <ul class="ml-4 mb-2 text-base font-bold hover:text-green-600 font_kor">
-                        <a href="#">
-                            {{category.name}}
+                    <ul class="ml-2 mb-2 text-base font-bold hover:text-green-600 font_kor">
+                        <a href="{% url 'blog:category1' %}">
+                            프로그래밍 기초
                         </a>
                     </ul>
-                {% endfor %}
+                    <ul class="ml-2 mb-2 text-base font-bold hover:text-green-600 font_kor">
+                        <a href="{% url 'blog:category2' %}">
+                            C 언어
+                        </a>
+                    </ul>
+                    <ul class="ml-2 mb-2 text-base font-bold hover:text-green-600 font_kor">
+                        <a href="{% url 'blog:category3' %}">
+                            알고리즘
+                        </a>
+                    </ul>
+                    <ul class="ml-2 mb-2 text-base font-bold hover:text-green-600 font_kor">
+                        <a href="{% url 'blog:category4' %}">
+                            게임을 움직이는 수학
+                        </a>
+                    </ul>
+                    <ul class="ml-2 mb-2 text-base font-bold hover:text-green-600 font_kor">
+                        <a href="{% url 'blog:category5' %}">
+                            실습과 그림으로 배우는 리눅스 구조
+                        </a>
+                    </ul>
                 </nav>
             </div>
         </div>

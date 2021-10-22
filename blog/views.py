@@ -1,6 +1,95 @@
 from django.shortcuts import render, get_object_or_404
 from django.core.paginator import Paginator
 from . import models
+from rest_framework.response import Response
+from rest_framework import viewsets
+from rest_framework.views import APIView
+from rest_framework.response import Response
+from blog.serializer import BlogSerializer, CategorySerializer
+
+
+class BlogViewSet(APIView):
+    def get(self, request, format=None):
+        queryset = models.Blog.objects.all()
+        serializer = BlogSerializer(queryset, many=True)
+        return Response(serializer.data)
+
+
+class CategoryViewSet(APIView):
+    def get(self, request, format=None):
+        queryset = models.Category.objects.all()
+        serializer = CategorySerializer(queryset, many=True)
+        return Response(serializer.data)
+
+
+# 프로그래밍 기초 카테고리
+def category_basic(request):
+    categories = models.Category.objects
+    post_list = models.Blog.objects.filter(category_id="1").order_by("-pk")
+    paginator = Paginator(post_list, 5)
+    page = request.GET.get("page")
+    posts = paginator.get_page(page)
+    return render(
+        request,
+        "blog/category_blog.html",
+        {"posts": posts, "categories": categories},
+    )
+
+
+# C언어 카테고리
+def category_c(request):
+    categories = models.Category.objects
+    post_list = models.Blog.objects.filter(category_id="2").order_by("-pk")
+    paginator = Paginator(post_list, 5)
+    page = request.GET.get("page")
+    posts = paginator.get_page(page)
+    return render(
+        request,
+        "blog/category_blog.html",
+        {"posts": posts, "categories": categories},
+    )
+
+
+# 알고리즘 카테고리
+def category_algorithm(request):
+    categories = models.Category.objects
+    post_list = models.Blog.objects.filter(category_id="3").order_by("-pk")
+    paginator = Paginator(post_list, 5)
+    page = request.GET.get("page")
+    posts = paginator.get_page(page)
+    return render(
+        request,
+        "blog/category_blog.html",
+        {"posts": posts, "categories": categories},
+    )
+
+
+# 게임수학 카테고리
+def category_math(request):
+    categories = models.Category.objects
+    post_list = models.Blog.objects.filter(category_id="4").order_by("-pk")
+    paginator = Paginator(post_list, 5)
+    page = request.GET.get("page")
+    posts = paginator.get_page(page)
+    return render(
+        request,
+        "blog/category_blog.html",
+        {"posts": posts, "categories": categories},
+    )
+
+
+# 실습과 그림으로 배우는 리눅스 구조 카테고리
+def category_os(request):
+    categories = models.Category.objects
+    post_list = models.Blog.objects.filter(category_id="5").order_by("-pk")
+    paginator = Paginator(post_list, 5)
+    page = request.GET.get("page")
+    posts = paginator.get_page(page)
+    return render(
+        request,
+        "blog/category_blog.html",
+        {"posts": posts, "categories": categories},
+    )
 
 
 def detail(request, blog_pk):
@@ -96,3 +185,55 @@ def post18(request):
 
 def post19(request):
     return render(request, "blog/all_posts/post19.html")
+
+
+def post20(request):
+    return render(request, "blog/all_posts/post20.html")
+
+
+def post21(request):
+    return render(request, "blog/all_posts/post21.html")
+
+
+def post22(request):
+    return render(request, "blog/all_posts/post22.html")
+
+
+def post23(request):
+    return render(request, "blog/all_posts/post23.html")
+
+
+def post24(request):
+    return render(request, "blog/all_posts/post24.html")
+
+
+def post25(request):
+    return render(request, "blog/all_posts/post25.html")
+
+
+def post26(request):
+    return render(request, "blog/all_posts/post26.html")
+
+
+def post27(request):
+    return render(request, "blog/all_posts/post27.html")
+
+
+def post28(request):
+    return render(request, "blog/all_posts/post28.html")
+
+
+def post29(request):
+    return render(request, "blog/all_posts/post29.html")
+
+
+def post30(request):
+    return render(request, "blog/all_posts/post30.html")
+
+
+def post31(request):
+    return render(request, "blog/all_posts/post31.html")
+
+
+def post32(request):
+    return render(request, "blog/all_posts/post32.html")

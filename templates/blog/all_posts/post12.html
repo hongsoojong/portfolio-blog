@@ -18,201 +18,201 @@
 {% include "blog/all_posts/css_post.html" %}
   
 <!-- notion html -->
-<body><article id="3437595f-6e33-4635-bb88-fd28f2bff303" class="page sans"><div class="page-body"><h2 id="8ad62bf7-8d64-418b-9f75-e768a39ca78b" class="">가변 인자 함수(variadic function)</h2><figure class="block-color-gray_background callout" style="white-space:pre-wrap;display:flex" id="f992bcde-07fc-40cd-b651-20eccfc33d8e"><div style="font-size:1.5em"><span class="icon">💡</span></div><div style="width:100%"><strong>&lt;반환형&gt; &lt;함수명&gt;(&lt;자료형이_정해진_매개변수_목록&gt;, ...);</strong></div></figure><ul id="d662d50d-d555-4533-8de6-4aac2cf115a6" class="bulleted-list"><li style="list-style-type:disc">정해지지 않은 수의 매개변수(가변 인자)를 허용하는 함수<ul id="8280a525-f739-4fb4-9e36-6283ad4a1225" class="bulleted-list"><li style="list-style-type:circle">2개 넣어도 됨</li></ul><ul id="dbb3c4bd-5399-4c21-a891-ea9d78ead4c6" class="bulleted-list"><li style="list-style-type:circle">100개 넣어도 됨!</li></ul></li></ul><ul id="73c73406-6f25-4048-ae2f-e2568b1c4831" class="bulleted-list"><li style="list-style-type:disc">반드시 최소 한 개의 정해진 자료형의 매개변수가 필요</li></ul><ul id="bffabfac-630c-48be-88e6-dff511863308" class="bulleted-list"><li style="list-style-type:disc">가변 인자는 &#x27;<code>...</code>&quot;로 표현</li></ul><ul id="26abe848-7bea-4897-9fb6-c267510b6af7" class="bulleted-list"><li style="list-style-type:disc">아주 많이 사용되지는 않지만 가끔 유용한 경우가 있음<ul id="07722cf8-47b8-4d3a-b188-715c9af6d864" class="bulleted-list"><li style="list-style-type:circle">메모리에 블록을 크게 잡아두고 거기에 여러가지 자료형을 저장하는 함수</li></ul><ul id="76bfb5d0-bb46-4c5b-8d5c-94b83d2c3d93" class="bulleted-list"><li style="list-style-type:circle"><code>printf()</code>/<code>scanf()</code> 같은 것<pre id="58d3374a-2a12-4d44-a687-223a1ede1491" class="code"><code>int printf(const char* format, ...);
-int scanf(const char* format, ...);</code></pre></li></ul></li></ul><h3 id="2f73462e-f676-4420-ae37-a3de5feb0953" class="">가변 인자 함수의 예</h3><pre id="5acbbb50-4b64-409c-9150-6d0ab39e221e" class="code"><code>#include &lt;stdarg.h&gt;</code></pre><pre id="370d1e63-e00e-4157-8085-7a4d2678764f" class="code"><code>int add_ints (const size_t count, ...)
-{
-    va_list ap;
-    int sum;
-    size_t i;
-
-    sum = 0;
-    va_start(ap, count);
+<body><article id="14d91da4-83e8-4fee-82b2-8bfb5fc29261" class="page sans"><div class="page-body"><h2 id="c9bc8f01-5b5c-41ac-9e06-5ec05c3346d1" class="">가변 인자 함수(variadic function)</h2><figure class="block-color-gray_background callout" style="white-space:pre-wrap;display:flex" id="90492513-644e-4fd4-b118-5706a9ae0ca8"><div style="font-size:1.5em"><span class="icon">💡</span></div><div style="width:100%"><strong>&lt;반환형&gt; &lt;함수명&gt;(&lt;자료형이_정해진_매개변수_목록&gt;, ...);</strong></div></figure><ul id="01ce0e20-4f3b-461e-be77-0b7e5b0b0c11" class="bulleted-list"><li style="list-style-type:disc"><strong>정해지지 않은 수의 매개변수(가변 인자)를 허용하는 함수</strong><ul id="96ee990a-bf34-43c9-a38f-1f42c81e55bb" class="bulleted-list"><li style="list-style-type:circle">2개 넣어도 됨</li></ul><ul id="87f7d26c-add7-4438-83ef-761248aecc1d" class="bulleted-list"><li style="list-style-type:circle">100개 넣어도 됨!</li></ul></li></ul><ul id="f1176e63-9207-4706-9dda-cf103af040d4" class="bulleted-list"><li style="list-style-type:disc"><strong>반드시 최소 한 개의 정해진 자료형의 매개변수가 필요</strong></li></ul><ul id="a5423243-0c34-4613-9d9c-54611270f1d5" class="bulleted-list"><li style="list-style-type:disc">가변 인자는 &#x27;<code>...</code>&quot;로 표현</li></ul><ul id="cc1be047-3870-42a1-8ed8-669c66415b62" class="bulleted-list"><li style="list-style-type:disc">아주 많이 사용되지는 않지만 가끔 유용한 경우가 있음<ul id="d43b42ad-06e7-4281-970c-54d04ef2f782" class="bulleted-list"><li style="list-style-type:circle"><strong>메모리에 블록을 크게 잡아두고 거기에 여러가지 자료형을 저장하는 함수</strong></li></ul><ul id="aa83a53e-757a-4a65-9dce-cf26910e76b2" class="bulleted-list"><li style="list-style-type:circle"><strong><code>printf()</code></strong><strong>/</strong><strong><code>scanf()</code></strong><strong> 같은 것</strong><pre id="dea94ac7-3230-4a30-a548-5cbf0276e155" class="code"><code>int printf(const char* format, ...);
+    int scanf(const char* format, ...);</code></pre></li></ul></li></ul><h3 id="7a828383-f69d-4a8e-953d-85e715a5f3e7" class="">가변 인자 함수의 예</h3><pre id="5e20a437-90d6-4cd3-89fc-b083f02b8e01" class="code"><code>#include &lt;stdarg.h&gt;</code></pre><pre id="e1599ce1-9801-4a96-8f82-badf1b376ae4" class="code"><code>int add_ints (const size_t count, ...)
     {
-        for (i = 0; i &lt; count; i++) {
-            sum += va_arg(ap, int);
+        va_list ap;
+        int sum;
+        size_t i;
+    
+        sum = 0;
+        va_start(ap, count);
+        {
+            for (i = 0; i &lt; count; i++) {
+                sum += va_arg(ap, int);
+            }
         }
-    }
-    va_end(ap)
-
-    return sum;
-}	</code></pre><ul id="e08f8a9b-3bfb-40f2-8931-fee822baf431" class="bulleted-list"><li style="list-style-type:disc">정해진 자료형의 매개변수가 필요 → <code>const size_t count</code></li></ul><ul id="833158c3-2109-4d97-8db4-e49eb42205bb" class="bulleted-list"><li style="list-style-type:disc"><code>va_list</code> : 가변 인자 목록</li></ul><ul id="76f6a5c0-33da-4ea2-a50b-216c66f01220" class="bulleted-list"><li style="list-style-type:disc"><code>va_start,</code> <code>va_end</code> : 가변 인자의 시작/끝</li></ul><ul id="ec551c29-cf7b-497a-82bd-3a14132fd51a" class="bulleted-list"><li style="list-style-type:disc"><code>va_arg</code> : 가변 인자의 인자</li></ul><pre id="088aa873-3c3f-4d14-a7ad-990713fc8c08" class="code"><code>int main(void)
-{
-    int result;
-
-    result = add(1, 16); /* 1개, { 16 } */
-    printf(&quot;result: %d\n&quot;, result);
-
-    result = add_ints(4, 1, 2, 3, 4); /* 4개, {1, 2, 3, 4} */
-    printf(&quot;result: %d\n&quot;, result);
-
-    return 0;
-}</code></pre><pre id="678b3b71-6f1e-4d7a-9b60-8c23e21e7cfe" class="code"><code>result: 16
-result: 10
-_</code></pre><h2 id="0770b574-7176-470e-8d47-34f6ce328b52" class="">va_로 시작하는 매크로 함수들</h2><h3 id="d380ca30-3340-452d-b566-7ff5e9c53470" class="">va_list</h3><pre id="cadf11d7-4738-493d-8361-1e6c44271e99" class="code"><code>va_list ap;</code></pre><ul id="749de9b9-c39d-46bb-a9fb-caeb9fcc15fa" class="bulleted-list"><li style="list-style-type:disc">가변 인자 목록</li></ul><ul id="d4bf47fc-9cab-4f1a-b9f0-b7a4631c5a97" class="bulleted-list"><li style="list-style-type:disc"><code>va_start()</code>, <code>va_arg()</code>, <code>va_end()</code> 매크로 함수를 사용할 때 필요한 정보가 포함</li></ul><ul id="87891cf8-8e7d-4451-b8e7-af105d1e2031" class="bulleted-list"><li style="list-style-type:disc">명시되지 않은 자료형 (구현마다 다름)</li></ul><h3 id="a03f225d-0f19-4a05-8b53-5798878cbe48" class="">va_start()</h3><pre id="00db86b5-f686-4c28-9196-b5c626732b28" class="code"><code>va_start(&lt;가변_인자_목록&gt;, &lt;가변_인자_시작하기_직전_매개변수&gt;);</code></pre><ul id="5988613b-0e8d-4d0c-9e12-9ef066736524" class="bulleted-list"><li style="list-style-type:disc">매크로 함수</li></ul><ul id="4a9406ee-e461-41a0-b5d9-8147dd69384a" class="bulleted-list"><li style="list-style-type:disc">함수 매개변수로 들어온 가변 인자들에 접근하기 전에 반드시 호출해야 함</li></ul><ul id="9a969f4f-45be-4f1f-bbef-92e5f0aac107" class="bulleted-list"><li style="list-style-type:disc"><code>va_list</code>에 필요한 초기화를 수행<ul id="9aa059af-a2f3-4aa9-8c86-cb7cc71626c3" class="bulleted-list"><li style="list-style-type:circle">특히 가변 인자가 스택 메모리의 어디서부터 시작하는지 찾아냄</li></ul><ul id="08addd64-2107-4bb1-98df-0579a5a870d9" class="bulleted-list"><li style="list-style-type:circle">그래서 두 번째 매개변수가 필요</li></ul></li></ul><h3 id="178f88bb-3ef2-463d-bc83-3532bf78f2e3" class="">va_end()</h3><pre id="865c16cd-6100-4ca9-b62f-3a6fbc464c7d" class="code"><code>va_end(&lt;가변_인자_목록&gt;);</code></pre><ul id="eb502aaa-09c1-48cc-917b-008f4fad95d9" class="bulleted-list"><li style="list-style-type:disc">매크로 함수</li></ul><ul id="276a6886-cb0c-469c-aa0c-22f32fe36ad5" class="bulleted-list"><li style="list-style-type:disc">함수 매개변수로 들어온 가변 인자들에 접근이 끝난 뒤에 반드시 호출해야 함</li></ul><ul id="3e83a117-dde4-491a-8854-2fad576c91ea" class="bulleted-list"><li style="list-style-type:disc">사용했던 가변 인자 목록을 정리함<ul id="1cffab0a-8ed0-418a-96a6-f62f2bebd60c" class="bulleted-list"><li style="list-style-type:circle">더 이상 가변 인자 목록을 사용할 수 없도록 가변 인자 목록의 값을 수정함</li></ul></li></ul><h3 id="76fbe424-d2aa-42b9-ae7f-a3a10708b701" class="">중괄호의 사용</h3><pre id="0e11849b-9140-4d5c-a0f5-ee1d785de04e" class="code"><code>va_list ap;
-
-va_start(ap, count);
-{
-    /* 코드 생략 */
-}
-va_end(ap)</code></pre><ul id="dfe520ff-16f3-4090-96b4-3d2a15e53ec8" class="bulleted-list"><li style="list-style-type:disc">중괄호(<code>{}</code>) 블록 사용을 통해 가독성을 높일 수 있음</li></ul><ul id="c6e877cc-af9a-45e2-8331-5099401ba0ed" class="bulleted-list"><li style="list-style-type:disc">이를 통해 <code>va_end()</code> 넣는 것을 까먹지 말아야 함</li></ul><h3 id="087f4142-b6b3-466d-8270-a32f1a7c5011" class="">va_arg()</h3><pre id="19ccc5a9-f804-417a-a24b-cd892933f3c4" class="code"><code>va_arg(&lt;가변_인자_목록&gt;, &lt;얻어올_가변_인자의_자료형&gt;);</code></pre><ul id="21e9f9a8-64f9-4a6d-8ef6-8730bf25ddd2" class="bulleted-list"><li style="list-style-type:disc">매크로 함수</li></ul><ul id="d2bd21ce-003d-42aa-a34c-1c2f22b37cc4" class="bulleted-list"><li style="list-style-type:disc">가변 인자 목록으로부터 다음 가변 인자를 가져옴</li></ul><ul id="c0c6034a-2555-4e0c-9dff-302af07c3425" class="bulleted-list"><li style="list-style-type:disc">가져올 가변 인자의 자료형은 두 번째 매개변수로 알려줌</li></ul><ul id="145fe702-f3af-45b5-9852-61d6b6f72d51" class="bulleted-list"><li style="list-style-type:disc">예전 표준상의 문제로 가변 인자 목록의 기본 자료형 인자들은 다음과 같이 승격(promotion) 됨<ul id="71795f0e-999c-4e8c-a358-055b4cd7f113" class="bulleted-list"><li style="list-style-type:circle">모든 정수형은 <code>int</code>로</li></ul><ul id="c29bf5d5-9ed7-483a-b3c6-16165aa5d487" class="bulleted-list"><li style="list-style-type:circle">모든 부동소수점은 <code>double</code>로<p id="11fe78b9-e9ac-4162-8a65-ce250ecec81a" class="">⇒ <code>printf(%f, float)</code> / <code>pirntf(%f, double)</code></p></li></ul></li></ul><ul id="81e0db15-60bb-4f56-941d-5a239ab60560" class="bulleted-list"><li style="list-style-type:disc">따라서, 두 번째 매개변수에는 <code>int</code>나 <code>d</code>ouble을 쓸 것<pre id="d0eb586a-a5e7-4df7-9ff6-62103456cac8" class="code"><code>sum += va_arg(ap.int);</code></pre></li></ul><h3 id="e52c0870-c5c3-4a01-b58c-63b80ef0221c" class="">구조체와 가변 인자</h3><pre id="c964d221-a561-4cf3-93b2-6f168ba60d6b" class="code"><code>typedef struct {
-    int num;
-    float f;
-} number_t;</code></pre><pre id="c2de7aa0-7e0c-4884-aa4b-716782297a3f" class="code"><code>void do_something(const size_t count, ...)
-{
-    va_list ap;
-    number_t n;
-
+        va_end(ap);
+    
+        return sum;
+    }	</code></pre><ul id="05e4e528-354d-463f-bead-beffd7fb2fa2" class="bulleted-list"><li style="list-style-type:disc">정해진 자료형의 매개변수가 필요 → <code>const size_t count</code></li></ul><ul id="c39d5a0f-1de8-40cc-b1ac-ab3f51b8d02d" class="bulleted-list"><li style="list-style-type:disc"><code>va_list</code> : 가변 인자 목록</li></ul><ul id="95610cee-b931-402e-8468-0cb92e009ab4" class="bulleted-list"><li style="list-style-type:disc"><code>va_start,</code> <code>va_end</code> : 가변 인자의 시작/끝</li></ul><ul id="07695a22-01d3-4c5f-a964-4edefe80146e" class="bulleted-list"><li style="list-style-type:disc"><code>va_arg</code> : 가변 인자의 인자</li></ul><pre id="327fdb82-9abe-4f1e-8b1b-361da9d5ba81" class="code"><code>int main(void)
+    {
+        int result;
+    
+        result = add(1, 16); /* 1개, { 16 } */
+        printf(&quot;result: %d\n&quot;, result);
+    
+        result = add_ints(4, 1, 2, 3, 4); /* 4개, {1, 2, 3, 4} */
+        printf(&quot;result: %d\n&quot;, result);
+    
+        return 0;
+    }</code></pre><pre id="374493f7-dfc7-4130-97a5-5889cbb0886c" class="code"><code>result: 16
+    result: 10
+    _</code></pre><h2 id="7bdb6779-5a76-498e-afb4-72a8c403719d" class="">va_로 시작하는 매크로 함수들</h2><h3 id="f38d9d7c-87a2-4d31-b9e5-6aed32c3ff4c" class="">va_list</h3><pre id="9b704faa-2a5c-48d6-b413-4aa36d9efce7" class="code"><code>va_list ap;</code></pre><ul id="e5520eb1-7cfb-433f-aa08-1a77ab1fbc0a" class="bulleted-list"><li style="list-style-type:disc">가변 인자 목록</li></ul><ul id="1d6ac62c-67e3-44bb-b677-0623c3b8b7bc" class="bulleted-list"><li style="list-style-type:disc"><code>va_start()</code>, <code>va_arg()</code>, <code>va_end()</code> 매크로 함수를 사용할 때 필요한 정보가 포함</li></ul><ul id="de1d80c0-81c7-4298-bc2d-6e264e80aa0b" class="bulleted-list"><li style="list-style-type:disc">명시되지 않은 자료형 (구현마다 다름)</li></ul><h3 id="3468abf4-e2fa-40ba-b05d-656b6adc4521" class="">va_start()</h3><pre id="9b0bda23-d5d7-4e1c-b30c-7e46ba646eaa" class="code"><code>va_start(&lt;가변_인자_목록&gt;, &lt;가변_인자_시작하기_직전_매개변수&gt;);</code></pre><ul id="36a804d1-6e42-47f0-9f71-0ca97e584feb" class="bulleted-list"><li style="list-style-type:disc">매크로 함수</li></ul><ul id="cef2066b-553a-47a4-9431-510414cc2ca2" class="bulleted-list"><li style="list-style-type:disc"><strong>함수 매개변수로 들어온 가변 인자들에 접근하기 전에 반드시 호출해야 함</strong></li></ul><ul id="73a5ebad-c99e-4923-831a-e66039c892c0" class="bulleted-list"><li style="list-style-type:disc"><code>va_list</code>에 필요한 초기화를 수행<ul id="ab2e8f12-8c0d-4008-8627-1d87997d9e9f" class="bulleted-list"><li style="list-style-type:circle">특히 가변 인자가 스택 메모리의 어디서부터 시작하는지 찾아냄</li></ul><ul id="c3fe64b0-895d-49f2-8aba-c128fe968942" class="bulleted-list"><li style="list-style-type:circle">그래서 두 번째 매개변수가 필요</li></ul></li></ul><h3 id="657b3fb6-22bd-4956-a727-bac71bdc180e" class="">va_end()</h3><pre id="75d27b7e-a44f-4486-bfca-c6a7126b6c0d" class="code"><code>va_end(&lt;가변_인자_목록&gt;);</code></pre><ul id="a2db5e64-0bd6-4c9d-8f58-63271e70f64a" class="bulleted-list"><li style="list-style-type:disc">매크로 함수</li></ul><ul id="3cb18b31-037f-444a-b8da-2713fe616bfc" class="bulleted-list"><li style="list-style-type:disc"><strong>함수 매개변수로 들어온 가변 인자들에 접근이 끝난 뒤에 반드시 호출해야 함</strong></li></ul><ul id="aa557bcd-5d89-4999-b272-b33b35cf9e11" class="bulleted-list"><li style="list-style-type:disc">사용했던 가변 인자 목록을 정리함<ul id="9d79bfb2-f914-44ce-8a21-6507b7a2508b" class="bulleted-list"><li style="list-style-type:circle">더 이상 가변 인자 목록을 사용할 수 없도록 가변 인자 목록의 값을 수정함</li></ul></li></ul><h3 id="49374b41-696a-4134-a2cc-7e0c70746d98" class="">중괄호의 사용</h3><pre id="15a519e3-db8c-4e99-bba4-e4e7e28b6c6b" class="code"><code>va_list ap;
+    
     va_start(ap, count);
     {
-        n = va_arg(ap, number_t);
-        /* 코드 */
+        /* 코드 생략 */
     }
-    va_end(ap);
-}</code></pre><pre id="b8d01b36-a30f-4320-a14c-e4a51ba55ba4" class="code"><code>number_t nums { 10, 3.14f };
-do_something(1, nums);</code></pre><h3 id="e5933fde-ea41-44d2-9d09-6ab1049693ab" class="">어떻게 가변 인자 목록에서 자료를 읽는가</h3><ul id="307255e7-f8d3-406f-bd54-c6f5365861a2" class="bulleted-list"><li style="list-style-type:disc">C에서 실행 중에 자동으로 자료형을 판단하는 기능이 없음</li></ul><ul id="206adcb4-36be-46c0-91ac-58b0efbe81f3" class="bulleted-list"><li style="list-style-type:disc">따라서 컴파일러가 이와 비슷한 코드를 컴파일할 수 있게 준비해줘야 함<pre id="042e8828-4999-4ba2-bb3b-ebe4f4d6e47c" class="code"><code>void* p = data_blokc;
-int value = *(int*)p;
-
-/* 자료형이 int인지 float인지 판단해줘야함*/</code></pre></li></ul><ul id="627470c6-6a3b-4eb9-9762-a1c4cf551fcc" class="bulleted-list"><li style="list-style-type:disc">전처리기를 통해 컴파일러가 컴파일 할 수 있게 미리 코드를 만들어줌</li></ul><h3 id="c2998efe-b53c-4892-92cd-e2dd87dd0daf" class="">va_arg()는 매크로 함수</h3><ul id="a388e0eb-199b-4f00-b039-aaf7a06b42e9" class="bulleted-list"><li style="list-style-type:disc">함수처럼 보이지만 엄밀한 의미의 함수는 아님<ul id="01e2151e-6997-417a-96f9-5f6f848f4ac1" class="bulleted-list"><li style="list-style-type:circle">스택 프레임을 만들지도 앟음</li></ul><ul id="e805db2d-e177-4673-8b4b-3862b8d28edb" class="bulleted-list"><li style="list-style-type:circle">매개변수를 전달하지도 않음</li></ul><ul id="681d860a-7668-47ff-b420-f6df0fe60219" class="bulleted-list"><li style="list-style-type:circle">함수 주소로 점프하지도 않음</li></ul></li></ul><ul id="38bf7ba0-3648-44a3-acde-8ae215b34b95" class="bulleted-list"><li style="list-style-type:disc">그 대신 전처리기가 매크로 함수의 구편 코드로 대체시켜줌</li></ul><pre id="4d220a27-1f59-4151-9838-9ae63c17fcf3" class="code"><code>val = va_arg(ap, int);
-
-/* 위를 아래와 같이 바꿔줌 */
-
-val = *(int*)ap.data; /* int로 읽어주고 */
-((int*)ap.data)++;    /* 다음 인자로 넘어감 */</code></pre><h2 id="be4ad564-ef90-44d3-9949-a7b9c1649ffa" class="">가변 인자 함수가 인자를 읽어오는 방법</h2><h3 id="8fafc2d6-0d13-4b12-bfdd-c16a67da259c" class="">다른 수의 매개변수를 스택에 넣는 방법</h3><ul id="3abc47f0-5d7e-4a73-a0ff-ae267ea0a469" class="bulleted-list"><li style="list-style-type:disc">어떤 함수를 호출할 때마다 매개변수를 순서대로 스택에 넣어줌</li></ul><ul id="0dcab805-639b-4aaa-8941-e8645a880d8a" class="bulleted-list"><li style="list-style-type:disc">가변 인자 함수의 경우 매개 변수의 개수가 바뀜</li></ul><ul id="f5517c1f-9eb9-4050-8672-f235dde3ff1e" class="bulleted-list"><li style="list-style-type:disc">가변 인자 함수를 호출하는 호출자는 매개변수 몇개를 넣어야하는지 알 고 있음<pre id="fad0601a-1888-41a4-ac83-d277f0fee9a0" class="code"><code>add_ints(1, 16);            /* 2개 */
-add_ints(4, 1, 2, 3, 4 };   /* 5개 */</code></pre><p id="5e06bc02-848b-4507-8447-ff550b4a7e55" class="">⇒ 따라서 그냥 다 넣어줌</p></li></ul><ul id="c4e922a0-2abc-44ee-909b-9c7ce5fc2633" class="bulleted-list"><li style="list-style-type:disc">가변인자 함수의 첫 번째 매개변수가 저장된 스택 메모리의 위치는 <code>add_ints()</code> 함수의 스택 프레임 바로 전<ul id="8083935e-5d09-4aec-84c3-df6ec5927e09" class="bulleted-list"><li style="list-style-type:circle">따라서 호출 받은 함수가 어디서 첫 번째 변수를 읽어와야하는지 알고 있음</li></ul></li></ul><p id="7e8fd74e-c62f-408b-94f8-1c9c39699e39" class=""><strong>&lt;가변 인자 함수가 인자를 읽어오는 방법&gt;</strong></p><p id="b76e47fb-8996-409f-bf2c-6df77db13337" class="">1) <code>va_start(ap, count)</code>에서 가변 인자 시작 직전 매개변수(int형)에 기초해서 가변 인자 목록의 시작 메모리 주소를 계산</p><ul id="0b440be8-69cf-4376-a039-262434c1a428" class="bulleted-list"><li style="list-style-type:disc">1번 단계를 통해 1을 가리키게 됨<p id="a2389ce2-a3a4-4685-8d56-85edfcd4630d" class=""><code>va_start(ap, count)</code> → <code>ap.data = (char*)&amp;count + sizeof(int);</code></p></li></ul><hr id="1a1bbd20-76a6-46dd-b97c-2f0334a880a3"/><p id="b462738e-bb07-410b-9d22-3798b97e66ac" class="">2) <code>va_arg(ap, int);</code>가 호출될 때마다 int 크기만큼 더해가며 읽을 위치를 변경하면 됨</p><ul id="4ebdc7ac-9a8a-4a41-9766-2d32c4ab595c" class="bulleted-list"><li style="list-style-type:disc">만약 ap.data가 1이 들어있는 메모리를 가리킨다면</li></ul><ul id="34919ec5-47d7-4936-bc54-b7ac8b71042e" class="bulleted-list"><li style="list-style-type:disc">자신의 int 크기 만큼 증가시킴 → 2를 가리킴<p id="602aef90-08b0-46dc-acc1-913b1cc7c977" class=""><code>va_arg(ap, int);</code> → <code>val = int(int)ap.data;</code> <code>((int*)ap.data)++;</code></p></li></ul><hr id="1a13e90a-1126-4cf8-b413-112d8a8c4fce"/><p id="ef63e699-d754-47db-b437-4fb7b9a59152" class="">⇒ 따라서 <code>va_list</code>는 스택 메모리에서 위치를 가리키는 포인터 같은 것을 가지고 있다고 추측할 수 있음</p><h3 id="8dc8ba18-177d-49ec-b421-5e52cee20799" class="">함수에서 매개변수로 가변인자만 받을 수 있는가</h3><pre id="561ed224-f825-4982-bbaa-0cee74310178" class="code"><code>int add_ints(...);</code></pre><p id="97e8d62c-ac4a-45a8-957a-a4d7f0256a8c" class="">함수의 첫 번째 매개변수로 가변 인자 못 씀</p><ul id="d127b804-e781-4813-a492-4bf14b671c6f" class="bulleted-list"><li style="list-style-type:disc">가변 인자(<code>...</code>) 앞에 자료형이 특정된 매개변수가 반드시 있어야함</li></ul><ul id="a4c7f8da-f921-4c5c-91dc-c4a4cedb43e2" class="bulleted-list"><li style="list-style-type:disc">가변 인자 뒤에 자료형이 정해진 매개변수가 있으면 안됨<ul id="914a944b-ec57-4db0-a4ea-fef271e903f7" class="bulleted-list"><li style="list-style-type:circle">함수가 정확히 어느 오프셋에서 읽어와야하는지 컴파일 중 특정 불가<pre id="e9b42c11-f83d-4c15-ba47-2a504d4d7a9e" class="code"><code>void do_something(..., int);          /* 컴파일 오류 */ 
-void do_something(int, ..., int);     /* 컴파일 오류 */
-void do_something(int, int, ...);     /* OK */</code></pre></li></ul></li></ul><ul id="e77f4e92-5362-42b3-bba0-c5569b9343ed" class="bulleted-list"><li style="list-style-type:disc">즉, 가변 인자 아닌 것을 우선 차례대로 읽음</li></ul><ul id="e87e3178-1259-407a-bc21-6b35d04993d7" class="bulleted-list"><li style="list-style-type:disc">그 뒤, 가변 인자는 <code>va_arg()</code>가 시키는 대로 하나씩 주소를 늘려가며 읽음</li></ul><p id="8ba311e8-c3e3-4b35-8d6c-0766fe12808b" class=""><strong>Why?</strong></p><p id="4cb9c7cb-b346-40d9-8221-ea9103c12d36" class="">1) 가변 인자가 몇 갠지 가변 인자 함수는 알 수 없음</p><ul id="869fc564-fb73-4fe5-ac6d-50fbc08a8bf0" class="bulleted-list"><li style="list-style-type:disc">실제 가변 인자가 몇 개 들어왔는지 호출된 함수는 모름</li></ul><ul id="cbf7a334-92c8-457f-95ad-2e15fed3525a" class="bulleted-list"><li style="list-style-type:disc">그래서 앞의 예에선 매개변수 count로 제어<pre id="bbc646ed-5e00-4163-97cd-0b2979e45ac7" class="code"><code>int add_int(const size_t count, ...);
-
-result = add_ints(1, 16);
-result - add_ints(4, 1, 2, 3, 4);</code></pre></li></ul><ul id="1403eaa6-cad4-4e5b-94b7-4b2cd6e69532" class="bulleted-list"><li style="list-style-type:disc">단, 스택 메모리의 어느 위치부터 가변 인자가 시작되는지 앎</li></ul><p id="9affd411-04f6-426c-998e-84b70c35383b" class="">2) 가변 인자의 자료형을 가변 인자 함수는 모름</p><ul id="2b042120-9354-4472-8306-11cb37095a33" class="bulleted-list"><li style="list-style-type:disc">어떤 형의 가변 인지인지는 실행 중 결정</li></ul><ul id="308afd60-7624-4b03-9e33-85838058c01f" class="bulleted-list"><li style="list-style-type:disc">그래서 가변 인자 함수 자체는 스택의 어떤 위치를 어떤 형으로 읽어야하는지 모름</li></ul><ul id="c244174f-bcda-48fd-a80a-a5f2245cb831" class="bulleted-list"><li style="list-style-type:disc">따라서, 정해진 자료형으로 넘겨주는 매개변수로부터 알아내야함<pre id="19a19aa9-da05-405a-bf34-944e18050f27" class="code"><code>int printf(const char* format, ...);</code></pre><pre id="cf62c455-1cc6-4d7d-a4cc-73ba7ce51491" class="code"><code>printf(&quot;%d&quot;, score);          /* 정수 하나를 읽어줘! */
-printf(&quot;%s %f&quot;, msg, number); /* 문자열 하나랑 부동소수점 하나를 순서대로 읽어줘 */</code></pre><ul id="e67f0abb-19a0-4698-8c04-ebd34d250547" class="bulleted-list"><li style="list-style-type:circle"><code>printf()</code>에서 첫 번쨰 매개변수는 변환 문자열<ul id="a1cc2eef-0138-4f6e-beb1-2f747b9bc668" class="bulleted-list"><li style="list-style-type:square">잘 보면 이 문자열이 앞서 본 가변 인자 함수가 알지 못하는 정보를 다 알려줌</li></ul><ul id="1d551f27-e661-4cd5-9def-8dddec83c5d6" class="bulleted-list"><li style="list-style-type:square">가변 인자 목록에 인자가 몇개인지</li></ul><ul id="d91f1184-1a55-4a6d-af5e-15040931548d" class="bulleted-list"><li style="list-style-type:square">각 인자의 자료형이 무엇인지</li></ul><ul id="c089e344-438e-45b2-b4c9-136aab689b12" class="bulleted-list"><li style="list-style-type:square">잘못된 서식 지정자 넣어주면 경고 주는 이유도 바로 이것임</li></ul><ul id="7d5fd496-c208-4f55-8aac-24c1ce5d845e" class="bulleted-list"><li style="list-style-type:square">변환 문자열에 들어간 서식 지정자 수가 매개 변수보다 많으면 경고<p id="519070dd-f6ea-4d99-b2e2-3a3b51bcde64" class="">⇒ 실제 개수 이상으로 읽어버리면 그 전의 스택 주소에 있는 값을 읽게 됨</p></li></ul></li></ul></li></ul><h3 id="16eb0014-0a61-45f1-b78a-be7d32c89c08" class="">초간단 서식 지정자</h3><pre id="6c55e4ca-bb89-4a4f-a8d6-9b80c097a9f8" class="code"><code>#include &quot;simpleio.h&quot;
-
-int main(void)
-{
-    printf_simple(&quot;c\n&quot;, &#x27;A&#x27;);
-    printf_simple(&quot;d\n, 10);
-    printf_simple(&quot;s\n&quot;, &quot;Hello&quot;);
-
-    printf_simple(&quot;\n&quot;);
-    printf_simple(&quot;c d s \n&quot;, &#x27;A&#x27;, 10, &quot;Hello&quot;);
-
-    return 0
-}</code></pre><pre id="d2c672f4-a1ed-4ff9-984f-9d1db3b0d44c" class="code"><code>#include &lt;stdarg.h&gt;
-#include &lt;stdio.h&gt;
-#include &lt;string.h&gt;
-
-#include &quot;simpleio.h&quot;
-
-static void print_int_recursive(unsigned int val)
-{
-    if (val == 0) {
-        return;
-    }
-
-    print_int recursive(val / 10);
-    putchar(&#x27;0&#x27; + val % 10);
-}
-
-static void print_int(unsigned int val) {
-    if (val == 0) {
-        putchar(&#x27;0&#x27;);
-        return;
-    }
-
-        print_int_recursive(val)
-}
-
-void printf_simple(const char* format, ...)
-{
-    va_list ap;
-
-    va_start(ap, format);
+    va_end(ap)</code></pre><ul id="653b4f8c-53a8-4fc2-8469-075d73a44170" class="bulleted-list"><li style="list-style-type:disc"><strong>중괄호(</strong><strong><code>{}</code></strong><strong>) 블록 사용을 통해 가독성을 높일 수 있음</strong></li></ul><ul id="40cec87e-5afd-489e-8c97-ff0716ef7728" class="bulleted-list"><li style="list-style-type:disc">이를 통해 <code>va_end()</code> 넣는 것을 까먹지 말아야 함</li></ul><h3 id="cd05ea4b-1c45-417c-9b51-1eb1aa079478" class="">va_arg()</h3><pre id="78893828-85e8-41e8-919e-87b3c4b9083f" class="code"><code>va_arg(&lt;가변_인자_목록&gt;, &lt;얻어올_가변_인자의_자료형&gt;);</code></pre><ul id="b18136df-d9c9-4ac3-85b3-cf7a82248ea6" class="bulleted-list"><li style="list-style-type:disc">매크로 함수</li></ul><ul id="88aa9fb5-5ad7-415c-ae55-f1d40938d2a0" class="bulleted-list"><li style="list-style-type:disc"><strong>가변 인자 목록으로부터 다음 가변 인자를 가져옴</strong></li></ul><ul id="0eee2dcb-7344-4a93-89bc-e57e99efcfc9" class="bulleted-list"><li style="list-style-type:disc">가져올 가변 인자의 자료형은 두 번째 매개변수로 알려줌</li></ul><ul id="e5945b82-1dd3-4797-81c0-d364769cc9f1" class="bulleted-list"><li style="list-style-type:disc"><strong>예전 표준상의 문제로 가변 인자 목록의 기본 자료형 인자들은 다음과 같이 승격(promotion) 됨</strong><ul id="065bb5b4-ebb7-4ec3-9356-7e655494f4df" class="bulleted-list"><li style="list-style-type:circle"><strong>모든 정수형은 </strong><strong><code>int</code></strong><strong>로</strong></li></ul><ul id="fa693290-2e8c-4b8e-ab9b-034e7e16a28a" class="bulleted-list"><li style="list-style-type:circle"><strong>모든 부동소수점은 </strong><strong><code>double</code></strong><strong>로</strong><p id="8600c29d-df7f-4465-a66c-d8ad040ae0cb" class="">⇒ <code>printf(%f, float)</code> / <code>pirntf(%f, double)</code></p></li></ul></li></ul><ul id="d7846cb9-d553-4879-b650-997753949bef" class="bulleted-list"><li style="list-style-type:disc"><strong>따라서, 두 번째 매개변수에는 </strong><strong><code>int</code></strong><strong>나 </strong><strong><code>double</code></strong><strong>을 쓸 것</strong><pre id="6c177544-c50f-4ec3-abe5-220a663aa2e2" class="code"><code>sum += va_arg(ap.int);</code></pre></li></ul><h3 id="43cf62ca-9870-4ec1-b232-f481b09168c2" class="">구조체와 가변 인자</h3><pre id="85e49c1a-617b-4543-b6d4-c950fbc3eb04" class="code"><code>typedef struct {
+        int num;
+        float f;
+    } number_t;</code></pre><pre id="e83d8adb-807c-4aec-b47c-6b5e9bde25d3" class="code"><code>void do_something(const size_t count, ...)
     {
-        while (*format != &#x27;\0&#x27;) {
-            unsigned val;
-            const char* str;
-
-            switch(*format) {
-                case &#x27;s&#x27;:
-                    str = va_arg(ap, const char*);
-                    while (*str != &#x27;\0&#x27;) {
-                        purtchar(*str++);
-                    }
-                    break;
-                case &#x27;c&#x27;:
-                    val = va_arg(ap, unsigned int);
-                    print_int(val);
-                    break;
-                case &#x27;d&#x27;:
-                    val = va_arg(ap, unsigned int);
-                    print_int(val);
-                    break;
-                default:
-                    purtchar(*format);
-                    break
+        va_list ap;
+        number_t n;
+    
+        va_start(ap, count);
+        {
+            n = va_arg(ap, number_t);
+            /* 코드 */
+        }
+        va_end(ap);
+    }</code></pre><pre id="c7372156-916c-4d4c-b2d2-d22096700c16" class="code"><code>number_t nums { 10, 3.14f };
+    do_something(1, nums);</code></pre><h3 id="ab9bfd72-230e-4505-83e9-ea2e7fff185b" class="">어떻게 가변 인자 목록에서 자료를 읽는가</h3><ul id="4c27a5d1-a14f-4fb4-bef8-39ef18192e41" class="bulleted-list"><li style="list-style-type:disc">C에서 실행 중에 자동으로 자료형을 판단하는 기능이 없음</li></ul><ul id="24e6f04a-6dd4-4277-9b03-11c72b6283b2" class="bulleted-list"><li style="list-style-type:disc">따라서 컴파일러가 이와 비슷한 코드를 컴파일할 수 있게 준비해줘야 함<pre id="b45a3e84-fb87-41ed-9327-e462f6c7b2bc" class="code"><code>void* p = data_blokc;
+    int value = *(int*)p;
+    
+    /* 자료형이 int인지 float인지 판단해줘야함*/</code></pre></li></ul><ul id="4d259f22-1261-43b3-9027-126c65eb2776" class="bulleted-list"><li style="list-style-type:disc">전처리기를 통해 컴파일러가 컴파일 할 수 있게 미리 코드를 만들어줌</li></ul><h3 id="3bb38459-cb48-49fc-8feb-77a43840e0b2" class="">va_arg()는 매크로 함수</h3><ul id="055341b2-b5d8-4047-9f49-0de11b035b39" class="bulleted-list"><li style="list-style-type:disc">함수처럼 보이지만 엄밀한 의미의 함수는 아님<ul id="49baf86d-514e-41a9-886a-f8390883f7fd" class="bulleted-list"><li style="list-style-type:circle">스택 프레임을 만들지도 앟음</li></ul><ul id="6e2f62aa-cecf-4e77-af0c-f387a5ee943f" class="bulleted-list"><li style="list-style-type:circle">매개변수를 전달하지도 않음</li></ul><ul id="938da216-769f-4c13-b024-87d11af11d72" class="bulleted-list"><li style="list-style-type:circle">함수 주소로 점프하지도 않음</li></ul></li></ul><ul id="44956345-5917-42b6-95a1-284ee9ad3ac4" class="bulleted-list"><li style="list-style-type:disc">그 대신 <strong>전처리기가 매크로 함수의 구편 코드로 대체</strong>시켜줌</li></ul><pre id="a806a8f8-b5e7-47e3-8253-a0a2d7a77019" class="code"><code>val = va_arg(ap, int);
+    
+    /* 위를 아래와 같이 바꿔줌 */
+    
+    val = *(int*)ap.data; /* int로 읽어주고 */
+    ((int*)ap.data)++;    /* 다음 인자로 넘어감 */</code></pre><h2 id="ded0485b-b70f-4874-b417-0defe911799d" class="">가변 인자 함수가 인자를 읽어오는 방법</h2><h3 id="924c6b3c-96b8-482e-9576-8cff06cd4ac5" class="">다른 수의 매개변수를 스택에 넣는 방법</h3><hr id="07eb6bbc-5bee-4fe7-85b7-da2876640650"/><p id="c954d533-f2b2-433d-9bf4-d25bb75f76c7" class="">어떤 함수를 호출할 때마다 매개변수를 순서대로 스택에 넣어줌</p><hr id="98fdce7a-ba55-4c59-a7e7-599ba3f11bd0"/><ul id="660e6587-9077-4620-9667-2d84f5024e8d" class="bulleted-list"><li style="list-style-type:disc">가변 인자 함수의 경우 매개 변수의 개수가 바뀜</li></ul><ul id="071d82e1-75b4-4515-b21f-c02c8dd77f90" class="bulleted-list"><li style="list-style-type:disc">가변 인자 함수를 호출하는 호출자는 매개변수 몇개를 넣어야하는지 알고 있음<pre id="a1b94ae6-324a-459c-a7f6-2f47e3f32df8" class="code"><code>add_ints(1, 16);            /* 2개 */
+    add_ints(4, 1, 2, 3, 4 };   /* 5개 */</code></pre><p id="429cdb49-670d-4d78-b84f-c9f6463ec71b" class="">⇒ 따라서 그냥 다 넣어줌</p></li></ul><ul id="dcaaabac-4b73-4366-aff1-a97d559e8300" class="bulleted-list"><li style="list-style-type:disc">가변인자 함수의 첫 번째 매개변수가 저장된 스택 메모리의 위치는 <code>add_ints()</code> 함수의 스택 프레임 바로 전<ul id="5d469909-4a70-4784-9538-f07d51b5359c" class="bulleted-list"><li style="list-style-type:circle">따라서 호출 받은 함수가 어디서 첫 번째 변수를 읽어와야하는지 알고 있음</li></ul></li></ul><p id="1f7d0a1a-e2ba-4584-b3b4-194f9615ed05" class=""><strong>&lt;가변 인자 함수가 인자를 읽어오는 방법&gt;</strong></p><p id="86d9981f-c294-4899-869a-675c64f90cde" class="">1) <code>va_start(ap, count)</code>에서 가변 인자 시작 직전 매개변수(int형)에 기초해서 가변 인자 목록의 시작 메모리 주소를 계산</p><ul id="57c78c1a-608e-42e4-8c95-e314873a6848" class="bulleted-list"><li style="list-style-type:disc">1번 단계를 통해 1을 가리키게 됨</li></ul><hr id="86064736-7914-4737-b578-f9b1fa1a792a"/><p id="08ebd01a-1c15-4f12-a4b0-eea9309f6893" class=""><code>va_start(ap, count)</code> → <code>ap.data = (char*)&amp;count + sizeof(int);</code></p><hr id="a40905f8-c5eb-402b-9897-7646f492fa6f"/><p id="349282e0-e4ed-4677-9762-2cb2876a73a6" class="">2) <code>va_arg(ap, int);</code>가 호출될 때마다 int 크기만큼 더해가며 읽을 위치를 변경하면 됨</p><ul id="6d7dec48-5775-4048-973f-c8162ec26f1e" class="bulleted-list"><li style="list-style-type:disc">만약 ap.data가 1이 들어있는 메모리를 가리킨다면</li></ul><ul id="c75f40dc-b504-4be2-9d59-c43a90af8e61" class="bulleted-list"><li style="list-style-type:disc">자신의 int 크기 만큼 증가시킴 → 2를 가리킴</li></ul><hr id="3fab0781-fc6e-430a-b4af-43990cc11efe"/><p id="60734b78-822a-44ea-9807-65f0acb8e047" class=""><code>va_arg(ap, int);</code> → <code>val = *(int*)ap.data;</code> <code>((int*)ap.data)++;</code></p><hr id="41ae43e2-1098-44e6-ae16-ba02c4059ba4"/><p id="11b13142-61e9-4708-a225-edc2352fda36" class="">⇒ 따라서 <code>va_list</code>는 스택 메모리에서 위치를 가리키는 포인터 같은 것을 가지고 있다고 추측할 수 있음</p><h3 id="fe6930b1-7bdb-4820-ad92-c0be6df22ad7" class="">함수에서 매개변수로 가변인자만 받을 수 있는가</h3><pre id="d8a62ab6-223d-4b97-84bf-b45beb88ce11" class="code"><code>int add_ints(...);</code></pre><p id="35507b47-42e1-4fc5-b9b6-bbba642c636b" class="">함수의 첫 번째 매개변수로 가변 인자 못 씀</p><ul id="dee94160-e846-4a23-880a-2ec33feba461" class="bulleted-list"><li style="list-style-type:disc">가변 인자(<code>...</code>) 앞에 자료형이 특정된 매개변수가 반드시 있어야함</li></ul><ul id="ba88cdd8-e51d-4473-a88d-88804776cb2c" class="bulleted-list"><li style="list-style-type:disc">가변 인자 뒤에 자료형이 정해진 매개변수가 있으면 안됨<ul id="93c06752-d87e-4735-853e-37a6156d5f9b" class="bulleted-list"><li style="list-style-type:circle">함수가 정확히 어느 오프셋에서 읽어와야하는지 컴파일 중 특정 불가<pre id="3d0a37c3-5bd5-4887-aeb1-0b106c84f93e" class="code"><code>void do_something(..., int);          /* 컴파일 오류 */ 
+    void do_something(int, ..., int);     /* 컴파일 오류 */
+    void do_something(int, int, ...);     /* OK */</code></pre></li></ul></li></ul><ul id="10ec7ee3-8457-4ac2-a88c-acb5692c5e7d" class="bulleted-list"><li style="list-style-type:disc">즉, 가변 인자 아닌 것을 우선 차례대로 읽음</li></ul><ul id="80dcd57a-761b-4be0-b165-e0fd826ff279" class="bulleted-list"><li style="list-style-type:disc">그 뒤, 가변 인자는 <code>va_arg()</code>가 시키는 대로 하나씩 주소를 늘려가며 읽음</li></ul><p id="b86bedcf-4d89-4df0-819b-cd9b9e7fc105" class=""><strong>Why?</strong></p><p id="add93cc2-f7aa-42a8-a37a-fc0e9973043d" class="">1) 가변 인자가 몇 갠지 가변 인자 함수는 알 수 없음</p><ul id="0302f541-3ec9-45b3-9542-06bf4e8f7755" class="bulleted-list"><li style="list-style-type:disc">실제 가변 인자가 몇 개 들어왔는지 호출된 함수는 모름</li></ul><ul id="6faa32d4-000f-4300-b535-9b92151c6d85" class="bulleted-list"><li style="list-style-type:disc"><strong>그래서 앞의 예에선 매개변수 count로 제어</strong><pre id="12d1b31e-05c2-4217-bc33-58c9e111e6be" class="code"><code>int add_int(const size_t count, ...);
+    
+    result = add_ints(1, 16);
+    result - add_ints(4, 1, 2, 3, 4);</code></pre></li></ul><ul id="c95da017-4074-47dc-bd59-5829c682ce92" class="bulleted-list"><li style="list-style-type:disc">단, 스택 메모리의 어느 위치부터 가변 인자가 시작되는지 앎</li></ul><p id="48034891-192a-4fe3-aa50-3e451ec265ab" class="">2) 가변 인자의 자료형을 가변 인자 함수는 모름</p><ul id="dde54c95-3d51-4b80-b54e-e9d57e12e68a" class="bulleted-list"><li style="list-style-type:disc">어떤 형의 가변 인지인지는 실행 중 결정</li></ul><ul id="d6384d3b-29e7-4517-9bdf-1350d02a9549" class="bulleted-list"><li style="list-style-type:disc">그래서 가변 인자 함수 자체는 스택의 어떤 위치를 어떤 형으로 읽어야하는지 모름</li></ul><ul id="c2f9d5d0-470d-4607-8e09-29a5bcbfe54c" class="bulleted-list"><li style="list-style-type:disc">따라서, 정해진 자료형으로 넘겨주는 매개변수로부터 알아내야함<pre id="2d62b9d0-04d9-42fe-8780-860ef9c9c30c" class="code"><code>int printf(const char* format, ...);</code></pre><pre id="c24a9371-e4c1-4861-8c94-84c2479dafdc" class="code"><code>printf(&quot;%d&quot;, score);          /* 정수 하나를 읽어줘! */
+    printf(&quot;%s %f&quot;, msg, number); /* 문자열 하나랑 부동소수점 하나를 순서대로 읽어줘 */</code></pre><ul id="dee87fdd-9f89-49ac-be2b-8e4136501d1d" class="bulleted-list"><li style="list-style-type:circle"><code>printf()</code>에서 첫 번째 매개변수는 변환 문자열<ul id="29b2be61-3213-43e0-8dcb-54fb365be47c" class="bulleted-list"><li style="list-style-type:square"><strong>잘 보면 이 문자열이 앞서 본 가변 인자 함수가 알지 못하는 정보를 다 알려줌</strong></li></ul><ul id="965330ce-1655-4b08-9dca-36369341b8ac" class="bulleted-list"><li style="list-style-type:square">가변 인자 목록에 인자가 몇개인지</li></ul><ul id="df43cae1-751c-4705-9af7-3fea9f410797" class="bulleted-list"><li style="list-style-type:square">각 인자의 자료형이 무엇인지</li></ul><ul id="e98faceb-bbad-4215-8515-78125ea9f20f" class="bulleted-list"><li style="list-style-type:square">잘못된 서식 지정자 넣어주면 경고 주는 이유도 바로 이것임</li></ul><ul id="4b8b7a7a-e19b-4b96-a748-4b89b3287638" class="bulleted-list"><li style="list-style-type:square">변환 문자열에 들어간 서식 지정자 수가 매개 변수보다 많으면 경고<p id="7f2e0425-1d03-4b1b-90f3-59dbe70d8a22" class="">⇒ 실제 개수 이상으로 읽어버리면 그 전의 스택 주소에 있는 값을 읽게 됨</p></li></ul></li></ul></li></ul><h3 id="c9f6f61a-83a9-4f04-b699-746db99a4a6c" class="">초간단 서식 지정자</h3><pre id="96797e72-c910-4a59-a92e-2fa084c72fe2" class="code"><code>#include &quot;simpleio.h&quot;
+    
+    int main(void)
+    {
+        printf_simple(&quot;c\n&quot;, &#x27;A&#x27;);
+        printf_simple(&quot;d\n, 10);
+        printf_simple(&quot;s\n&quot;, &quot;Hello&quot;);
+    
+        printf_simple(&quot;\n&quot;);
+        printf_simple(&quot;c d s \n&quot;, &#x27;A&#x27;, 10, &quot;Hello&quot;);
+    
+        return 0
+    }</code></pre><pre id="d3c4454d-6494-4bde-b681-3fb467096172" class="code"><code>#include &lt;stdarg.h&gt;
+    #include &lt;stdio.h&gt;
+    #include &lt;string.h&gt;
+    
+    #include &quot;simpleio.h&quot;
+    
+    static void print_int_recursive(unsigned int val)
+    {
+        if (val == 0) {
+            return;
+        }
+    
+        print_int recursive(val / 10);
+        putchar(&#x27;0&#x27; + val % 10);
     }
-}</code></pre><h2 id="6a311efa-ec4a-40a2-ab05-a895d77b4992" class="">오류 처리</h2><ul id="ad96705d-1f67-48ce-ade5-27df648a84d3" class="bulleted-list"><li style="list-style-type:disc"><strong>C 언어는 예외(exception)를 지원하지 않음</strong></li></ul><p id="bf6d7408-b889-4dea-ac61-41d5c4cd80b4" class=""><strong> &lt;일반적인 사람들의 사고방식&gt;</strong></p><ul id="a3a22cce-58f5-4adb-9552-bff16baa994a" class="bulleted-list"><li style="list-style-type:disc">여러 단계의 일을 설계할 떄 최상의 경우(happy path)만 고려</li></ul><ul id="27651a98-6379-4ca4-8771-6264bd18f249" class="bulleted-list"><li style="list-style-type:disc">내가 작성한 코드 한줄 한줄이 잘못될 수 있다는 생각은 안하고 기능을 쭉쭉 작성해 나감</li></ul><ul id="b1543179-e137-4879-9aa8-41b8b22bb7f4" class="bulleted-list"><li style="list-style-type:disc">실행 중에 예외가 발생하면 제대로 고치치 않고 일단 패스하는 경우도 많음<ul id="054ad25e-a006-40da-9ea4-2ee4101a0721" class="bulleted-list"><li style="list-style-type:circle">그런다고 프로그램이 크래쉬(crash)나지 않으니 일단 모른척..</li></ul></li></ul><ul id="9394f678-9674-4e5d-be88-c1aca4d68a2e" class="bulleted-list"><li style="list-style-type:disc">그래서 실제로는 버그가 무수하나 어떻게든 작동하는 프로그램이 나오기도 함</li></ul><p id="66217809-4a35-4a88-9226-ab0842f903fe" class=""><strong>&lt;크래쉬가 난다면?&gt;</strong></p><p id="15d2a957-d6cf-4115-ab60-98b16fdcf097" class="">⇒ 앱이 비정상적으로 작동했습니다. 종료합니다.</p><ul id="745957db-d079-4504-8280-f5de13f79ee5" class="bulleted-list"><li style="list-style-type:disc">예외 처리가 없는 언어에서 문제가 발생하면 제대로 대처안하면 크래쉬가 남</li></ul><ul id="b9724ffe-3d54-41f5-9f46-0e6b67179c36" class="bulleted-list"><li style="list-style-type:disc">덕분에 오히려 예외상황이 발생하면 빠르게 대처 가능<ul id="056267fb-4c28-4391-8c81-8da53db4d5a4" class="bulleted-list"><li style="list-style-type:circle">프로그램이 돌다 뻗어서 아무것도 못하니 제대로 고칠 수 밖에</li></ul><ul id="5ef6b169-f058-444d-bea6-a273e26c4cd1" class="bulleted-list"><li style="list-style-type:circle">현재 우리가 사용하는 운영체제 또한 다 C 기반</li></ul></li></ul><h2 id="e561b7b4-6e0c-4af2-8ba5-f5c335f677a3" class="">오류와 버그의 차이</h2><h3 id="1aa47c9f-602e-4881-9fb1-092c1349aca6" class="">버그</h3><ul id="34f7fce6-cf68-4985-a6c0-9a74a04fca6c" class="bulleted-list"><li style="list-style-type:disc">일어날 수 없다고 가정한 상황</li></ul><ul id="b52ffb05-c5ab-4b83-a152-5611c93d72cb" class="bulleted-list"><li style="list-style-type:disc">즉, 선조건(precondition) 및 후조건(postcondition)이 성립하지 않고 어서트에 실패하는 경우</li></ul><ul id="112ebe5e-0841-4425-a86c-0773a0d419a2" class="bulleted-list"><li style="list-style-type:disc">프로그램이 이런 상황에서도 올바르게 작동하게 대처해두는 건 말이 안됨</li></ul><ul id="49407628-46b8-419d-90e4-62c869bc483f" class="bulleted-list"><li style="list-style-type:disc">그냥 그 버그가 다시 일어나지 않게 코드를 수정해서 재컴파일</li></ul><p id="64c422ca-f4cf-4229-ab12-7dfac0173422" class="">⇒ 코드 자체를 잘못 짠 것!!</p><h3 id="eb4e04cd-7916-4973-9fc1-13b99a5007ee" class=""><strong>오류</strong></h3><ul id="dfd836ff-4911-4ae6-b7d5-9605a07f5d3c" class="bulleted-list"><li style="list-style-type:disc">실제 실행 중에 일어날 수 있는 예측가능한 예외적인 상황</li></ul><ul id="68e80fc6-7166-4ef4-a415-2b0c72612cc4" class="bulleted-list"><li style="list-style-type:disc">당연히 프로그램이 대처해야함</li></ul><ul id="e91cee96-c9f0-40ac-893f-2fa9c6149fdf" class="bulleted-list"><li style="list-style-type:disc">예 : 사용자가 자유롭게 로딩할 수 있는 파일이 없음</li></ul><p id="a4098346-030e-44d1-a8ec-4a2f7f887691" class="">⇒ 실행 도중 충분히 발생할 수 있는 상황!!</p><hr id="08b4715f-8f33-4148-bdcd-c25b77d8da6d"/><p id="c20c640a-53af-4b01-a666-829ebacda06b" class="">&lt;<strong>선조건과 후조건&gt;</strong></p><ul id="f5c17f09-40e0-4fe8-b931-fb3c8ab580a8" class="bulleted-list"><li style="list-style-type:disc">함수 이름이나 변수 이름으로 유추할 수 있어야함</li></ul><ul id="4e69bfd8-d96f-4908-bbaa-7b36c745c74f" class="bulleted-list"><li style="list-style-type:disc">불가능하다면 주석으로 설명</li></ul><ul id="6c953cb6-3aeb-4431-b936-a2129ba6db96" class="bulleted-list"><li style="list-style-type:disc">두 조건이 참인지 검사하는 어서트를 충분히 넣어야함</li></ul><hr id="6c0595a1-9351-44ed-a63b-d51a565e0907"/><h3 id="ced13c87-51a6-481c-8426-7bf9dec77d7c" class="">어서트의 문제점</h3><ul id="96020e48-cd24-478c-82c1-b65ebaa7fdc3" class="bulleted-list"><li style="list-style-type:disc">실행해야만 확인이 가능함</li></ul><ul id="3c56a4e9-9139-4ca1-a211-a8de2d492e9f" class="bulleted-list"><li style="list-style-type:disc">C89에서는 컴파일 중에 판단 가능한 것도 모두 실행해야만 보임</li></ul><ul id="9782c919-228e-4665-a60d-cb682adec1a8" class="bulleted-list"><li style="list-style-type:disc">C11은 정적 어서트(static assert)로 이러한 한계를 극복<ul id="add45469-6372-4e21-8907-8b294f7e1aa1" class="bulleted-list"><li style="list-style-type:circle">컴파일 도중에 어서트 조건을 판단해서 컴파일 오류를 보여줌</li></ul></li></ul><h3 id="5d81eef8-35eb-4fad-a4c0-2d28ba1c701e" class="">어서트 예</h3><pre id="2c7acb38-3774-4e81-938f-c5e43a5ae0ff" class="code"><code>unsigned int deposit(unsigned int deposit_mount)
-{
-    unsigned int before_total;
-    unsigned int after_total;
-
-    assert(deposit_mount &gt; 0);            /* 선조건 */
-
-    /* 코드 생략 */
-
-    assert(before_total &lt; after_total);   /* 후조건 */
-
-    return after_total;
-}</code></pre><h3 id="38d361c1-3fad-40fd-9444-fb1145216108" class="">버그를 다 고쳤다?</h3><ul id="707e858b-3e6e-46ae-98f4-b5ac4f8a6894" class="bulleted-list"><li style="list-style-type:disc">NO!!</li></ul><ul id="4e347c26-824b-4144-baea-f46d0b0dee3c" class="bulleted-list"><li style="list-style-type:disc">테스트로 발견한 버그를 다 고친 것임</li></ul><ul id="9a5d6b7b-b1f8-49ba-87c2-4abc4f7b6188" class="bulleted-list"><li style="list-style-type:disc">발견하지 못한 버그가 있을 수 있음</li></ul><ul id="297a1573-39f0-4013-ad6c-c542432bc139" class="bulleted-list"><li style="list-style-type:disc">고로, 버그가 보이지 않는 것일 뿐 버그는 여전히 존재할 수 있음</li></ul><h3 id="692a25b1-c5d3-4030-bfef-f71cef6fe953" class="">실행 중 오류 처리</h3><ul id="832a2772-77c4-4b9d-8f65-606e56cf8c47" class="bulleted-list"><li style="list-style-type:disc">일반 버그는 다 잡았다고 가정</li></ul><ul id="3dc426a3-a1e6-429c-88c1-5b6d4bf0747c" class="bulleted-list"><li style="list-style-type:disc">가정을 했다는 것은?<ul id="134d253c-dc1d-47e9-aae6-cc43ce51f18a" class="bulleted-list"><li style="list-style-type:circle">내 함수에 들어오는 데이터는 다 유효(valid)</li></ul></li></ul><ul id="f49a3bd3-6a50-4843-9649-ed937067e2a1" class="bulleted-list"><li style="list-style-type:disc">유효하지 않은 데이터가 들어오면 어디선가 걸러줘야함</li></ul><ul id="9a616423-6654-4936-a2b6-e64a7729bbd0" class="bulleted-list"><li style="list-style-type:disc">그 어딘가를 &#x27;경계&#x27;(boundary)&#x27;라고 부를 것임</li></ul><ul id="a76106c6-5ce1-44e3-992c-c55bda95d9b5" class="bulleted-list"><li style="list-style-type:disc">경계의 예<ul id="0c7674b8-e9a7-4216-b1a9-25b5efbea094" class="bulleted-list"><li style="list-style-type:circle">내 프로그램 ↔ 파일 시스템</li></ul><ul id="5673f279-b930-4217-b258-dfa4f8b012b4" class="bulleted-list"><li style="list-style-type:circle">내 프로그램 ↔키보드 입력</li></ul><ul id="3448d578-d6ec-4edd-ad67-1b4429cf2700" class="bulleted-list"><li style="list-style-type:circle">내 프로그램 ↔ 외부 라이브러리(3rd-party library) </li></ul></li></ul><h3 id="6ce2fa03-b3b0-4972-b6a6-863c1d72673f" class="">널 포인터를 허용한다면 함수나 변수에 명시</h3><ul id="5b6dede1-540a-4a7f-9882-4c349845cbf2" class="bulleted-list"><li style="list-style-type:disc">함수의 매개변수가 널 포인터를 허용한다면, 매개변수 이름 끝에 &#x27;<code>_or_null</code>&#x27;을 붙임</li></ul><ul id="3fe3bb93-04b9-41d1-b417-4ece9e118a3a" class="bulleted-list"><li style="list-style-type:disc">함수도 마찬가지</li></ul><pre id="efc9ba66-e15a-458c-bb8e-3b76c35a28e6" class="code"><code>monster_t* spawn_monster_or_null(const monster_t* speical_monster_or_null)
-{
-    /* 코드 생략 */
-}</code></pre><h3 id="62b937cb-b42d-4fe9-ac0d-c98e0c7b9adb" class="">오류 코드 반환</h3><ul id="74fa062f-f61f-4fa6-bcbb-436e4a37f199" class="bulleted-list"><li style="list-style-type:disc">오류를 처리해주는 함수/코드에서 오류가 있음을 알려줘야함</li></ul><ul id="ce99a185-65b3-4a74-a12a-c60da1aa72c9" class="bulleted-list"><li style="list-style-type:disc">가장 좋은 방법은 함수에서 곧바로 오류 코드 반환하는 것</li></ul><pre id="80116643-e264-4d02-91c5-da2c656a1059" class="code"><code>libabc_error_t try_get_student(int id, student_info_t* out_student)
-{
-    size_t idx;
-    /* 코드 생략 */
-    if (idx == -1) {
-        return ERROR_STUDENT_NOTFOUNT;    /* 오류 코드 반환 */
+    
+    static void print_int(unsigned int val) {
+        if (val == 0) {
+            putchar(&#x27;0&#x27;);
+            return;
+        }
+    
+            print_int_recursive(val)
     }
-    /* 코드 생략 */
-    return ERROR_NONE;
-}</code></pre><p id="8f86d12c-a525-4133-9faf-520e6a56cb6e" class="">⇒ 예외처리보다 훨씬더 명백성, 가독성이 좋은 코드!</p><h3 id="986e1036-619c-4e8e-ac19-531673745c76" class="">모든 오류 코드를 하나의 enum으로 만들자</h3><ul id="17630b4a-7715-40ae-961f-074cfde257ce" class="bulleted-list"><li style="list-style-type:disc">구조체로 반환도 가능하나 C에서 많이 쓰는 방법은 아님<ul id="f1ed6bcd-16e5-4c6e-80c8-e68e9a30bd2f" class="bulleted-list"><li style="list-style-type:circle">아마도 용량 때문 → 그래도 좋은 방법이니 쓰는게 좋음</li></ul></li></ul><ul id="2ad3fd2b-d6d0-4a31-8f70-ffc0e856821e" class="bulleted-list"><li style="list-style-type:disc">오류 코드 만들 때는 해당 라이브러리에서 제공할 수 있는 모든 오류 코드를 enum으로 정의하는 게 좋음<pre id="238a829f-87f2-4c46-b4c1-958a85347b17" class="code"><code>typedef enum {
-    ERROR_NONE,
-    ERROR_BAD_REQUEST,
-    ERROR_UNAUTHORIZED;
-    ERROR_FORBIDDEN.
-    /* 한 100개의 오류 코드 */
-} libabc_error_t;</code></pre></li></ul><ul id="5a8c4b73-4313-40a6-bbb0-07190cc845a4" class="bulleted-list"><li style="list-style-type:disc">함수마다 오류 enum을 만드는 것은 좋지 않음<ul id="37931575-b9d3-4596-b71b-a56d6126b5bf" class="bulleted-list"><li style="list-style-type:circle">C#의 enum과 다르게 C의 enum은 서로 비교 및 대입이 가능</li></ul><pre id="28df6960-f2e9-4ace-ad4b-b8e2af9ce6b8" class="code"><code>typedef enum {
-    NAME_ERROR_EMTHY,
-    NAME_ERROR_TOO_LONG,
-} name_error_t;
-
-typedef enum {
-    ROLE_ERROR_INVALID,
-    ROLE_ERROR_FROBIDDEN,
-} role_error_t;</code></pre><pre id="13d0aac9-5a54-4c67-8636-921499b6a9ad" class="code"><code>void do_something()
-{
-    role_error_t role_err;
-
-    role_err = get_role(&amp;role);
-
-    if (role_err == NAME_RROR_EMTHY_ {
-        /* 오류 코드 처리 */
-    }
-    /* 코드 생략 */
-}</code></pre><p id="34c925ab-efb4-482c-a411-62177cf8251d" class="">⇒ 권한 관련 오류인데 이름 관련 오류랑 비교</p><ul id="047a12ba-0720-4f06-92e0-2e484b486245" class="bulleted-list"><li style="list-style-type:circle">두 함수에서 서로 다른 오류인데 오류 코드의 값이 겹치면 enum끼리 서로 대입이 되서 실수도 가능 (비교할 때 다른 enum 값과 비교할 수 도 있음)</li></ul><pre id="9db50017-ec5e-4f6d-b5c9-7b026ac05110" class="code"><code>typedef enum {
-    NAME_ERROR_EMTHY,
-    NAME_ERROR_TOO_LONG,
-} name_error_t;
-
-typedef enum {
-    ROLE_ERROR_INVALID,
-    ROLE_ERROR_FROBIDDEN,
-} role_error_t;</code></pre><pre id="c67798d4-fdda-4f33-8d97-6bfbbc9f7128" class="code"><code>name_error_t get_username()
-{
-    /* 코드 생략 */
-    if (name == NULL) {
-        return ROLE_ERROR_INVALID;
-    }
-}</code></pre><p id="b313d5c1-e3df-4ef0-9faa-04070e711652" class="">⇒ 이름 관련 오류인데 권한 관련 오류를 반환</p></li></ul><h3 id="03e7f682-c806-4a41-bdae-4d098e895807" class="">errno</h3><ul id="8c9e9d51-34f7-4e78-9777-453a4286905b" class="bulleted-list"><li style="list-style-type:disc">전에 봤던 어떤 함수가 내부적으로 errno에 저장하는 방법도 있음</li></ul><ul id="23a1914c-4c51-488e-8641-9e055e68fd9a" class="bulleted-list"><li style="list-style-type:disc">하지만 아주 훌륭한 방법은 아님</li></ul><ul id="1263c538-8292-46e0-8e95-488a60f17efd" class="bulleted-list"><li style="list-style-type:disc">함수가 errno을 셋팅하는지 코드나 문서를 읽어보지 않는 한 모름<ul id="526ee085-27c2-40b5-8217-c57e7e8a3c4d" class="bulleted-list"><li style="list-style-type:circle">이 함수가 만약 외부 라이브러리라면 더더욱 알기 힘듬</li></ul></li></ul><h3 id="df9e5031-093e-4680-9bad-e9d736348371" class="">올바른 오류 처리 전략 정리</h3><ul id="cb1f1239-a568-49ab-b7bf-0cee89753cad" class="bulleted-list"><li style="list-style-type:disc">기본적으로 내가 작성하는 모든 함수에 들어오는 데이터는 유효하다고 가정하고 어서트를 많이 쓸 것</li></ul><ul id="011d2fcc-bfbd-47a0-bfb8-fe69d8d8eb4d" class="bulleted-list"><li style="list-style-type:disc">그렇지 않은 함수는 매개변수나 함수 이름에서 그렇지 않다는 사실을 명백히 표시할 것</li></ul><ul id="8da83722-ff5a-46d9-9010-3fa986150f21" class="bulleted-list"><li style="list-style-type:disc">오류 상황을 처리하는 장소는 최소한으로 할 것<p id="cfe75f6c-cee6-488a-8fe5-e5b3e48b76ff" class="">⇒ 오류 상황을 최소한 영역에서 더욱 집중해서 볼 수 있도록</p></li></ul><ul id="fc080a51-da28-4a4b-a5e6-4c9e7d7ff758" class="bulleted-list"><li style="list-style-type:disc">어떤 함수가 오류 처리를 한다는 사실을 반환형 등을 통해 확실히 보여줄 것</li></ul><h2 id="e35f25a9-f6a4-47b3-b43a-29a1bc9dcb10" class="">오류 처리 후에도 발생하는 예외 상황</h2><ul id="9e275194-b5d0-493e-b3ab-9f5fd1e846c3" class="bulleted-list"><li style="list-style-type:disc">버그!</li></ul><ul id="e66b87a6-7d74-4998-a8ff-fe56155b1dd7" class="bulleted-list"><li style="list-style-type:disc">코드를 다시 고쳐야함<p id="c07a9583-0a01-4b13-ab37-892e3693fc36" class="">⇒ 소프트웨어의 품질은 테스트/QA 프로세스의 문제</p></li></ul><ul id="d9f3c784-ba12-44df-9b72-9e7d2ed63193" class="bulleted-list"><li style="list-style-type:disc">어떤 경우에도 크래쉬가 남<p id="0ec8f1b7-d5be-4d33-9b27-a00242e4dc18" class="">⇒ 널 포인터, 역 참조 등</p></li></ul><h3 id="e66a8c6f-de1e-47ec-a4c3-4feea0f6fda9" class="">이런 상황을 대비하고 싶다면?</h3><ul id="cc7daf66-77bc-4a4e-a352-173ecaac421b" class="bulleted-list"><li style="list-style-type:disc">C 표준에는 방법이 없음<p id="5e0fabc8-c567-4dca-8c1a-2056795d7ebf" class="">⇒ try / catch문 같은 것이 없음</p></li></ul><ul id="05e325bf-17be-42d7-a7bf-8c41dbc025c7" class="bulleted-list"><li style="list-style-type:disc">운영체제에서 이런 문제를 찾아서 SEH나 시그널을 주기는 함</li></ul><hr id="32927258-4d72-443c-bf7a-e6b252d67d7c"/><p id="49c9d83f-6dfe-43b0-94ce-14bf8c7db7db" class="">&lt;운영체제의 예외 처리(?)&gt;</p><ul id="e04fc07c-6b69-4a0c-80f5-9730f313428e" class="bulleted-list"><li style="list-style-type:disc">비동기적(Asynchronous)</li></ul><ul id="f48b6311-a963-401f-b867-6ffe8b24c36c" class="bulleted-list"><li style="list-style-type:disc">윈도우 : 구조적 예외 처리 (SEH) / 리눅스 : POSIX 신호, Faults, Traps, Aborts</li></ul><ul id="fd797c15-5d6c-4286-9cb9-902ea1753af4" class="bulleted-list"><li style="list-style-type:disc">플랫폼마다 다름</li></ul><ul id="83cce3b5-20de-43ce-9029-9eb12a1762ab" class="bulleted-list"><li style="list-style-type:disc">오버헤드 비교적 많음, 느림</li></ul><hr id="89541244-1092-4d3c-a49c-d309f2e56b34"/><h3 id="87d424e5-9871-4927-b38e-75ad566c1e55" class="">운영체제의 예외 처리</h3><ul id="a658bf88-a297-4918-9e90-c6218682c91b" class="bulleted-list"><li style="list-style-type:disc">함수 포인터(콜백함수)를 등록하고 OS가 보내는 예외 처리를 받아올 수는 있음</li></ul><ul id="9f8dc916-cf3a-4d1f-aac0-9b0a68a508d4" class="bulleted-list"><li style="list-style-type:disc">근데 받아와도 어떻게 대처해야 할지 애매한 경우가 있음<ul id="dd8b89eb-d6a3-4951-8db7-e7cb19e03775" class="bulleted-list"><li style="list-style-type:circle">동적 메모리 할당에서 더이상 메모리를 받아오지 못하면 NULL을 반환?</li></ul><ul id="416236fc-3dc2-4f23-8a43-56aa863f9754" class="bulleted-list"><li style="list-style-type:circle">반드시 있어야하는 파일을 열다가 실패하는 경우?</li></ul></li></ul><p id="80e41ed9-e6f4-4d18-aad7-e78810051ea0" class="">
-</p></div></article></body>
+    
+    void printf_simple(const char* format, ...)
+    {
+        va_list ap;
+    
+        va_start(ap, format);
+        {
+            while (*format != &#x27;\0&#x27;) {
+                unsigned val;
+                const char* str;
+    
+                switch(*format) {
+                    case &#x27;s&#x27;:
+                        str = va_arg(ap, const char*);
+                        while (*str != &#x27;\0&#x27;) {
+                            purtchar(*str++);
+                        }
+                        break;
+                    case &#x27;c&#x27;:
+                        val = va_arg(ap, unsigned int);
+                        print_int(val);
+                        break;
+                    case &#x27;d&#x27;:
+                        val = va_arg(ap, unsigned int);
+                        print_int(val);
+                        break;
+                    default:
+                        purtchar(*format);
+                        break
+        }
+    }</code></pre><h2 id="3c3db1f6-748e-4459-8087-fe425cc68d18" class="">오류 처리</h2><ul id="67992a15-6255-404f-bf66-9ceb7a1c13c9" class="bulleted-list"><li style="list-style-type:disc"><strong>C 언어는 예외(exception)를 지원하지 않음</strong></li></ul><p id="0824d919-3348-4dd2-8978-2863f6819031" class=""><strong> &lt;일반적인 사람들의 사고방식&gt;</strong></p><ul id="82d9a895-f83d-4bf4-a9ba-73acd88eb4a2" class="bulleted-list"><li style="list-style-type:disc">여러 단계의 일을 설계할 때 최상의 경우(happy path)만 고려</li></ul><ul id="d6bf3299-fe48-41d7-9af8-ab807c0275eb" class="bulleted-list"><li style="list-style-type:disc">내가 작성한 코드 한줄 한줄이 잘못될 수 있다는 생각은 안하고 기능을 쭉쭉 작성해 나감</li></ul><ul id="6c43cb07-241d-4992-bbb1-5f58849b5842" class="bulleted-list"><li style="list-style-type:disc">실행 중에 예외가 발생하면 제대로 고치치 않고 일단 패스하는 경우도 많음<ul id="af4f18dd-dd9b-42f4-aa8f-a8627a417a60" class="bulleted-list"><li style="list-style-type:circle">그런다고 프로그램이 크래쉬(crash)나지 않으니 일단 모른척..</li></ul></li></ul><ul id="72516e48-369a-4c13-aade-4fd197f0328b" class="bulleted-list"><li style="list-style-type:disc">그래서 실제로는 버그가 무수하나 어떻게든 작동하는 프로그램이 나오기도 함</li></ul><p id="6ff50b82-d223-465f-b502-a8468ed3b885" class=""><strong>&lt;크래쉬가 난다면?&gt;</strong></p><p id="5af3bcbe-a717-41c9-9ded-8c4bdd77dce0" class="">⇒ 앱이 비정상적으로 작동했습니다. 종료합니다.</p><ul id="f981fa34-815e-4678-befe-a0a1583a706a" class="bulleted-list"><li style="list-style-type:disc">예외 처리가 없는 언어에서 문제가 발생하면 제대로 대처안하면 크래쉬가 남</li></ul><ul id="897b345b-e1d3-4b81-aaf9-117b067a21a6" class="bulleted-list"><li style="list-style-type:disc">덕분에 오히려 예외상황이 발생하면 빠르게 대처 가능<ul id="bbb29293-936f-41d6-99e6-107760a37707" class="bulleted-list"><li style="list-style-type:circle">프로그램이 돌다 뻗어서 아무것도 못하니 제대로 고칠 수 밖에</li></ul><ul id="4d0dd2ee-b2d5-4898-8bfc-8c81e120e496" class="bulleted-list"><li style="list-style-type:circle">현재 우리가 사용하는 운영체제 또한 다 C 기반</li></ul></li></ul><h2 id="787503f5-f120-461b-8dbb-d241558b8a97" class="">오류와 버그의 차이</h2><h3 id="0b9d532c-ce8f-411c-a49c-1b366a7649b4" class="">버그</h3><ul id="455441a1-1aca-48fe-859a-52b6de2dd887" class="bulleted-list"><li style="list-style-type:disc"><strong>일어날 수 없다고 가정한 상황</strong></li></ul><ul id="53b362c3-77f2-4f19-8ad4-c7b871c0dd02" class="bulleted-list"><li style="list-style-type:disc">즉, 선조건(precondition) 및 후조건(postcondition)이 성립하지 않고 어서트에 실패하는 경우</li></ul><ul id="666c7884-d76f-4bb3-8901-96e49d9aae17" class="bulleted-list"><li style="list-style-type:disc">프로그램이 이런 상황에서도 올바르게 작동하게 대처해두는 건 말이 안됨</li></ul><ul id="d87b2967-15f5-441d-bee7-2df8cae57b0c" class="bulleted-list"><li style="list-style-type:disc">그냥 그 버그가 다시 일어나지 않게 코드를 수정해서 재컴파일</li></ul><p id="5526203a-6918-4c6b-8084-2a82b92365ae" class=""><strong>⇒ 코드 자체를 잘못 짠 것!!</strong></p><h3 id="f906cac7-d9ce-44d5-9ede-b439ca4ba891" class=""><strong>오류</strong></h3><ul id="b542f826-b893-451c-a02d-4349160d22c5" class="bulleted-list"><li style="list-style-type:disc"><strong>실제 실행 중에 일어날 수 있는 예측가능한 예외적인 상황</strong></li></ul><ul id="84771ab9-1f28-43fe-92a4-354b80a9c07d" class="bulleted-list"><li style="list-style-type:disc"><strong>당연히 프로그램이 대처해야함</strong></li></ul><ul id="221e6a60-18fc-4bd6-a25a-fe1b49c17ac9" class="bulleted-list"><li style="list-style-type:disc">예 : 사용자가 자유롭게 로딩할 수 있는 파일이 없음</li></ul><p id="eab7e41f-3829-4ba4-bf29-83c415fce3d1" class="">⇒ 실행 도중 충분히 발생할 수 있는 상황!!</p><hr id="22904394-a44a-4b7d-9129-63c39f40bf21"/><p id="fa7fc37f-a4b5-44a5-a4d9-2a880830df98" class="">&lt;<strong>선조건과 후조건&gt;</strong></p><ul id="e1bed4e5-2312-4af5-a8fb-3f1c857cb323" class="bulleted-list"><li style="list-style-type:disc">함수 이름이나 변수 이름으로 유추할 수 있어야함</li></ul><ul id="e869ea88-6981-44c5-9b7e-ad5553a04be1" class="bulleted-list"><li style="list-style-type:disc">불가능하다면 주석으로 설명</li></ul><ul id="ad0fb6eb-3f1f-47d7-bc40-628cf4b50a45" class="bulleted-list"><li style="list-style-type:disc">두 조건이 참인지 검사하는 어서트를 충분히 넣어야함</li></ul><hr id="14e2e423-fa85-45aa-b6cc-64a9b1b5f457"/><h3 id="4f7a5f96-ceff-4b92-9b35-eccbdce29518" class="">어서트의 문제점</h3><ul id="4c19cc87-91f2-4c25-8610-eb1ddbc31b5d" class="bulleted-list"><li style="list-style-type:disc"><strong>실행해야만 확인이 가능함</strong></li></ul><ul id="6b14495e-3536-424e-bda2-9889966560a8" class="bulleted-list"><li style="list-style-type:disc">C89에서는 컴파일 중에 판단 가능한 것도 모두 실행해야만 보임</li></ul><ul id="5ab389e8-e666-4dfc-a55a-280e02fab656" class="bulleted-list"><li style="list-style-type:disc">C11은 정적 어서트(static assert)로 이러한 한계를 극복<ul id="bae4b192-3f98-406d-b0cc-2b2c26bf3b60" class="bulleted-list"><li style="list-style-type:circle">컴파일 도중에 어서트 조건을 판단해서 컴파일 오류를 보여줌</li></ul></li></ul><h3 id="5447d1ee-9449-4722-864a-55826789c960" class="">어서트 예</h3><pre id="55e8bb37-81be-469e-9438-2967e9389e58" class="code"><code>unsigned int deposit(unsigned int deposit_mount)
+    {
+        unsigned int before_total;
+        unsigned int after_total;
+    
+        assert(deposit_mount &gt; 0);            /* 선조건 */
+    
+        /* 코드 생략 */
+    
+        assert(before_total &lt; after_total);   /* 후조건 */
+    
+        return after_total;
+    }</code></pre><h3 id="f7f2c0ed-6268-4857-a773-20e5a48b357d" class="">버그를 다 고쳤다?</h3><ul id="8da6a2eb-b851-496a-98d3-7747db171ef4" class="bulleted-list"><li style="list-style-type:disc">NO!!</li></ul><ul id="60a3cf64-1fba-43ee-9396-a48b47ef9eae" class="bulleted-list"><li style="list-style-type:disc">테스트로 발견한 버그를 다 고친 것임</li></ul><ul id="c4d7f2a8-9750-486d-af8b-055ae7fb9567" class="bulleted-list"><li style="list-style-type:disc">발견하지 못한 버그가 있을 수 있음</li></ul><ul id="66e1e781-d6ec-4155-b7dd-d78a27f904c4" class="bulleted-list"><li style="list-style-type:disc">고로, 버그가 보이지 않는 것일 뿐 버그는 여전히 존재할 수 있음</li></ul><h3 id="2ab80ba0-3a9c-4e24-bd28-1510fda73104" class="">실행 중 오류 처리</h3><ul id="c36ac243-2ea1-4970-b3d8-fec57eb6d478" class="bulleted-list"><li style="list-style-type:disc">일반 버그는 다 잡았다고 가정</li></ul><ul id="66ad140f-be80-4e70-981e-6593e79e9c1f" class="bulleted-list"><li style="list-style-type:disc">가정을 했다는 것은?<ul id="ab250c77-32cb-4a16-836c-feab37e1bcd2" class="bulleted-list"><li style="list-style-type:circle">내 함수에 들어오는 데이터는 다 유효(valid)</li></ul></li></ul><ul id="21eb6922-f62e-450e-8fa1-c47a7d9ade53" class="bulleted-list"><li style="list-style-type:disc">유효하지 않은 데이터가 들어오면 어디선가 걸러줘야함</li></ul><ul id="d259eb27-ea86-4d8b-88e5-ddbf46298c8c" class="bulleted-list"><li style="list-style-type:disc">그 어딘가를 &#x27;경계&#x27;(boundary)&#x27;라고 부를 것임</li></ul><ul id="7d27524b-8461-491d-a74d-3c2cba56c9a8" class="bulleted-list"><li style="list-style-type:disc">경계의 예<ul id="ed0de2b5-82b7-4859-97ab-0745b168817e" class="bulleted-list"><li style="list-style-type:circle">내 프로그램 ↔ 파일 시스템</li></ul><ul id="0c83009d-d668-440e-ba73-f3137b94a612" class="bulleted-list"><li style="list-style-type:circle">내 프로그램 ↔키보드 입력</li></ul><ul id="994d4460-0d57-43d8-807a-df153dcb5c2c" class="bulleted-list"><li style="list-style-type:circle">내 프로그램 ↔ 외부 라이브러리(3rd-party library) </li></ul></li></ul><h3 id="9990c8c5-11d6-4ab9-b98e-5b70ebca91ba" class="">널 포인터를 허용한다면 함수나 변수에 명시</h3><ul id="064e5e68-44ae-4b43-8c39-e6ad0c697a79" class="bulleted-list"><li style="list-style-type:disc">함수의 매개변수가 널 포인터를 허용한다면, 매개변수 이름 끝에 &#x27;<code>_or_null</code>&#x27;을 붙임</li></ul><ul id="9ea7584c-5a87-4c5a-8f85-5b1a0bc4f71a" class="bulleted-list"><li style="list-style-type:disc">함수도 마찬가지</li></ul><pre id="afc509a0-bd4a-413b-b612-a9c941ef454a" class="code"><code>monster_t* spawn_monster_or_null(const monster_t* speical_monster_or_null)
+    {
+        /* 코드 생략 */
+    }</code></pre><h3 id="18c99eb2-7626-4227-b196-75c70103dbfb" class="">오류 코드 반환</h3><ul id="9b2e3b07-4cb3-4f85-8141-98544ad392a4" class="bulleted-list"><li style="list-style-type:disc">오류를 처리해주는 함수/코드에서 오류가 있음을 알려줘야함</li></ul><ul id="3aa2afc5-d73c-4f93-a495-ce0112c3bc76" class="bulleted-list"><li style="list-style-type:disc">가장 좋은 방법은 함수에서 곧바로 오류 코드 반환하는 것</li></ul><pre id="15dcd30d-d591-4915-a43a-2bf7eb6af0a5" class="code"><code>libabc_error_t try_get_student(int id, student_info_t* out_student)
+    {
+        size_t idx;
+        /* 코드 생략 */
+        if (idx == -1) {
+            return ERROR_STUDENT_NOTFOUNT;    /* 오류 코드 반환 */
+        }
+        /* 코드 생략 */
+        return ERROR_NONE;
+    }</code></pre><p id="df1b350a-ef85-4767-8ac1-4680859cbb71" class="">⇒ 예외처리보다 훨씬더 명백성, 가독성이 좋은 코드!</p><h3 id="92b3ad8d-f782-48b9-b519-89f33eef5eda" class="">모든 오류 코드를 하나의 enum으로 만들자</h3><ul id="1a5e26d7-bff5-4db4-9ef3-eadddb3a7ad2" class="bulleted-list"><li style="list-style-type:disc">구조체로 반환도 가능하나 C에서 많이 쓰는 방법은 아님<ul id="bed44881-44cd-480c-a18b-4f1ed1654a3d" class="bulleted-list"><li style="list-style-type:circle">아마도 용량 때문 → 그래도 좋은 방법이니 쓰는게 좋음</li></ul></li></ul><ul id="d56ae02b-7786-4e11-bd1c-50297b8b51ed" class="bulleted-list"><li style="list-style-type:disc">오류 코드 만들 때는 해당 라이브러리에서 제공할 수 있는 모든 오류 코드를 enum으로 정의하는 게 좋음<pre id="034484d5-e566-4ff5-9762-30f3c90eda0f" class="code"><code>typedef enum {
+        ERROR_NONE,
+        ERROR_BAD_REQUEST,
+        ERROR_UNAUTHORIZED;
+        ERROR_FORBIDDEN.
+        /* 한 100개의 오류 코드 */
+    } libabc_error_t;</code></pre></li></ul><ul id="0954bfc5-dd6f-4ba2-bcde-a8d99184e019" class="bulleted-list"><li style="list-style-type:disc">함수마다 오류 enum을 만드는 것은 좋지 않음<ul id="49f0ca69-b5ae-41e3-989c-4f51e0110c49" class="bulleted-list"><li style="list-style-type:circle">C#의 enum과 다르게 C의 enum은 서로 비교 및 대입이 가능</li></ul><pre id="1cf0b1fc-d37e-4fcc-872f-e0d0670eaa9c" class="code"><code>typedef enum {
+        NAME_ERROR_EMTHY,
+        NAME_ERROR_TOO_LONG,
+    } name_error_t;
+    
+    typedef enum {
+        ROLE_ERROR_INVALID,
+        ROLE_ERROR_FROBIDDEN,
+    } role_error_t;</code></pre><pre id="d6aa6305-4c7b-4cea-b536-b2c09f253657" class="code"><code>void do_something()
+    {
+        role_error_t role_err;
+    
+        role_err = get_role(&amp;role);
+    
+        if (role_err == NAME_RROR_EMTHY_ {
+            /* 오류 코드 처리 */
+        }
+        /* 코드 생략 */
+    }</code></pre><p id="bf853539-2e13-461e-b9e4-9f67a824d7df" class="">⇒ 권한 관련 오류인데 이름 관련 오류랑 비교</p><ul id="dd698126-5e76-4229-9580-13e91e48123a" class="bulleted-list"><li style="list-style-type:circle">두 함수에서 서로 다른 오류인데 오류 코드의 값이 겹치면 enum끼리 서로 대입이 되서 실수도 가능 (비교할 때 다른 enum 값과 비교할 수 도 있음)</li></ul><pre id="6e88e6c8-ec66-4f16-9787-d65ee32cd3ec" class="code"><code>typedef enum {
+        NAME_ERROR_EMTHY,
+        NAME_ERROR_TOO_LONG,
+    } name_error_t;
+    
+    typedef enum {
+        ROLE_ERROR_INVALID,
+        ROLE_ERROR_FROBIDDEN,
+    } role_error_t;</code></pre><pre id="95a151f9-5861-422f-a2f5-5f3032896e1a" class="code"><code>name_error_t get_username()
+    {
+        /* 코드 생략 */
+        if (name == NULL) {
+            return ROLE_ERROR_INVALID;
+        }
+    }</code></pre><p id="3b602215-5478-4076-9642-c670475ef7ae" class="">⇒ 이름 관련 오류인데 권한 관련 오류를 반환</p></li></ul><h3 id="b21d3f65-a72b-43c0-8741-bd0c406eb716" class="">errno</h3><ul id="9105f0fd-ebce-4d47-9aa6-94224e69f05e" class="bulleted-list"><li style="list-style-type:disc">전에 봤던 어떤 함수가 내부적으로 <code>errno</code>에 저장하는 방법도 있음</li></ul><ul id="f2bea043-5e0a-44f3-96c6-e46d1e3d891d" class="bulleted-list"><li style="list-style-type:disc">하지만 아주 훌륭한 방법은 아님</li></ul><ul id="9b86ecd1-6012-47bf-b48b-c2b001291bd5" class="bulleted-list"><li style="list-style-type:disc">함수가 <code>errno</code>을 셋팅하는지 코드나 문서를 읽어보지 않는 한 모름<ul id="1b0a43ca-1c28-4953-8c88-61c06a64d09b" class="bulleted-list"><li style="list-style-type:circle">이 함수가 만약 외부 라이브러리라면 더더욱 알기 힘듬</li></ul></li></ul><h3 id="51d22688-dd1d-4689-9941-c14b5ea95f74" class="">올바른 오류 처리 전략 정리</h3><ul id="1b1506da-e78d-4395-bbc8-a72da8236974" class="bulleted-list"><li style="list-style-type:disc"><strong>기본적으로 내가 작성하는 모든 함수에 들어오는 데이터는 유효하다고 가정하고 어서트를 많이 쓸 것</strong></li></ul><ul id="91c48d7d-bdc7-422d-9d7a-0896a95de560" class="bulleted-list"><li style="list-style-type:disc"><strong>그렇지 않은 함수는 매개변수나 함수 이름에서 그렇지 않다는 사실을 명백히 표시할 것</strong></li></ul><ul id="e0ae6601-8f19-4a0b-a0e0-212602e8e437" class="bulleted-list"><li style="list-style-type:disc"><strong>오류 상황을 처리하는 장소는 최소한으로 할 것</strong><p id="8facc79d-c3af-4e34-a240-2e3289261d0b" class="">⇒ 오류 상황을 최소한 영역에서 더욱 집중해서 볼 수 있도록</p></li></ul><ul id="6ebbf737-c298-43a3-ac2b-6b42569d1f2c" class="bulleted-list"><li style="list-style-type:disc"><strong>어떤 함수가 오류 처리를 한다는 사실을 반환형 등을 통해 확실히 보여줄 것</strong></li></ul><h2 id="37e9e347-4f38-4cc0-9cfe-77b13c5fc5b9" class="">오류 처리 후에도 발생하는 예외 상황</h2><ul id="18955af1-dfae-4e5e-be28-cd2b14bd5995" class="bulleted-list"><li style="list-style-type:disc">버그!</li></ul><ul id="96c712ab-71c3-451f-9ae1-fc34b82f15a1" class="bulleted-list"><li style="list-style-type:disc">코드를 다시 고쳐야함<p id="dbc3b121-9f8e-47b7-9d05-9387e46c9d94" class="">⇒ 소프트웨어의 품질은 테스트/QA 프로세스의 문제</p></li></ul><ul id="07c03166-050f-4763-bfc6-ec949fd8a9a8" class="bulleted-list"><li style="list-style-type:disc">어떤 경우에도 크래쉬가 남<p id="99809168-e2a2-49e5-92ba-909225b096a3" class="">⇒ 널 포인터, 역 참조 등</p></li></ul><h3 id="005def31-73a3-4d2a-95e6-aa6e5a67d9c3" class="">이런 상황을 대비하고 싶다면?</h3><ul id="361bb8c6-0274-4ef9-9378-6fb0aa2f2f77" class="bulleted-list"><li style="list-style-type:disc">C 표준에는 방법이 없음<p id="b727abc5-7964-4a48-8ef3-1f1c01ab1b4c" class="">⇒ try / catch문 같은 것이 없음</p></li></ul><ul id="5a4473e2-daf2-4ea5-a1f3-735b511221d5" class="bulleted-list"><li style="list-style-type:disc">운영체제에서 이런 문제를 찾아서 SEH나 시그널을 주기는 함</li></ul><hr id="3c9ce652-e469-4f1f-ba0a-d11502d5c8af"/><p id="ff18af95-c399-413b-b092-80a2c0ab320e" class="">&lt;운영체제의 예외 처리(?)&gt;</p><ul id="c7177421-fddd-4ed5-9da3-2d5a38320e9d" class="bulleted-list"><li style="list-style-type:disc">비동기적(Asynchronous)</li></ul><ul id="11064c7d-6832-476d-88a1-c9ca4ab45c94" class="bulleted-list"><li style="list-style-type:disc">윈도우 : 구조적 예외 처리 (SEH) / 리눅스 : POSIX 신호, Faults, Traps, Aborts</li></ul><ul id="100561a9-673d-4ac3-b3ab-f2ba65087b2f" class="bulleted-list"><li style="list-style-type:disc">플랫폼마다 다름</li></ul><ul id="f702feb3-23e6-467c-b1df-5a082b1e4c49" class="bulleted-list"><li style="list-style-type:disc">오버헤드 비교적 많음, 느림</li></ul><hr id="a6acb2de-488b-4a68-9c4a-ac15f23dedd0"/><h3 id="4cefb460-9e7a-4f48-8e78-ae741e490af0" class="">운영체제의 예외 처리</h3><ul id="01e5bf1b-c7fc-4e21-8b63-a0a7c2164d01" class="bulleted-list"><li style="list-style-type:disc">함수 포인터(콜백함수)를 등록하고 OS가 보내는 예외 처리를 받아올 수는 있음</li></ul><ul id="9d355029-9b03-4418-a1b5-2dca681260ca" class="bulleted-list"><li style="list-style-type:disc">근데 받아와도 어떻게 대처해야 할지 애매한 경우가 있음<ul id="be0dfe33-7b81-4798-bfc8-79e671c33d16" class="bulleted-list"><li style="list-style-type:circle">동적 메모리 할당에서 더이상 메모리를 받아오지 못하면 NULL을 반환?</li></ul><ul id="d57ea0b9-ba7e-41b4-af4f-ad31cec8dddc" class="bulleted-list"><li style="list-style-type:circle">반드시 있어야하는 파일을 열다가 실패하는 경우?</li></ul></li></ul><p id="7f13caff-cea5-459d-acf4-4020abc23aad" class="">
+    </p></div></article></body>
 
 {% endblock post_content %}

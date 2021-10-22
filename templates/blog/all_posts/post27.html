@@ -1,0 +1,71 @@
+{% extends 'blog/all_posts/base_post.html' %}
+
+{% load static %}
+
+{% block post_title %}
+    <a href="{% url 'blog:all-posts' %}" class="font_kor">유효한 팰린드롬</a>
+{% endblock post_title %}
+
+{% block post_content %}
+
+{% block post_date %}
+    <div class="container w-1/2 mx-auto mb-10 post_date">[ Oct 17, 2021 ]</div>    
+{% endblock post_date %}
+
+<main class="container w-1/2 mx-auto font_kor">
+
+{% include "blog/all_posts/css_post.html" %}
+  
+<!-- notion html -->
+<body><article id="0abe84de-3f9f-4340-8ef8-6f2ac44e6af4" class="page sans"><div class="page-body"><p id="7489a733-93f8-4124-92cc-fe9ec94db7f5" class=""><strong>팰린드롬(Palindrome)</strong> : 앞뒤가 똑같은 단어나 문장으로, 뒤집어도 같은 말이 되는 단어 또는 문장</p><h2 id="e2ab0b50-d156-4e4e-a6fa-5fac405c201a" class="">주어진 문자열이 팰린드롬인지 확인하라. 대소문자를 구분하지 않으며, 영문자와 숫자만을 대상으로 한다.</h2><h3 id="957014f5-6e78-41ae-9b84-670f9eb1ebbb" class="">리스트 활용</h3><pre id="9713554a-7662-477b-9cc4-7709d87dbc31" class="code"><code>def isPalindrome(s: str) -&gt; bool:
+    strs = []
+    for char in s:
+        if char.isalnum():
+                strs.append(char.lower())
+    print(strs)
+
+    while len(strs) &gt; 1:
+        if strs.pop(0) != strs.pop():
+            return False
+
+    return True
+
+a = isPalindrome(&quot;A man, a plan, a canal: Panama&quot;)
+print(a)
+b = isPalindrome(&quot;race a car&quot;)
+print(b)
+
+# [&#x27;a&#x27;, &#x27;m&#x27;, &#x27;a&#x27;, &#x27;n&#x27;, &#x27;a&#x27;, &#x27;p&#x27;, &#x27;l&#x27;, &#x27;a&#x27;, &#x27;n&#x27;, &#x27;a&#x27;, &#x27;c&#x27;, &#x27;a&#x27;, &#x27;n&#x27;, &#x27;a&#x27;, &#x27;l&#x27;, &#x27;p&#x27;, &#x27;a&#x27;, &#x27;n&#x27;, &#x27;a&#x27;, &#x27;m&#x27;, &#x27;a&#x27;]
+# True
+# [&#x27;r&#x27;, &#x27;a&#x27;, &#x27;c&#x27;, &#x27;e&#x27;, &#x27;a&#x27;, &#x27;c&#x27;, &#x27;a&#x27;, &#x27;r&#x27;]
+# False</code></pre><h3 id="ea2f55e2-0f10-4b2f-b794-f516e8eed5ab" class="">데크 자료형을 이용한 최적화</h3><pre id="4a74d736-b0c8-4deb-a64b-fb8ce3e1238e" class="code"><code>import collections
+
+def isPalindrome(s: str) -&gt; bool:
+    strs = collections.deque()
+
+    for char in s:
+        if char.isalnum():
+            strs.append(char.lower())
+    
+    while len(strs) &gt; 1:
+        if strs.popleft() != strs.pop():
+            return False
+    
+    return True
+
+a = isPalindrome(&quot;A man, a plan, a canal: Panama&quot;)
+print(a)
+b = isPalindrome(&quot;race a car&quot;)
+print(b)</code></pre><ul id="dbedb8e2-6f88-41e4-81f8-43456e756e15" class="bulleted-list"><li style="list-style-type:disc">데크를 명시적으로 선언하여 리스트보다 좀 더 속도를 높일 수 있음</li></ul><ul id="1a2d4e8a-c4a1-465c-9ac5-5a45ccd468cb" class="bulleted-list"><li style="list-style-type:disc"><code>pop(0)</code>은 <code>O(n)</code>인데 반해, 데크의 <code>popleft()</code>는 <code>O(1)</code>이기 때문에 </li></ul><ul id="e4c481ec-e870-4a21-b1f3-3664af6b8604" class="bulleted-list"><li style="list-style-type:disc">n번씩 반복하면, 리스트 구현은 <code>O(n^2)</code>, 데크 구현은 <code>O(n)</code>으로 성능 차이가 큼</li></ul><hr id="018973b7-4616-45d0-9fb2-19bd57e5c3ab"/><p id="4f227677-aa01-4fb1-8810-4e7d0d7a0749" class=""><strong>스택</strong>: 리스트의 한쪽 끝으로만 자료의 삽입과 삭제가 이루어지는 자료구조</p><p id="488e0084-f3c4-4819-ab2b-41736092c5e5" class=""><strong>데크</strong>: 리스트의 양쪽 끝에서 삽입과 삭제가 모두 이루어지는 자료구조</p><hr id="c0cd7363-4e89-42a3-a4eb-828597b66c79"/><h3 id="acdb85cd-66b9-494f-ad7a-142cfba26908" class="">슬라이싱 사용</h3><pre id="aaf077c9-dde1-4c9c-a7a4-3451b4ec545e" class="code"><code>import re
+
+def isPalindrome(s: str) -&gt; bool:
+    s = s.lower()
+    s = re.sub(&#x27;[^a-z0-9]&#x27;, &#x27;&#x27;, s) # 영숫자만 걸러내기 위한 정규식 처리
+    return s == s[::-1]
+
+a = isPalindrome(&quot;A man, a plan, a canal: Panama&quot;)
+print(a)
+b = isPalindrome(&quot;race a car&quot;)
+print(b)</code></pre><ul id="cb410c9b-37e5-43eb-8749-7e3b67040281" class="bulleted-list"><li style="list-style-type:disc">문자열 슬라이싱을 통해 위치를 지정하면 해당 위치의 배열 포인터를 얻어 연결된 개체의 실제값을 찾아내 매우 빠르게 동작할 수 있음</li></ul><ul id="b4b9a326-c158-40c0-a816-c0f50a955ce9" class="bulleted-list"><li style="list-style-type:disc">대부분의 문자열 작업은 슬라이싱으로 처리하는 편이 가장 빠름</li></ul></div></article></body>
+
+{% endblock post_content %}
