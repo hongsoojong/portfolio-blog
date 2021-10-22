@@ -24,18 +24,8 @@
         </ul>
     {% endfor %}
 
-    <div class="text-lg flex justify-center mt-14">
-        {% if posts.has_previous %}
-        <a href="?page={{posts.previous_page_number}}"><<<</a>
-        {% endif %}
-        
-        <p class="mx-5">Page {{posts.number}} of {{posts.paginator.num_pages}}</p>
-        
-        {% if posts.has_next %}
-        <a href="?page={{posts.next_page_number}}">>>></a>
-        {% endif %} 
-    </div>
-    
+    {% include 'partials/paginator.html' %}
+
 </div>
 
 {% endblock category_posts %}  

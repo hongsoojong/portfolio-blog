@@ -48,4 +48,8 @@
     @apply text-lg border border-black px-5 py-2 bg-black text-white;
 }
 
+.page-item{
+    @apply text-lg font-bold mx-5 hover:text-green-600;
+}
+
 @tailwind utilities;

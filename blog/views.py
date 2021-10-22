@@ -31,8 +31,12 @@ def category_basic(request):
     posts = paginator.get_page(page)
     return render(
         request,
-        "blog/category_blog.html",
-        {"posts": posts, "categories": categories},
+        "blog/main_blog.html",
+        {
+            "question_list": posts,
+            "posts": posts,
+            "categories": categories,
+        },
     )
 
 
@@ -45,8 +49,12 @@ def category_c(request):
     posts = paginator.get_page(page)
     return render(
         request,
-        "blog/category_blog.html",
-        {"posts": posts, "categories": categories},
+        "blog/main_blog.html",
+        {
+            "question_list": posts,
+            "posts": posts,
+            "categories": categories,
+        },
     )
 
 
@@ -59,8 +67,12 @@ def category_algorithm(request):
     posts = paginator.get_page(page)
     return render(
         request,
-        "blog/category_blog.html",
-        {"posts": posts, "categories": categories},
+        "blog/main_blog.html",
+        {
+            "question_list": posts,
+            "posts": posts,
+            "categories": categories,
+        },
     )
 
 
@@ -73,8 +85,12 @@ def category_math(request):
     posts = paginator.get_page(page)
     return render(
         request,
-        "blog/category_blog.html",
-        {"posts": posts, "categories": categories},
+        "blog/main_blog.html",
+        {
+            "question_list": posts,
+            "posts": posts,
+            "categories": categories,
+        },
     )
 
 
@@ -87,8 +103,12 @@ def category_os(request):
     posts = paginator.get_page(page)
     return render(
         request,
-        "blog/category_blog.html",
-        {"posts": posts, "categories": categories},
+        "blog/main_blog.html",
+        {
+            "question_list": posts,
+            "posts": posts,
+            "categories": categories,
+        },
     )
 
 
@@ -100,6 +120,7 @@ def detail(request, blog_pk):
 def all_posts(request):
     blogs = models.Blog.objects
     categories = models.Category.objects
+    page = request.GET.get("page", "1")
     post_list = models.Blog.objects.all().order_by("-pk")
     paginator = Paginator(post_list, 5)
     page = request.GET.get("page")
@@ -107,7 +128,12 @@ def all_posts(request):
     return render(
         request,
         "blog/main_blog.html",
-        {"blogs": blogs, "posts": posts, "categories": categories},
+        {
+            "question_list": posts,
+            "blogs": blogs,
+            "posts": posts,
+            "categories": categories,
+        },
     )
 
 
