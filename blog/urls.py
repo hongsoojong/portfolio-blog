@@ -36,6 +36,7 @@ urlpatterns = [
     path("post/30", views.post30, name="post30"),
     path("post/31", views.post31, name="post31"),
     path("post/32", views.post32, name="post32"),
+    path("post/33", views.post33, name="post33"),
     path("post/<int:blog_pk>", views.detail, name="detail"),
     path("post/category/basic", views.category_basic, name="category1"),
     path("post/category/c", views.category_c, name="category2"),

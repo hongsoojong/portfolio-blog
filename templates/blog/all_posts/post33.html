@@ -1,0 +1,150 @@
+{% extends 'blog/all_posts/base_post.html' %}
+
+{% load static %}
+
+{% block post_title %}
+    <a href="{% url 'blog:all-posts' %}" class="font_kor">가장 흔한 단어</a>
+{% endblock post_title %}
+
+{% block post_content %}
+
+{% block post_date %}
+    <div class="container w-1/2 mx-auto mb-10 post_date">[ Oct 24, 2021 ]</div>    
+{% endblock post_date %}
+
+<main class="container w-1/2 mx-auto font_kor">
+
+{% include "blog/all_posts/css_post.html" %}
+  
+<!-- notion html -->
+<body><article id="26dc00f6-4b55-4ee1-b9d3-45c0a109da6f" class="page sans"><div class="page-body"><h2 id="e878268d-ba1d-4f3e-8752-0d942c28d15f" class="">금지된 단어를 제외한 가장 흔하게 등장하는 단어를 출력하라. 대소문자 구분을 하지 않으며, 구두점(마침표, 쉼표 등) 또한 무시한다.</h2><hr id="ea9349a7-540e-4823-9f3b-85cfce346a22"/><p id="2961ecd2-4a3a-4016-9bcb-d14766f7e1a3" class=""><strong>[입력]</strong><div class="indented"><p id="2c31bf0f-aace-4347-a4bd-d527dd7ed47d" class=""><strong>paragraph = &quot;Bob hit a ball, the hit BALL flew far after it was hit.&quot;</strong></p><p id="2ff16d86-113f-494d-bcf2-337135a21a84" class=""><strong>banned = [&quot;hit&quot;]</strong></p></div></p><p id="00ad98fa-9e2a-41dc-8211-6b7e83e1971b" class=""><strong>[출력]</strong><div class="indented"><p id="49ab42c8-06bc-43a8-87e3-63232c4b7caa" class=""><strong>&quot;ball&quot;</strong></p></div></p><hr id="1c078550-fb40-4855-b730-b4ac25668a30"/><h3 id="b84ed9e1-23a7-4070-a5bb-d95e74a1ebc6" class="">리스트 컴프리헨션, Counter 객체 사용</h3><pre id="3cedd5ad-5409-4e85-b48b-e64cb7395999" class="code"><code>import re
+    import collections
+    
+    def mostCommonWord(paragraph: str, banned: list[str]) -&gt; str:
+        words = [word for word in re.sub(&#x27;[^\w]&#x27;, &#x27; &#x27;, paragraph).lower().split() if word not in banned]
+        counts = collections.Counter(words)
+        return counts.most_common(1)[0][0]
+    
+    paragraph = &quot;Bob hit a ball, the hit BALL flew far after it was hit.&quot;
+    banned = [&quot;hit&quot;]
+    
+    print(mostCommonWord(paragraph, banned))
+    
+    # ball</code></pre><h2 id="2d30fdc3-aa6c-43b6-ac87-ece6248ef335" class="">리스트 컴프리헨션(list comprehension)</h2><pre id="939c9ee3-a822-4f66-8d22-389381c5318c" class="code"><code>import re
+    
+    paragraph = &quot;Bob hit a ball, the hit BALL flew far after it was hit.&quot;
+    banned = [&quot;hit&quot;]
+    words = [word for word in re.sub(&#x27;\W&#x27;, &#x27;&#x27;, paragraph).lower().split() if word not in banned]
+    print(words)
+    # [&#x27;bobhitaballthehitballflewfarafteritwashit&#x27;]
+    
+    import re
+    
+    paragraph = &quot;Bob hit a ball, the hit BALL flew far after it was hit.&quot;
+    banned = [&quot;hit&quot;]
+    words = [word for word in re.sub(&#x27;\W&#x27;, &#x27; &#x27;, paragraph).lower().split() if word not in banned]
+    print(words)
+    # [&#x27;bob&#x27;, &#x27;a&#x27;, &#x27;ball&#x27;, &#x27;the&#x27;, &#x27;ball&#x27;, &#x27;flew&#x27;, &#x27;far&#x27;, &#x27;after&#x27;, &#x27;it&#x27;, &#x27;was&#x27;]</code></pre><ul id="5f5b423c-89e4-4fd6-83df-145f15ffd32d" class="bulleted-list"><li style="list-style-type:disc">직관적으로 리스트를 생성하는 방법</li></ul><ul id="997dc03a-d791-4c7f-b10f-f056d821529e" class="bulleted-list"><li style="list-style-type:disc"><strong>대괄호 &quot;[&quot;, &quot;]&quot;로 감싸고 내부에 for문과 if 문을 사용하여 반복하며 조건에 만족하는 것만 리스트로 생성</strong></li></ul><ul id="67692eaa-996b-465e-aa4c-0393179faf0b" class="bulleted-list"><li style="list-style-type:disc">그냥 리스트를 생성하고 for문과 if문을 사용하면 되지만 <strong>리스트 컴프리헨션을 사용하는 큰 이유는 직관적이고, 여러줄 쓸걸 한줄에 만들어 주기 때문 → 속도도 빠름</strong><pre id="2070e214-d2a1-4f53-bdb2-c7fe849e9648" class="code"><code>li = []
+    for i in range(1, 5+1):
+        li.append(i)
+    
+    # [1, 2, 3, 4, 5]</code></pre></li></ul><h3 id="e4ca43c2-52e8-40de-9315-0854046903b3" class="">기초 사용법</h3><pre id="b6d8b1d6-af35-4129-9585-82d472b3acde" class="code"><code>[i for i in range(1, 5+1)]
+    # [1, 2, 3, 4, 5]
+    [i * 3 for i in range(5)]
+    # [0, 3, 6, 9, 12]
+    [i + 2 for i in range(5)]
+    # [2, 3, 4, 5, 6]</code></pre><ul id="09fe663d-0905-4011-aca0-09e1daeae026" class="bulleted-list"><li style="list-style-type:disc">리스트 컴프리헨션을 통한 한줄 처리 가능</li></ul><h3 id="6c421c1f-91cf-4a34-9c92-d6575845406e" class="">조건문을 사용한 comprehension</h3><pre id="1b04b7e2-2b06-4d1c-b0b5-16932e7eb434" class="code"><code>[i for i in range(5) if i%2 == 0]
+    # [0, 2, 4, 6, 8]
+    [i * 10 for i in range(5) if i%3 == 0]
+    # [0, 30, 60, 90, 120]</code></pre><h3 id="7711f18c-26f9-4ef5-ba94-40909eca3fad" class="">두 개의 반복문 사용하기</h3><pre id="96291be3-174e-440d-ab94-a3fc16cb138c" class="code"><code>a = [&#x27;a&#x27;, &#x27;b&#x27;]
+    b = [&#x27;1&#x27;, &#x27;2&#x27;]
+    [i + j for i in a for j in b]
+    # [ &#x27;a1&#x27;, &#x27;a2&#x27;, &#x27;b1&#x27;, &#x27;b2&#x27;]</code></pre><h3 id="919b4a77-1c67-449d-9e34-cca54ed1c49f" class="">두 개의 조건문 사용하기</h3><pre id="00413dfb-3d6f-4a28-a38a-6810979e6186" class="code"><code>[i for i in range(5) if i%2 == 0 if i%3 ==0]
+    # [0, 6, 12, 18, 24]</code></pre><h3 id="b54dad81-ac7c-4706-a5c7-64675ee6cfd9" class="">조건문에서 else 사용하기</h3><pre id="9d1c31c1-2156-41f7-9936-b47ae775b97b" class="code"><code>[&#x27;even&#x27; if i%2 == 0 else &#x27;odd&#x27; for i in range(5)]
+    # [&#x27;even&#x27;, &#x27;odd&#x27;, &#x27;even&#x27;, &#x27;odd&#x27;, &#x27;even&#x27;]</code></pre><h3 id="eb2637e3-2741-415c-b883-80ddd4292bcc" class="">조건문에서 elif 사용하기</h3><pre id="bef7ba2c-d906-4430-809d-6cd3f02b4149" class="code"><code>[&#x27;zero&#x27; if i == 0 else &#x27;even&#x27; if i%2 == 0 else &#x27;odd&#x27; for i in range(5)]
+    # [&#x27;zero&#x27;, &#x27;odd&#x27;, &#x27;even&#x27;, &#x27;odd&#x27;, &#x27;even&#x27;]</code></pre><ul id="3c12fa09-1576-43cd-a7e7-958c439d84ee" class="bulleted-list"><li style="list-style-type:disc"><code>else</code>뒤에 <code>if</code>를 한번 더 사용함으로써, <code>elif</code>와 같은 기능 구현 가능</li></ul><h2 id="b5c45b23-1012-4645-b370-4cb64cb25d93" class="">정규 표현식(Regular Expression) - re.sub</h2><ul id="f403d5b4-dc6f-4525-b331-7fbc5af9f57d" class="bulleted-list"><li style="list-style-type:disc"><code>re.sub(정규 표현식, 대상 문자열, 치환 문자)</code><ul id="a2ab1f4f-58d4-463c-9a20-5665d5233914" class="bulleted-list"><li style="list-style-type:circle">정규 표현식 : 검색 패턴을 지정</li></ul><ul id="f08533e1-03da-4daa-8109-ad1867c0cb35" class="bulleted-list"><li style="list-style-type:circle">대상 문자열 : 검색 대상이 되는 문자열</li></ul><ul id="a0c9b514-f110-41b7-ab40-9f85de964e48" class="bulleted-list"><li style="list-style-type:circle">치환 문자 : 변경하고 싶은 문자</li></ul></li></ul><ul id="6cfbef9d-9514-414d-b728-51c8291ad840" class="bulleted-list"><li style="list-style-type:disc"><code>re.sub</code>를 사용하기 위해서 먼저 <code>re</code> 모듈을 <code>import</code> 해야함</li></ul><pre id="156d02f3-cec4-493a-ab97-100c8f183fb5" class="code"><code>import re
+    
+    text = &quot;I like apble And abple&quot;
+    text_mod = re.sub(&#x27;apble|abple&#x27;,&quot;apple&quot;,text)
+    print (text_mod)
+    
+    # I like apple And apple</code></pre><h3 id="2a9de0fb-cc4f-4ed9-973b-e710927160cb" class="">자주 사용하는 문자 클래스</h3><pre id="2f9dab3a-97c6-4670-9177-d88d6646d867" class="code"><code>[a-zA-Z] : 알파벳 모두
+    [0-9] : 숫자
+    [\d] - 숫자와 매치, [0-9]와 동일한 표현식이다.
+    [\D] - 숫자가 아닌 것과 매치, [^0-9]와 동일한 표현식이다.
+    [\s] - whitespace 문자와 매치, [ \t\n\r\f\v]와 동일한 표현식이다. 맨 앞의 빈 칸은 공백문자(space)를 의미한다.
+    [\S] - whitespace 문자가 아닌 것과 매치, [^ \t\n\r\f\v]와 동일한 표현식이다.
+    [\w] - 문자+숫자(alphanumeric)와 매치, [a-zA-Z0-9_]와 동일한 표현식이다.
+    [\W] - 문자+숫자(alphanumeric)가 아닌 문자와 매치, [^a-zA-Z0-9_]와 동일한 표현식이다.</code></pre><ul id="2fbfabe4-aaa2-488e-ab80-bb4fe910c0a9" class="bulleted-list"><li style="list-style-type:disc">대문자로 사용된 것은 소문자의 반대임</li></ul><h2 id="a61f9b6d-e2a0-4ed7-be2e-517c474a39a1" class="">if ~ not in</h2><ul id="0fc9f2a5-4eeb-4722-bf47-427c4e749f3e" class="bulleted-list"><li style="list-style-type:disc">for문과 <code>if ~ not in</code>을 같이 사용하면 리스트에서 특정 요소의 포함여부를 확인할 수 있음</li></ul><h3 id="6af5eaf7-3cbe-4c61-b7ba-fb387235617c" class="">리스트에서 특정 문자열이 포함되어 있지 않은 요소 출력</h3><pre id="a819d08e-29a4-41e0-9a7a-5d3ecb47abcb" class="code"><code>list= [&#x27;kim_a&#x27;, &#x27;kim_b&#x27;, &#x27;kim_c&#x27;, &#x27;kim_k&#x27;, &#x27;seo_a&#x27;, &#x27;seo_b&#x27;, &#x27;seo_c&#x27;, &#x27;seo_s&#x27;]
+    for result in list:
+        if &#x27;kim&#x27; not in result:
+            print(result)
+    
+    #
+    seo_a
+    seo_b
+    seo_c
+    seo_s</code></pre><h3 id="d6ea5d3f-a128-4001-8676-b54f95610ed0" class="">리스트에서 특정요소를 제외한 요소를 출력</h3><pre id="2b07d439-83a4-44d1-b4fa-fd39e26b098d" class="code"><code>list= [&#x27;kim_a&#x27;, &#x27;kim_b&#x27;, &#x27;kim_c&#x27;, &#x27;seo_a&#x27;, &#x27;seo_b&#x27;, &#x27;seo_c&#x27;]
+    unselect_list= [&#x27;kim_a&#x27;, &#x27;seo_a&#x27;]
+    for result in list:
+        if result not in unselect_list:
+            print(result)
+    
+    #
+    kim_b
+    kim_c
+    seo_b
+    seo_c</code></pre><h3 id="9f669981-ad5b-4920-80a9-a6c4dc678cf0" class="">리스트에서 특정요소를 제외한 요소를 출력, 포함의 개념이 아니라 동일의 개념으로 필터링함</h3><pre id="68e2e1bc-7f8d-47fe-b390-a2a32c9642d7" class="code"><code>list= [&#x27;a&#x27;,&#x27;b&#x27;,&#x27;fecha_dato&#x27;, &#x27;fecha_dato_1&#x27;,&#x27;sexo&#x27;, &#x27;1_sexo&#x27;, &#x27;se3xo&#x27;]
+    unselect_list= [&#x27;fecha_dato&#x27;, &#x27;sexo&#x27;]
+    for result in list:
+        if result not in unselect_list: 
+            print(result)
+    
+    #
+    a
+    b
+    fecha_dato_1
+    1_sexo
+    se3xo</code></pre><h3 id="df012e46-4580-4b11-ae73-49e510376b20" class="">리스트에서 특정 문자열이 포함되어 있지 않은 요소를 출력, 특정 문자열이 &#x27;포함&#x27;된 요소를 제외시킴</h3><pre id="c092ad07-18b1-4433-a1e2-918ab12be6b8" class="code"><code>list= [&#x27;a&#x27;,&#x27;b&#x27;,&#x27;fecha_dato&#x27;, &#x27;fecha_dato_1&#x27;,&#x27;fech2a_dato_1&#x27;,&#x27;sexo&#x27;, &#x27;1_sexo&#x27;, &#x27;se3xo&#x27;]
+    for result in list:
+        if &#x27;se&#x27; not in result: 
+            print(result)
+    
+    #
+    a
+    b
+    fecha_dato
+    fecha_dato_1
+    fech2a_dato_1</code></pre><h2 id="2a3fb1b8-8c05-4b0f-bd58-899ef97308be" class="">Collections 모듈의 Counter 클래스</h2><ul id="dcac1c22-5215-407d-a1e2-021aa39f5580" class="bulleted-list"><li style="list-style-type:disc">데이터 개수를 셀 때 유용한  <code>counter</code> 모듈의 <code>Counter</code> 클래스<p id="ac548d6a-998d-4a7d-ad40-943aa84bfb03" class=""><code>counts = collections.Counter()</code></p><p id="5975809f-201e-4086-8e91-6b201c5ff0f9" class=""><code>counts.most_common(1)[0][0]</code></p></li></ul><pre id="11299017-aedd-4466-a9d0-aa10a5b41b68" class="code"><code>import collections
+    
+    # apple3개, banana2개, cherry는 4개
+    list = [&#x27;apple&#x27;, &#x27;apple&#x27;, &#x27;apple&#x27;, &#x27;banana&#x27;, &#x27;banana&#x27;,
+    &#x27;cherry&#x27;, &#x27;cherry&#x27;, &#x27;cherry&#x27;, &#x27;cherry&#x27;]
+    
+    # 빈도수를 세려면?
+    counts = collections.Counter(list)
+    
+    # 가장 흔하게 등장하는 단어의 첫번째 값을 most_common(1)로 추출
+    # most_common(1) =&gt; [(&#x27;cherry&#x27;,4)] _리스트
+    # most_common(1)[0] =&gt; (&#x27;cherry&#x27;, 4) _ 튜플
+    # most_common(1)[0][0] =&gt; cherry _ 튜플에서 첫번째 추출
+    
+    print(&#x27;가장 흔한 단어는?: &#x27;, counts.most_common(1)[0][0])
+    
+    # 가장 흔한 단어는?:  cherry</code></pre><pre id="b5cc9571-8182-4a2b-842b-616f40e2cb36" class="code"><code>import collections
+    
+    list = [&#x27;apple&#x27;, &#x27;apple&#x27;, &#x27;apple&#x27;, &#x27;banana&#x27;, &#x27;banana&#x27;,
+    &#x27;cherry&#x27;, &#x27;cherry&#x27;, &#x27;cherry&#x27;, &#x27;cherry&#x27;]
+    
+    counts = collections.Counter(list)
+    
+    print(counts.most_common(3))
+    print(counts.most_common(2))
+    print(counts.most_common(1))
+    
+    # [(&#x27;cherry&#x27;, 4), (&#x27;apple&#x27;, 3), (&#x27;banana&#x27;, 2)]
+    # [(&#x27;cherry&#x27;, 4), (&#x27;apple&#x27;, 3)]
+    # [(&#x27;cherry&#x27;, 4)]</code></pre><p id="bed6cced-bab5-4120-9b02-66879700dbe3" class="">
+    </p></div></article></body>
+
+{% endblock post_content %}

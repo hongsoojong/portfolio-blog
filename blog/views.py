@@ -263,3 +263,7 @@ def post31(request):
 
 def post32(request):
     return render(request, "blog/all_posts/post32.html")
+
+
+def post33(request):
+    return render(request, "blog/all_posts/post33.html")
